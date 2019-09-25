@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>shreshth saini | meliorate</title>
+    <link>shreshthsaini.github.io/authors/shreshth-saini/</link>
+      <atom:link href="shreshthsaini.github.io/authors/shreshth-saini/index.xml" rel="self" type="application/rss+xml" />
+    <description>shreshth saini</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2019</copyright><lastBuildDate>Fri, 19 Jul 2019 00:00:00 +0530</lastBuildDate>
+    <image>
+      <url>shreshthsaini.github.io/img/icon-192.png</url>
+      <title>shreshth saini</title>
+      <link>shreshthsaini.github.io/authors/shreshth-saini/</link>
+    </image>
+    
+    <item>
+      <title>Genome sequencing</title>
+      <link>shreshthsaini.github.io/post/genome-sequencing/</link>
+      <pubDate>Fri, 19 Jul 2019 00:00:00 +0530</pubDate>
+      <guid>shreshthsaini.github.io/post/genome-sequencing/</guid>
+      <description>
+
+&lt;h3 id=&#34;what-is-genome-sequencing&#34;&gt;What is Genome Sequencing?&lt;/h3&gt;
+
+&lt;p&gt;Genome sequencing or DNA sequencing refers to the process of determining the complete sequence of nucleotides in genome (read DNA). Ignoring the 3 dimensional orientation of the DNA strand, DNA can be thought of as a linear sequence of 4 nucleotide base pairs (bp), namely Adenine (A), Thymine (T), Guanine (G), Cytosine (C). &lt;em&gt;A pairs with T&lt;/em&gt; and &lt;em&gt;G pairs with C&lt;/em&gt;. Sequencing allows us to determine the sequence such as &lt;em&gt;AATGCCAT&amp;hellip;.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;why-is-sequencing-important&#34;&gt;Why is sequencing important?&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Have you heard of Precision Medicine (PM)?&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Think about it this way, everytime you face a serious medical issue, instead of prescribing generic medicine/treatment procedures which is given to all the patient with similar symptoms, you get a prescription tailored for you, by analysing your genetic code and symptoms. The exact same treatment for exact same symptoms on me and you might have different outcomes, it may not be pleasant for one of us.&lt;/p&gt;
+
+&lt;p&gt;Now to enable precision medicine, one of the key steps is to create profile for the patient, which is where sequencing comes into picture. Therfore it is important to invest and develope sequencing methods which have higher accuracies and are faster and cheaper.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;check out &lt;a href=&#34;https://www.facebook.com/Upworthy/videos/1560690857391553/&#34; target=&#34;_blank&#34;&gt;this video&lt;/a&gt; for one success story of precision medicine&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;how-is-sequencing-done&#34;&gt;How is sequencing done?&lt;/h3&gt;
+
+&lt;p&gt;Attempts to sequence DNA dates back to &lt;strong&gt;1970s&lt;/strong&gt; (&lt;a href=&#34;https://en.wikipedia.org/wiki/DNA_sequencing#History&#34; target=&#34;_blank&#34;&gt;wikipedia link to brief history&lt;/a&gt;). Intital techniques, even though impressive were quite costly and terribly slow for real world applications such as using it for human genome. Humans have come a long way now, both time and costs to sequence whole genome has come down drastically and now it&amp;rsquo;s practical to think about genome sequencing as part of diagnostics.&lt;/p&gt;
+
+&lt;p&gt;Recent techniques are known as &lt;strong&gt;&lt;em&gt;NGS (Next Generation Sequencing)&lt;/em&gt;&lt;/strong&gt; or &lt;strong&gt;&lt;em&gt;HTS (High Throughput Sequencing)&lt;/em&gt;&lt;/strong&gt;. In the following I will discuss one successful commercial technique used today. While reading up on this topic I realised that the literature around this topic is presented with alot of fancy words (that made no sense to me and will probably not make sense to average joe). But then the topic is quite specific and not meant for avaerage joe, however to grasp things I found it helpful to look around for the meaning of fancy words as they help in providing context and fill in the gaps. I will try to present it in a simple language with links to resources where necessary.&lt;/p&gt;
+
+&lt;h4 id=&#34;dna-nanoball-sequencing&#34;&gt;&lt;em&gt;DNA Nanoball Sequencing&lt;/em&gt;&lt;/h4&gt;
+
+&lt;p&gt;Many of the sequencing method will broadly involve steps such as&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;splitting the DNA strand into smaller pieces&lt;/li&gt;
+&lt;li&gt;generating multiple copies of the smaller pieces&lt;/li&gt;
+&lt;li&gt;processing the cluster of smaller pieces with &lt;strong&gt;&lt;em&gt;marker nucleotides&lt;/em&gt;&lt;/strong&gt; which are fluorescent and are color coded depending upon the nucleotide&lt;/li&gt;
+&lt;li&gt;capturing the image/data&lt;/li&gt;
+&lt;li&gt;bioinformatics on data to extract sequences&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The specifics of each of the steps depend upon the method used. In &lt;strong&gt;&lt;em&gt;DNA Nanoball Sequencing&lt;/em&gt;&lt;/strong&gt; the longer DNA strands are &lt;strong&gt;&lt;em&gt;sonicated (using sound)&lt;/em&gt;&lt;/strong&gt; to break them into smaller pieces, then pieces of appropriate lengths (typically &lt;em&gt;400-500 bp&lt;/em&gt;) are chosen for futher processing (how it&amp;rsquo;s done is irrelevant for the conceptual big picture).&lt;/p&gt;
+
+&lt;p&gt;Here is a cool video showing the sonification process&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=3GXD4NBm818&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://img.youtube.com/vi/3GXD4NBm818/0.jpg&#34; alt=&#34;IMAGE ALT TEXT HERE&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Nest step involves attaching &lt;a href=&#34;https://en.wikipedia.org/wiki/Adapter_(genetics)&#34; target=&#34;_blank&#34;&gt;adapter sequences&lt;/a&gt; and to convert the small fragments into curcular struture which is then replicated by a procedure call &lt;strong&gt;&lt;em&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Rolling_circle_replication&#34; target=&#34;_blank&#34;&gt;Rolling circle replication&lt;/a&gt;&lt;/em&gt;&lt;/strong&gt;. The output of this step leads to lot of circular copies which when linearised, forms a long strand of DNA, because of the adapter sequences (desinged to be &amp;ldquo;sticky&amp;rdquo;) the long strand folds onto itself making a ball like structure which is about &lt;em&gt;300nm&lt;/em&gt; in diameter. These nanoballs are then attached to a specially constructed microarray, nanoballs are arranged in highly ordered fashion hence are densly packed which is what allows the massive parallel processing.
+One way to think about these arrays:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://upload.wikimedia.org/wikipedia/commons/5/5a/DNA_nanoball_Array.jpg&#34; alt=&#34;microarray1&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The sequencing part is easier to analyse with the unchained visualisation, that is consider the image of long DNA strand from the nanoball, we know the adapter sequences which we attached earlier, so we can construct an &amp;ldquo;anchor&amp;rdquo; sequence which will attach to the adapter part of the long template strand.&lt;/p&gt;
+
+&lt;p&gt;Now we introduce, something called &amp;ldquo;&lt;strong&gt;&lt;em&gt;probes&lt;/em&gt;&lt;/strong&gt;&amp;rdquo;, these are short sequences with &amp;ldquo;&lt;strong&gt;&lt;em&gt;degenerate (not important)&lt;/em&gt;&lt;/strong&gt;&amp;rdquo; nucleotides in &lt;em&gt;all but one position&lt;/em&gt;, and have a color coded floroscence depending upon that one non-denerate nucleotide (for example in the image, &lt;em&gt;A&lt;/em&gt; is red, &lt;em&gt;C&lt;/em&gt; is yellow, &lt;em&gt;G&lt;/em&gt; is green, &lt;em&gt;T&lt;/em&gt; is blue).&lt;/p&gt;
+
+&lt;p&gt;Anchor is attached to the adapter sequence, the microarray cell is flooded with &lt;strong&gt;&lt;em&gt;one type of probes (say non-degenrate nucleotide at one position to the left of adapter part)&lt;/em&gt;&lt;/strong&gt;, only the probe containing the complimentary non-degenrate nucleotide will bind, we can wash away the redundant chemicals and record the florocent signals, the color will indicate which one of the &lt;em&gt;A/T/G/C&lt;/em&gt; was present at that location. We can wash away the anchor and probe of this round and repeat the process with probes of different locations. As described nicely in this image and its caption :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Unchained_Ligation_Sequencing.png/800px-Unchained_Ligation_Sequencing.png&#34; alt=&#34;ligated sequencing&#34; /&gt;
+&lt;em&gt;1. Single strand of DNA from a DNA nanoball 2. Attach complementary anchor to known adapter sequence 3. Add probe set #1 and DNA Ligase to interrogate position #1 to the left of the anchor. Only the complementary probe binds 4. Wash away all unbound probes and Ligase, and read the color of the fluorophore 5. Denature anchor and probe from DNA nanoball and add another anchor 6. Add probe set #2 and DNA ligase to interrogate position #2 to the left of the anchor. Repeat.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;This is an iterative process, where after every round of probe/ligation step, excessive chemicals are washed and the fluorocence is captured in form of a image. These images are then analysed to infer the sequence of the template strand using the colour coding scheme of the nucleotides.&lt;/p&gt;
+
+&lt;p&gt;I chose this method because it is at the crux of commecial product by &lt;strong&gt;&lt;em&gt;&lt;a href=&#34;https://www.bgi.com/global/&#34; target=&#34;_blank&#34;&gt;Beijing Genomics Institute (BGI)&lt;/a&gt;&lt;/em&gt;&lt;/strong&gt;. Their method is known as &lt;strong&gt;&lt;a href=&#34;http://www.seq500.com/en/portal/Seq-500.shtml&#34; target=&#34;_blank&#34;&gt;Combinatorial probe anchor synthesis (cPAS)&lt;/a&gt;&lt;/strong&gt;, the technology is capable of processing around &lt;strong&gt;&lt;em&gt;40 million nucleotides per second&lt;/em&gt;&lt;/strong&gt; (as of 2018, which is a remarkable number)&lt;/p&gt;
+
+&lt;h3 id=&#34;references&#34;&gt;References&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.genomenewsnetwork.org/resources/whats_a_genome/Chp2_1.shtml&#34; target=&#34;_blank&#34;&gt;http://www.genomenewsnetwork.org/resources/whats_a_genome/Chp2_1.shtml&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.ebi.ac.uk/training/online/course/ebi-next-generation-sequencing-practical-course/what-you-will-learn/what-next-generation-dna-&#34; target=&#34;_blank&#34;&gt;https://www.ebi.ac.uk/training/online/course/ebi-next-generation-sequencing-practical-course/what-you-will-learn/what-next-generation-dna-&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/DNA_sequencing&#34; target=&#34;_blank&#34;&gt;https://en.wikipedia.org/wiki/DNA_sequencing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/DNA_nanoball_sequencing&#34; target=&#34;_blank&#34;&gt;https://en.wikipedia.org/wiki/DNA_nanoball_sequencing&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.seq500.com/en/portal/Seq-500.shtml&#34; target=&#34;_blank&#34;&gt;http://www.seq500.com/en/portal/Seq-500.shtml&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Sonication&#34; target=&#34;_blank&#34;&gt;https://en.wikipedia.org/wiki/Sonication&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.creative-biogene.com/blog/index.php/2016/11/01/brief-introduction-on-three-generations-of-genome-sequencing-technology/&#34; target=&#34;_blank&#34;&gt;https://www.creative-biogene.com/blog/index.php/2016/11/01/brief-introduction-on-three-generations-of-genome-sequencing-technology/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://koreabizwire.com/scientists-find-whole-genome-sequencing-of-korean-individual/67503&#34; target=&#34;_blank&#34;&gt;http://koreabizwire.com/scientists-find-whole-genome-sequencing-of-korean-individual/67503&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
