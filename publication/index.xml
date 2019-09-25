@@ -5,12 +5,21 @@
     <link>shreshthsaini.github.io/publication/</link>
       <atom:link href="shreshthsaini.github.io/publication/index.xml" rel="self" type="application/rss+xml" />
     <description>Publications</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2019</copyright>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2019</copyright><lastBuildDate>Thu, 06 Jun 2019 00:00:00 +0530</lastBuildDate>
     <image>
       <url>shreshthsaini.github.io/img/icon-192.png</url>
       <title>Publications</title>
       <link>shreshthsaini.github.io/publication/</link>
     </image>
+    
+    <item>
+      <title>PixISegNet: Pixel Level Iris Segmentation Network using Convolutional Encoder-Decoder with Stacked Hourglass Bottleneck</title>
+      <link>shreshthsaini.github.io/publication/pixlsegnet/</link>
+      <pubDate>Thu, 06 Jun 2019 00:00:00 +0530</pubDate>
+      <guid>shreshthsaini.github.io/publication/pixlsegnet/</guid>
+      <description>&lt;p&gt;This work is accepted at IET-Biometrics.&lt;/p&gt;
+</description>
+    </item>
     
   </channel>
 </rss>
