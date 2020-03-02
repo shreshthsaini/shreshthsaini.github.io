@@ -34,7 +34,7 @@
 &lt;p&gt;In figure A we can separate the target labels linear with a line (like Support Vector Machines do classification with a decision line). A linear classifier can do this with a linear combination of characteristics. We could use e.g. Support Vector Machines do build a model, but we could also use many other linear classification methods like quadratic classification.
 In figure B we can not separate the target labels linear. The data is more complex divided. Therefore we can not just use a linear classification method. Fortunately Support Vector Machines can do both, linear and non-linear classification. Lets first take an easier linear example to get an introduction about Support Vector Machines. Later we will look at non-linear classification with Support Vector Machines and we will see how it works with the kernel trick.&lt;/p&gt;
 
-&lt;h3 id=&#34;intuition-development&#34;&gt;*Intuition development&lt;/h3&gt;
+&lt;h3 id=&#34;intuition-development&#34;&gt;&lt;em&gt;Intuition development&lt;/em&gt;&lt;/h3&gt;
 
 &lt;p&gt;Consider a situation following situation:
 There is a stalker who is sending you emails and now you want to design a function( hyperplane ) which will clearly differentiate the two cases, such that whenever you received an email from the stalker it will be classified as a spam. The following are the figure of two cases in which the hyperplane are drawn, which one will you pick and why? take a moment to analyze the situation below.&lt;/p&gt;
@@ -59,12 +59,13 @@ thus the equation of the hyperplane in the ‘M’ dimension can be given as =&l
 &lt;p&gt;&lt;img src=&#34;eq1.png&#34; alt=&#34;Equation 1&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;where,
-Wi = vectors(W0,W1,W2,W3……Wm)
-b = biased term (W0)
+Wi = vectors(W0,W1,W2,W3……Wm),
+b = biased term (W0),
 X = variables.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;&lt;em&gt;Hard margin SVM:&lt;/em&gt;&lt;/strong&gt;
-Now,
+&lt;h3 id=&#34;hard-margin-svm&#34;&gt;Hard margin SVM:&lt;/h3&gt;
+
+&lt;p&gt;Now,
 Assume 3 hyperplanes namely (π, π+, π−) such that ‘π+’ is parallel to ‘π’ passing through the support vectors on the positive side and ‘π−’ is parallel to ‘π’ passing through the support vectors on the negative side.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;phyper.png&#34; alt=&#34;Potential Hyoerplane&#34; /&gt;&lt;/p&gt;
@@ -109,7 +110,7 @@ else:
 Xi is incorrectly classified.
 So we can see that if the points are linearly separable then only our hyperplane is able to distinguish between them and if any outlier is introduced then it is not able to separate them. So these type of SVM is called as hard margin SVM (since we have very strict constraints to correctly classify each and every datapoint).&lt;/p&gt;
 
-&lt;h3 id=&#34;soft-margin-svm&#34;&gt;*Soft margin SVM:&lt;/h3&gt;
+&lt;h3 id=&#34;soft-margin-svm&#34;&gt;Soft margin SVM:&lt;/h3&gt;
 
 &lt;p&gt;We basically consider that the data is linearly separable and this might not be the case in real life scenario. We need an update so that our function may skip few outliers and be able to classify almost linearly separable points. For this reason, we introduce a new Slack variable ( ξ ) which is called Xi.
 if we introduce ξ it into our previous equation we can rewrite it as&lt;/p&gt;
@@ -134,24 +135,24 @@ so if ξi&amp;gt; 0 it means that Xi(variables)lies in incorrect dimension, thus
 
 &lt;p&gt;&lt;strong&gt;&lt;em&gt;This formulation is called the Soft margin technique.&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;loss-function-interpretation-of-svm&#34;&gt;*Loss Function Interpretation of SVM:&lt;/h3&gt;
+&lt;h3 id=&#34;loss-function-interpretation-of-svm&#34;&gt;Loss Function Interpretation of SVM:&lt;/h3&gt;
 
 &lt;p&gt;it can be interpreted that hinge loss is max(0,1-Zi).&lt;/p&gt;
 
 &lt;p&gt;when Zi is ≥ 1 then the loss is 0.
 when Zi &amp;lt; 1 then loss increases.&lt;/p&gt;
 
-&lt;h3 id=&#34;what-is-kernel-trick&#34;&gt;*What is Kernel trick?&lt;/h3&gt;
+&lt;h3 id=&#34;what-is-kernel-trick&#34;&gt;What is Kernel trick?&lt;/h3&gt;
 
 &lt;p&gt;Coming to the major part of the SVM for which it is most famous, the kernel trick. The kernel is a way of computing the dot product of two vectors x and y in some (very high dimensional) feature space, which is why kernel functions are sometimes called “generalized dot product.&lt;/p&gt;
 
 &lt;p&gt;Applying kernel trick means just to the replace dot product of two vectors by the kernel function.&lt;/p&gt;
 
-&lt;h3 id=&#34;using-the-support-vector-machines-for-non-linear-data-with-the-kernel-trick&#34;&gt;Using the Support Vector Machines for non-linear data with the kernel trick&lt;/h3&gt;
+&lt;h3 id=&#34;using-the-support-vector-machines-for-non-linear-data-with-the-kernel-trick&#34;&gt;&lt;em&gt;Using the Support Vector Machines for non-linear data with the kernel trick&lt;/em&gt;&lt;/h3&gt;
 
 &lt;p&gt;Until know we have talked about linear examples and how Support Vector Machines work and how you can implement them with sklearn in Python. I already talked a little bit about non-linear data. When there is a non-linear data set Support Vector Machines can not simply draw a linear hyperplane. Therefore Support Vector Machines use the kernel trick. When you have non-linear data, the kernel method helps you to find pattern and relations to reach a high accuracy in your final machine learning model.&lt;/p&gt;
 
-&lt;h3 id=&#34;how-does-the-kernel-method-works&#34;&gt;How does the Kernel method works?&lt;/h3&gt;
+&lt;h3 id=&#34;how-does-the-kernel-method-works&#34;&gt;&lt;em&gt;How does the Kernel method works?&lt;/em&gt;&lt;/h3&gt;
 
 &lt;p&gt;The kernel method are contains are so called kernel function. These function map the non-linear separable input space into a higher dimensional linear separable feature space. And in this new higher dimensional linear separable feature space Support Vector Machines can work as normal. The kernel method then maps the solutions back, so that in the non-linear separable input space you then have a non-linear solution.&lt;/p&gt;
 
@@ -162,16 +163,16 @@ when Zi &amp;lt; 1 then loss increases.&lt;/p&gt;
 &lt;h3 id=&#34;pros-and-cons-of-svm&#34;&gt;Pros and cons of SVM:&lt;/h3&gt;
 
 &lt;p&gt;&lt;strong&gt;&lt;em&gt;Pros:&lt;/em&gt;&lt;/strong&gt;
-* It is really effective in the higher dimension.
-* Effective when the number of features are more than training examples.
+* It is really effective in the higher dimension
+* Effective when the number of features are more than training examples
 * Best algorithm when classes are separable
-* The hyperplane is affected by only the support vectors thus outliers have less impact.
-* SVM is suited for extreme case binary classification.
+* The hyperplane is affected by only the support vectors thus outliers have less impact
+* SVM is suited for extreme case binary classification
 &lt;strong&gt;&lt;em&gt;cons:&lt;/em&gt;&lt;/strong&gt;
-* For larger dataset, it requires a large amount of time to process.
-* Does not perform well in case of overlapped classes.
-* Selecting, appropriately hyperparameters of the SVM that will allow for sufficient generalization performance.
-* Selecting the appropriate kernel function can be tricky.&lt;/p&gt;
+* For larger dataset, it requires a large amount of time to process
+* Does not perform well in case of overlapped classes
+* Selecting, appropriately hyperparameters of the SVM that will allow for sufficient generalization performance
+* Selecting the appropriate kernel function can be tricky&lt;/p&gt;
 
 &lt;h3 id=&#34;preparing-data-for-svm&#34;&gt;Preparing data for SVM:&lt;/h3&gt;
 
