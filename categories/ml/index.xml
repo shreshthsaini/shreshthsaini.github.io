@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ML | meliorate</title>
+    <link>https://shreshthsaini.github.io/categories/ml/</link>
+      <atom:link href="https://shreshthsaini.github.io/categories/ml/index.xml" rel="self" type="application/rss+xml" />
+    <description>ML</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Mon, 02 Mar 2020 15:22:25 +0530</lastBuildDate>
+    <image>
+      <url>https://shreshthsaini.github.io/img/icon-192.png</url>
+      <title>ML</title>
+      <link>https://shreshthsaini.github.io/categories/ml/</link>
+    </image>
+    
+    <item>
+      <title>Supprt Vector Machine (SVM)</title>
+      <link>https://shreshthsaini.github.io/post/svm/</link>
+      <pubDate>Mon, 02 Mar 2020 15:22:25 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/post/svm/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

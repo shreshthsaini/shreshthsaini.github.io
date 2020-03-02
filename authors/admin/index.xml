@@ -2,14 +2,14 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>meliorate</title>
-    <link>shreshthsaini.github.io/authors/admin/</link>
-      <atom:link href="shreshthsaini.github.io/authors/admin/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://shreshthsaini.github.io/authors/admin/</link>
+      <atom:link href="https://shreshthsaini.github.io/authors/admin/index.xml" rel="self" type="application/rss+xml" />
     <description>meliorate</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2019</copyright>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright>
     <image>
-      <url>shreshthsaini.github.io/img/icon-192.png</url>
+      <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>meliorate</title>
-      <link>shreshthsaini.github.io/authors/admin/</link>
+      <link>https://shreshthsaini.github.io/authors/admin/</link>
     </image>
     
   </channel>

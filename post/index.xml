@@ -2,21 +2,29 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts | meliorate</title>
-    <link>shreshthsaini.github.io/post/</link>
-      <atom:link href="shreshthsaini.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://shreshthsaini.github.io/post/</link>
+      <atom:link href="https://shreshthsaini.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2019</copyright><lastBuildDate>Mon, 19 Aug 2019 00:00:00 +0530</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Mon, 02 Mar 2020 15:22:25 +0530</lastBuildDate>
     <image>
-      <url>shreshthsaini.github.io/img/icon-192.png</url>
+      <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>Posts</title>
-      <link>shreshthsaini.github.io/post/</link>
+      <link>https://shreshthsaini.github.io/post/</link>
     </image>
     
     <item>
+      <title>Supprt Vector Machine (SVM)</title>
+      <link>https://shreshthsaini.github.io/post/svm/</link>
+      <pubDate>Mon, 02 Mar 2020 15:22:25 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/post/svm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Genome sequencing</title>
-      <link>shreshthsaini.github.io/post/genome-sequencing/</link>
+      <link>https://shreshthsaini.github.io/post/genome-sequencing/</link>
       <pubDate>Mon, 19 Aug 2019 00:00:00 +0530</pubDate>
-      <guid>shreshthsaini.github.io/post/genome-sequencing/</guid>
+      <guid>https://shreshthsaini.github.io/post/genome-sequencing/</guid>
       <description>
 
 &lt;h3 id=&#34;what-is-genome-sequencing&#34;&gt;What is Genome Sequencing?&lt;/h3&gt;

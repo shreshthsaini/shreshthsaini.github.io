@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Projects | meliorate</title>
-    <link>shreshthsaini.github.io/project/</link>
-      <atom:link href="shreshthsaini.github.io/project/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://shreshthsaini.github.io/project/</link>
+      <atom:link href="https://shreshthsaini.github.io/project/index.xml" rel="self" type="application/rss+xml" />
     <description>Projects</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2019</copyright><lastBuildDate>Tue, 19 Jan 2016 22:17:42 +0530</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Tue, 19 Jan 2016 22:17:42 +0530</lastBuildDate>
     <image>
-      <url>shreshthsaini.github.io/img/icon-192.png</url>
+      <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>Projects</title>
-      <link>shreshthsaini.github.io/project/</link>
+      <link>https://shreshthsaini.github.io/project/</link>
     </image>
     
     <item>
       <title>New York Taxi Analysis</title>
-      <link>shreshthsaini.github.io/project/ny_taxi/</link>
+      <link>https://shreshthsaini.github.io/project/ny_taxi/</link>
       <pubDate>Tue, 19 Jan 2016 22:17:42 +0530</pubDate>
-      <guid>shreshthsaini.github.io/project/ny_taxi/</guid>
+      <guid>https://shreshthsaini.github.io/project/ny_taxi/</guid>
       <description>&lt;p&gt;This summarizes my work at my first ever internship at &lt;strong&gt;Julia Computing&lt;/strong&gt; during the winter breaks of 2016 (Nov-2016 to Jan-2017). I wrote julia scripts to load big datasets efficiently and perform unsupervised learning tasks such as &lt;em&gt;Nearest-Neighbour&lt;/em&gt; clusterring and supervised learning tasks such as &lt;em&gt;Generalized linear models&lt;/em&gt; for predicting the costs and journey time given relevant variables and location. To create some cool visualizations and of valuable insight I used google maps api!&lt;/p&gt;
 </description>
     </item>

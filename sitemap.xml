@@ -3,74 +3,106 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>shreshthsaini.github.io/authors/</loc>
+    <loc>https://shreshthsaini.github.io/authors/</loc>
+    <lastmod>2020-03-02T15:22:25+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/categories/</loc>
+    <lastmod>2020-03-02T15:22:25+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/classification/</loc>
+    <lastmod>2020-03-02T15:22:25+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/</loc>
+    <lastmod>2020-03-02T15:22:25+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/ml/</loc>
+    <lastmod>2020-03-02T15:22:25+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/categories/ml/</loc>
+    <lastmod>2020-03-02T15:22:25+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/post/</loc>
+    <lastmod>2020-03-02T15:22:25+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/authors/shreshth-saini/</loc>
+    <lastmod>2020-03-02T15:22:25+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/post/svm/</loc>
+    <lastmod>2020-03-02T15:22:25+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/svm/</loc>
+    <lastmod>2020-03-02T15:22:25+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/</loc>
+    <lastmod>2020-03-02T15:22:25+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/tool/</loc>
+    <lastmod>2020-03-02T15:22:25+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/post/genome-sequencing/</loc>
     <lastmod>2019-08-19T00:00:00+05:30</lastmod>
   </url>
   
   <url>
-    <loc>shreshthsaini.github.io/post/genome-sequencing/</loc>
-    <lastmod>2019-08-19T00:00:00+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>shreshthsaini.github.io/</loc>
-    <lastmod>2019-08-19T00:00:00+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>shreshthsaini.github.io/post/</loc>
-    <lastmod>2019-08-19T00:00:00+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>shreshthsaini.github.io/authors/shreshth-saini/</loc>
-    <lastmod>2019-08-19T00:00:00+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>shreshthsaini.github.io/publication_types/2/</loc>
+    <loc>https://shreshthsaini.github.io/publication_types/2/</loc>
     <lastmod>2019-06-06T00:00:00+05:30</lastmod>
   </url>
   
   <url>
-    <loc>shreshthsaini.github.io/publication/pixlsegnet/</loc>
+    <loc>https://shreshthsaini.github.io/publication/pixlsegnet/</loc>
     <lastmod>2019-06-06T00:00:00+05:30</lastmod>
   </url>
   
   <url>
-    <loc>shreshthsaini.github.io/publication_types/</loc>
+    <loc>https://shreshthsaini.github.io/publication_types/</loc>
     <lastmod>2019-06-06T00:00:00+05:30</lastmod>
   </url>
   
   <url>
-    <loc>shreshthsaini.github.io/publication/</loc>
+    <loc>https://shreshthsaini.github.io/publication/</loc>
     <lastmod>2019-06-06T00:00:00+05:30</lastmod>
   </url>
   
   <url>
-    <loc>shreshthsaini.github.io/project/ny_taxi/</loc>
+    <loc>https://shreshthsaini.github.io/project/ny_taxi/</loc>
     <lastmod>2016-01-19T22:17:42+05:30</lastmod>
   </url>
   
   <url>
-    <loc>shreshthsaini.github.io/project/</loc>
+    <loc>https://shreshthsaini.github.io/project/</loc>
     <lastmod>2016-01-19T22:17:42+05:30</lastmod>
   </url>
   
   <url>
-    <loc>shreshthsaini.github.io/authors/admin/</loc>
+    <loc>https://shreshthsaini.github.io/authors/admin/</loc>
   </url>
   
   <url>
-    <loc>shreshthsaini.github.io/categories/</loc>
-  </url>
-  
-  <url>
-    <loc>shreshthsaini.github.io/talk/</loc>
-  </url>
-  
-  <url>
-    <loc>shreshthsaini.github.io/tags/</loc>
+    <loc>https://shreshthsaini.github.io/talk/</loc>
   </url>
   
 </urlset>

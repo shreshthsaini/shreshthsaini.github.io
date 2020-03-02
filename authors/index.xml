@@ -2,29 +2,29 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Authors | meliorate</title>
-    <link>shreshthsaini.github.io/authors/</link>
-      <atom:link href="shreshthsaini.github.io/authors/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://shreshthsaini.github.io/authors/</link>
+      <atom:link href="https://shreshthsaini.github.io/authors/index.xml" rel="self" type="application/rss+xml" />
     <description>Authors</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2019</copyright><lastBuildDate>Mon, 19 Aug 2019 00:00:00 +0530</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Mon, 02 Mar 2020 15:22:25 +0530</lastBuildDate>
     <image>
-      <url>shreshthsaini.github.io/img/icon-192.png</url>
+      <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>Authors</title>
-      <link>shreshthsaini.github.io/authors/</link>
+      <link>https://shreshthsaini.github.io/authors/</link>
     </image>
     
     <item>
-      <title>shreshth saini</title>
-      <link>shreshthsaini.github.io/authors/shreshth-saini/</link>
-      <pubDate>Mon, 19 Aug 2019 00:00:00 +0530</pubDate>
-      <guid>shreshthsaini.github.io/authors/shreshth-saini/</guid>
+      <title>Shreshth Saini</title>
+      <link>https://shreshthsaini.github.io/authors/shreshth-saini/</link>
+      <pubDate>Mon, 02 Mar 2020 15:22:25 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/authors/shreshth-saini/</guid>
       <description></description>
     </item>
     
     <item>
       <title></title>
-      <link>shreshthsaini.github.io/authors/admin/</link>
+      <link>https://shreshthsaini.github.io/authors/admin/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>shreshthsaini.github.io/authors/admin/</guid>
+      <guid>https://shreshthsaini.github.io/authors/admin/</guid>
       <description>&lt;p&gt;I am Shreshth Saini, a final year student pursing my B.Tech in Electrical Engineering at &lt;a href=&#34;iitj.ac.in&#34; target=&#34;_blank&#34;&gt;Indian Institue of Technology - Jodhpur&lt;/a&gt;. My research interests are highly interdisciplinary covering machine learning in general, application of deep learning in medical image analysis, biometrics and computer vision. I also work with memory based approaches for finacial data analysis. For a while, i have been trying to shift my focus towards unsupervised &amp;amp; reinforcement learnings.&lt;/p&gt;
 
 &lt;p&gt;Currently, Working with &lt;a href=&#34;https://mornin-feng.com&#34; target=&#34;_blank&#34;&gt;Dr. Mengling &amp;lsquo;Mornin&amp;rsquo;&lt;/a&gt; Feng on skin cancer analysis using deep learning. I am also working with &lt;a href=&#34;http://home.iitj.ac.in/~akt/&#34; target=&#34;_blank&#34;&gt;Dr. Anil Kumar Tiwari&lt;/a&gt; on Segmentation of left atrium cavity in patients affected by atrial fibrillation. Previously, i had an opportunity of woking with &lt;a href=&#34;http://faculty.iitmandi.ac.in/~aditya/&#34; target=&#34;_blank&#34;&gt;Dr. Aditya Nigam&lt;/a&gt; on application of deep learning in biometrics.&lt;/p&gt;

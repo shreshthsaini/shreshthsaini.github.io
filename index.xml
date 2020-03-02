@@ -2,37 +2,37 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>meliorate</title>
-    <link>shreshthsaini.github.io/</link>
-      <atom:link href="shreshthsaini.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://shreshthsaini.github.io/</link>
+      <atom:link href="https://shreshthsaini.github.io/index.xml" rel="self" type="application/rss+xml" />
     <description>meliorate</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2019</copyright><lastBuildDate>Mon, 19 Aug 2019 00:00:00 +0530</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Mon, 02 Mar 2020 15:22:25 +0530</lastBuildDate>
     <image>
-      <url>shreshthsaini.github.io/img/icon-192.png</url>
+      <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>meliorate</title>
-      <link>shreshthsaini.github.io/</link>
+      <link>https://shreshthsaini.github.io/</link>
     </image>
     
     <item>
       <title>Posts</title>
-      <link>shreshthsaini.github.io/post/</link>
-      <pubDate>Mon, 19 Aug 2019 00:00:00 +0530</pubDate>
-      <guid>shreshthsaini.github.io/post/</guid>
+      <link>https://shreshthsaini.github.io/post/</link>
+      <pubDate>Mon, 02 Mar 2020 15:22:25 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/post/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Publications</title>
-      <link>shreshthsaini.github.io/publication/</link>
+      <link>https://shreshthsaini.github.io/publication/</link>
       <pubDate>Thu, 06 Jun 2019 00:00:00 +0530</pubDate>
-      <guid>shreshthsaini.github.io/publication/</guid>
+      <guid>https://shreshthsaini.github.io/publication/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Projects</title>
-      <link>shreshthsaini.github.io/project/</link>
+      <link>https://shreshthsaini.github.io/project/</link>
       <pubDate>Tue, 19 Jan 2016 22:17:42 +0530</pubDate>
-      <guid>shreshthsaini.github.io/project/</guid>
+      <guid>https://shreshthsaini.github.io/project/</guid>
       <description></description>
     </item>
     
@@ -46,9 +46,9 @@
     
     <item>
       <title>Recent &amp; Upcoming Talks</title>
-      <link>shreshthsaini.github.io/talk/</link>
+      <link>https://shreshthsaini.github.io/talk/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>shreshthsaini.github.io/talk/</guid>
+      <guid>https://shreshthsaini.github.io/talk/</guid>
       <description></description>
     </item>
     

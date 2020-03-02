@@ -2,15 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories | meliorate</title>
-    <link>shreshthsaini.github.io/categories/</link>
-      <atom:link href="shreshthsaini.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <link>https://shreshthsaini.github.io/categories/</link>
+      <atom:link href="https://shreshthsaini.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <description>Categories</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2019</copyright>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Mon, 02 Mar 2020 15:22:25 +0530</lastBuildDate>
     <image>
-      <url>shreshthsaini.github.io/img/icon-192.png</url>
+      <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>Categories</title>
-      <link>shreshthsaini.github.io/categories/</link>
+      <link>https://shreshthsaini.github.io/categories/</link>
     </image>
+    
+    <item>
+      <title>ML</title>
+      <link>https://shreshthsaini.github.io/categories/ml/</link>
+      <pubDate>Mon, 02 Mar 2020 15:22:25 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/categories/ml/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>
