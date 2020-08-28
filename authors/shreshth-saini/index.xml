@@ -5,12 +5,21 @@
     <link>https://shreshthsaini.github.io/authors/shreshth-saini/</link>
       <atom:link href="https://shreshthsaini.github.io/authors/shreshth-saini/index.xml" rel="self" type="application/rss+xml" />
     <description>Shreshth Saini</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Mon, 02 Mar 2020 15:22:25 +0530</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Fri, 14 Aug 2020 21:21:53 +0530</lastBuildDate>
     <image>
       <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>Shreshth Saini</title>
       <link>https://shreshthsaini.github.io/authors/shreshth-saini/</link>
     </image>
+    
+    <item>
+      <title>Detector-SegMentor Network for Skin Lesion Localization and Segmentation</title>
+      <link>https://shreshthsaini.github.io/publication/detector-segmentor-network-for-skin-lesion-localization-and-segmentation/</link>
+      <pubDate>Fri, 14 Aug 2020 21:21:53 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/publication/detector-segmentor-network-for-skin-lesion-localization-and-segmentation/</guid>
+      <description>&lt;p&gt;This work has been accpeted at NCVPRIPG-19&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Supprt Vector Machine (SVM)</title>

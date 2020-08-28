@@ -5,7 +5,7 @@
     <link>https://shreshthsaini.github.io/</link>
       <atom:link href="https://shreshthsaini.github.io/index.xml" rel="self" type="application/rss+xml" />
     <description>meliorate</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Mon, 02 Mar 2020 15:22:25 +0530</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Fri, 14 Aug 2020 21:21:53 +0530</lastBuildDate>
     <image>
       <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>meliorate</title>
@@ -13,18 +13,18 @@
     </image>
     
     <item>
-      <title>Posts</title>
-      <link>https://shreshthsaini.github.io/post/</link>
-      <pubDate>Mon, 02 Mar 2020 15:22:25 +0530</pubDate>
-      <guid>https://shreshthsaini.github.io/post/</guid>
+      <title>Publications</title>
+      <link>https://shreshthsaini.github.io/publication/</link>
+      <pubDate>Fri, 14 Aug 2020 21:21:53 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/publication/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Publications</title>
-      <link>https://shreshthsaini.github.io/publication/</link>
-      <pubDate>Thu, 06 Jun 2019 00:00:00 +0530</pubDate>
-      <guid>https://shreshthsaini.github.io/publication/</guid>
+      <title>Posts</title>
+      <link>https://shreshthsaini.github.io/post/</link>
+      <pubDate>Mon, 02 Mar 2020 15:22:25 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/post/</guid>
       <description></description>
     </item>
     
