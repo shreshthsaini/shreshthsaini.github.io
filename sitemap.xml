@@ -3,6 +3,106 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://shreshthsaini.github.io/publication_types/6/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/authors/aditya-nigam/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/authors/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/biometric/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/categories/biometrics/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/categories/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/deep-learning/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/categories/deep-learning/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/authors/divij-gupta/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/authors/gaurav-jaswal/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/iris/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/publication/iris-segmentat-on-in-the-wild-using-encoder-decoder-based-deep-learningtechniques/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/publication_types/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/publication/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/authors/ranjeet-ranjan-jha/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/segmentation/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/authors/shreshth-saini/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/unet/</loc>
+    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
+  </url>
+  
+  <url>
     <loc>https://shreshthsaini.github.io/publication_types/1/</loc>
     <lastmod>2020-08-14T21:21:53+05:30</lastmod>
   </url>
@@ -13,22 +113,7 @@
   </url>
   
   <url>
-    <loc>https://shreshthsaini.github.io/authors/</loc>
-    <lastmod>2020-08-14T21:21:53+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/categories/</loc>
-    <lastmod>2020-08-14T21:21:53+05:30</lastmod>
-  </url>
-  
-  <url>
     <loc>https://shreshthsaini.github.io/tags/cnn/</loc>
-    <lastmod>2020-08-14T21:21:53+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/categories/deep-learning/</loc>
     <lastmod>2020-08-14T21:21:53+05:30</lastmod>
   </url>
   
@@ -48,11 +133,6 @@
   </url>
   
   <url>
-    <loc>https://shreshthsaini.github.io/authors/divij-gupta/</loc>
-    <lastmod>2020-08-14T21:21:53+05:30</lastmod>
-  </url>
-  
-  <url>
     <loc>https://shreshthsaini.github.io/tags/faster-rcnn/</loc>
     <lastmod>2020-08-14T21:21:53+05:30</lastmod>
   </url>
@@ -64,36 +144,6 @@
   
   <url>
     <loc>https://shreshthsaini.github.io/tags/melanoma/</loc>
-    <lastmod>2020-08-14T21:21:53+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/</loc>
-    <lastmod>2020-08-14T21:21:53+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/publication_types/</loc>
-    <lastmod>2020-08-14T21:21:53+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/publication/</loc>
-    <lastmod>2020-08-14T21:21:53+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/tags/segmentation/</loc>
-    <lastmod>2020-08-14T21:21:53+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/authors/shreshth-saini/</loc>
-    <lastmod>2020-08-14T21:21:53+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/tags/</loc>
     <lastmod>2020-08-14T21:21:53+05:30</lastmod>
   </url>
   
@@ -139,21 +189,6 @@
   
   <url>
     <loc>https://shreshthsaini.github.io/publication_types/2/</loc>
-    <lastmod>2019-06-06T00:00:00+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/tags/biometric/</loc>
-    <lastmod>2019-06-06T00:00:00+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/categories/biometrics/</loc>
-    <lastmod>2019-06-06T00:00:00+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/tags/iris/</loc>
     <lastmod>2019-06-06T00:00:00+05:30</lastmod>
   </url>
   

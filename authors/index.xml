@@ -5,7 +5,7 @@
     <link>https://shreshthsaini.github.io/authors/</link>
       <atom:link href="https://shreshthsaini.github.io/authors/index.xml" rel="self" type="application/rss+xml" />
     <description>Authors</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Fri, 14 Aug 2020 21:21:53 +0530</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Fri, 28 Aug 2020 17:58:59 +0530</lastBuildDate>
     <image>
       <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>Authors</title>
@@ -13,26 +13,50 @@
     </image>
     
     <item>
-      <title>Anil Kumar Tiwari</title>
-      <link>https://shreshthsaini.github.io/authors/anil-kumar-tiwari/</link>
-      <pubDate>Fri, 14 Aug 2020 21:21:53 +0530</pubDate>
-      <guid>https://shreshthsaini.github.io/authors/anil-kumar-tiwari/</guid>
+      <title>Aditya Nigam</title>
+      <link>https://shreshthsaini.github.io/authors/aditya-nigam/</link>
+      <pubDate>Fri, 28 Aug 2020 17:58:59 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/authors/aditya-nigam/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Divij Gupta</title>
       <link>https://shreshthsaini.github.io/authors/divij-gupta/</link>
-      <pubDate>Fri, 14 Aug 2020 21:21:53 +0530</pubDate>
+      <pubDate>Fri, 28 Aug 2020 17:58:59 +0530</pubDate>
       <guid>https://shreshthsaini.github.io/authors/divij-gupta/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Gaurav Jaswal</title>
+      <link>https://shreshthsaini.github.io/authors/gaurav-jaswal/</link>
+      <pubDate>Fri, 28 Aug 2020 17:58:59 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/authors/gaurav-jaswal/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ranjeet Ranjan Jha</title>
+      <link>https://shreshthsaini.github.io/authors/ranjeet-ranjan-jha/</link>
+      <pubDate>Fri, 28 Aug 2020 17:58:59 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/authors/ranjeet-ranjan-jha/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Shreshth Saini</title>
       <link>https://shreshthsaini.github.io/authors/shreshth-saini/</link>
-      <pubDate>Fri, 14 Aug 2020 21:21:53 +0530</pubDate>
+      <pubDate>Fri, 28 Aug 2020 17:58:59 +0530</pubDate>
       <guid>https://shreshthsaini.github.io/authors/shreshth-saini/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Anil Kumar Tiwari</title>
+      <link>https://shreshthsaini.github.io/authors/anil-kumar-tiwari/</link>
+      <pubDate>Fri, 14 Aug 2020 21:21:53 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/authors/anil-kumar-tiwari/</guid>
       <description></description>
     </item>
     
