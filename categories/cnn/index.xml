@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CNN | meliorate</title>
+    <link>https://shreshthsaini.github.io/categories/cnn/</link>
+      <atom:link href="https://shreshthsaini.github.io/categories/cnn/index.xml" rel="self" type="application/rss+xml" />
+    <description>CNN</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Mon, 31 Aug 2020 20:06:52 +0530</lastBuildDate>
+    <image>
+      <url>https://shreshthsaini.github.io/img/icon-192.png</url>
+      <title>CNN</title>
+      <link>https://shreshthsaini.github.io/categories/cnn/</link>
+    </image>
+    
+    <item>
+      <title>Variational AutoEncoder</title>
+      <link>https://shreshthsaini.github.io/post/variational-autoencoder/</link>
+      <pubDate>Mon, 31 Aug 2020 20:06:52 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/post/variational-autoencoder/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

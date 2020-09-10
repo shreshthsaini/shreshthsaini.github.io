@@ -5,7 +5,7 @@
     <link>https://shreshthsaini.github.io/categories/</link>
       <atom:link href="https://shreshthsaini.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <description>Categories</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Fri, 28 Aug 2020 17:58:59 +0530</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Mon, 31 Aug 2020 20:06:52 +0530</lastBuildDate>
     <image>
       <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>Categories</title>
@@ -13,18 +13,34 @@
     </image>
     
     <item>
-      <title>Biometrics</title>
-      <link>https://shreshthsaini.github.io/categories/biometrics/</link>
-      <pubDate>Fri, 28 Aug 2020 17:58:59 +0530</pubDate>
-      <guid>https://shreshthsaini.github.io/categories/biometrics/</guid>
+      <title>Autoencoder</title>
+      <link>https://shreshthsaini.github.io/categories/autoencoder/</link>
+      <pubDate>Mon, 31 Aug 2020 20:06:52 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/categories/autoencoder/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Deep Learning</title>
+      <title>CNN</title>
+      <link>https://shreshthsaini.github.io/categories/cnn/</link>
+      <pubDate>Mon, 31 Aug 2020 20:06:52 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/categories/cnn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Deep learning</title>
       <link>https://shreshthsaini.github.io/categories/deep-learning/</link>
-      <pubDate>Fri, 28 Aug 2020 17:58:59 +0530</pubDate>
+      <pubDate>Mon, 31 Aug 2020 20:06:52 +0530</pubDate>
       <guid>https://shreshthsaini.github.io/categories/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Biometrics</title>
+      <link>https://shreshthsaini.github.io/categories/biometrics/</link>
+      <pubDate>Fri, 28 Aug 2020 17:58:59 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/categories/biometrics/</guid>
       <description></description>
     </item>
     

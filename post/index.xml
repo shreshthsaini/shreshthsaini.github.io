@@ -5,12 +5,20 @@
     <link>https://shreshthsaini.github.io/post/</link>
       <atom:link href="https://shreshthsaini.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Mon, 02 Mar 2020 15:22:25 +0530</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Mon, 31 Aug 2020 20:06:52 +0530</lastBuildDate>
     <image>
       <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>Posts</title>
       <link>https://shreshthsaini.github.io/post/</link>
     </image>
+    
+    <item>
+      <title>Variational AutoEncoder</title>
+      <link>https://shreshthsaini.github.io/post/variational-autoencoder/</link>
+      <pubDate>Mon, 31 Aug 2020 20:06:52 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/post/variational-autoencoder/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Supprt Vector Machine (SVM)</title>

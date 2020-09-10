@@ -3,6 +3,86 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://shreshthsaini.github.io/authors/</loc>
+    <lastmod>2020-08-31T20:06:52+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/categories/autoencoder/</loc>
+    <lastmod>2020-08-31T20:06:52+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/autoencoder/</loc>
+    <lastmod>2020-08-31T20:06:52+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/categories/</loc>
+    <lastmod>2020-08-31T20:06:52+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/cnn/</loc>
+    <lastmod>2020-08-31T20:06:52+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/categories/cnn/</loc>
+    <lastmod>2020-08-31T20:06:52+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/categories/deep-learning/</loc>
+    <lastmod>2020-08-31T20:06:52+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/deep-learning/</loc>
+    <lastmod>2020-08-31T20:06:52+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/generative/</loc>
+    <lastmod>2020-08-31T20:06:52+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/</loc>
+    <lastmod>2020-08-31T20:06:52+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/post/</loc>
+    <lastmod>2020-08-31T20:06:52+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/semi-supervised/</loc>
+    <lastmod>2020-08-31T20:06:52+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/authors/shreshth-saini/</loc>
+    <lastmod>2020-08-31T20:06:52+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/</loc>
+    <lastmod>2020-08-31T20:06:52+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/tags/variational/</loc>
+    <lastmod>2020-08-31T20:06:52+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://shreshthsaini.github.io/post/variational-autoencoder/</loc>
+    <lastmod>2020-08-31T20:06:52+05:30</lastmod>
+  </url>
+  
+  <url>
     <loc>https://shreshthsaini.github.io/publication_types/6/</loc>
     <lastmod>2020-08-28T17:58:59+05:30</lastmod>
   </url>
@@ -13,32 +93,12 @@
   </url>
   
   <url>
-    <loc>https://shreshthsaini.github.io/authors/</loc>
-    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
-  </url>
-  
-  <url>
     <loc>https://shreshthsaini.github.io/tags/biometric/</loc>
     <lastmod>2020-08-28T17:58:59+05:30</lastmod>
   </url>
   
   <url>
     <loc>https://shreshthsaini.github.io/categories/biometrics/</loc>
-    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/categories/</loc>
-    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/tags/deep-learning/</loc>
-    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/categories/deep-learning/</loc>
     <lastmod>2020-08-28T17:58:59+05:30</lastmod>
   </url>
   
@@ -58,12 +118,7 @@
   </url>
   
   <url>
-    <loc>https://shreshthsaini.github.io/publication/iris-segmentat-on-in-the-wild-using-encoder-decoder-based-deep-learningtechniques/</loc>
-    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/</loc>
+    <loc>https://shreshthsaini.github.io/publication/iris-segmentation-in-the-wild-using-encoder-decoder-based-deep-learningtechniques/</loc>
     <lastmod>2020-08-28T17:58:59+05:30</lastmod>
   </url>
   
@@ -88,16 +143,6 @@
   </url>
   
   <url>
-    <loc>https://shreshthsaini.github.io/authors/shreshth-saini/</loc>
-    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/tags/</loc>
-    <lastmod>2020-08-28T17:58:59+05:30</lastmod>
-  </url>
-  
-  <url>
     <loc>https://shreshthsaini.github.io/tags/unet/</loc>
     <lastmod>2020-08-28T17:58:59+05:30</lastmod>
   </url>
@@ -109,11 +154,6 @@
   
   <url>
     <loc>https://shreshthsaini.github.io/authors/anil-kumar-tiwari/</loc>
-    <lastmod>2020-08-14T21:21:53+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://shreshthsaini.github.io/tags/cnn/</loc>
     <lastmod>2020-08-14T21:21:53+05:30</lastmod>
   </url>
   
@@ -153,17 +193,12 @@
   </url>
   
   <url>
-    <loc>https://shreshthsaini.github.io/tags/ml/</loc>
-    <lastmod>2020-03-02T15:22:25+05:30</lastmod>
-  </url>
-  
-  <url>
     <loc>https://shreshthsaini.github.io/categories/ml/</loc>
     <lastmod>2020-03-02T15:22:25+05:30</lastmod>
   </url>
   
   <url>
-    <loc>https://shreshthsaini.github.io/post/</loc>
+    <loc>https://shreshthsaini.github.io/tags/ml/</loc>
     <lastmod>2020-03-02T15:22:25+05:30</lastmod>
   </url>
   
