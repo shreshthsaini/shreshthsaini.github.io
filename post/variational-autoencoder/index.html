@@ -510,7 +510,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    3 min read
+    2 min read
   </span>
   
 
@@ -648,17 +648,16 @@
 <p><strong><em>Before we actually dive into the Variational autoencoders, lets have a clarity about what are autoencoders.</em></strong>
 Autoencoder are used for data compression and other derivative tasks such as segmentation, noise reduction, feature manipulation in image, etc.. Autoencoder consists of two part namely <strong><em>Encoder</em></strong> and <strong><em>Decoder</em></strong>. Encoder(E) takes the input(X) and produces corresponding latent space representation(E(X)), output of encoder is then fed to decoder(D) which gives us our final output(D(E(X))). Autoencoder are trained supervisingly (X,Y). With convolutional autoencoder we can extract high dimensional representation of our data from latent space. For data compression latent is have fewer features (mainly with fully connected neural network design).</p>
 
-<p>| <img src="autoencoder.jpg" alt="autoencoder-sample.jpg" /> |
-|:&ndash;:|
-| <em>1. Convolutional Autoencoder.<a href="#1">[1]</a></em>  |</p>
+<p><img src="autoencoder.jpg" alt="autoencoder-sample.jpg" />
+<em>Fig. 1: Convolutional Autoencoder.<a href="#1">[1]</a></em></p>
 
 <h3 id="variational-auto-encoders-vaes">Variational Auto-Encoders(VAEs)</h3>
 
 <p>Having understood the basics of autoencoder and its structure now we can move towards the real thing. It it to be notes that latent space representations from simple autoencoder can not be used in generation task as it gives the a rather unrealistic output. Reason being distribution of latent space is often not continuous. Variational autonencoders introduce additional layers at bottleneck of the network to extract the probablistic distribution of the latent space (mean and variance), in additional a KL-Divergence loss <a href="#2">[2]</a> is also used to bring the data distribution close up for interpolation inbetween the classes (generation). In general results of VAE are blurry, novel loss functions such as generative loss <a href="#3">[3]</a> or perceptual loss <a href="#4">[4]</a> can be used to remove the blurriness.</p>
 
-<p>| <img src="vae.jpg" alt="vae-sample.jpg" /> |
-|:&ndash;:|
-| <em>2. Convolutional Variational Autoencoder. Low dimensional representation feature is sampled from learned distribution at bottlecneck. Unit gaussian distribution depicts convergence of learned distribution towards normal distribution.</em><a href="#5">[5]</a> |</p>
+<p><img src="vae.jpg" alt="vae-sample.jpg" /></p>
+
+<p><em>Fig. 2: Convolutional Variational Autoencoder. Low dimensional representation feature is sampled from learned distribution at bottlecneck. Unit gaussian distribution depicts convergence of learned distribution towards normal distribution.<a href="#5">[5]</a></em></p>
 
 <p>###</p>
 
