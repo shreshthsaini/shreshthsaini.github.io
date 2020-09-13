@@ -461,11 +461,20 @@
 
 
 
-  
+
+
+
+
+
+
+
 
   
   
+    
   
+
+
 <div class="article-container pt-3">
   <h1>Variational AutoEncoder</h1>
 
@@ -474,7 +483,6 @@
   
 
   
-    
 
 
 
@@ -510,7 +518,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    2 min read
+    6 min read
   </span>
   
 
@@ -616,22 +624,29 @@
 
 </div>
 
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+<div class="article-header article-container featured-image-wrapper mt-4 mb-4" style="max-width: 720px; max-height: 385px;">
+  <div style="position: relative">
+    <img src="/post/variational-autoencoder/featured_hu1b1d42b0e8a193a82e68c56ab28db4a6_1088443_720x0_resize_q90_lanczos.jpg" alt="" class="featured-image">
+    <span class="article-header-caption">VAE Generated faces. Source : <a href="https://github.com/WojciechMormul/vae" target="_blank">Wojciech Mormul on Github</a>.</span>
+  </div>
 </div>
 
 
@@ -646,7 +661,7 @@
 <h3 id="auto-encoders">Auto-Encoders</h3>
 
 <p><strong><em>Before we actually dive into the Variational autoencoders, lets have a clarity about what are autoencoders.</em></strong>
-Autoencoder are used for data compression and other derivative tasks such as segmentation, noise reduction, feature manipulation in image, etc.. Autoencoder consists of two part namely <strong><em>Encoder</em></strong> and <strong><em>Decoder</em></strong>. Encoder(E) takes the input(X) and produces corresponding latent space representation(E(X)), output of encoder is then fed to decoder(D) which gives us our final output(D(E(X))). Autoencoder are trained supervisingly (X,Y). With convolutional autoencoder we can extract high dimensional representation of our data from latent space. For data compression latent is have fewer features (mainly with fully connected neural network design).</p>
+Autoencoder are used for data compression and other derivative tasks such as segmentation, noise reduction, feature manipulation in image, etc.. Autoencoder consists of two part namely <strong><em>Encoder</em></strong> and <strong><em>Decoder</em></strong>. Encoder(E) takes the input(X) and produces corresponding latent space representation(E(X)), output of encoder is then fed to decoder(D) which gives us our final output(D(E(X))). Autoencoder are trained supervisingly (X,Y). With convolutional autoencoder we can extract high dimensional representation of our data from latent space. No doubt autoencoder works better for limited applications. Encoders tend to map the data to a discontinuous latent space (i.e segregation of clusters at bottleneck). This specifically creates issue when we deploy these models for generative tasks which might require sampling and/or interpolation from latent space and which might create generate unrealistic outputs.</p>
 
 <p><img src="autoencoder.jpg" alt="autoencoder-sample.jpg" />
 <em>Fig. 1: Convolutional Autoencoder.<a href="#1">[1]</a></em></p>
@@ -658,7 +673,35 @@ Autoencoder are used for data compression and other derivative tasks such as seg
 <p><img src="vae.jpg" alt="vae-sample.jpg" />
 <em>Fig. 2: Convolutional Variational Autoencoder. Low dimensional representation feature is sampled from learned distribution at bottlecneck. Unit gaussian distribution depicts convergence of learned distribution towards normal distribution.<a href="#5">[5]</a></em></p>
 
-<p>###</p>
+<h3 id="about-mean-and-standard-variation">About Mean and Standard Variation</h3>
+
+<p>&rdquo;&ldquo;&rdquo;
+They form the parameters of a vector of random variables of length n, with the i th element of μ and σ being the mean and standard deviation of the i th random variable, X i, from which we sample, to obtain the sampled encoding which we pass onward to the decoder.</p>
+
+<p>This stochastic generation means, that even for the same input, while the mean and standard deviations remain the same, the actual encoding will somewhat vary on every single pass simply due to sampling.</p>
+
+<p>Intuitively, the mean vector controls where the encoding of an input should be centered around, while the standard deviation controls the “area”, how much from the mean the encoding can vary. As encodings are generated at random from anywhere inside the “circle” (the distribution), the decoder learns that not only is a single point in latent space referring to a sample of that class, but all nearby points refer to the same as well. This allows the decoder to not just decode single, specific encodings in the latent space (leaving the decodable latent space discontinuous), but ones that slightly vary too, as the decoder is exposed to a range of variations of the encoding of the same input during training.</p>
+
+<p>The model is now exposed to a certain degree of local variation by varying the encoding of one sample, resulting in smooth latent spaces on a local scale, that is, for similar samples. Ideally, we want overlap between samples that are not very similar too, in order to interpolate between classes. However, since there are no limits on what values vectors μ and σ can take on, the encoder can learn to generate very different μ for different classes, clustering them apart, and minimize σ, making sure the encodings themselves don’t vary much for the same sample (that is, less uncertainty for the decoder). This allows the decoder to efficiently reconstruct the training data.</p>
+
+<p>What we ideally want are encodings, all of which are as close as possible to each other while still being distinct, allowing smooth interpolation, and enabling the construction of new samples.</p>
+
+<p>In order to force this, we introduce the Kullback–Leibler divergence (KL divergence[2]) into the loss function. The KL divergence between two probability distributions simply measures how much they diverge from each other. Minimizing the KL divergence here means optimizing the probability distribution parameters (μ and σ) to closely resemble that of the target distribution.</p>
+
+<p>For VAEs, the KL loss is equivalent to the sum of all the KL divergences between the component Xi~N(μi, σi²) in X, and the standard normal[3]. It’s minimized when μi = 0, σi = 1.</p>
+
+<p>Intuitively, this loss encourages the encoder to distribute all encodings (for all types of inputs, eg. all MNIST numbers), evenly around the center of the latent space. If it tries to “cheat” by clustering them apart into specific regions, away from the origin, it will be penalized.</p>
+
+<p>Now, using purely KL loss results in a latent space results in encodings densely placed randomly, near the center of the latent space, with little regard for similarity among nearby encodings. The decoder finds it impossible to decode anything meaningful from this space, simply because there really isn’t any meaning.</p>
+
+<p>Optimizing using pure KL divergence loss</p>
+
+<p>Optimizing the two together, however, results in the generation of a latent space which maintains the similarity of nearby encodings on the local scale via clustering, yet globally, is very densely packed near the latent space origin (compare the axes with the original).</p>
+
+<p>Optimizing using both reconstruction loss and KL divergence loss</p>
+
+<p>Intuitively, this is the equilibrium reached by the cluster-forming nature of the reconstruction loss, and the dense packing nature of the KL loss, forming distinct clusters the decoder can decode. This is great, as it means when randomly generating, if you sample a vector from the same prior distribution of the encoded vectors, N(0, I), the decoder will successfully decode it. And if you’re interpolating, there are no sudden gaps between clusters, but a smooth mix of features a decoder can understand.
+&ldquo;&rdquo;&rdquo;</p>
 
 <h3 id="references">REFERENCES:</h3>
 
@@ -684,11 +727,6 @@ Deep Feature Consistent Variational Autoencoder. 2016</a></p>
 <a href="https://iq.opengenus.org/types-of-autoencoder/" target="_blank">Abhinav Prakash.
 Different types of Autoencoders. opengenus.org.
 University of Massachusetts, Amherst.</a></p>
-
-<ul>
-<li></li>
-<li></li>
-</ul>
 
     </div>
 
