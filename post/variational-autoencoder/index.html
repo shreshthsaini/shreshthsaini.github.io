@@ -104,10 +104,9 @@
   
   
     
-    
   
   
-  <meta property="twitter:card" content="summary">
+  <meta property="twitter:card" content="summary_large_image">
   
   <meta property="twitter:site" content="@shreshthsaini">
   <meta property="twitter:creator" content="@shreshthsaini">
@@ -115,8 +114,8 @@
   <meta property="og:site_name" content="meliorate">
   <meta property="og:url" content="https://shreshthsaini.github.io/post/variational-autoencoder/">
   <meta property="og:title" content="Variational AutoEncoder | meliorate">
-  <meta property="og:description" content="In deep learning, Variational autoencoders (VAEs) is a technique for learning latent representations. They are also used in a number of semi supervised tasks such as to draw/generate images."><meta property="og:image" content="https://shreshthsaini.github.io/img/icon-192.png">
-  <meta property="twitter:image" content="https://shreshthsaini.github.io/img/icon-192.png"><meta property="og:locale" content="en-us">
+  <meta property="og:description" content="In deep learning, Variational autoencoders (VAEs) is a technique for learning latent representations. They are also used in a number of semi supervised tasks such as to draw/generate images."><meta property="og:image" content="https://shreshthsaini.github.io/post/variational-autoencoder/featured.jpg">
+  <meta property="twitter:image" content="https://shreshthsaini.github.io/post/variational-autoencoder/featured.jpg"><meta property="og:locale" content="en-us">
   
     
       <meta property="article:published_time" content="2020-08-31T20:06:52&#43;05:30">
@@ -159,6 +158,10 @@
     "@id": "https://shreshthsaini.github.io/post/variational-autoencoder/"
   },
   "headline": "Variational AutoEncoder",
+  
+  "image": [
+    "https://shreshthsaini.github.io/post/variational-autoencoder/featured.jpg"
+  ],
   
   "datePublished": "2020-08-31T20:06:52+05:30",
   "dateModified": "2020-08-31T20:06:52+05:30",
@@ -507,7 +510,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    0 min read
+    3 min read
   </span>
   
 
@@ -637,6 +640,59 @@
 
     <div class="article-style">
       
+
+<p>In the last few years deep learning practictioners have developed a huge interest in deep generative models. Credit for this can be given to availability of huge datasets, computational capacity, efficient optimization methods and well-designed networks. With all these, generative model are now able to produce realistic contents be it images, texts or voice/music. In this post I have tried to present my understandig of one such generative approach : Variational Auto-Encoder.</p>
+
+<h3 id="auto-encoders">Auto-Encoders</h3>
+
+<p><strong><em>Before we actually dive into the Variational autoencoders, lets have a clarity about what are autoencoders.</em></strong>
+Autoencoder are used for data compression and other derivative tasks such as segmentation, noise reduction, feature manipulation in image, etc.. Autoencoder consists of two part namely <strong><em>Encoder</em></strong> and <strong><em>Decoder</em></strong>. Encoder(E) takes the input(X) and produces corresponding latent space representation(E(X)), output of encoder is then fed to decoder(D) which gives us our final output(D(E(X))). Autoencoder are trained supervisingly (X,Y). With convolutional autoencoder we can extract high dimensional representation of our data from latent space. For data compression latent is have fewer features (mainly with fully connected neural network design).</p>
+
+<p>| <img src="autoencoder.jpg" alt="autoencoder-sample.jpg" /> |
+|:&ndash;:|
+| <em>1. Convolutional Autoencoder.</em>[1]](#1)  |</p>
+
+<h3 id="variational-auto-encoders-vaes">Variational Auto-Encoders(VAEs)</h3>
+
+<p>Having understood the basics of autoencoder and its structure now we can move towards the real thing. It it to be notes that latent space representations from simple autoencoder can not be used in generation task as it gives the a rather unrealistic output. Reason being distribution of latent space is often not continuous. Variational autonencoders introduce additional layers at bottleneck of the network to extract the probablistic distribution of the latent space (mean and variance), in additional a KL-Divergence loss <a href="#2">[2]</a> is also used to bring the data distribution close up for interpolation inbetween the classes (generation). In general results of VAE are blurry, novel loss functions such as generative loss <a href="#3">[3]</a> or perceptual loss <a href="#4">[4]</a> can be used to remove the blurriness.</p>
+
+<p>| <img src="vae.jpg" alt="vae-sample.jpg" /> |
+|:&ndash;:|
+| <em>2. Convolutional Variational Autoencoder. Low dimensional representation feature is sampled from learned distribution at bottlecneck. Unit gaussian distribution depicts convergence of learned distribution towards normal distribution.</em><a href="#5">[5]</a> |</p>
+
+<p>###</p>
+
+<h3 id="references">REFERENCES:</h3>
+
+<p><a id="1">[1]</a>
+[Tara Larrue and Xiaoxu Meng and Chang-Mu Han.
+Denoising Videos with Convolutional Autoencoders A Comparison of Autoencoder Architectures]
+2018.](<a href="https://www.cs.umd.edu/sites/default/files/scholarly_papers/Larrue,%20Tara_1801.pdf" target="_blank">https://www.cs.umd.edu/sites/default/files/scholarly_papers/Larrue,%20Tara_1801.pdf</a>).</p>
+
+<p><a id="2">[2]</a>
+<a href="https://doi.org/10.1007/978-3-642-04898-2_327" target="_blank">Joyce, James M., Lovric, Miodrag.
+Kullback-Leibler Divergence. International Encyclopedia of Statistical Science
+Springer Berlin Heidelberg. 720&ndash;722, 978-3-642-04898-2.
+DOI:10.<sup>1007</sup>&frasl;<sub>978</sub>-3-642-04898-2_327. 2011</a></p>
+
+<p><a id="3">[3]</a>
+<a href="https://arxiv.org/abs/1512.09300" target="_blank">Anders Boesen Lindbo Larsen, Søren Kaae Sønderby, Hugo Larochelle, Ole Winther.
+Autoencoding beyond pixels using a learned similarity metric. 2016</a></p>
+
+<p><a id="4">[4]</a>
+<a href="https://arxiv.org/abs/1610.00291" target="_blank">Xianxu Hou, Linlin Shen, Ke Sun, Guoping Qiu.
+Deep Feature Consistent Variational Autoencoder. 2016</a></p>
+
+<p><a id="5">[5]</a>
+<a href="https://iq.opengenus.org/types-of-autoencoder/" target="_blank">Abhinav Prakash.
+Different types of Autoencoders. opengenus.org.
+University of Massachusetts, Amherst.</a></p>
+
+<ul>
+<li></li>
+<li></li>
+</ul>
+
     </div>
 
     
