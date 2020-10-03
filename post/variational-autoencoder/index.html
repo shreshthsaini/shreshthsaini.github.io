@@ -518,7 +518,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    6 min read
+    5 min read
   </span>
   
 
@@ -675,33 +675,20 @@ Autoencoder are used for data compression and other derivative tasks such as seg
 
 <h3 id="about-mean-and-standard-variation">About Mean and Standard Variation</h3>
 
-<p>&rdquo;&ldquo;&rdquo;
-They form the parameters of a vector of random variables of length n, with the i th element of μ and σ being the mean and standard deviation of the i th random variable, X i, from which we sample, to obtain the sampled encoding which we pass onward to the decoder.</p>
+<p>Vectors formed at bottlenck of the VAE network consists of parameteres where each element correspond to μ and σ of random variable Xi. From this vector we sample the encodings to be sent into the decoder. Beauty is, that every time we are generating samples rather than direct encodings of input data making sure that every encoding will be different.</p>
 
-<p>This stochastic generation means, that even for the same input, while the mean and standard deviations remain the same, the actual encoding will somewhat vary on every single pass simply due to sampling.</p>
+<p>KL-loss trying to converge the distribution of latent space vectors towards normal distribution, μ depicting the central value of input distribution and σ looks into the covereged range (variation from actual encoding). Due to probabilistic distribution and not simple direct encodings decoder learns to generate same class from distribution of latent space. Model have smooth latent space given similar samples and class are close one another. To make sure that μ and σ doesn&rsquo;t attain extreme values such that clusters of classes are too far away, σ is kept minimized for efficient and realistic generation.</p>
 
-<p>Intuitively, the mean vector controls where the encoding of an input should be centered around, while the standard deviation controls the “area”, how much from the mean the encoding can vary. As encodings are generated at random from anywhere inside the “circle” (the distribution), the decoder learns that not only is a single point in latent space referring to a sample of that class, but all nearby points refer to the same as well. This allows the decoder to not just decode single, specific encodings in the latent space (leaving the decodable latent space discontinuous), but ones that slightly vary too, as the decoder is exposed to a range of variations of the encoding of the same input during training.</p>
+<p><img src="clusters.jpg" alt="clusters.jpg" />
+<em>Fig. 3: Three images depcting the clusters shows how use of KL loss and reconstruction loss can form optimum clusters for VAE at bottleneck.<a href="#6">[6]</a></em></p>
 
-<p>The model is now exposed to a certain degree of local variation by varying the encoding of one sample, resulting in smooth latent spaces on a local scale, that is, for similar samples. Ideally, we want overlap between samples that are not very similar too, in order to interpolate between classes. However, since there are no limits on what values vectors μ and σ can take on, the encoder can learn to generate very different μ for different classes, clustering them apart, and minimize σ, making sure the encodings themselves don’t vary much for the same sample (that is, less uncertainty for the decoder). This allows the decoder to efficiently reconstruct the training data.</p>
+<h3 id="loss-and-opitmization">Loss and opitmization</h3>
 
-<p>What we ideally want are encodings, all of which are as close as possible to each other while still being distinct, allowing smooth interpolation, and enabling the construction of new samples.</p>
+<p>As discussed above, for generation class must be closely clustered. Which is acheived using KL-divergence loss, it measures the divergence between the porbability distributions. Minimizing the loss, optimizes the μ and σ to bring closer to target distribution (ideal values μ and σ to be 0 and 1 respectively). All the samples are enoded by encoder to form a normal distribution at bottleneck. If we train our model using only KL loss then all the encodings will be randomly placed around the μ with no actual similarity between neary encodings, decoder generate randome outputs from this encodings. With reconstruction loss, meaningful sample encoding are kept nearby. Reconstruction loss have due to its nature tries to map similar classes as close as possible.</p>
 
-<p>In order to force this, we introduce the Kullback–Leibler divergence (KL divergence[2]) into the loss function. The KL divergence between two probability distributions simply measures how much they diverge from each other. Minimizing the KL divergence here means optimizing the probability distribution parameters (μ and σ) to closely resemble that of the target distribution.</p>
+<h3 id="beyond-vae">Beyond VAE</h3>
 
-<p>For VAEs, the KL loss is equivalent to the sum of all the KL divergences between the component Xi~N(μi, σi²) in X, and the standard normal[3]. It’s minimized when μi = 0, σi = 1.</p>
-
-<p>Intuitively, this loss encourages the encoder to distribute all encodings (for all types of inputs, eg. all MNIST numbers), evenly around the center of the latent space. If it tries to “cheat” by clustering them apart into specific regions, away from the origin, it will be penalized.</p>
-
-<p>Now, using purely KL loss results in a latent space results in encodings densely placed randomly, near the center of the latent space, with little regard for similarity among nearby encodings. The decoder finds it impossible to decode anything meaningful from this space, simply because there really isn’t any meaning.</p>
-
-<p>Optimizing using pure KL divergence loss</p>
-
-<p>Optimizing the two together, however, results in the generation of a latent space which maintains the similarity of nearby encodings on the local scale via clustering, yet globally, is very densely packed near the latent space origin (compare the axes with the original).</p>
-
-<p>Optimizing using both reconstruction loss and KL divergence loss</p>
-
-<p>Intuitively, this is the equilibrium reached by the cluster-forming nature of the reconstruction loss, and the dense packing nature of the KL loss, forming distinct clusters the decoder can decode. This is great, as it means when randomly generating, if you sample a vector from the same prior distribution of the encoded vectors, N(0, I), the decoder will successfully decode it. And if you’re interpolating, there are no sudden gaps between clusters, but a smooth mix of features a decoder can understand.
-&ldquo;&rdquo;&rdquo;</p>
+<p>VAEs are limited to due to blurred reconstruction and limited generative capacity. Researchers have been exploited the other deep learning and pipelines for generation tasks, Generative Adversarial Networks. Many models have been proposed till the date which are being improved day by day as more and more efficient training strategies are coming up along with higher computational capacities. A list of GANs presented <a href="https://github.com/hindupuravinash/the-gan-zoo" target="_blank">here</a>. VAEs are great way of beginning with generative methodology but if you are more focused on generating sharp, confident, and realistic outputs then one should look for GANs or other deep learning methods.</p>
 
 <h3 id="references">REFERENCES:</h3>
 
@@ -727,6 +714,10 @@ Deep Feature Consistent Variational Autoencoder. 2016</a></p>
 <a href="https://iq.opengenus.org/types-of-autoencoder/" target="_blank">Abhinav Prakash.
 Different types of Autoencoders. opengenus.org.
 University of Massachusetts, Amherst.</a></p>
+
+<p><a id="6">[6]</a>
+<a href="https://www.jeremyjordan.me/variational-autoencoders/" target="_blank">JEREMY JORDAN.
+Variational autoencoders, Data Science. 2018</a></p>
 
     </div>
 
