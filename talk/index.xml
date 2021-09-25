@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Recent &amp; Upcoming Talks | meliorate</title>
+    <title>Shreshth Saini</title>
     <link>https://shreshthsaini.github.io/talk/</link>
       <atom:link href="https://shreshthsaini.github.io/talk/index.xml" rel="self" type="application/rss+xml" />
-    <description>Recent &amp; Upcoming Talks</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright>
+    <description>Shreshth Saini</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright><lastBuildDate>Sat, 25 Sep 2021 15:06:24 +0530</lastBuildDate>
     <image>
       <url>https://shreshthsaini.github.io/img/icon-192.png</url>
-      <title>Recent &amp; Upcoming Talks</title>
+      <title>Shreshth Saini</title>
       <link>https://shreshthsaini.github.io/talk/</link>
     </image>
     
     <item>
-      <title></title>
-      <link>https://shreshthsaini.github.io/talk/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://shreshthsaini.github.io/talk/</guid>
+      <title>Poster Presentation at IEEE  ISBI 2021</title>
+      <link>https://shreshthsaini.github.io/talk/poster-presentation-at-ieee-isbi-2021/</link>
+      <pubDate>Sat, 25 Sep 2021 15:06:24 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/talk/poster-presentation-at-ieee-isbi-2021/</guid>
       <description></description>
     </item>
     
