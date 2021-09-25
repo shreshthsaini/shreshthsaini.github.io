@@ -5,12 +5,20 @@
     <link>https://shreshthsaini.github.io/categories/deep-learning/</link>
       <atom:link href="https://shreshthsaini.github.io/categories/deep-learning/index.xml" rel="self" type="application/rss+xml" />
     <description>Deep learning</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright><lastBuildDate>Mon, 31 Aug 2020 20:06:52 +0530</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright><lastBuildDate>Wed, 10 Mar 2021 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>Deep learning</title>
       <link>https://shreshthsaini.github.io/categories/deep-learning/</link>
     </image>
+    
+    <item>
+      <title>M2SLAe-Net: Multi-Scale Multi-Level Attention embedded Network for Retinal Vessel Segmentation(Abstract Presentation)</title>
+      <link>https://shreshthsaini.github.io/publication/m2slae-net-multi-scale-multi-level-attention-embedded-network-for-retinal-vessel-segmentation/</link>
+      <pubDate>Wed, 10 Mar 2021 00:00:00 +0000</pubDate>
+      <guid>https://shreshthsaini.github.io/publication/m2slae-net-multi-scale-multi-level-attention-embedded-network-for-retinal-vessel-segmentation/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Variational AutoEncoder</title>
@@ -122,14 +130,6 @@ Variational autoencoders, Data Science. 2018&lt;/a&gt;&lt;/p&gt;
       <link>https://shreshthsaini.github.io/publication/b-segnet-branched-segmentor-network-for-skin-lesion-segmentation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://shreshthsaini.github.io/publication/b-segnet-branched-segmentor-network-for-skin-lesion-segmentation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>M2SLAe-Net: Multi-Scale Multi-Level Attention embedded Network for Retinal Vessel Segmentation(Abstract Presentation)</title>
-      <link>https://shreshthsaini.github.io/publication/m2slae-net-multi-scale-multi-level-attention-embedded-network-for-retinal-vessel-segmentation/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://shreshthsaini.github.io/publication/m2slae-net-multi-scale-multi-level-attention-embedded-network-for-retinal-vessel-segmentation/</guid>
       <description></description>
     </item>
     

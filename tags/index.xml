@@ -5,7 +5,7 @@
     <link>https://shreshthsaini.github.io/tags/</link>
       <atom:link href="https://shreshthsaini.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <description>Tags</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright><lastBuildDate>Mon, 31 Aug 2020 20:06:52 +0530</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright><lastBuildDate>Wed, 10 Mar 2021 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>Tags</title>
@@ -13,17 +13,17 @@
     </image>
     
     <item>
-      <title>autoencoder</title>
-      <link>https://shreshthsaini.github.io/tags/autoencoder/</link>
-      <pubDate>Mon, 31 Aug 2020 20:06:52 +0530</pubDate>
-      <guid>https://shreshthsaini.github.io/tags/autoencoder/</guid>
+      <title>Biomedical Image Analysis</title>
+      <link>https://shreshthsaini.github.io/tags/biomedical-image-analysis/</link>
+      <pubDate>Wed, 10 Mar 2021 00:00:00 +0000</pubDate>
+      <guid>https://shreshthsaini.github.io/tags/biomedical-image-analysis/</guid>
       <description></description>
     </item>
     
     <item>
       <title>CNN</title>
       <link>https://shreshthsaini.github.io/tags/cnn/</link>
-      <pubDate>Mon, 31 Aug 2020 20:06:52 +0530</pubDate>
+      <pubDate>Wed, 10 Mar 2021 00:00:00 +0000</pubDate>
       <guid>https://shreshthsaini.github.io/tags/cnn/</guid>
       <description></description>
     </item>
@@ -31,8 +31,24 @@
     <item>
       <title>Deep learning</title>
       <link>https://shreshthsaini.github.io/tags/deep-learning/</link>
-      <pubDate>Mon, 31 Aug 2020 20:06:52 +0530</pubDate>
+      <pubDate>Wed, 10 Mar 2021 00:00:00 +0000</pubDate>
       <guid>https://shreshthsaini.github.io/tags/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Healthcare</title>
+      <link>https://shreshthsaini.github.io/tags/healthcare/</link>
+      <pubDate>Wed, 10 Mar 2021 00:00:00 +0000</pubDate>
+      <guid>https://shreshthsaini.github.io/tags/healthcare/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>autoencoder</title>
+      <link>https://shreshthsaini.github.io/tags/autoencoder/</link>
+      <pubDate>Mon, 31 Aug 2020 20:06:52 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/tags/autoencoder/</guid>
       <description></description>
     </item>
     
@@ -161,22 +177,6 @@
       <link>https://shreshthsaini.github.io/tags/non-ideal/</link>
       <pubDate>Thu, 06 Jun 2019 00:00:00 +0000</pubDate>
       <guid>https://shreshthsaini.github.io/tags/non-ideal/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Biomedical Image Analysis</title>
-      <link>https://shreshthsaini.github.io/tags/biomedical-image-analysis/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://shreshthsaini.github.io/tags/biomedical-image-analysis/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Healthcare</title>
-      <link>https://shreshthsaini.github.io/tags/healthcare/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://shreshthsaini.github.io/tags/healthcare/</guid>
       <description></description>
     </item>
     

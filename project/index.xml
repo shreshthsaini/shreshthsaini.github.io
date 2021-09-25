@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Projects | meliorate</title>
+    <title>Recent &amp; Upcoming Talks | meliorate</title>
     <link>https://shreshthsaini.github.io/project/</link>
       <atom:link href="https://shreshthsaini.github.io/project/index.xml" rel="self" type="application/rss+xml" />
-    <description>Projects</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright><lastBuildDate>Tue, 19 Jan 2016 22:17:42 +0530</lastBuildDate>
+    <description>Recent &amp; Upcoming Talks</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright>
     <image>
       <url>https://shreshthsaini.github.io/img/icon-192.png</url>
-      <title>Projects</title>
+      <title>Recent &amp; Upcoming Talks</title>
       <link>https://shreshthsaini.github.io/project/</link>
     </image>
-    
-    <item>
-      <title>Blank</title>
-      <link>https://shreshthsaini.github.io/project/blank/</link>
-      <pubDate>Tue, 19 Jan 2016 22:17:42 +0530</pubDate>
-      <guid>https://shreshthsaini.github.io/project/blank/</guid>
-      <description>&lt;p&gt;Blank&lt;/p&gt;
-</description>
-    </item>
     
   </channel>
 </rss>

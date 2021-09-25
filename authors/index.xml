@@ -5,7 +5,7 @@
     <link>https://shreshthsaini.github.io/authors/</link>
       <atom:link href="https://shreshthsaini.github.io/authors/index.xml" rel="self" type="application/rss+xml" />
     <description>Authors</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright><lastBuildDate>Mon, 31 Aug 2020 20:06:52 +0530</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright><lastBuildDate>Wed, 10 Mar 2021 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>Authors</title>
@@ -13,9 +13,17 @@
     </image>
     
     <item>
+      <title>Geetika Agrawal</title>
+      <link>https://shreshthsaini.github.io/authors/geetika-agrawal/</link>
+      <pubDate>Wed, 10 Mar 2021 00:00:00 +0000</pubDate>
+      <guid>https://shreshthsaini.github.io/authors/geetika-agrawal/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Shreshth Saini</title>
       <link>https://shreshthsaini.github.io/authors/shreshth-saini/</link>
-      <pubDate>Mon, 31 Aug 2020 20:06:52 +0530</pubDate>
+      <pubDate>Wed, 10 Mar 2021 00:00:00 +0000</pubDate>
       <guid>https://shreshthsaini.github.io/authors/shreshth-saini/</guid>
       <description></description>
     </item>
@@ -69,14 +77,6 @@
 
 &lt;p&gt;I completed my B.Tech in Electrical Engineering from &lt;a href=&#34;https://iitj.ac.in/&#34; target=&#34;_blank&#34;&gt;Indian Institue of Technology - Jodhpur&lt;/a&gt; in May, 2020. I was fortunate to work with &lt;a href=&#34;https://mornin-feng.com&#34; target=&#34;_blank&#34;&gt;Dr. Mengling &amp;lsquo;Mornin&amp;rsquo; Feng&lt;/a&gt; in Healthcare informatics at Healthcare AI group at National University of Singapore(NUS). During my undergrad, I was actively working with &lt;a href=&#34;http://home.iitj.ac.in/~akt/&#34; target=&#34;_blank&#34;&gt;Dr. Anil Kumar Tiwari&lt;/a&gt;, &lt;a href=&#34;http://home.iitj.ac.in/~rn/&#34; target=&#34;_blank&#34;&gt;Dr. Rajendra Nagar&lt;/a&gt;, and &lt;a href=&#34;http://home.iitj.ac.in/~dmishra/&#34; target=&#34;_blank&#34;&gt;Dr. Deepak Mishra&lt;/a&gt; in biomedical informatics, healtcare analytics and computer vision. I am eternally greatful to &lt;a href=&#34;http://faculty.iitmandi.ac.in/~aditya/&#34; target=&#34;_blank&#34;&gt;Dr. Aditya Nigam&lt;/a&gt;, who identified and steered my research interest early in my undergrad.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Geetika Agrawal</title>
-      <link>https://shreshthsaini.github.io/authors/geetika-agrawal/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://shreshthsaini.github.io/authors/geetika-agrawal/</guid>
-      <description></description>
     </item>
     
     <item>

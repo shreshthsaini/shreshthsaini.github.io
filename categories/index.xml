@@ -5,12 +5,28 @@
     <link>https://shreshthsaini.github.io/categories/</link>
       <atom:link href="https://shreshthsaini.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <description>Categories</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright><lastBuildDate>Mon, 31 Aug 2020 20:06:52 +0530</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright><lastBuildDate>Wed, 10 Mar 2021 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>Categories</title>
       <link>https://shreshthsaini.github.io/categories/</link>
     </image>
+    
+    <item>
+      <title>Deep learning</title>
+      <link>https://shreshthsaini.github.io/categories/deep-learning/</link>
+      <pubDate>Wed, 10 Mar 2021 00:00:00 +0000</pubDate>
+      <guid>https://shreshthsaini.github.io/categories/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Healthcare Informatics</title>
+      <link>https://shreshthsaini.github.io/categories/healthcare-informatics/</link>
+      <pubDate>Wed, 10 Mar 2021 00:00:00 +0000</pubDate>
+      <guid>https://shreshthsaini.github.io/categories/healthcare-informatics/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Autoencoder</title>
@@ -25,14 +41,6 @@
       <link>https://shreshthsaini.github.io/categories/cnn/</link>
       <pubDate>Mon, 31 Aug 2020 20:06:52 +0530</pubDate>
       <guid>https://shreshthsaini.github.io/categories/cnn/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Deep learning</title>
-      <link>https://shreshthsaini.github.io/categories/deep-learning/</link>
-      <pubDate>Mon, 31 Aug 2020 20:06:52 +0530</pubDate>
-      <guid>https://shreshthsaini.github.io/categories/deep-learning/</guid>
       <description></description>
     </item>
     
@@ -57,14 +65,6 @@
       <link>https://shreshthsaini.github.io/categories/ml/</link>
       <pubDate>Mon, 02 Mar 2020 15:22:25 +0530</pubDate>
       <guid>https://shreshthsaini.github.io/categories/ml/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Healthcare Informatics</title>
-      <link>https://shreshthsaini.github.io/categories/healthcare-informatics/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://shreshthsaini.github.io/categories/healthcare-informatics/</guid>
       <description></description>
     </item>
     
