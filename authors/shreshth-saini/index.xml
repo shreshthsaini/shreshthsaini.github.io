@@ -93,7 +93,7 @@ Variational autoencoders, Data Science. 2018&lt;/a&gt;&lt;/p&gt;
     </item>
     
     <item>
-      <title>Detector-SegMentor Network for Skin Lesion Localization and Segmentation[Link](https://link.springer.com/chapter/10.1007/978-981-15-8697-2_55)</title>
+      <title>Detector-SegMentor Network for Skin Lesion Localization and Segmentation</title>
       <link>https://shreshthsaini.github.io/publication/detector-segmentor-network-for-skin-lesion-localization-and-segmentation/</link>
       <pubDate>Fri, 14 Aug 2020 21:21:53 +0530</pubDate>
       <guid>https://shreshthsaini.github.io/publication/detector-segmentor-network-for-skin-lesion-localization-and-segmentation/</guid>
@@ -357,6 +357,38 @@ One way to think about these arrays:&lt;/p&gt;
 &lt;li&gt;&lt;a href=&#34;http://koreabizwire.com/scientists-find-whole-genome-sequencing-of-korean-individual/67503&#34; target=&#34;_blank&#34;&gt;http://koreabizwire.com/scientists-find-whole-genome-sequencing-of-korean-individual/67503&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
+    </item>
+    
+    <item>
+      <title>PixISegNet:Pixel Level Iris Segmentation Network using Convolutional Encoder-Decoder with Stacked Hourglass Bottleneck</title>
+      <link>https://shreshthsaini.github.io/publication/pixlsegnet/</link>
+      <pubDate>Thu, 06 Jun 2019 00:00:00 +0000</pubDate>
+      <guid>https://shreshthsaini.github.io/publication/pixlsegnet/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>(M)SLAe-Net: Multi-Scale Multi-Level Attention embedded Network for Retinal Vessel Segmentation</title>
+      <link>https://shreshthsaini.github.io/publication/mslae-net-multi-scale-multi-level-attention-embedded-network-for-retinal-vessel-segmentation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://shreshthsaini.github.io/publication/mslae-net-multi-scale-multi-level-attention-embedded-network-for-retinal-vessel-segmentation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>B-SegNet: branched-SegMentor network for skin lesion segmentation</title>
+      <link>https://shreshthsaini.github.io/publication/b-segnet-branched-segmentor-network-for-skin-lesion-segmentation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://shreshthsaini.github.io/publication/b-segnet-branched-segmentor-network-for-skin-lesion-segmentation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>M2SLAe-Net: Multi-Scale Multi-Level Attention embedded Network for Retinal Vessel Segmentation(Abstract Presentation)</title>
+      <link>https://shreshthsaini.github.io/publication/m2slae-net-multi-scale-multi-level-attention-embedded-network-for-retinal-vessel-segmentation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://shreshthsaini.github.io/publication/m2slae-net-multi-scale-multi-level-attention-embedded-network-for-retinal-vessel-segmentation/</guid>
+      <description></description>
     </item>
     
   </channel>

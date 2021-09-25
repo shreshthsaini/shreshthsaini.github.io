@@ -28,7 +28,7 @@
   
     
   
-  <meta name="description" content="Biometric segmentation to obtain the region of interest under non-cooperative conditions is a fundamental and essential problem in biometric research. In the past few decades, researchers have widely studied this problem. For instance, non-ideal iris images cause poor segmentation in case of non-regular reflections, blurred boundaries, eyelids occlusion, and off-angle rotations. In this paper, we present a new iris ROI segmentation algorithm using a deep convolutional neural network to achieve the state-of-the-art segmentation performance on well-known iris image datasets. Our model surpasses the performance of state- of-the-art Iris-DenseNet framework by applying several strategies, including multi-scale/ multi-orientation training, model training from scratch, and proper hyper-parameterization of crucial parameters. The proposed PixISegNet consists of an autoencoder which primarily uses long and short skip connections and a stacked hourglass network between encoder and decoder. There is a continuous scale up-down in stacked hourglass networks, which helps in extracting features at multiple scales and robustly segments the iris even in an occluded environment. Furthermore, cross entropy loss and content loss optimizes the proposed model. The content loss considers the high-level features, thus operating at a different scale of abstraction, which compliments the cross-entropy loss, which considers pixel-to-pixel classification loss. Additionally, we have checked the robustness of the proposed network by rotating images to certain degrees with a change in the aspect ratio along with blurring and change in contrast. Experimental results on the various iris characteristics demonstrate the superiority of the proposed method over state-of-the-art iris segmentation methods considered in this paper. In order to demonstrate the network generalization, we deploy a very stringent T OT A (i.e train once test all) strategy. Our proposed method achieves E1 scores of 0.00672, 0.00916 and 0.00117 on UBIRIS-V2, IIT-D and CASIA V3.0 Interval datasets respectively. Moreover, such a deep convolutional neural network for segmentation when included in an end-to-end iris recognition system with a siamese based matching network will augment the performance of the siamese network. It facilitates the siamese matching network by selectively removing all of the unwanted (non-iris) pixels, to learn the salient iris features and provide a better recognition performance.">
+  <meta name="description" content="Robust Iris Segmentation network">
 
   
   <link rel="alternate" hreflang="en-us" href="https://shreshthsaini.github.io/publication/pixlsegnet/">
@@ -114,14 +114,14 @@
   
   <meta property="og:site_name" content="meliorate">
   <meta property="og:url" content="https://shreshthsaini.github.io/publication/pixlsegnet/">
-  <meta property="og:title" content="PixISegNet: Pixel Level Iris Segmentation Network using Convolutional Encoder-Decoder with Stacked Hourglass Bottleneck | meliorate">
-  <meta property="og:description" content="Biometric segmentation to obtain the region of interest under non-cooperative conditions is a fundamental and essential problem in biometric research. In the past few decades, researchers have widely studied this problem. For instance, non-ideal iris images cause poor segmentation in case of non-regular reflections, blurred boundaries, eyelids occlusion, and off-angle rotations. In this paper, we present a new iris ROI segmentation algorithm using a deep convolutional neural network to achieve the state-of-the-art segmentation performance on well-known iris image datasets. Our model surpasses the performance of state- of-the-art Iris-DenseNet framework by applying several strategies, including multi-scale/ multi-orientation training, model training from scratch, and proper hyper-parameterization of crucial parameters. The proposed PixISegNet consists of an autoencoder which primarily uses long and short skip connections and a stacked hourglass network between encoder and decoder. There is a continuous scale up-down in stacked hourglass networks, which helps in extracting features at multiple scales and robustly segments the iris even in an occluded environment. Furthermore, cross entropy loss and content loss optimizes the proposed model. The content loss considers the high-level features, thus operating at a different scale of abstraction, which compliments the cross-entropy loss, which considers pixel-to-pixel classification loss. Additionally, we have checked the robustness of the proposed network by rotating images to certain degrees with a change in the aspect ratio along with blurring and change in contrast. Experimental results on the various iris characteristics demonstrate the superiority of the proposed method over state-of-the-art iris segmentation methods considered in this paper. In order to demonstrate the network generalization, we deploy a very stringent T OT A (i.e train once test all) strategy. Our proposed method achieves E1 scores of 0.00672, 0.00916 and 0.00117 on UBIRIS-V2, IIT-D and CASIA V3.0 Interval datasets respectively. Moreover, such a deep convolutional neural network for segmentation when included in an end-to-end iris recognition system with a siamese based matching network will augment the performance of the siamese network. It facilitates the siamese matching network by selectively removing all of the unwanted (non-iris) pixels, to learn the salient iris features and provide a better recognition performance."><meta property="og:image" content="https://shreshthsaini.github.io/img/icon-192.png">
+  <meta property="og:title" content="PixISegNet:Pixel Level Iris Segmentation Network using Convolutional Encoder-Decoder with Stacked Hourglass Bottleneck | meliorate">
+  <meta property="og:description" content="Robust Iris Segmentation network"><meta property="og:image" content="https://shreshthsaini.github.io/img/icon-192.png">
   <meta property="twitter:image" content="https://shreshthsaini.github.io/img/icon-192.png"><meta property="og:locale" content="en-us">
   
     
-      <meta property="article:published_time" content="2019-06-06T00:00:00&#43;05:30">
+      <meta property="article:published_time" content="2019-06-06T00:00:00&#43;00:00">
     
-    <meta property="article:modified_time" content="2019-06-06T00:00:00&#43;05:30">
+    <meta property="article:modified_time" content="2019-06-06T00:00:00&#43;00:00">
   
 
   
@@ -143,8 +143,6 @@
 
 
 
-
-  
 
 
 
@@ -158,15 +156,10 @@
     "@type": "WebPage",
     "@id": "https://shreshthsaini.github.io/publication/pixlsegnet/"
   },
-  "headline": "PixISegNet: Pixel Level Iris Segmentation Network using Convolutional Encoder-Decoder with Stacked Hourglass Bottleneck",
+  "headline": "PixISegNet:Pixel Level Iris Segmentation Network using Convolutional Encoder-Decoder with Stacked Hourglass Bottleneck",
   
-  "datePublished": "2019-06-06T00:00:00+05:30",
-  "dateModified": "2019-06-06T00:00:00+05:30",
-  
-  "author": {
-    "@type": "Person",
-    "name": "Shreshth Saini"
-  },
+  "datePublished": "2019-06-06T00:00:00Z",
+  "dateModified": "2019-06-06T00:00:00Z",
   
   "publisher": {
     "@type": "Organization",
@@ -176,7 +169,7 @@
       "url": "https://shreshthsaini.github.io/img/icon-512.png"
     }
   },
-  "description": "Biometric segmentation to obtain the region of interest under non-cooperative conditions is a fundamental and essential problem in biometric research. In the past few decades, researchers have widely studied this problem. For instance, non-ideal iris images cause poor segmentation in case of non-regular reflections, blurred boundaries, eyelids occlusion, and off-angle rotations. In this paper, we present a new iris ROI segmentation algorithm using a deep convolutional neural network to achieve the state-of-the-art segmentation performance on well-known iris image datasets. Our model surpasses the performance of state- of-the-art Iris-DenseNet framework by applying several strategies, including multi-scale/ multi-orientation training, model training from scratch, and proper hyper-parameterization of crucial parameters. The proposed PixISegNet consists of an autoencoder which primarily uses long and short skip connections and a stacked hourglass network between encoder and decoder. There is a continuous scale up-down in stacked hourglass networks, which helps in extracting features at multiple scales and robustly segments the iris even in an occluded environment. Furthermore, cross entropy loss and content loss optimizes the proposed model. The content loss considers the high-level features, thus operating at a different scale of abstraction, which compliments the cross-entropy loss, which considers pixel-to-pixel classification loss. Additionally, we have checked the robustness of the proposed network by rotating images to certain degrees with a change in the aspect ratio along with blurring and change in contrast. Experimental results on the various iris characteristics demonstrate the superiority of the proposed method over state-of-the-art iris segmentation methods considered in this paper. In order to demonstrate the network generalization, we deploy a very stringent T OT A (i.e train once test all) strategy. Our proposed method achieves E1 scores of 0.00672, 0.00916 and 0.00117 on UBIRIS-V2, IIT-D and CASIA V3.0 Interval datasets respectively. Moreover, such a deep convolutional neural network for segmentation when included in an end-to-end iris recognition system with a siamese based matching network will augment the performance of the siamese network. It facilitates the siamese matching network by selectively removing all of the unwanted (non-iris) pixels, to learn the salient iris features and provide a better recognition performance."
+  "description": "Robust Iris Segmentation network"
 }
 </script>
 
@@ -194,7 +187,7 @@
 
 
 
-  <title>PixISegNet: Pixel Level Iris Segmentation Network using Convolutional Encoder-Decoder with Stacked Hourglass Bottleneck | meliorate</title>
+  <title>PixISegNet:Pixel Level Iris Segmentation Network using Convolutional Encoder-Decoder with Stacked Hourglass Bottleneck | meliorate</title>
 
 </head>
 
@@ -469,7 +462,7 @@
   
   
 <div class="article-container pt-3">
-  <h1>PixISegNet: Pixel Level Iris Segmentation Network using Convolutional Encoder-Decoder with Stacked Hourglass Bottleneck</h1>
+  <h1>PixISegNet:Pixel Level Iris Segmentation Network using Convolutional Encoder-Decoder with Stacked Hourglass Bottleneck</h1>
 
   
 
@@ -480,6 +473,18 @@
 
 <div class="article-metadata">
 
+  
+  
+  
+  
+  <div>
+    
+
+
+
+  <span><a href="/authors/ranjeet-ranjan-jha/">Ranjeet Ranjan Jha</a></span>, <span><a href="/authors/gaurav-jaswal/">Gaurav Jaswal</a></span>, <span><a href="/authors/shreshth-saini/">Shreshth Saini</a></span>, <span><a href="/authors/divij-gupta/">Divij Gupta</a></span>, <span><a href="/authors/aditya-nigam/">Aditya Nigam</a></span>
+
+  </div>
   
   
 
@@ -521,7 +526,7 @@
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=https://shreshthsaini.github.io/publication/pixlsegnet/&amp;text=PixISegNet:%20Pixel%20Level%20Iris%20Segmentation%20Network%20using%20Convolutional%20Encoder-Decoder%20with%20Stacked%20Hourglass%20Bottleneck" target="_blank" rel="noopener" class="share-btn-twitter">
+        <a href="https://twitter.com/intent/tweet?url=https://shreshthsaini.github.io/publication/pixlsegnet/&amp;text=PixISegNet:Pixel%20Level%20Iris%20Segmentation%20Network%20using%20Convolutional%20Encoder-Decoder%20with%20Stacked%20Hourglass%20Bottleneck" target="_blank" rel="noopener" class="share-btn-twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -534,7 +539,7 @@
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=https://shreshthsaini.github.io/publication/pixlsegnet/&amp;t=PixISegNet:%20Pixel%20Level%20Iris%20Segmentation%20Network%20using%20Convolutional%20Encoder-Decoder%20with%20Stacked%20Hourglass%20Bottleneck" target="_blank" rel="noopener" class="share-btn-facebook">
+        <a href="https://www.facebook.com/sharer.php?u=https://shreshthsaini.github.io/publication/pixlsegnet/&amp;t=PixISegNet:Pixel%20Level%20Iris%20Segmentation%20Network%20using%20Convolutional%20Encoder-Decoder%20with%20Stacked%20Hourglass%20Bottleneck" target="_blank" rel="noopener" class="share-btn-facebook">
           <i class="fab fa-facebook-f"></i>
         </a>
       </li>
@@ -547,7 +552,7 @@
       
       
       <li>
-        <a href="mailto:?subject=PixISegNet:%20Pixel%20Level%20Iris%20Segmentation%20Network%20using%20Convolutional%20Encoder-Decoder%20with%20Stacked%20Hourglass%20Bottleneck&amp;body=https://shreshthsaini.github.io/publication/pixlsegnet/" target="_blank" rel="noopener" class="share-btn-email">
+        <a href="mailto:?subject=PixISegNet:Pixel%20Level%20Iris%20Segmentation%20Network%20using%20Convolutional%20Encoder-Decoder%20with%20Stacked%20Hourglass%20Bottleneck&amp;body=https://shreshthsaini.github.io/publication/pixlsegnet/" target="_blank" rel="noopener" class="share-btn-email">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -560,7 +565,7 @@
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=https://shreshthsaini.github.io/publication/pixlsegnet/&amp;title=PixISegNet:%20Pixel%20Level%20Iris%20Segmentation%20Network%20using%20Convolutional%20Encoder-Decoder%20with%20Stacked%20Hourglass%20Bottleneck" target="_blank" rel="noopener" class="share-btn-linkedin">
+        <a href="https://www.linkedin.com/shareArticle?url=https://shreshthsaini.github.io/publication/pixlsegnet/&amp;title=PixISegNet:Pixel%20Level%20Iris%20Segmentation%20Network%20using%20Convolutional%20Encoder-Decoder%20with%20Stacked%20Hourglass%20Bottleneck" target="_blank" rel="noopener" class="share-btn-linkedin">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -573,7 +578,7 @@
       
       
       <li>
-        <a href="https://web.whatsapp.com/send?text=PixISegNet:%20Pixel%20Level%20Iris%20Segmentation%20Network%20using%20Convolutional%20Encoder-Decoder%20with%20Stacked%20Hourglass%20Bottleneck%20https://shreshthsaini.github.io/publication/pixlsegnet/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+        <a href="https://web.whatsapp.com/send?text=PixISegNet:Pixel%20Level%20Iris%20Segmentation%20Network%20using%20Convolutional%20Encoder-Decoder%20with%20Stacked%20Hourglass%20Bottleneck%20https://shreshthsaini.github.io/publication/pixlsegnet/" target="_blank" rel="noopener" class="share-btn-whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -586,7 +591,7 @@
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=https://shreshthsaini.github.io/publication/pixlsegnet/&amp;title=PixISegNet:%20Pixel%20Level%20Iris%20Segmentation%20Network%20using%20Convolutional%20Encoder-Decoder%20with%20Stacked%20Hourglass%20Bottleneck" target="_blank" rel="noopener" class="share-btn-weibo">
+        <a href="https://service.weibo.com/share/share.php?url=https://shreshthsaini.github.io/publication/pixlsegnet/&amp;title=PixISegNet:Pixel%20Level%20Iris%20Segmentation%20Network%20using%20Convolutional%20Encoder-Decoder%20with%20Stacked%20Hourglass%20Bottleneck" target="_blank" rel="noopener" class="share-btn-weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>
@@ -646,6 +651,14 @@
 
 
 
+
+  
+  
+    
+  
+<a class="btn btn-outline-primary my-1 mr-1" href="https://ietresearch.onlinelibrary.wiley.com/doi/10.1049/iet-bmt.2019.0025" target="_blank" rel="noopener">
+  Source Document
+</a>
 
 
 
@@ -718,8 +731,6 @@
   
   <a class="badge badge-light" href="/tags/non-ideal/">Non-ideal</a>
   
-  <a class="badge badge-light" href="/tags/dice-similarity-coefficient/">Dice Similarity Coefficient</a>
-  
 </div>
 
 
@@ -733,91 +744,28 @@
 
 
   
-
-
-
-
-
-
-  
-  
   
     
+  
+  
+
+
+
+
+
+
+  
+  
   
   
   <div class="media author-card">
     
-      
-      <img class="portrait mr-3" src="/authors/admin/avatar_hu60fb1f5ae598f469c64de1c1741f56d5_26697_250x250_fill_q90_lanczos_center.jpg" alt="Avatar">
-    
 
     <div class="media-body">
-      <h5 class="card-title"><a href="https://shreshthsaini.github.io/">Shreshth Saini</a></h5>
-      <h6 class="card-subtitle">Research Engineer (AI)</h6>
-      <p class="card-text">Research Engineer-AI at Arkray, Inc. Pursing my interest in R&amp;D happening at the intersection of Computer vision, Machine Learning, Biomedical and Healthcare Informatics.</p>
+      <h5 class="card-title"><a href="/authors/ranjeet-ranjan-jha/"></a></h5>
+      
+      
       <ul class="network-icon" aria-hidden="true">
-        
-          
-          
-          
-            
-          
-          
-          
-          
-          
-          <li>
-            <a href="mailto:saini.2@iitj.ac.in" >
-              <i class="fas fa-envelope"></i>
-            </a>
-          </li>
-        
-          
-          
-          
-            
-          
-          
-          
-          
-          
-            
-          
-          <li>
-            <a href="https://twitter.com/shreshthsaini" target="_blank" rel="noopener">
-              <i class="fab fa-twitter"></i>
-            </a>
-          </li>
-        
-          
-          
-          
-          
-          
-          
-          
-            
-          
-          <li>
-            <a href="https://scholar.google.co.in/citations?user=OpZ-5K4AAAAJ&amp;hl=en" target="_blank" rel="noopener">
-              <i class="ai ai-google-scholar"></i>
-            </a>
-          </li>
-        
-          
-          
-          
-          
-          
-          
-          
-            
-          
-          <li>
-            <a href="/files/cv.pdf" >
-              <i class="ai ai-cv"></i>
-            </a>
-          </li>
         
       </ul>
     </div>

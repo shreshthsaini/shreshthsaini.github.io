@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Geetika Agrawal | meliorate</title>
+    <link>https://shreshthsaini.github.io/authors/geetika-agrawal/</link>
+      <atom:link href="https://shreshthsaini.github.io/authors/geetika-agrawal/index.xml" rel="self" type="application/rss+xml" />
+    <description>Geetika Agrawal</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright>
+    <image>
+      <url>https://shreshthsaini.github.io/img/icon-192.png</url>
+      <title>Geetika Agrawal</title>
+      <link>https://shreshthsaini.github.io/authors/geetika-agrawal/</link>
+    </image>
+    
+    <item>
+      <title>(M)SLAe-Net: Multi-Scale Multi-Level Attention embedded Network for Retinal Vessel Segmentation</title>
+      <link>https://shreshthsaini.github.io/publication/mslae-net-multi-scale-multi-level-attention-embedded-network-for-retinal-vessel-segmentation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://shreshthsaini.github.io/publication/mslae-net-multi-scale-multi-level-attention-embedded-network-for-retinal-vessel-segmentation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>M2SLAe-Net: Multi-Scale Multi-Level Attention embedded Network for Retinal Vessel Segmentation(Abstract Presentation)</title>
+      <link>https://shreshthsaini.github.io/publication/m2slae-net-multi-scale-multi-level-attention-embedded-network-for-retinal-vessel-segmentation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://shreshthsaini.github.io/publication/m2slae-net-multi-scale-multi-level-attention-embedded-network-for-retinal-vessel-segmentation/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
