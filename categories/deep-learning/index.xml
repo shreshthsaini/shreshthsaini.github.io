@@ -5,7 +5,7 @@
     <link>https://shreshthsaini.github.io/categories/deep-learning/</link>
       <atom:link href="https://shreshthsaini.github.io/categories/deep-learning/index.xml" rel="self" type="application/rss+xml" />
     <description>Deep learning</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2020</copyright><lastBuildDate>Mon, 31 Aug 2020 20:06:52 +0530</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright><lastBuildDate>Mon, 31 Aug 2020 20:06:52 +0530</lastBuildDate>
     <image>
       <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>Deep learning</title>
@@ -93,11 +93,11 @@ Variational autoencoders, Data Science. 2018&lt;/a&gt;&lt;/p&gt;
     </item>
     
     <item>
-      <title>Detector-SegMentor Network for Skin Lesion Localization and Segmentation</title>
+      <title>Detector-SegMentor Network for Skin Lesion Localization and Segmentation[Link](https://link.springer.com/chapter/10.1007/978-981-15-8697-2_55)</title>
       <link>https://shreshthsaini.github.io/publication/detector-segmentor-network-for-skin-lesion-localization-and-segmentation/</link>
       <pubDate>Fri, 14 Aug 2020 21:21:53 +0530</pubDate>
       <guid>https://shreshthsaini.github.io/publication/detector-segmentor-network-for-skin-lesion-localization-and-segmentation/</guid>
-      <description>&lt;p&gt;This work has been accpeted at NCVPRIPG-19&lt;/p&gt;
+      <description>&lt;p&gt;This work was presented at NCVPRIPG-19, which is a sister conference of ICVGIP. Top Indian conference on Computer Vision, Pattern Recognition, Image Processing, and Graphics.&lt;/p&gt;
 </description>
     </item>
     
