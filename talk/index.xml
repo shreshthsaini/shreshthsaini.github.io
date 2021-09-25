@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Shreshth Saini</title>
+    <title>Talks | Shreshth Saini</title>
     <link>https://shreshthsaini.github.io/talk/</link>
       <atom:link href="https://shreshthsaini.github.io/talk/index.xml" rel="self" type="application/rss+xml" />
-    <description>Shreshth Saini</description>
+    <description>Talks</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright><lastBuildDate>Sat, 25 Sep 2021 15:06:24 +0530</lastBuildDate>
     <image>
       <url>https://shreshthsaini.github.io/img/icon-192.png</url>
-      <title>Shreshth Saini</title>
+      <title>Talks</title>
       <link>https://shreshthsaini.github.io/talk/</link>
     </image>
     
