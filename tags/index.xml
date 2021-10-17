@@ -5,7 +5,7 @@
     <link>https://shreshthsaini.github.io/tags/</link>
       <atom:link href="https://shreshthsaini.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <description>Tags</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright><lastBuildDate>Wed, 10 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright><lastBuildDate>Sat, 14 Aug 2021 21:21:53 +0530</lastBuildDate>
     <image>
       <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>Tags</title>
@@ -15,7 +15,7 @@
     <item>
       <title>Biomedical Image Analysis</title>
       <link>https://shreshthsaini.github.io/tags/biomedical-image-analysis/</link>
-      <pubDate>Wed, 10 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 14 Aug 2021 21:21:53 +0530</pubDate>
       <guid>https://shreshthsaini.github.io/tags/biomedical-image-analysis/</guid>
       <description></description>
     </item>
@@ -23,7 +23,7 @@
     <item>
       <title>CNN</title>
       <link>https://shreshthsaini.github.io/tags/cnn/</link>
-      <pubDate>Wed, 10 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 14 Aug 2021 21:21:53 +0530</pubDate>
       <guid>https://shreshthsaini.github.io/tags/cnn/</guid>
       <description></description>
     </item>
@@ -31,7 +31,7 @@
     <item>
       <title>Deep learning</title>
       <link>https://shreshthsaini.github.io/tags/deep-learning/</link>
-      <pubDate>Wed, 10 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 14 Aug 2021 21:21:53 +0530</pubDate>
       <guid>https://shreshthsaini.github.io/tags/deep-learning/</guid>
       <description></description>
     </item>
@@ -39,8 +39,16 @@
     <item>
       <title>Healthcare</title>
       <link>https://shreshthsaini.github.io/tags/healthcare/</link>
-      <pubDate>Wed, 10 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 14 Aug 2021 21:21:53 +0530</pubDate>
       <guid>https://shreshthsaini.github.io/tags/healthcare/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dice Similarity Coefficient</title>
+      <link>https://shreshthsaini.github.io/tags/dice-similarity-coefficient/</link>
+      <pubDate>Mon, 14 Jun 2021 21:21:53 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/tags/dice-similarity-coefficient/</guid>
       <description></description>
     </item>
     
@@ -113,14 +121,6 @@
       <link>https://shreshthsaini.github.io/tags/dermoscopic/</link>
       <pubDate>Fri, 14 Aug 2020 21:21:53 +0530</pubDate>
       <guid>https://shreshthsaini.github.io/tags/dermoscopic/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Dice Similarity Coefficient</title>
-      <link>https://shreshthsaini.github.io/tags/dice-similarity-coefficient/</link>
-      <pubDate>Fri, 14 Aug 2020 21:21:53 +0530</pubDate>
-      <guid>https://shreshthsaini.github.io/tags/dice-similarity-coefficient/</guid>
       <description></description>
     </item>
     

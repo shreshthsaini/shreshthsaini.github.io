@@ -5,12 +5,20 @@
     <link>https://shreshthsaini.github.io/tags/dice-similarity-coefficient/</link>
       <atom:link href="https://shreshthsaini.github.io/tags/dice-similarity-coefficient/index.xml" rel="self" type="application/rss+xml" />
     <description>Dice Similarity Coefficient</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright><lastBuildDate>Fri, 14 Aug 2020 21:21:53 +0530</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2021</copyright><lastBuildDate>Mon, 14 Jun 2021 21:21:53 +0530</lastBuildDate>
     <image>
       <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>Dice Similarity Coefficient</title>
       <link>https://shreshthsaini.github.io/tags/dice-similarity-coefficient/</link>
     </image>
+    
+    <item>
+      <title>B-SegNet: branched-SegMentor network for skin lesion segmentation</title>
+      <link>https://shreshthsaini.github.io/publication/b-segnet-branched-segmentor-network-for-skin-lesion-segmentation/</link>
+      <pubDate>Mon, 14 Jun 2021 21:21:53 +0530</pubDate>
+      <guid>https://shreshthsaini.github.io/publication/b-segnet-branched-segmentor-network-for-skin-lesion-segmentation/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Detector-SegMentor Network for Skin Lesion Localization and Segmentation</title>
@@ -19,14 +27,6 @@
       <guid>https://shreshthsaini.github.io/publication/detector-segmentor-network-for-skin-lesion-localization-and-segmentation/</guid>
       <description>&lt;p&gt;This work was presented at NCVPRIPG-19, which is a sister conference of ICVGIP. Top Indian conference on Computer Vision, Pattern Recognition, Image Processing, and Graphics.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>B-SegNet: branched-SegMentor network for skin lesion segmentation</title>
-      <link>https://shreshthsaini.github.io/publication/b-segnet-branched-segmentor-network-for-skin-lesion-segmentation/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://shreshthsaini.github.io/publication/b-segnet-branched-segmentor-network-for-skin-lesion-segmentation/</guid>
-      <description></description>
     </item>
     
   </channel>
