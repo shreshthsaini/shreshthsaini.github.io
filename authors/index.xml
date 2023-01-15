@@ -5,7 +5,7 @@
     <link>https://shreshthsaini.github.io/authors/</link>
       <atom:link href="https://shreshthsaini.github.io/authors/index.xml" rel="self" type="application/rss+xml" />
     <description>Authors</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2022</copyright><lastBuildDate>Sat, 14 Aug 2021 21:21:53 +0530</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><copyright>© 2023</copyright><lastBuildDate>Sat, 14 Aug 2021 21:21:53 +0530</lastBuildDate>
     <image>
       <url>https://shreshthsaini.github.io/img/icon-192.png</url>
       <title>Authors</title>
@@ -89,7 +89,7 @@
       <link>https://shreshthsaini.github.io/authors/admin/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://shreshthsaini.github.io/authors/admin/</guid>
-      <description>&lt;p&gt;I am a PhD student at the Laboratory for Image and Video Engineering (&lt;a href=&#34;https://live.ece.utexas.edu/&#34; target=&#34;_blank&#34;&gt;LIVE&lt;/a&gt;) at University of Texas at Austin. I am advised bt Professor Alan C Bovik. My current research focus is on computer vision, deep learning, and high dynamic range video content.&lt;/p&gt;
+      <description>&lt;p&gt;I am a PhD student at the Laboratory for Image and Video Engineering (&lt;a href=&#34;https://live.ece.utexas.edu/&#34; target=&#34;_blank&#34;&gt;LIVE&lt;/a&gt;) at University of Texas at Austin. I am advised by Professor Alan C Bovik. My current research focus is on computer vision, deep learning, and high dynamic range video content.&lt;/p&gt;
 
 &lt;p&gt;Before this, I have worked as Research Engineer/Machine Learning Engineer at &lt;a href=&#34;https://biomind.ai/&#34; target=&#34;_blank&#34;&gt;BioMind&lt;/a&gt;, Singapore and as Research Engineer - AI at &lt;a href=&#34;http://www.arkray.co.jp/english/&#34; target=&#34;_blank&#34;&gt;Arkray, Inc.&lt;/a&gt;. Where I worked on developing industry leading medical AI solutions. Notably, I have been working on challenging pathological datasets to develope highly reliable and light deep learning models which could be deployed on devices like &lt;a href=&#34;http://www.arkray.co.jp/english/products/laboratory/urinalysis_analyzers/ai-4510.html&#34; target=&#34;_blank&#34;&gt;Aution-Eye&lt;/a&gt;.&lt;/p&gt;
 
