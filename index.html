@@ -15,6 +15,7 @@
   <style>
   #more {display: none;}
   </style>
+  
 </head>
 
 <body>
@@ -735,5 +736,48 @@ function servicesFunction() {
     </tr>
   </table>
 </body>
+
+<style>
+  body {
+    cursor: none;
+  }
+
+  #cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: blue;
+    pointer-events: none;
+    transform: translate(-50%, -50%); /* Center the cursor */
+    transition: width 0.1s ease-out, height 0.1s ease-out; /* Smooth transition */
+    z-index: 1000;
+  }
+
+  body.clicked #cursor {
+    width: 30px;
+    height: 30px;
+  }
+</style>
+
+<div id="cursor"></div>
+
+<script>
+  document.addEventListener('mousemove', function(e) {
+    const cursor = document.getElementById('cursor');
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+
+  document.addEventListener('mousedown', function() {
+    document.body.classList.add('clicked');
+  });
+
+  document.addEventListener('mouseup', function() {
+    document.body.classList.remove('clicked');
+  });
+</script>
 
 </html>
