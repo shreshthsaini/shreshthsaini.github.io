@@ -721,6 +721,13 @@ function servicesFunction() {
     	
 <!--==========================================================================================-->
 
-<script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=jgy4unsMrAZelCO909ghCVFsfJl5bSYJhOWARYTbZ-o"></script>
-
+<script type="text/javascript">
+  var clstr_globe_options = {
+    element: 'clstr_globe', // ID of the container element
+    width: 200,             // Width of the globe (in pixels)
+    height: 200              // Height of the globe (in pixels)
+  };
+</script>
+<div id="clstr_globe"></div>
+<script type="text/javascript" src="//clustrmaps.com/globe.js?d=jgy4unsMrAZelCO909ghCVFsfJl5bSYJhOWARYTbZ-o"></script>
 </html>
