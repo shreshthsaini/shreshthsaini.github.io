@@ -7,13 +7,105 @@
 
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
   <link rel="icon" type="image/jpg" href="images/UT_profile.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500;600&display=swap" rel="stylesheet">
+  
   <style>
+  :root {
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --text-muted: #6b6b6b;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --bg: #ffffff;
+    --border: #e5e5e5;
+  }
+  
+  body {
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-primary);
+    background: var(--bg);
+  }
+  
   div {
     opacity: 0.5;
   }
-  </style>
-  <style>
+  
   #more {display: none;}
+  
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  
+  a:hover {
+    color: var(--accent-hover);
+  }
+  
+  name {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: 36px;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+  }
+  
+  heading {
+    font-family: 'IBM Plex Serif', Georgia, serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+  }
+  
+  papertitle {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  
+  p, td, li {
+    color: var(--text-secondary);
+  }
+  
+  strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+  
+  button {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    padding: 6px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.15s ease;
+  }
+  
+  button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  
+  .opportunity-banner {
+    background: #f8f9fa;
+    border-left: 3px solid var(--accent);
+    padding: 14px 18px;
+    margin: 20px 0;
+    color: var(--text-secondary);
+  }
+  
+  .opportunity-banner strong {
+    color: var(--text-primary);
+  }
   </style>
   
 </head>
@@ -32,8 +124,8 @@
               I collaborate with <a style="color:#FF0000;"> YouTube</a>/<a style="color:#0091ff;"> Google</a> Media Algorithms team in my PhD.
               </p>
               
-              <p style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 14px 18px; border-radius: 10px; margin: 15px 0; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
-                🎯 <strong>Open to Opportunities:</strong> I am actively seeking <strong>full-time Research Scientist</strong> positions starting <strong>2026</strong>. Please reach out if you have opportunities in generative AI, video understanding, or quality assessment research!
+              <p class="opportunity-banner">
+                <strong>Open to Opportunities:</strong> I am actively seeking full-time <strong>Research Scientist</strong> positions starting <strong>2026</strong>. Please reach out if you have opportunities in generative AI, video understanding, or quality assessment research.
               </p>
               
               <p>Before starting my PhD at UT Austin, I worked as a Research Engineer-AI at Arkray, inc and as Machine Learning Engineer at BioMind AI. At both places, i was working on developing novel and scalable AI solutions for medical image analysis.
@@ -60,28 +152,28 @@
   <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
     <tr>
       <td style="padding:20px;width:100%;vertical-align:middle">
-        <heading style="color:#8B0000;">Updates</heading>
+        <heading>Updates</heading>
       
         <ul>
-          <li><b>Jan 2026: </b> Honored to serve as a reviewer for <span style="color:#0091ff;"><b>ICML 2026</b></span> and <span style="color:#0091ff;"><b>ECCV 2026</b></span>!</li>
-          <li><b>Sept 2025: </b> <span style="color:#0091ff;"><b>Rectified CFG++</b></span> accepted to <b>NeurIPS 2025</b>!</li>
-          <li><b>Jun - Oct 2025: </b> Completed <span style="color:#0091ff;"><b>Google Research</b></span> internship as <span style="color:#0091ff;"><b>Student Researcher</b></span> in the <span style="color:#0091ff;"><b>LUMA team</b></span>!</li>
-          <li><b>May 2025: </b> Paper accepted in <span style="color:#0091ff;"><b>IEEE ICIP 2025</b></span>!</li>
-          <li><b>May 2025: </b> Paper accepted in <span style="color:#0091ff;"><b>ICML 2025</b></span>!</li>
-          <li><b>May 2025: </b> Paper accepted in 3rd Workshop on Generative Models for Computer Vision, <b>CVPR 2025</b>!</li>
-          <li><b>Mar 2025: </b> Honored to be appointed as <span style="color:#0091ff;"><b>Assistant Director</b></span> of <a href="https://live.ece.utexas.edu/">LIVE at UT Austin</a>!</li>
-          <li><b>Jun 2024: </b> Joined <span style="color:#0091ff;"><b>Amazon</b></span> as <span style="color:#0091ff;"><b>Applied Scientist-II Intern</b></span> in the <span style="color:#0091ff;"><b>Perception team</b></span>!</li>
-          <li><b>Jan 2024: </b> Joined <span style="color:#0091ff;"><b>Alibaba US</b></span> as <span style="color:#0091ff;"><b>Research Intern</b></span> to work on diffusion models!</li>
-          <li><b>Nov 2023: </b> Paper accepted in 3rd Workshop on Image/Video/Audio Quality in CV and Gen AI, <b>WACV 2024</b>!</li>
+          <li><b>Jan 2026:</b> Honored to serve as a reviewer for <b>ICML 2026</b> and <b>ECCV 2026</b>.</li>
+          <li><b>Sept 2025:</b> <b>Rectified CFG++</b> accepted to NeurIPS 2025.</li>
+          <li><b>Jun – Oct 2025:</b> Completed <b>Google Research</b> internship as Student Researcher in the LUMA team.</li>
+          <li><b>May 2025:</b> Paper accepted in IEEE ICIP 2025.</li>
+          <li><b>May 2025:</b> Paper accepted in ICML 2025.</li>
+          <li><b>May 2025:</b> Paper accepted in 3rd Workshop on Generative Models for Computer Vision, CVPR 2025.</li>
+          <li><b>Mar 2025:</b> Appointed as <b>Assistant Director</b> of <a href="https://live.ece.utexas.edu/">LIVE at UT Austin</a>.</li>
+          <li><b>Jun 2024:</b> Joined <b>Amazon</b> as Applied Scientist-II Intern in the Perception team.</li>
+          <li><b>Jan 2024:</b> Joined <b>Alibaba US</b> as Research Intern to work on diffusion models.</li>
+          <li><b>Nov 2023:</b> Paper accepted in 3rd Workshop on Image/Video/Audio Quality in CV and Gen AI, WACV 2024.</li>
           <span id="dots"></span><span id="more">
-          <li><b>Jun 2023: </b> Completed first-ever large-scale HDR subjective perceptual quality study on Amazon Mechanical Turk!</li>
-          <li><b>Aug 2022: </b> Joined <a href="https://live.ece.utexas.edu/">LIVE at UT Austin</a> as PhD student under Prof. Alan C. Bovik!</li>
-          <li><b>Aug 2022: </b> Awarded prestigious <span style="color:#0091ff;"><b>Engineering Graduate Fellowship</b></span> until 2027!</li>
-          <li><b>Feb 2022: </b> Joined <span style="color:#0091ff;"><b>BioMind</b></span>, Singapore as <span style="color:#0091ff;"><b>Research Engineer/Machine Learning Engineer</b></span>.</li>
-          <li><b>Aug 2020: </b> Started as <span style="color:#0091ff;"><b>Research Engineer (AI)</b></span> at <span style="color:#0091ff;"><b>Arkray, Inc.</b></span></li>
-          <li><b>May 2019: </b> <span style="color:#0091ff;"><b>Research Assistant</b></span> at <span style="color:#0091ff;"><b>National University of Singapore (NUS)</b></span> under Prof. Mengling "Mornin" Feng.</li>
-          <li><b>Aug 2018: </b> <span style="color:#0091ff;"><b>Undergraduate Researcher</b></span> at Image Processing and Computer Vision Lab, IIT Jodhpur under Prof. Anil Kumar Tiwari.</li>
-          <li><b>May 2018: </b> <span style="color:#0091ff;"><b>Research Intern</b></span> at The Multimedia Analytics, Networks and Systems Lab, IIT Mandi under Prof. Aditya Nigam.</li>
+          <li><b>Jun 2023:</b> Completed first-ever large-scale HDR subjective perceptual quality study on Amazon Mechanical Turk.</li>
+          <li><b>Aug 2022:</b> Joined <a href="https://live.ece.utexas.edu/">LIVE at UT Austin</a> as PhD student under Prof. Alan C. Bovik.</li>
+          <li><b>Aug 2022:</b> Awarded <b>Engineering Graduate Fellowship</b> until 2027.</li>
+          <li><b>Feb 2022:</b> Joined <b>BioMind</b>, Singapore as Research Engineer/Machine Learning Engineer.</li>
+          <li><b>Aug 2020:</b> Started as Research Engineer (AI) at <b>Arkray, Inc.</b></li>
+          <li><b>May 2019:</b> Research Assistant at <b>National University of Singapore</b> under Prof. Mengling "Mornin" Feng.</li>
+          <li><b>Aug 2018:</b> Undergraduate Researcher at Image Processing and Computer Vision Lab, IIT Jodhpur.</li>
+          <li><b>May 2018:</b> Research Intern at The Multimedia Analytics, Networks and Systems Lab, IIT Mandi.</li>
           </span>
         </ul>
           <p></p>
@@ -116,7 +208,7 @@
 <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
   <tr>
   <td style="padding:20px;width:100%;vertical-align:middle">
-    <heading style="color:#8B0000;">Research & Development Experience</heading>
+    <heading>Research & Development Experience</heading>
 
     <ul>
       <li><b>Jun - Oct 2025: </b> Student Researcher, <a href="https://research.google/">Google Research - LUMA Team</a>, Mountain View (Completed)</li>
@@ -267,7 +359,7 @@ if (extendedContent.style.display === "none") {
 <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
   <tr>
   <td style="padding:20px;width:100%;vertical-align:middle">
-    <heading style="color:#8B0000;">Services</heading>
+    <heading>Services</heading>
     <p>
       Reviewer: ICLR (2026, 2025), ICML (2026, 2025), ECCV (2026), CVPR (2026, 2025), IEEE Trans. on Multimedia (2024, 2025), WACV (2025, 2026), TIP (2025). <br>
       Assistant Director: LIVE at UT Austin (2025-Present).<br>
@@ -309,7 +401,7 @@ function servicesFunction() {
     <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
       <tr>
       <td style="padding:20px;width:100%;vertical-align:middle">
-        <heading style="color:#8B0000;">Research Publications</heading><br>
+        <heading>Research Publications</heading><br>
         <p> </p>
         <heading style="font-style: italic; font-size: large">(Conferences - Generative AI / IQA / VQA)</heading>
       </td>
@@ -491,7 +583,7 @@ function servicesFunction() {
   <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
     <tr>
     <td style="padding:20px;width:100%;vertical-align:middle">
-      <heading style="color:#8B0000;">Other Projects</heading><br>
+      <heading>Other Projects</heading><br>
     </td>
   </tr>
 </tbody></table>
@@ -573,7 +665,7 @@ function servicesFunction() {
 <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
   <tr>
   <td style="padding:20px;width:100%;vertical-align:middle">
-    <heading style="color:#8B0000;">Research Publications (old)</heading><br>
+    <heading>Research Publications (old)</heading><br>
     <p> </p>
     <heading style="font-style: italic; font-size: large">(Medical AI)</heading>
   </td>
@@ -651,7 +743,7 @@ function servicesFunction() {
   <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
       <tr>
       <td style="padding:20px;width:100%;vertical-align:middle">
-        <heading style="color:#8B0000;">Journals</heading>
+        <heading>Journals</heading>
       </td>
     </tr>
   </tbody></table>
@@ -679,7 +771,7 @@ function servicesFunction() {
   <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
       <tr>
       <td style="padding:20px;width:100%;vertical-align:middle">
-        <heading style="color:#8B0000;">Book Chapters</heading>
+        <heading>Book Chapters</heading>
       </td>
     </tr>
   </tbody></table>
@@ -708,7 +800,7 @@ function servicesFunction() {
   <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
       <tr>
       <td style="padding:20px;width:100%;vertical-align:middle">
-        <heading style="color:#8B0000;">Scratch-Pad (Blogs)</heading>
+        <heading>Scratch-Pad (Blogs)</heading>
         <p style="margin-top: 10px;">
           <a href="blogs.html" style="color:#2563eb;">→ Visit the Scratch-Pad</a>
         </p>
