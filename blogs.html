@@ -2,77 +2,354 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Scratch-Pad | Shreshth Saini</title>
+  <title>Blog - Shreshth Saini</title>
   <meta name="author" content="Shreshth Saini">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Thoughts on AI, Diffusion Models, and Research">
+  
   <link rel="icon" type="image/jpg" href="images/UT_profile.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --text-primary: #1a1a1a;
-      --text-secondary: #4a4a4a;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
       --accent: #2563eb;
-      --accent-hover: #1d4ed8;
-      --border: #e5e5e5;
+      --accent-light: #3b82f6;
+      --bg: #ffffff;
+      --bg-subtle: #f8fafc;
+      --border: #e2e8f0;
+      --border-light: #f1f5f9;
     }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     
     body {
-      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 60px 20px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 15px;
       line-height: 1.7;
       color: var(--text-secondary);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
     }
     
-    h1 {
-      font-family: 'IBM Plex Serif', Georgia, serif;
-      font-size: 28px;
-      font-weight: 500;
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-light);
+      z-index: 100;
+      padding: 0 20px;
+    }
+    
+    .nav-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+    }
+    
+    .nav-logo {
+      font-weight: 600;
+      font-size: 16px;
       color: var(--text-primary);
-      margin-bottom: 40px;
+      text-decoration: none;
       letter-spacing: -0.3px;
     }
     
-    .coming-soon {
-      border-left: 2px solid var(--border);
-      padding: 16px 20px;
-      margin: 30px 0;
+    .nav-links { display: flex; gap: 8px; }
+    
+    .nav-links a {
+      padding: 8px 14px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 6px;
+      transition: all 0.15s ease;
     }
     
-    .coming-soon p {
-      margin: 0;
-      font-size: 15px;
+    .nav-links a:hover { color: var(--accent); background: var(--bg-subtle); }
+    .nav-links a.active { color: var(--accent); background: rgba(37, 99, 235, 0.08); }
+    
+    .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+    
+    .blog-header {
+      padding: 80px 0 48px;
+      text-align: center;
     }
     
-    .coming-soon strong {
+    h1 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 48px;
+      font-weight: 500;
       color: var(--text-primary);
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+      line-height: 1.2;
     }
     
-    .back-link {
+    .blog-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    .posts-section { padding: 48px 0; }
+    
+    .posts-grid { display: flex; flex-direction: column; gap: 32px; }
+    
+    .post-card {
+      padding: 28px;
+      background: var(--bg);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+    
+    .post-card:hover {
+      border-color: var(--border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      transform: translateY(-2px);
+    }
+    
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    
+    .post-date {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    
+    .post-tag {
       display: inline-block;
-      margin-top: 40px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 4px;
+    }
+    
+    .tag-diffusion { background: rgba(6, 182, 212, 0.1); color: #0891b2; }
+    .tag-research { background: rgba(139, 92, 246, 0.1); color: #7c3aed; }
+    .tag-tutorial { background: rgba(16, 185, 129, 0.1); color: #059669; }
+    .tag-thoughts { background: rgba(245, 158, 11, 0.1); color: #d97706; }
+    
+    .post-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    
+    .post-title a {
+      color: inherit;
+      text-decoration: none;
+    }
+    
+    .post-title a:hover { color: var(--accent); }
+    
+    .post-excerpt {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    
+    .read-more {
+      font-size: 14px;
+      font-weight: 500;
       color: var(--accent);
       text-decoration: none;
-      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
     
-    .back-link:hover {
-      color: var(--accent-hover);
+    .read-more:hover { text-decoration: underline; }
+    
+    .subscribe-section {
+      padding: 48px 0;
+      border-top: 1px solid var(--border-light);
+    }
+    
+    .subscribe-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+    }
+    
+    .subscribe-box h3 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    
+    .subscribe-box p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+    
+    .subscribe-form {
+      display: flex;
+      gap: 12px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    
+    .subscribe-form input {
+      flex: 1;
+      padding: 12px 16px;
+      font-size: 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      font-family: inherit;
+    }
+    
+    .subscribe-form input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    .subscribe-form button {
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      color: white;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      font-family: inherit;
+    }
+    
+    .subscribe-form button:hover {
+      background: var(--accent-light);
+    }
+    
+    footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--border-light);
+      text-align: center;
+    }
+    
+    .footer-text {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    
+    .footer-text a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    
+    @media (max-width: 768px) {
+      h1 { font-size: 36px; }
+      .blog-header { padding: 48px 0 32px; }
+      .post-card { padding: 20px; }
+      .post-title { font-size: 20px; }
+      .subscribe-form { flex-direction: column; }
+      .nav-links a { padding: 6px 10px; font-size: 12px; }
     }
   </style>
 </head>
 
 <body>
-  <h1>Scratch-Pad (Blogs)</h1>
-  
-  <div class="coming-soon">
-    <p><strong>Coming Soon</strong> — Technical notes and explorations on diffusion models, flow-based generative models, and video quality assessment.</p>
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">Shreshth Saini</a>
+      <div class="nav-links">
+        <a href="index.html#about">About</a>
+        <a href="index.html#research">Research</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#experience">Experience</a>
+        <a href="blogs.html" class="active">Blog</a>
+        <a href="data/CV_Shreshth_Saini_2026.pdf">CV</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <header class="blog-header">
+      <h1>Scratch Pad</h1>
+      <p class="blog-subtitle">Thoughts on generative models, video quality, and the intersection of perception and computation.</p>
+    </header>
+
+    <section class="posts-section">
+      <div class="posts-grid">
+        
+        <article class="post-card">
+          <div class="post-meta">
+            <span class="post-date">Coming Soon</span>
+            <span class="post-tag tag-diffusion">Diffusion</span>
+          </div>
+          <h2 class="post-title"><a href="#">Understanding Rectified Flow: From Theory to Practice</a></h2>
+          <p class="post-excerpt">A deep dive into rectified flow models and how they enable faster, more efficient generation compared to traditional diffusion models. We'll explore the mathematical foundations and practical implementations.</p>
+          <a href="#" class="read-more">Read more &rarr;</a>
+        </article>
+
+        <article class="post-card">
+          <div class="post-meta">
+            <span class="post-date">Coming Soon</span>
+            <span class="post-tag tag-research">Research</span>
+          </div>
+          <h2 class="post-title"><a href="#">The Challenge of HDR Video Quality Assessment</a></h2>
+          <p class="post-excerpt">Why measuring quality in high dynamic range videos is fundamentally different from SDR, and what makes it one of the most challenging problems in perceptual quality research.</p>
+          <a href="#" class="read-more">Read more &rarr;</a>
+        </article>
+
+        <article class="post-card">
+          <div class="post-meta">
+            <span class="post-date">Coming Soon</span>
+            <span class="post-tag tag-tutorial">Tutorial</span>
+          </div>
+          <h2 class="post-title"><a href="#">CFG++ Explained: Better Classifier-Free Guidance</a></h2>
+          <p class="post-excerpt">A practical guide to implementing CFG++ and its rectified variant for improved image generation with flow-based models.</p>
+          <a href="#" class="read-more">Read more &rarr;</a>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="subscribe-section">
+      <div class="subscribe-box">
+        <h3>Stay Updated</h3>
+        <p>New posts on AI research and generative models. No spam, unsubscribe anytime.</p>
+        <form class="subscribe-form" onsubmit="return false;">
+          <input type="email" placeholder="your@email.com" required>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <p class="footer-text">&copy; 2026 Shreshth Saini - <a href="index.html">Back to Home</a></p>
+    </footer>
   </div>
-  
-  <a href="index.html" class="back-link">← Back to main page</a>
 </body>
 </html>
