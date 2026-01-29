@@ -7,11 +7,7 @@
 
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
   <link rel="icon" type="image/jpg" href="images/UT_profile.png">
-  <style>
-  div {
-    opacity: 0.5;
-  }
-  </style>
+
   <style>
   #more {display: none;}
   </style>
@@ -19,7 +15,21 @@
 </head>
 
 <body>
-  <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">Shreshth Saini</a>
+      <div class="nav-links">
+        <a href="#about" class="active">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#research">Research</a>
+        <a href="blogs.html">Blogs</a>
+        <a href="data/CV_Shreshth_Saini_2026.pdf">CV</a>
+      </div>
+    </div>
+  </nav>
+
+  <div id="about"></div>
+  <table class="page-content" style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
     <tr style="padding:0px">
       <td style="padding:0px">
         <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
@@ -28,10 +38,16 @@
               <p style="text-align:center">
                 <name>Shreshth Saini</name>
               </p>
-              <p> I am a third year PhD student at <a href="https://live.ece.utexas.edu/">Laboratory of Image and Video Engineering</a> at <a href="https://www.utexas.edu/">The University of Texas Austin</a>, advised by <a href="https://www.ece.utexas.edu/people/faculty/alan-bovik"> Prof. Alan C. Bovik </a>. My research focuses on the <strong>"Theoretical Foundations of Generative Models</strong> (e.g. Flows, Diffusion, and MLLMs) and their applications in efficient sampling, image/video-quality assessment (QA), editing, and inverse problems (eg: ITM).
-              I collaborate with <a style="color:#FF0000;"> YouTube</a>/<a style="color:#0091ff;"> Google</a> Media Algorithms team in my PhD. I will be joining <a style="color:#0091ff;"> Google Research</a> as a student researcher in LUMA team starting June 2025.
+              <!-- <div class="announcement announcement-hero">
+                <div class="announcement-text">
+                  <span class="announcement-icon">&#128227;</span>
+                  <strong>Open to Opportunities:</strong> I am actively seeking full-time Research Scientist positions, starting 2026. My expertise spans generative AI, multimodal learning, post-training, and perceptual quality assessment. <span class="announcement-link">Let's connect &rarr;</span>
+                </div>
+              </div> -->
+              <p> I am a final year PhD student at <a href="https://live.ece.utexas.edu/">Laboratory of Image and Video Engineering</a> at <a href="https://www.utexas.edu/">The University of Texas Austin</a>, advised by <a href="https://www.ece.utexas.edu/people/faculty/alan-bovik"> Prof. Alan C. Bovik </a>. My research focuses on the <strong>Theoretical Foundations of Generative Models</strong> (e.g. Flows, Diffusion, and MLLMs) and their applications in efficient sampling, image/video-quality assessment (QA), editing, and inverse problems (eg: ITM).
+              I collaborate with <a style="color:#FF0000;"> YouTube</a>/<a style="color:#0091ff;"> Google</a> Media Algorithms team in my PhD. I was a Student Researcher in the LUMA team at <a style="color:#0091ff;"> Google Research</a> (Jun–Oct 2025).
               </p>              
-              <p>Before starting my PhD at UT Austin, I worked as a Research Engineer-AI at <!--a href="https://www.arkray.co.jp/english/" </a>--> Arkray, inc and as Machine Learning Engineer at <!-- a href="https://biomind.ai/" </a> -->  BioMind AI. At both places, i was working on developing novel and scalable AI solutions for medical image analysis. 
+              <p>Before starting my PhD at UT Austin, I worked as a Research Engineer-AI at <!--a href="https://www.arkray.co.jp/english/" </a>--> Arkray, inc and as Machine Learning Engineer at <!-- a href="https://biomind.ai/" </a> -->  BioMind AI. At both places, I was working on developing novel and scalable AI solutions for medical image analysis. 
               </p>
               <p>
               I received my Bachelor's degree in Electrical Engineering from the <a href="https://www.iitj.ac.in/">IIT Jodhpur</a>. I was fortunate to be advised by  <a href="https://www.mornin-feng.com/"> Prof. Menglign Feng </a>(NUS),  <a href="https://faculty.iitmandi.ac.in/~aditya/"> Prof. Aditya Nigam </a>(IIT Mandi), and <a href="https://research.iitj.ac.in/researcher/anil-kumar-tiwari"> Prof. Anil K. Tiwari</a>(IIT Jodhpur) throughout my undergraduate research. 
@@ -42,41 +58,64 @@
                 <a href="https://www.linkedin.com/in/shreshthfeel/">LinkedIn</a> &nbsp/&nbsp           
                 <a href="https://x.com/shreshthsaini">X</a> &nbsp/&nbsp 
                 <a href="https://github.com/shreshthsaini">GitHub</a> &nbsp/&nbsp <!-- &nbsp/&nbsp -->
-                <a href="data/cv.pdf">CV (Dated 😞) </a>
+                <a href="data/CV_Shreshth_Saini_2026.pdf">CV (2026)</a>
               </p>
+              
             </td>
-            <td style="padding:2.5%;width:40%;max-width:40%">
-              <a href="images/shreshth-portrait.jpeg"><img style="width:100%;max-width:100%" alt="profile photo" src="images/shreshth-portrait.jpeg" class="hoverZoomLink"></a>
+            <td class="profile-cell" style="padding:2.5%;width:40%;max-width:40%;">
+              <a href="images/snow.jpg"><img alt="profile photo" src="images/snow.jpg" class="hoverZoomLink profile-photo"></a>
             </td>
           </tr>
         </tbody></table>
 
-  <!-- Updates========================================================================================== -->
+  
+<!-- Announcements========================================================================================== -->   
+  <div class="announcement announcement-hero">
+                <div class="announcement-text">
+                  <span class="announcement-icon">&#128227;</span>
+                  <strong>Open to Opportunities.</strong><br>
+                  
+                  I am actively seeking full-time Research Scientist positions, starting 2026. My expertise spans generative AI, multimodal learning, post-training, and perceptual quality assessment. <a href="mailto:saini.2@utexas.edu" class="announcement-link">Let's connect &rarr;</a>
+                </div>
+              </div>
+  <div class="announcement announcement-blog">
+                <div class="announcement-text">
+                  <strong>Scratch Pad:</strong> Essays/Posts and Technical Notes & Insights live on the blog. <a href="blogs.html" class="announcement-link">Explore &rarr;</a>
+                </div>
+              </div>
+
+
+
+<!-- Updates========================================================================================== -->
 <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
           <tr>
           <td style="padding:20px;width:100%;vertical-align:middle">
             <heading style="color:#8B0000;">Updates</heading>
           
             <ul>
-              <li><b>Sept 2025: </b> Rectified CFG++ accepted to <b>NeurIPS 2025</b>!</li>
-              <li><b>Jun 2025: </b> Excited to join <b>Google Research</b> as Student Researcher in the LUMA team!</li>
-              <!--<li><b>May 2025: </b> Formed PhD committee - officially advancing to candidacy!</li>  -->             
-	      <li><b>May 2025: </b> Paper accepted in IEEE International Conference on Image Processing, IEEE ICIP 2025!</li>
-	      <li><b>May 2025: </b> Paper accepted in 42nd International Conference on Machine Learning (ICML) 2025!</li>
-	      <li><b>May 2025: </b> Paper accepted in 3rd Workshop on Generative Models for Computer Vision, CVPR 2025!</li>
-              <li><b>Mar 2025: </b> Honored to be appointed as <b>Assistant Director</b> of <a href="https://live.ece.utexas.edu/">LIVE at UT Austin</a>!</li>
-              <li><b>Jun 2024: </b> Joined <b>Amazon</b> as Applied Scientist-II Intern in the Perception team!</li>
-              <li><b>Jan 2024: </b> Joined <b>Alibaba US</b> as Research Intern to work on diffusion models!</li>
-              <li><b>Nov 2023: </b> Paper accepted in 3rd Workshop on Image/Video/Audio Quality in CV and Gen AI, WACV 2024!</li>
+              <li><span class="date-col"><b>Jan 2026:</b></span> <b>Open to full-time Research Scientist opportunities.</b></li>
+              <li><span class="date-col"><b>Jan 2026:</b></span> Serving as a reviewer for <b>ICML 2026</b> and <b>ECCV 2026</b>.</li>
+              <li><span class="date-col"><b>Dec 2025:</b></span> BrightRate accepted in <b>WACV 2026</b> for oral presentation.</li>
+              <li><span class="date-col"><b>Dec 2025:</b></span> Completed Progress review.</li>
+              <li><span class="date-col"><b>Sep 2025:</b></span> Rectified CFG++ accepted to <b>NeurIPS 2025</b>!</li>
+              <li><span class="date-col"><b>Jun 2025:</b></span> Excited to join <b>Google Research</b> as Student Researcher in the LUMA team!</li>
+              <!--<li><span class="date-col"><b>May 2025:</b></span> Formed PhD committee - officially advancing to candidacy!</li>  -->             
+	      <li><span class="date-col"><b>May 2025:</b></span> Paper accepted in IEEE International Conference on Image Processing, <b>IEEE ICIP 2025!</b></li>
+	      <li><span class="date-col"><b>May 2025:</b></span> Paper accepted in 42nd International Conference on Machine Learning <b>(ICML) 2025!</b></li>
+	      <li><span class="date-col"><b>May 2025:</b></span> Paper accepted in 3rd Workshop on Generative Models for Computer Vision, <b>CVPR 2025!</b></li>
+              <li><span class="date-col"><b>Mar 2025:</b></span> Honored to be appointed as <b>Assistant Director</b> of <a href="https://live.ece.utexas.edu/">LIVE at UT Austin</a>!</li>
+              <li><span class="date-col"><b>Jun 2024:</b></span> Joined <b>Amazon</b> as Applied Scientist-II Intern in the Perception team!</li>
+              <li><span class="date-col"><b>Jan 2024:</b></span> Joined <b>Alibaba US</b> as Research Intern to work on diffusion models!</li>
+              <li><span class="date-col"><b>Nov 2023:</b></span> Paper accepted in 3rd Workshop on Image/Video/Audio Quality in CV and Gen AI, WACV 2024!</li>
               <span id="dots"></span><span id="more">
-              <li><b>Jun 2023: </b> Completed first-ever large-scale HDR subjective perceptual quality study on Amazon Mechanical Turk!</li>
-              <li><b>Aug 2022: </b> Joined <a href="https://live.ece.utexas.edu/">LIVE at UT Austin</a> as PhD student under Prof. Alan C. Bovik!</li>
-              <li><b>Aug 2022: </b> Awarded prestigious Engineering Graduate Fellowship until 2027!</li>
-              <li><b>Feb 2022: </b> Joined BioMind, Singapore as Research Engineer/Machine Learning Engineer.</li>
-              <li><b>Aug 2020: </b> Started as Research Engineer (AI) at Arkray, Inc.</li>
-              <li><b>May 2019: </b> Research Assistant at National University of Singapore (NUS) under Prof. Mengling "Mornin" Feng.</li>
-              <li><b>Aug 2018: </b> Undergraduate Researcher at Image Processing and Computer Vision Lab, IIT Jodhpur under Prof. Anil Kumar Tiwari.</li>
-              <li><b>May 2018: </b> Research Intern at The Multimedia Analytics, Networks and Systems Lab, IIT Mandi under Prof. Aditya Nigam.</li>
+              <li><span class="date-col"><b>Jun 2023:</b></span> Completed first-ever large-scale HDR subjective perceptual quality study on Amazon Mechanical Turk!</li>
+              <li><span class="date-col"><b>Aug 2022:</b></span> Joined <a href="https://live.ece.utexas.edu/">LIVE at UT Austin</a> as PhD student under Prof. Alan C. Bovik!</li>
+              <li><span class="date-col"><b>Aug 2022:</b></span> Awarded prestigious Engineering Graduate Fellowship until 2027!</li>
+              <li><span class="date-col"><b>Feb 2022:</b></span> Joined BioMind, Singapore as Research Engineer/Machine Learning Engineer.</li>
+              <li><span class="date-col"><b>Aug 2020:</b></span> Started as Research Engineer (AI) at Arkray, Inc.</li>
+              <li><span class="date-col"><b>May 2019:</b></span> Research Assistant at National University of Singapore (NUS) under Prof. Mengling "Mornin" Feng.</li>
+              <li><span class="date-col"><b>Aug 2018:</b></span> Undergraduate Researcher at Image Processing and Computer Vision Lab, IIT Jodhpur under Prof. Anil Kumar Tiwari.</li>
+              <li><span class="date-col"><b>May 2018:</b></span> Research Intern at The Multimedia Analytics, Networks and Systems Lab, IIT Mandi under Prof. Aditya Nigam.</li>
               </span>
             </ul>
               <p></p>
@@ -108,30 +147,30 @@
 
 
 <!-- Research========================================================================================== -->
-<table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+<table id="experience" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
   <tr>
   <td style="padding:20px;width:100%;vertical-align:middle">
     <heading style="color:#8B0000;">Research & Development Experience</heading>
 
     <ul>
-      <li><b>Jun 2025: </b> Student Researcher, <a href="https://research.google/">Google Research - LUMA Team</a>, Mountain View </li>
-      <li><b>Aug 2022 - Present: </b> Graduate Research Assistant, <a href="https://live.ece.utexas.edu/research/LIVE_UGC_HDR/index.html">Laboratory for Image and Video Engineering, UT Austin</a></li>  
-      <li><b>Jun 2024 - Aug 2024: </b> Applied Scientist Intern, <a href="https://www.amazon.science/">Amazon - Perception Team</a>, Seattle</li>
-      <li><b>Jan 2024 - May 2024: </b> Research Intern, <a href="https://www.alibabagroup.com/en/global/home">Alibaba Group</a>, Sunnyvale</li>
-      <li><b>Jan 2023 - Jan 2024: </b> Co-Founder, Short-X, Austin</li>
-      <li><b>Feb 2022 - June 2022: </b> Machine Learning Engineer, <a href="https://biomind.ai/">BioMind</a>, Singapore</li>
-      <li><b>Aug 2020 - Dec 2021: </b> Research Engineer - AI, <a href="https://arkrayusa.com/">Arkray Inc.</a> (Remote)</li>
+      <li><span class="date-col-wide"><b>Jun 2025 - Oct 2025:</b></span> Student Researcher, <a href="https://research.google/">Google Research - LUMA Team</a>, Mountain View </li>
+      <li><span class="date-col-wide"><b>Aug 2022 - Present:</b></span> Graduate Research Assistant, <a href="https://live.ece.utexas.edu/research/LIVE_UGC_HDR/index.html">Laboratory for Image and Video Engineering, UT Austin</a></li>  
+      <li><span class="date-col-wide"><b>Jun 2024 - Aug 2024:</b></span> Applied Scientist Intern, <a href="https://www.amazon.science/">Amazon - Perception Team</a>, Seattle</li>
+      <li><span class="date-col-wide"><b>Jan 2024 - May 2024:</b></span> Research Intern, <a href="https://www.alibabagroup.com/en/global/home">Alibaba Group</a>, Sunnyvale</li>
+      <li><span class="date-col-wide"><b>Jan 2023 - Jan 2024:</b></span> Co-Founder, Short-X, Austin</li>
+      <li><span class="date-col-wide"><b>Feb 2022 - Jun 2022:</b></span> Machine Learning Engineer, <a href="https://biomind.ai/">BioMind</a>, Singapore</li>
+      <li><span class="date-col-wide"><b>Aug 2020 - Dec 2021:</b></span> Research Engineer - AI, <a href="https://arkrayusa.com/">Arkray Inc.</a> (Remote)</li>
       <span id="dotsExp"></span><span id="moreExp">
-      <li><b>May 2019 - Aug 2019: </b> Research Assistant, <a href="https://www.nus.edu.sg/">National University of Singapore</a></li>
-      <li><b>Aug 2018 - Aug 2020: </b> Undergraduate Researcher, Image Processing and Computer Vision Lab, IIT Jodhpur</li>
-      <li><b>May 2018 - Aug 2018: </b> Research Intern, The Multimedia Analytics, Networks and Systems Lab, IIT Mandi</li>
+      <li><span class="date-col-wide"><b>May 2019 - Aug 2019:</b></span> Research Assistant, <a href="https://www.nus.edu.sg/">National University of Singapore</a></li>
+      <li><span class="date-col-wide"><b>Aug 2018 - Aug 2020:</b></span> Undergraduate Researcher, Image Processing and Computer Vision Lab, IIT Jodhpur</li>
+      <li><span class="date-col-wide"><b>May 2018 - Aug 2018:</b></span> Research Intern, The Multimedia Analytics, Networks and Systems Lab, IIT Mandi</li>
       </span>
     </ul>
     <button onclick="toggleExperience()" id="expBtn" style="margin-top: 15px; padding: 5px 10px; background-color: #f5f5f5; border: 1px solid #ddd; cursor: pointer;">Extended Version</button>
     <div id="extendedExp" style="display: none; margin-top: 20px;">
       <p>
         <strong>Applied Scientist Intern</strong> | Amazon - Perception Team<br>
-        <span style="color: #666;">Seattle, Washington | June 2024 – August 2024</span>
+        <span style="color: #666;">Seattle, Washington | Jun 2024 – Aug 2024</span>
       </p>
       <ul>
         <li>Worked with the Perception team on large-scale synthetic data generation</li>
@@ -141,7 +180,7 @@
       
       <p style="margin-top: 15px;">
         <strong>Research Intern</strong> | Alibaba Group<br>
-        <span style="color: #666;">Sunnyvale, California | January 2024 – May 2024</span>
+        <span style="color: #666;">Sunnyvale, California | Jan 2024 – May 2024</span>
       </p>
       <ul>
         <li>Developed generalizable and robust Vision Model-based Video Quality Assessment (VQA) methods</li>
@@ -150,7 +189,7 @@
       
       <p style="margin-top: 15px;">
         <strong>Co-Founder</strong> | Short-X<br>
-        <span style="color: #666;">Austin, Texas | January 2023 – January 2024</span>
+        <span style="color: #666;">Austin, Texas | Jan 2023 – Jan 2024</span>
       </p>
       <ul>
         <li>Short-X aims to automate the arduous task of making short-form contents from traditional long-form content</li>
@@ -159,7 +198,7 @@
       
       <p style="margin-top: 15px;">
         <strong>Graduate Research Assistant</strong> | Laboratory for Image and Video Engineering, UT Austin<br>
-        <span style="color: #666;">Austin, Texas | August 2022 – Present</span>
+        <span style="color: #666;">Austin, Texas | Aug 2022 – Present</span>
       </p>
       <ul>
         <li>Developing scalable vision models for HDR videos for tasks like ITM/TM, gamut expansion & quality assessment</li>
@@ -169,7 +208,7 @@
       
       <p style="margin-top: 15px;">
         <strong>Machine Learning Engineer</strong> | BioMind (Products)<br>
-        <span style="color: #666;">Singapore, Singapore | February 2022 – June 2022</span>
+        <span style="color: #666;">Singapore, Singapore | Feb 2022 – Jun 2022</span>
       </p>
       <ul>
         <li>Developed SOTA multimodal DL models for segmentation and classification of 25+ tumor/non-tumor classes</li>
@@ -178,7 +217,7 @@
       
       <p style="margin-top: 15px;">
         <strong>Research Engineer – AI</strong> | Arkray, Inc.<br>
-        <span style="color: #666;">Kyoto, Japan (Remote) | August 2020 – December 2021</span>
+        <span style="color: #666;">Kyoto, Japan (Remote) | Aug 2020 – Dec 2021</span>
       </p>
       <ul>
         <li>Proposed semi-supervised DL models to learn from a large chunk of the private unlabelled and noisy 2D datasets</li>
@@ -187,7 +226,7 @@
       
       <p style="margin-top: 15px;">
         <strong>Research Assistant</strong> | National University of Singapore<br>
-        <span style="color: #666;">Singapore | May 2019 – July 2019</span><br>
+        <span style="color: #666;">Singapore | May 2019 – Jul 2019</span><br>
         <span style="color: #666;">Supervisor: Dr. Mengling 'Mornin' Feng</span>
       </p>
       <ul>
@@ -197,7 +236,7 @@
       
       <p style="margin-top: 15px;">
         <strong>Undergraduate Researcher</strong> | Image Processing and Computer Vision Lab, IIT Jodhpur<br>
-        <span style="color: #666;">Jodhpur, India | August 2018 – August 2020</span><br>
+        <span style="color: #666;">Jodhpur, India | Aug 2018 – Aug 2020</span><br>
         <span style="color: #666;">Supervisor: Dr. Anil Kumar Tiwari</span>
       </p>
       <ul>
@@ -207,7 +246,7 @@
       
       <p style="margin-top: 15px;">
         <strong>Research Intern</strong> | The Multimedia Analytics, Networks and Systems Lab, IIT Mandi<br>
-        <span style="color: #666;">Mandi, India | May 2018 – July 2018</span><br>
+        <span style="color: #666;">Mandi, India | May 2018 – Jul 2018</span><br>
         <span style="color: #666;">Supervisor: Dr. Aditya Nigam</span>
       </p>
       <ul>
@@ -237,7 +276,7 @@ if (dots.style.display === "none") {
 
 function toggleExperience() {
 var extendedContent = document.getElementById("extendedExp");
-var btnText = document.getElementById("extendedBtn");
+var btnText = document.getElementById("expBtn");
 
 if (extendedContent.style.display === "none") {
   extendedContent.style.display = "block";
@@ -253,269 +292,222 @@ if (extendedContent.style.display === "none") {
 <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
   <tr>
   <td style="padding:20px;width:100%;vertical-align:middle">
-    <heading style="color:#8B0000;">Services</heading>
-    <p>
-      Reviewer: ICLR (2026, 2025),  IEEE Trans. on Multimedia (2024, 2025), ICML (2025), CVPR (2026, 2025), WACV(2025, 2026), TIP(2025). <br>
-      Assistant Director: LIVE at UT Austin (2025-Present).<br>
-      <span id="dotsServices"></span><span id="moreServices" style="display: none;">
-        Volunteer at Internal Workshop on Deep Learning (IWDL), India (2018).<br>
-        Established and Run LAMBDA Lab at IITJ (2018-2020).<br>
-        Overall Head of Entrepreneurship and Innovation Cell at IITJ (2018-2019).<br>
-        Assistant Head of Counselling Services at IITJ (2018-2019).<br>
-      </span>
-      <p></p>
-      <button onclick="servicesFunction()" id="servicesBtn">More</button>
-    </p>
+    <heading style="color:#8B0000;">Professional Service</heading>
+    <div class="service-block">
+      <div class="service-title">Reviewer and Program Committee Member</div>
+      <div class="service-list">
+        <div class="service-row"><span class="service-item">ICLR</span><span class="service-years">2025, 2026</span></div>
+        <div class="service-row"><span class="service-item">ICML</span><span class="service-years">2025, 2026</span></div>
+        <div class="service-row"><span class="service-item">CVPR</span><span class="service-years">2025, 2026</span></div>
+        <div class="service-row"><span class="service-item">ICCV/ECCV</span><span class="service-years">2025, 2026</span></div>
+        <div class="service-row"><span class="service-item">WACV</span><span class="service-years">2024, 2025, 2026</span></div>
+        <div class="service-row"><span class="service-item">IEEE TIP</span><span class="service-years">2025, 2026</span></div>
+        <div class="service-row"><span class="service-item">IEEE Trans. on Multimedia</span><span class="service-years">2024, 2025, 2026</span></div>
+        <div class="service-row"><span class="service-item">TMLR</span><span class="service-years">2025, 2026</span></div>
+      </div>
+    </div>
+    <div class="service-block">
+      <div class="service-title">Other Service</div>
+      <div class="service-list">
+        <div class="service-row"><span class="service-item">Assistant Director, LIVE at UT Austin</span><span class="service-years">2025-Present</span></div>
+        <div class="service-row"><span class="service-item">Volunteer, Internal Workshop on Deep Learning (IWDL), India</span><span class="service-years">2018</span></div>
+        <div class="service-row"><span class="service-item">Established and ran LAMBDA Lab at IITJ</span><span class="service-years">2018-2020</span></div>
+        <div class="service-row"><span class="service-item">Overall Head, Entrepreneurship and Innovation Cell at IITJ</span><span class="service-years">2018-2019</span></div>
+        <div class="service-row"><span class="service-item">Assistant Head, Counselling Services at IITJ</span><span class="service-years">2018-2019</span></div>
+      </div>
+    </div>
   </td>
 </tr>
 </tbody>
 </table>
-        
-<script>
-function servicesFunction() {
-  var dots = document.getElementById("dotsServices");
-  var moreText = document.getElementById("moreServices");
-  var btnText = document.getElementById("servicesBtn");
-
-  if (moreText.style.display === "none") {
-    dots.style.display = "none";
-    btnText.innerHTML = "Less"; 
-    moreText.style.display = "inline";
-  } else {
-    dots.style.display = "inline";
-    btnText.innerHTML = "More"; 
-    moreText.style.display = "none";
-  }
-}
-</script>
 
 
     <!-- Publications==========================================================================================-->
 
-    <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+    <table id="research" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
       <tr>
       <td style="padding:20px;width:100%;vertical-align:middle">
         <heading style="color:#8B0000;">Research Publications</heading><br>
-        <p> </p>
-        <heading style="font-style: italic; font-size: large">(Recent - Generative AI / IQA / VQA)</heading>
       </td>
     </tr>
   </tbody></table>
 
-  <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+  <table id="projects" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+    <tr>
+      <td style="padding:20px;width:100%;vertical-align:middle" colspan="2">
+        <heading style="font-style: italic; font-size: large">Discrete Diffusion</heading>
+      </td>
+    </tr>
     <tr>
       <td style="padding:20px;width:25%;vertical-align:middle">
-        <img src='images/rect-cfg.png' width="150" height="150">
+        <img src='images/mdm-sampling.png' class="thumb-square">
       </td>
       <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="https://shreshthsaini.github.io/Rectified-CFGpp/"><papertitle>Rectified-CFG++ for Flow-based Models</papertitle></a>
+        <a href="#"><papertitle>TABES: Trajectory-Aware Backward-on-Entropy Steering for Masked Diffusion Model</papertitle></a>
+        <br>
+        <strong>S Saini</strong>, A Saha, B Adsumilli, N Birkbeck, Y Wang, AC Bovik.
+        <br>
+        Under Review - ICML 2026
+        <br>
+        <a href="#">PDF</a> / <a href="#">ArXiv</a> / <a href="#">Page</a> / <a href="#">Code</a>
+        <br>
+        <p>We introduce TABES, a novel trajectory-aware entropy steering mechanism for masked diffusion models that improves token prediction through adaptive backward sampling guided by information-theoretic principles.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:20px;width:100%;vertical-align:middle" colspan="2">
+        <heading style="font-style: italic; font-size: large">MLLMs</heading>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:20px;width:25%;vertical-align:middle">
+        <img src='images/hdr-mllm.png' class="thumb-square">
+      </td>
+      <td style="padding:20px;width:75%;vertical-align:middle">
+        <a href="#"><papertitle>Seeing Beyond 8bits: Subjective and Objective Quality Assessment of HDR-UGC Videos</papertitle></a>
+        <br>
+        <strong>S Saini</strong>, B Chen, N Birkbeck, B Adsumilli, AC Bovik.
+        <br>
+        Under Review - CVPR 2026
+        <br>
+        <a href="#">PDF</a> / <a href="#">ArXiv</a> / <a href="#">Page</a> / <a href="#">Code</a>
+        <br>
+        <p>We present a large-scale subjective study and objective QA baselines for HDR-UGC videos, enabling reliable assessment of real-world HDR content.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:20px;width:100%;vertical-align:middle" colspan="2">
+        <heading style="font-style: italic; font-size: large">Continuous Diffusion</heading>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:20px;width:25%;vertical-align:middle">
+        <img src='images/lumaflux.png' class="thumb-square">
+      </td>
+      <td style="padding:20px;width:75%;vertical-align:middle">
+        <a href="#"><papertitle>LumaFlux: Lifting 8-Bit Worlds to HDR Reality with Physically-Guided Diffusion Transformers</papertitle></a>
+        <br>
+        <strong>S Saini</strong>, H Gedik, N Birkbeck, Y Wang, B Adsumilli, AC Bovik.
+        <br>
+        Under Review - CVPR 2026
+        <br>
+        <a href="#">PDF</a> / <a href="#">ArXiv</a> / <a href="#">Page</a> / <a href="#">Code</a>
+        <br>
+        <p>LumaFlux introduces physically-guided diffusion transformers for inverse tone mapping, lifting standard 8-bit content to HDR with physically accurate luminance expansion and color reproduction.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:20px;width:25%;vertical-align:middle">
+        <img src='images/rect-cfg.png' class="thumb-square">
+      </td>
+      <td style="padding:20px;width:75%;vertical-align:middle">
+        <a href="#"><papertitle>Rectified CFG++ for Flow Based Models</papertitle></a>
         <br>
         <strong>S Saini</strong>, S Gupta, AC Bovik.
         <br>
-        Thirty-Ninth Conference on Neural Information Processing Systems (NeurIPS 2025)
+        Thirty-Ninth Conference on Neural Information Processing Systems (NeurIPS 2025) (also at 3rd CVPR Workshop on Generative Models)
         <br>
-        <a href="https://shreshthsaini.github.io/Rectified-CFGpp/data/pdfs/Rect_CFGpp_Neurips-compressed-names.pdf">PDF</a> / <a href="https://neurips.cc/virtual/2025/poster/118333">NeurIPS</a> / <a href="https://shreshthsaini.github.io/Rectified-CFGpp/">Page</a> / <a href="https://github.com/shreshthsaini/Rectified-CFGpp">Code</a>
+        <a href="#">PDF</a> / <a href="#">ArXiv</a> / <a href="#">Page</a> / <a href="#">Code</a>
         <br>
         <p>Rectified CFG++ enhances conditional image generation with Rectified Flow models by adaptively correcting the latent trajectory. This method improves visual coherence and alignment with text prompts, outperforming existing samplers in generation quality and efficiency.</p>
       </td>
     </tr>
     <tr>
       <td style="padding:20px;width:25%;vertical-align:middle">
-        <img src='images/pcdm.png' width="150" height="120">
+        <img src='images/pcdm.png' class="thumb-square">
       </td>
       <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="data/camera_ready_LGDM.pdf"><papertitle> LGDM: Latent Guidance in Diffusion Models for Perceptual Evaluations </papertitle></a>
+        <a href="#"><papertitle>LGDM: Latent Guidance in Diffusion Models for Perceptual Evaluations</papertitle></a>
         <br>
         <strong>S Saini</strong>, R Liao, Y Ye, AC Bovik.
         <br>
-        42nd International Conference on Machine Learning (ICML) 2025, Vancouver, Canada. 
+        International Conference on Machine Learning (ICML) 2025
         <br>
-        <a href="https://openreview.net/pdf?id=lIdcR7vU76">PDF</a> / <a href="https://arxiv.org/abs/2506.00327">ArXiv</a>
+        <a href="#">PDF</a> / <a href="#">ArXiv</a> / <a href="#">Page</a> / <a href="#">Code</a>
         <br>
         <p>This study investigates the exploitation of diffusion model priors to achieve perceptual consistency in image quality assessment. By leveraging the inherent priors learned by diffusion models, the assessment of image quality is made more aligned with human perception, leading to more accurate and reliable evaluations.</p>
       </td>
     </tr>
     <tr>
+      <td style="padding:20px;width:100%;vertical-align:middle" colspan="2">
+        <heading style="font-style: italic; font-size: large">VQA</heading>
+      </td>
+    </tr>
+    <tr>
       <td style="padding:20px;width:25%;vertical-align:middle">
-        <img src='images/ugc-hdr-mllm.png' width="150" height="120">
+        <img src='images/brightrate.png' class="thumb-square">
       </td>
       <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="#"><papertitle>Reasoning Through Perceptual Quality for UGC-HDR Videos</papertitle></a>
+        <a href="#"><papertitle>BrightRate: Quality Assessment for User-Generated HDR Videos (Oral)</papertitle></a>
         <br>
-        <strong>S Saini</strong>, N Birkbeck, Y Wang, B Adsumilli, AC Bovik.
+         <strong>S Saini</strong>, B Chen, N Birkbeck, B Adsumilli, AC Bovik
         <br>
-        Under Review: ICLR 2026
+        IEEE/CVF Winter Conference on Applications of Computer Vision (WACV) 2026 (Oral)
         <br>
         <a href="#">PDF</a> / <a href="#">ArXiv</a> / <a href="#">Page</a> / <a href="#">Code</a>
         <br>
-        <p>In this work, we propose 40K UGC-HDR subjective video quality database and train an HDR-native reasoning MLLM for perceptual video quality assessment. This is the first and only large scale subjective database for UGC-HDR videos; it will help in developing objective metrics that accurately predict subjective quality scores.</p>
+        <p>BrightRate is designed for quality assessment in user-generated HDR videos, focusing on capture variability and perceptual fidelity.</p>
       </td>
     </tr>
     <tr>
       <td style="padding:20px;width:25%;vertical-align:middle">
-        <img src='images/brightrate.png'  width="150" height="90">
+        <img src='images/hidrovqa.png' class="thumb-square">
       </td>
       <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="https://brightvqa.github.io/BrightVQ/"><papertitle>BrightRate: Quality Assessment for User-Generated HDR Videos</papertitle></a>
+        <a href="#"><papertitle>Contrastive HDR-VQA: Deep Contrastive Representation Learning for HDR Video Quality Assessment</papertitle></a>
         <br>
-         <strong>S Saini</strong>, B Chen, N Birkbeck, Y Wang, B Adsumilli, AC Bovik
+        <strong>S Saini</strong>, A Saha, AC Bovik.
         <br>
-        Under Review: WACV 2025 (Rejected from ICCV even with high score (5/4/3))
+        IEEE/CVF Winter Conference on Applications of Computer Vision (WACV) 2024
         <br>
-        <a href="https://brightvqa.github.io/BrightVQ/static/pdfs/BrightRate.pdf">PDF</a> / <a href="#">ArXiv</a> / <a href="https://brightvqa.github.io/BrightVQ/">Page</a> / <a href="https://github.com/brightvqa/BrightVQ/">Code</a>
+        <a href="#">PDF</a> / <a href="#">ArXiv</a> / <a href="#">Page</a> / <a href="#">Code</a>
         <br>
-        <p>BrightRate is designed for quality assessment in user-generated HDR videos, focusing on unique challenges like varying content and capture conditions. It offers a reliable way to evaluate and enhance the viewing experience of HDR content.</p>
+        <p>Contrastive HDR-VQA introduces a deep contrastive representation learning approach for high dynamic range video quality assessment. By learning robust representations through contrastive learning, the method achieves state-of-the-art performance in predicting the quality of HDR videos.</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:20px;width:100%;vertical-align:middle" colspan="2">
+        <heading style="font-style: italic; font-size: large">Dataset &amp; Benchmarks</heading>
       </td>
     </tr>
     <tr>
       <td style="padding:20px;width:25%;vertical-align:middle">
-        <img src='images/chug.png'  width="150" height="90">
+        <img src='images/chug.png' class="thumb-square">
       </td>
       <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="https://shreshthsaini.github.io/CHUG/"><papertitle>CHUG: Crowdsourced User-Generated HDR Video Quality Dataset</papertitle></a>
+        <a href="#"><papertitle>CHUG: Crowdsourced User-Generated HDR Video Quality Dataset</papertitle></a>
         <br>
-        <strong>S Saini</strong>, N Birkbeck, Y Wang, B Adsumilli, AC Bovik
+        <strong>S Saini</strong>, N Birkbeck, B Adsumilli, AC Bovik
         <br>
-        IEEE International Conference on Image Processing (IEEE ICIP 2025), Anchorage Alaska, USA.
+        IEEE International Conference on Image Processing (ICIP) 2025
         <br>
-        <a href="https://shreshthsaini.github.io/CHUG/static/pdfs/chug.pdf">PDF</a> / <a href="https://ieeexplore.ieee.org/abstract/document/11084488">IEEE Xplore</a> / <a href="https://shreshthsaini.github.io/CHUG/">Page</a> / <a href="https://github.com/shreshthsaini/CHUG">Code</a>
+        <a href="#">PDF</a> / <a href="#">ArXiv</a> / <a href="#">Page</a> / <a href="#">Code</a>
         <br>
         <p>CHUG is a crowdsourced dataset for HDR video quality, addressing the need for diverse, real-world content. It aids in developing more accurate and robust quality assessment models.</p>
       </td>
     </tr>
     <tr>
       <td style="padding:20px;width:25%;vertical-align:middle">
-        <img src='images/hidrovqa.png' width="150" height="80">
+        <img src='images/prime-air.png' class="thumb-square">
       </td>
       <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="https://openaccess.thecvf.com/content/WACV2024W/VAQ/papers/Saini_HIDRO-VQA_High_Dynamic_Range_Oracle_for_Video_Quality_Assessment_WACVW_2024_paper.pdf"><papertitle>Contrastive HDR-VQA: Deep Contrastive Representation Learning for High Dynamic Range Video Quality Assessment</papertitle></a>
-        <br>
-        <strong>S Saini</strong>, A Saha, AC Bovik.
-        <br>
-        IEEE/CVF Winter Conference on Applications of Computer Vision (WACV), 2024, Waikoloa, Hawaii
-        <br>
-        <a href="https://arxiv.org/abs/2311.11059">ArXiv</a> / <a href="https://github.com/shreshthsaini/HIDRO-VQA-DATA/tree/f00ee594ea3e5022d1d95427a1ef032c8d4c2782">Data</a> / <a href="https://github.com/shreshthsaini/HIDRO-VQA">Code</a>
-        <br>
-        <p>Contrastive HDR-VQA introduces a deep contrastive representation learning approach for high dynamic range video quality assessment. By learning robust representations through contrastive learning, the method achieves state-of-the-art performance in predicting the quality of HDR videos.</p>
-      </td>
-    </tr>
-    <tr>
-      <td style="padding:20px;width:25%;vertical-align:middle">
-      <img src='images/ITM-DM.png '  width="150" height="90">
-      </td>
-      <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="#"><papertitle>ITM-DM: Using Diffusion Models for UGC-Video Inverse Tone Mapping </papertitle></a>
-        <br>
-        <strong>S Saini</strong>, N Birkbeck, Y Wang, B Adsumilli, AC Bovik.
-        <br>
-        Ongoing Work - YouTube
-        <br>
-        <p>This research explores the application of flow models for inverse tone mapping in user-generated content (UGC) videos. The ITM-DM approach leverages diffusion models to enhance the visual quality of UGC videos by effectively performing inverse tone mapping, thereby improving the viewing experience.</p>
-      </td>
-    </tr>
-    <tr>
-      <td style="padding:20px;width:25%;vertical-align:middle">
-        <img src='images/prime-air.png' width="150" height="110">
-      </td>
-      <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="#"><papertitle>Prime-EditBench: A Real World Benchmark for Image and Video Editing Task using Diffusion Models</papertitle></a>
+        <a href="#"><papertitle>Prime-EditBench: A Real-World Benchmark for Image and Video Editing Tasks using Diffusion Models</papertitle></a>
         <br>
         <strong>S Saini</strong>, P Korus, S Jin.
         <br>
-        Preprint: Amazon - Internal
-        <p>Prime-EditBench is introduced as a real-world benchmark designed to evaluate the performance of image and video editing tasks using diffusion models. This benchmark provides a standardized platform for assessing the capabilities of these models in practical editing scenarios, facilitating advancements in the field.</p>
+        Amazon Prime Air / Perception (Internal)
+        <br>
+        <a href="#">PDF</a> / <a href="#">ArXiv</a> / <a href="#">Page</a> / <a href="#">Code</a>
+        <br>
+        <p>Prime-EditBench is a real-world benchmark designed to evaluate image and video editing with diffusion models, enabling standardized assessment of editing performance.</p>
       </td>
     </tr>
   </tbody></table>
 
-
-
-
-  <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-    <tr>
-    <td style="padding:20px;width:100%;vertical-align:middle">
-      <heading style="color:#8B0000;">Projects</heading><br>
-    </td>
-  </tr>
-</tbody></table>
-
-<table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-  <tr>
-    <td style="padding:20px;width:25%;vertical-align:middle">
-      <img src='images/inverse-cse.png' width="150" height="120">
-    </td>
-    <td style="padding:20px;width:75%;vertical-align:middle">
-      <a href="https://github.com/shreshthsaini/Inverse_Problems_CSE_393P"><papertitle>Problems on General Inverse and Solution (CSE 393P)</papertitle></a>
-      <br>
-      GitHub Repository
-      <br>
-      <p>This repository contains problems and solutions related to general inverse problems, as part of the CSE 393P course. It includes implementations and analyses of various inverse problem-solving techniques.</p>
-    </td>
-  </tr>
-  <tr>
-    <td style="padding:20px;width:25%;vertical-align:middle">
-      <img src='images/srdm.png' width="130" height="130">
-    </td>
-    <td style="padding:20px;width:75%;vertical-align:middle">
-      <a href="https://github.com/shreshthsaini/SR-DDPM"><papertitle>An Efficient Approach to Super-Resolution with Fine-Tuning Diffusion Models</papertitle></a>
-      <br>
-      Shreshth Saini, Yu-Chih Chen, Krishna Srikar Durbha
-      <br>
-      <a href="https://github.com/shreshthsaini/SR-DDPM">GitHub</a> / <a href="https://github.com/shreshthsaini/SR-DDPM/blob/main/An%20Efficient%20Approach%20to%20Super-Resolution%20with%20Fine-Tuning%20Diffusion%20Models.pdf">PDF</a>
-      <br>
-      <p>Implementation of an efficient SR3 DM for Super Resolution. This project explores the potential of pre-trained diffusion models to enhance the generalization ability and reduce computation costs in image super-resolution tasks.</p>
-    </td>
-  </tr>
-  <tr>
-    <td style="padding:20px;width:25%;vertical-align:middle">
-      <img src='images/zero-da.png' width="150" height="150">
-    </td>
-    <td style="padding:20px;width:75%;vertical-align:middle">
-      <a href="https://github.com/shreshthsaini/Zero-DA"><papertitle>Zero-DA: Zero-shot Diffusion Model for Video Animation</papertitle></a>
-      <br>
-      Shreshth Saini, Krishna Srikar Durbha
-      <br>
-      <a href="https://github.com/shreshthsaini/Zero-DA">GitHub</a> / <a href="https://github.com/shreshthsaini/Zero-DA/blob/master/paper/Zero-DA.pdf">PDF</a>
-      <br>
-      <p>Zero-shot Diffusion Model for Video Animation (Zero-DA) adapts image generation models to video production. This framework tackles the challenge of maintaining temporal uniformity across video frames using hierarchical cross-frame constraints.</p>
-    </td>
-  </tr>
-    <tr>
-    <td style="padding:20px;width:25%;vertical-align:middle">
-      <img src='images/recividism.png' width="150" height="150">
-    </td>
-    <td style="padding:20px;width:75%;vertical-align:middle">
-      <a href="https://github.com/shreshthsaini/UBR-UnBiased-and-Robust-Recidivism-Prediction?tab=readme-ov-file#ubr-unbiased-and-robust-recidivism-prediction"><papertitle>UBR-Unbiased-and-Robust-Recidivism-Prediction</papertitle></a>
-      <br>
-      Shreshth Saini, Albert Joe, Jiachen Wang, SayedMorteza Malaekeh
-            <br>
-      <a href="https://github.com/shreshthsaini/UBR-UnBiased-and-Robust-Recidivism-Prediction?tab=readme-ov-file#ubr-unbiased-and-robust-recidivism-prediction">GitHub</a> / <a href="https://github.com/shreshthsaini/UBR-UnBiased-and-Robust-Recidivism-Prediction/blob/master/Recidivism.pdf">PDF</a>
-      <br>
-      <p>This project aims to mitigate the inherent bias in recidivism score predictions by leveraging machine learning techniques to rectify and minimize biases towards gender and racial/ethnic groups.</p>
-    </td>
-  </tr>
-    <tr>
-    <td style="padding:20px;width:25%;vertical-align:middle">
-      <img src='images/flowless.png' width="150" height="90">
-    </td>
-    <td style="padding:20px;width:75%;vertical-align:middle">
-      <a href="https://github.com/shreshthsaini/Flow-Less-VFI"><papertitle>Optical flow less video frame interpolation</papertitle></a>
-      <br>
-      Shreshth Saini, Krishna Srikar Durbha
-      <br>
-      <a href="https://github.com/shreshthsaini/Flow-Less-VFI">GitHub</a> / <a href="https://github.com/shreshthsaini/Flow-Less-VFI/blob/main/Digital_Video___Report.pdf">PDF</a>
-      <br>
-      <p>This project proposes the use of transformers to learn long-range interactions with mutual self-attention between frames as a surrogate for motion estimation in video frame interpolation.</p>
-    </td>
-  </tr>
-</tbody></table>
-
-  
-
 <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
   <tr>
   <td style="padding:20px;width:100%;vertical-align:middle">
-    <heading style="color:#8B0000;">Research Publications (old)</heading><br>
+    <heading style="color:#8B0000;">Old Publications</heading><br>
     <p> </p>
     <heading style="font-style: italic; font-size: large">(Medical AI)</heading>
   </td>
@@ -525,14 +517,14 @@ function servicesFunction() {
   <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
     <tr>
       <td style="padding:20px;width:25%;vertical-align:middle">
-        <img src='images/mslae.png'  width="150" height="150">
+        <img src='images/mslae.png' class="thumb-square">
       </td>
       <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="#"><papertitle>M2SLAe-Net: Multi-Scale Multi-Level Attention Embedded Network for Retinal Vessel Segmentation</papertitle></a>
+        <a href="#"><papertitle>(M)SLAe-Net: Multi-Scale Multi-Level Attention Embedded Network for Retinal Vessel Segmentation</papertitle></a>
         <br>
         <strong>S Saini</strong>, G Agrawal.
         <br>
-        The IEEE International Symposium on Biomedical Imaging (IEEE ISBI), 2021 Acropolis-France
+        IEEE ISBI 2021 &amp; IEEE ICHI 2021 (Oral)
         <br>
         <a href="#">PDF</a> / <a href="#">ArXiv</a> / <a href="#">Page</a> / <a href="#">Code</a>
         <br>
@@ -541,48 +533,32 @@ function servicesFunction() {
     </tr>
     <tr>
       <td style="padding:20px;width:25%;vertical-align:middle">
-        <img src='images/mslae.png'  width="150" height="150">
+        <img src='images/b-segnet.png' class="thumb-square">
       </td>
       <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="https://ieeexplore.ieee.org/document/9565760"><papertitle>(M)SLAe-Net: Multi-Scale Multi-Level Attention Embedded Network for Retinal Vessel Segmentation</papertitle></a>
-        <br>
-        S. Saini, G. Agrawal.
-        <br>
-        9th IEEE International Conference On Healthcare Informatics (IEEE ICHI), 2021 (full Oral Presentation) Victoria, British Columbia, Canada
-        <br>
-        <a href="https://ieeexplore.ieee.org/document/9565760">PDF</a> <a href="https://arxiv.org/pdf/2109.02084">ArXiv</a>
-        <br>
-        <p>This paper presents (M)SLAe-Net, a multi-scale multi-level attention embedded network designed for precise retinal vessel segmentation. The network's architecture allows it to capture intricate details of retinal vessels, making it a valuable tool for early detection and diagnosis of retinal diseases.</p>
-      </td>
-    </tr>
-    <tr>
-      <td style="padding:20px;width:25%;vertical-align:middle">
-        <img src='images/b-segnet.png'  width="150" height="150">
-      </td>
-      <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="https://dl.acm.org/doi/10.1145/3450439.3451873"><papertitle>B-SegNet: Branched-SegMentor Network for Skin Leison Segmentation</papertitle></a>
+        <a href="#"><papertitle>B-SegNet: Branched SegMentor Network for Skin Lesion Segmentation</papertitle></a>
         <br>
         <strong>S Saini</strong>, YS Jeon, M Feng.
         <br>
-        Association for Computing Machinery Conference on Health, Inference, and Learning (ACM CHIL), 2021 (full Oral Presentation)
+        ACM CHIL 2021 (Oral)
         <br>
-        <a href="https://dl.acm.org/doi/10.1145/3450439.3451873">PDF</a> 
+        <a href="#">PDF</a> / <a href="#">ArXiv</a> / <a href="#">Page</a> / <a href="#">Code</a>
         <br>
         <p>B-SegNet introduces a branched SegMentor network for accurate skin lesion segmentation. By employing a branched architecture, the network effectively captures both local and global features of skin lesions, leading to improved segmentation performance and aiding in the diagnosis of skin cancer.</p>
       </td>
     </tr>
     <tr>
       <td style="padding:20px;width:25%;vertical-align:middle">
-        <img src='images/detector-segnet.png'  width="150" height="120">
+        <img src='images/detector-segnet.png' class="thumb-square">
       </td>
       <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="https://link.springer.com/chapter/10.1007/978-981-15-8697-2_55"><papertitle>Detector-SegMentor Network for Skin Lesion Localizationand Segmentation</papertitle></a>
+        <a href="#"><papertitle>Detector-SegMentor Network for Skin Lesion Localization and Segmentation</papertitle></a>
         <br>
         <strong>S Saini</strong>, D Gupta, AK Tiwari.
         <br>
-        National Conference on Computer Vision, Pattern Recognition, Image Processing, & Graphics (NCVPRIPG), 2019 (full Oral Presentation), twin of ICVGIP
+        NCVPRIPG 2019 (Oral)
         <br>
-        <a href="https://arxiv.org/pdf/2005.06550">ArXiv</a>
+        <a href="#">PDF</a> / <a href="#">ArXiv</a> / <a href="#">Page</a> / <a href="#">Code</a>
         <br>
         <p>This paper presents a detector and SegMentor network for simultaneous skin lesion localization and segmentation. The network combines detection and segmentation tasks to provide a comprehensive solution for skin lesion analysis, enabling accurate localization and precise segmentation of lesions for improved diagnostic accuracy.</p>
       </td>
@@ -601,16 +577,16 @@ function servicesFunction() {
   <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
     <tr>
       <td style="padding:20px;width:25%;vertical-align:middle">
-        <img src='images/pixel-seg.png'  width="150" height="120">
+        <img src='images/pixel-seg.png' class="thumb-square">
       </td>
       <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="https://ietresearch.onlinelibrary.wiley.com/doi/full/10.1049/iet-bmt.2019.0025"><papertitle>PixISegNet: pixel-level iris segmentation network using convolutional encoder–decoder with stacked hourglass bottleneck [Paper]</papertitle></a>
+        <a href="#"><papertitle>PixISegNet: pixel-level iris segmentation network using convolutional encoder–decoder with stacked hourglass bottleneck</papertitle></a>
         <br>
-        RR Jha, G Jaswal, <strong>S Saini</strong>, D Gupta, A Nigam.
+        RR Jha, G Jaswal, <strong>S Saini</strong>, et al.
         <br>
-        The Institution of Engineering and Technology (IET Biometrics, 2019)
+        IET Biometrics, 2019
         <br>
-        <a href="https://ietresearch.onlinelibrary.wiley.com/doi/full/10.1049/iet-bmt.2019.0025">PDF</a> 
+        <a href="#">PDF</a>
         <br>
         <p>PixISegNet introduces a pixel-level iris segmentation network that utilizes a convolutional encoder-decoder architecture with a stacked hourglass bottleneck. This network achieves precise iris segmentation by effectively capturing both local and global features, making it suitable for various biometric applications.</p>
       </td>
@@ -621,7 +597,7 @@ function servicesFunction() {
   <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
       <tr>
       <td style="padding:20px;width:100%;vertical-align:middle">
-        <heading>Book Chapters</heading>
+        <heading>Book / Book Chapters</heading>
       </td>
     </tr>
   </tbody></table>
@@ -629,16 +605,16 @@ function servicesFunction() {
   <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
     <tr>
       <td style="padding:20px;width:25%;vertical-align:middle">
-        <img src='images/chapter.png'  width="100" height="140">
+        <img src='images/chapter.png' class="thumb-square">
       </td>
       <td style="padding:20px;width:75%;vertical-align:middle">
-        <a href="https://unidel.edu.ng/focelibrary/books/AI%20and%20Deep%20Learning%20in%20Biometric%20Security%20Trends,%20Potential,%20and%20Challenges%20by%20Gaurav%20Jaswal,%20Vivek%20Kanhangad,%20Raghavendra%20Ramachandra%20(z-lib.org)%20(2).pdf"><papertitle>Iris Segmentation in the Wild using Encoder-Decoder based Deep Learning Techniques [Paper]</papertitle></a>
+        <a href="#"><papertitle>Iris Segmentation in the Wild using Encoder-Decoder based Deep Learning Techniques</papertitle></a>
         <br>
-        <strong>S Saini</strong>, D Gupta, RR Jha, G Jaswal, A Nigam.
+        <strong>S Saini</strong>, et al.
         <br>
-        AI and Deep Learning in Biometric Security: Trends, Potential and Challenge CRC Press (Taylor & Francis Group), 2020
+        AI and Deep Learning in Biometric Security, CRC Press, 2020
         <br>
-        <a href="https://www.taylorfrancis.com/chapters/edit/10.1201/9781003003489-12/iris-segmentation-wild-using-encoder-decoder-based-deep-learning-techniques-shreshth-saini-divij-gupta-ranjeet-ranjan-jha-gaurav-jaswal-aditya-nigam">PDF</a> 
+        <a href="#">PDF</a>
         <br>
         <p>This book chapter explores the use of encoder-decoder based deep learning techniques for iris segmentation in unconstrained environments. The proposed methods effectively handle challenges such as variations in lighting, occlusion, and off-angle images, making them suitable for real-world biometric applications.</p>
       </td>
@@ -646,6 +622,85 @@ function servicesFunction() {
   </tbody></table> 
 
 
+
+  <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+    <tr>
+    <td style="padding:20px;width:100%;vertical-align:middle">
+      <heading style="color:#8B0000;">Projects</heading><br>
+    </td>
+  </tr>
+</tbody></table>
+
+<table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+  <tr>
+    <td style="padding:20px;width:25%;vertical-align:middle">
+      <img src='images/inverse-cse.png' class="thumb-square">
+    </td>
+    <td style="padding:20px;width:75%;vertical-align:middle">
+      <a href="https://github.com/shreshthsaini/Inverse_Problems_CSE_393P"><papertitle>Problems on General Inverse and Solution (CSE 393P)</papertitle></a>
+      <br>
+      GitHub Repository
+      <br>
+      <p>This repository contains problems and solutions related to general inverse problems, as part of the CSE 393P course. It includes implementations and analyses of various inverse problem-solving techniques.</p>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding:20px;width:25%;vertical-align:middle">
+      <img src='images/srdm.png' class="thumb-square">
+    </td>
+    <td style="padding:20px;width:75%;vertical-align:middle">
+      <a href="https://github.com/shreshthsaini/SR-DDPM"><papertitle>An Efficient Approach to Super-Resolution with Fine-Tuning Diffusion Models</papertitle></a>
+      <br>
+      Shreshth Saini, Yu-Chih Chen, Krishna Srikar Durbha
+      <br>
+      <a href="https://github.com/shreshthsaini/SR-DDPM">GitHub</a> / <a href="https://github.com/shreshthsaini/SR-DDPM/blob/main/An%20Efficient%20Approach%20to%20Super-Resolution%20with%20Fine-Tuning%20Diffusion%20Models.pdf">PDF</a>
+      <br>
+      <p>Implementation of an efficient SR3 DM for Super Resolution. This project explores the potential of pre-trained diffusion models to enhance the generalization ability and reduce computation costs in image super-resolution tasks.</p>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding:20px;width:25%;vertical-align:middle">
+      <img src='images/zero-da.png' class="thumb-square">
+    </td>
+    <td style="padding:20px;width:75%;vertical-align:middle">
+      <a href="https://github.com/shreshthsaini/Zero-DA"><papertitle>Zero-DA: Zero-shot Diffusion Model for Video Animation</papertitle></a>
+      <br>
+      Shreshth Saini, Krishna Srikar Durbha
+      <br>
+      <a href="https://github.com/shreshthsaini/Zero-DA">GitHub</a> / <a href="https://github.com/shreshthsaini/Zero-DA/blob/master/paper/Zero-DA.pdf">PDF</a>
+      <br>
+      <p>Zero-shot Diffusion Model for Video Animation (Zero-DA) adapts image generation models to video production. This framework tackles the challenge of maintaining temporal uniformity across video frames using hierarchical cross-frame constraints.</p>
+    </td>
+  </tr>
+    <tr>
+    <td style="padding:20px;width:25%;vertical-align:middle">
+      <img src='images/recividism.png' class="thumb-square">
+    </td>
+    <td style="padding:20px;width:75%;vertical-align:middle">
+      <a href="https://github.com/shreshthsaini/UBR-UnBiased-and-Robust-Recidivism-Prediction?tab=readme-ov-file#ubr-unbiased-and-robust-recidivism-prediction"><papertitle>UBR-Unbiased-and-Robust-Recidivism-Prediction</papertitle></a>
+      <br>
+      Shreshth Saini, Albert Joe, Jiachen Wang, SayedMorteza Malaekeh
+            <br>
+      <a href="https://github.com/shreshthsaini/UBR-UnBiased-and-Robust-Recidivism-Prediction?tab=readme-ov-file#ubr-unbiased-and-robust-recidivism-prediction">GitHub</a> / <a href="https://github.com/shreshthsaini/UBR-UnBiased-and-Robust-Recidivism-Prediction/blob/master/Recidivism.pdf">PDF</a>
+      <br>
+      <p>This project aims to mitigate the inherent bias in recidivism score predictions by leveraging machine learning techniques to rectify and minimize biases towards gender and racial/ethnic groups.</p>
+    </td>
+  </tr>
+    <tr>
+    <td style="padding:20px;width:25%;vertical-align:middle">
+      <img src='images/flowless.png' class="thumb-square">
+    </td>
+    <td style="padding:20px;width:75%;vertical-align:middle">
+      <a href="https://github.com/shreshthsaini/Flow-Less-VFI"><papertitle>Optical flow less video frame interpolation</papertitle></a>
+      <br>
+      Shreshth Saini, Krishna Srikar Durbha
+      <br>
+      <a href="https://github.com/shreshthsaini/Flow-Less-VFI">GitHub</a> / <a href="https://github.com/shreshthsaini/Flow-Less-VFI/blob/main/Digital_Video___Report.pdf">PDF</a>
+      <br>
+      <p>This project proposes the use of transformers to learn long-range interactions with mutual self-attention between frames as a surrogate for motion estimation in video frame interpolation.</p>
+    </td>
+  </tr>
+</tbody></table>
 
 <!-- Preprints==========================================================================================-->
 
@@ -690,25 +745,25 @@ function servicesFunction() {
       <!--========================================================================================== -->
        <!--    <td>
             <ul>
-              <li> <b>June 2021:</b> <a href="https://ojs.aaai.org/index.php/AAAI/article/view/17137">Why Adversarial Interaction Creates Non-Homogeneous Patterns: A Pseudo-Reaction-Diffusion Model for Turing Instability</a>, Knowledge Sharing Series on Artificial Intelligence: Theory and Practice, SAC, ISRO, India.
+              <li> <b>Jun 2021:</b> <a href="https://ojs.aaai.org/index.php/AAAI/article/view/17137">Why Adversarial Interaction Creates Non-Homogeneous Patterns: A Pseudo-Reaction-Diffusion Model for Turing Instability</a>, Knowledge Sharing Series on Artificial Intelligence: Theory and Practice, SAC, ISRO, India.
                 <br>
                   <a href="data/KSS_Lecture1_02062021.pdf">[Lecture 1]</a> &nbsp <a href="data/KSS_Lecture2_09062021.pdf">[Lecture 2]</a> &nbsp <a href="data/KSS_Lecture3_16062021.pdf">[Lecture 3]</a> &nbsp <a href="data/Learning_a_Linear_Function_Approximator.html">[Demo Code 1]</a> &nbsp <a href="data/Learning_One_Layer_Neural_Network_Function_Approximator.html">[Demo Code 2]</a> &nbsp <a href="data/Learning_Two_Layer_Neural_Network_Function_Approximator.html">[Demo Code 3]</a> &nbsp <a href="data/Learning_Three_Layer_Convolutional_Neural_Network_Function_Approximator.html">[Demo Code 4]</a></li>
               <p></p>
-              <li> <b>August 2020:</b> <b>Deep Learning: Real World Applications and Implementation Details</b>, Human Resource Development Division (HRDD), VSSC, ISRO, India.
+              <li> <b>Aug 2020:</b> <b>Deep Learning: Real World Applications and Implementation Details</b>, Human Resource Development Division (HRDD), VSSC, ISRO, India.
                 <br>
                   <a href="data/vssc_talk_aug_2020_lr.pdf">[Slides]</a> &nbsp <a href="data/Learning_a_Linear_Function_Approximator.html">[Demo Code 1]</a> &nbsp <a href="data/Learning_One_Layer_Neural_Network_Function_Approximator.html">[Demo Code 2]</a> &nbsp <a href="data/Learning_Two_Layer_Neural_Network_Function_Approximator.html">[Demo Code 3]</a> &nbsp <a href="data/Learning_Three_Layer_Convolutional_Neural_Network_Function_Approximator.html">[Demo Code 4]</a></li>
               <p></p>
-              <li> <b>April 2020:</b> <a href="http://openaccess.thecvf.com/content_CVPRW_2020/html/w11/Rout_S2A_Wasserstein_GAN_With_Spatio-Spectral_Laplacian_Attention_for_Multi-Spectral_Band_CVPRW_2020_paper.html">S2A: Wasserstein GAN with Spatio-Spectral Laplacian Attention for Multi-Spectral Band Synthesis</a>, Earth, Ocean, Atmosphere, Planetary Sciences and Applications Area (EPSA), SAC, ISRO, India.
+              <li> <b>Apr 2020:</b> <a href="http://openaccess.thecvf.com/content_CVPRW_2020/html/w11/Rout_S2A_Wasserstein_GAN_With_Spatio-Spectral_Laplacian_Attention_for_Multi-Spectral_Band_CVPRW_2020_paper.html">S2A: Wasserstein GAN with Spatio-Spectral Laplacian Attention for Multi-Spectral Band Synthesis</a>, Earth, Ocean, Atmosphere, Planetary Sciences and Applications Area (EPSA), SAC, ISRO, India.
                 <br>
                  <a href="data/309-talk.pdf">[Slides]</a></li>
               <p></p>
-              <li> <b>April 2020:</b> <a href="http://openaccess.thecvf.com/content_CVPRW_2020/html/w11/Rout_Monte-Carlo_Siamese_Policy_on_Actor_for_Satellite_Image_Super_Resolution_CVPRW_2020_paper.html"> Monte-Carlo Siamese Policy on Actor for Satellite Image Super Resolution</a>, Earth, Ocean, Atmosphere, Planetary Sciences and Applications Area (EPSA), SAC, ISRO, India.
+              <li> <b>Apr 2020:</b> <a href="http://openaccess.thecvf.com/content_CVPRW_2020/html/w11/Rout_Monte-Carlo_Siamese_Policy_on_Actor_for_Satellite_Image_Super_Resolution_CVPRW_2020_paper.html"> Monte-Carlo Siamese Policy on Actor for Satellite Image Super Resolution</a>, Earth, Ocean, Atmosphere, Planetary Sciences and Applications Area (EPSA), SAC, ISRO, India.
                 <br>
                  <a href="data/324-talk.pdf">[Slides]</a></li>
               <p></p>
-              <li> <b>March 2020:</b> <b>Global and Local Residual Learning for Spatio-Spectral Synthesis of SWIR Band using Multi-Sensor Concurrent Datasets</b>, National Remote Sensing Agencies, SAC, ISRO, India. </li>
+              <li> <b>Mar 2020:</b> <b>Global and Local Residual Learning for Spatio-Spectral Synthesis of SWIR Band using Multi-Sensor Concurrent Datasets</b>, National Remote Sensing Agencies, SAC, ISRO, India. </li>
               <p></p>
-              <li> <b>July 2018:</b> <b>Understanding Artificial Neural Networks to Deep Learning</b>, Mohandas College of Engineering and Technology <a href="https://mcetonline.com/">(MCET)</a>, Thiruvananthapuram, Kerala, India.</li>
+              <li> <b>Jul 2018:</b> <b>Understanding Artificial Neural Networks to Deep Learning</b>, Mohandas College of Engineering and Technology <a href="https://mcetonline.com/">(MCET)</a>, Thiruvananthapuram, Kerala, India.</li>
             </ul>
             <p></p> -->
             <!--==========================================================================================-->
@@ -739,49 +794,9 @@ function servicesFunction() {
       </td>
     </tr>
   </table>
-</body>
 
-<style>
-  body {
-    cursor: none;
-  }
+  </body>
 
-  #cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: blue;
-    pointer-events: none;
-    transform: translate(-50%, -50%); /* Center the cursor */
-    transition: width 0.1s ease-out, height 0.1s ease-out; /* Smooth transition */
-    z-index: 1000;
-  }
 
-  body.clicked #cursor {
-    width: 30px;
-    height: 30px;
-  }
-</style>
-
-<div id="cursor"></div>
-
-<script>
-  document.addEventListener('mousemove', function(e) {
-    const cursor = document.getElementById('cursor');
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-  });
-
-  document.addEventListener('mousedown', function() {
-    document.body.classList.add('clicked');
-  });
-
-  document.addEventListener('mouseup', function() {
-    document.body.classList.remove('clicked');
-  });
-</script>
 
 </html>
