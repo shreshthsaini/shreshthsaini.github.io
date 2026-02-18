@@ -126,6 +126,7 @@
     .post-meta {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 12px;
       margin-bottom: 12px;
     }
@@ -146,10 +147,11 @@
       border-radius: 4px;
     }
     
-    .tag-diffusion { background: rgba(6, 182, 212, 0.1); color: #0891b2; }
-    .tag-research { background: rgba(139, 92, 246, 0.1); color: #7c3aed; }
-    .tag-tutorial { background: rgba(16, 185, 129, 0.1); color: #059669; }
-    .tag-thoughts { background: rgba(245, 158, 11, 0.1); color: #d97706; }
+    .tag-flow { background: rgba(37, 99, 235, 0.1); color: #1d4ed8; }
+    .tag-dm { background: rgba(14, 116, 144, 0.1); color: #0e7490; }
+    .tag-hdr { background: rgba(245, 158, 11, 0.12); color: #b45309; }
+    .tag-vqa { background: rgba(16, 185, 129, 0.12); color: #047857; }
+    .tag-subjective { background: rgba(139, 92, 246, 0.12); color: #7c3aed; }
     
     .post-title {
       font-family: 'Crimson Pro', Georgia, serif;
@@ -304,18 +306,21 @@
         
         <article class="post-card">
           <div class="post-meta">
-            <span class="post-date">Coming Soon</span>
-            <span class="post-tag tag-diffusion">Diffusion</span>
+            <span class="post-date">Dec 2025</span>
+            <span class="post-tag tag-flow">Flow Model</span>
+            <span class="post-tag tag-dm">DM</span>
           </div>
-          <h2 class="post-title"><a href="#">Understanding Rectified Flow: From Theory to Practice</a></h2>
-          <p class="post-excerpt">A deep dive into rectified flow models and how they enable faster, more efficient generation compared to traditional diffusion models. We'll explore the mathematical foundations and practical implementations.</p>
-          <a href="#" class="read-more">Read more &rarr;</a>
+          <h2 class="post-title"><a href="rectified-flow.html">Rectified Flow, Explained from Geometry to Minimal Code</a></h2>
+          <p class="post-excerpt">An intuition-first deep dive into Rectified Flow with the core equations, geometric interpretation of trajectory straightness, and minimal PyTorch-style code snippets for training and sampling.</p>
+          <a href="rectified-flow.html" class="read-more">Read more &rarr;</a>
         </article>
 
         <article class="post-card">
           <div class="post-meta">
             <span class="post-date">Coming Soon</span>
-            <span class="post-tag tag-research">Research</span>
+            <span class="post-tag tag-hdr">HDR</span>
+            <span class="post-tag tag-vqa">VQA</span>
+            <span class="post-tag tag-subjective">Subjective Study</span>
           </div>
           <h2 class="post-title"><a href="#">The Challenge of HDR Video Quality Assessment</a></h2>
           <p class="post-excerpt">Why measuring quality in high dynamic range videos is fundamentally different from SDR, and what makes it one of the most challenging problems in perceptual quality research.</p>
@@ -325,7 +330,8 @@
         <article class="post-card">
           <div class="post-meta">
             <span class="post-date">Coming Soon</span>
-            <span class="post-tag tag-research">Research</span>
+            <span class="post-tag tag-flow">Flow Model</span>
+            <span class="post-tag tag-dm">DM</span>
           </div>
           <h2 class="post-title"><a href="#">CFG++ Explained: Better Classifier-Free Guidance</a></h2>
           <p class="post-excerpt">A practical guide to implementing CFG++ and its rectified variant for improved image generation with flow-based models.</p>
