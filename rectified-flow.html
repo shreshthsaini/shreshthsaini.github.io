@@ -1,0 +1,1021 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Rectified Flow - Technical Notes on Objectives, Geometry, and Training</title>
+  <meta name="author" content="Shreshth Saini">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A technical note on Rectified Flow with derivations, matrix perspective, training tricks, and practical implementation details.">
+
+  <link rel="icon" type="image/jpg" href="images/UT_profile.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.08);
+      --bg: #ffffff;
+      --bg-subtle: #f8fafc;
+      --border: #e2e8f0;
+      --border-light: #f1f5f9;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text-secondary);
+      background: var(--bg);
+      line-height: 1.75;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0 20px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .nav-container {
+      max-width: 1120px;
+      margin: 0 auto;
+      height: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-weight: 600;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: -0.2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--bg-subtle);
+    }
+
+    .nav-links a.active {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px 64px;
+    }
+
+    .toc-rail {
+      position: fixed;
+      top: 92px;
+      left: 10px;
+      width: 200px;
+      z-index: 20;
+      font-family: 'Inter', sans-serif;
+      user-select: none;
+    }
+
+    .toc-head {
+      margin-bottom: 12px;
+      padding-left: 12px;
+    }
+
+    .toc-title {
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #334155;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 2px;
+    }
+
+    .toc-items {
+      position: relative;
+    }
+
+    .toc-items::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: #cbd5e1;
+    }
+
+    .toc-item {
+      position: relative;
+      display: block;
+      min-height: 34px;
+      padding-left: 24px;
+      margin: 2px 0;
+      text-decoration: none;
+      color: #64748b;
+    }
+
+    .toc-item.sub {
+      margin-left: 12px;
+      min-height: 30px;
+    }
+
+    .toc-dot {
+      position: absolute;
+      left: 3px;
+      top: 11px;
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #94a3b8;
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 0 1px #94a3b8;
+      transition: all 0.15s ease;
+    }
+
+    .toc-item.sub .toc-dot {
+      width: 5px;
+      height: 5px;
+      left: 4px;
+      top: 12px;
+      border: 0;
+      box-shadow: none;
+    }
+
+    .toc-label {
+      display: inline-block;
+      font-size: 13px;
+      line-height: 1.35;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity 0.16s ease, transform 0.16s ease;
+      pointer-events: none;
+      padding-right: 2px;
+    }
+
+    .toc-rail:hover .toc-label {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .toc-item.active .toc-dot,
+    .toc-item:hover .toc-dot {
+      background: #1d4ed8;
+      box-shadow: 0 0 0 1px #1d4ed8;
+    }
+
+    .main-column {
+      max-width: 760px;
+      margin: 0 auto;
+      min-width: 0;
+    }
+
+    .hero {
+      max-width: 100%;
+      padding: 72px 0 36px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 34px;
+    }
+
+    h1 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-weight: 500;
+      font-size: 48px;
+      line-height: 1.12;
+      color: var(--text-primary);
+      letter-spacing: -0.8px;
+      margin-bottom: 16px;
+    }
+
+    .subtitle {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 20px;
+      line-height: 1.35;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .pill {
+      border: 1px solid var(--border);
+      background: var(--bg-subtle);
+      border-radius: 999px;
+      padding: 4px 10px;
+      color: #1d4ed8;
+      font-size: 11px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    article {
+      position: relative;
+      max-width: 100%;
+      font-family: 'Crimson Pro', Georgia, serif;
+      color: #1f2937;
+      font-size: 19px;
+      line-height: 1.68;
+      letter-spacing: 0.1px;
+    }
+
+    article p {
+      margin: 0 0 18px;
+    }
+
+    h2 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      color: var(--text-primary);
+      font-size: 36px;
+      font-weight: 500;
+      line-height: 1.2;
+      margin: 54px 0 18px;
+      letter-spacing: -0.35px;
+    }
+
+    h3 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      color: var(--text-primary);
+      font-size: 29px;
+      font-weight: 500;
+      line-height: 1.25;
+      margin: 40px 0 14px;
+      letter-spacing: -0.25px;
+    }
+
+    ul, ol {
+      margin: 0 0 20px 26px;
+    }
+
+    li {
+      margin-bottom: 10px;
+      padding-left: 4px;
+    }
+
+    .summary {
+      border-left: 3px solid #2563eb;
+      padding-left: 16px;
+      margin: 24px 0 12px;
+      color: #374151;
+    }
+
+    .summary p {
+      margin-bottom: 10px;
+      font-size: 18px;
+      line-height: 1.52;
+    }
+
+    .display-eq {
+      text-align: center;
+      margin: 18px 0 20px;
+      overflow-x: auto;
+      color: #0f172a;
+      font-size: 0.84em;
+    }
+
+    .display-eq mjx-container[jax="SVG"] {
+      display: inline-block;
+    }
+
+    .cite {
+      font-size: 0.62em;
+      vertical-align: super;
+      line-height: 0;
+      margin-left: 2px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .note-ref {
+      font-size: 0.62em;
+      vertical-align: super;
+      line-height: 0;
+      margin-left: 2px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .note-ref a {
+      color: #475569;
+      text-decoration: none;
+      border: 1px solid #cbd5e1;
+      border-radius: 3px;
+      padding: 0 3px;
+      background: #ffffff;
+      transition: all 0.14s ease;
+    }
+
+    .note-ref.is-active a,
+    .note-ref a:hover {
+      color: #1d4ed8;
+      border-color: #1d4ed8;
+      background: rgba(37, 99, 235, 0.12);
+    }
+
+    .cite a {
+      color: #334155;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .cite a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    .sidenote {
+      float: right;
+      clear: right;
+      width: 290px;
+      margin-right: -340px;
+      margin-left: 24px;
+      margin-bottom: 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--text-muted);
+      padding-left: 12px;
+      border-left: 1px solid var(--border);
+      border-radius: 6px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+      cursor: pointer;
+    }
+
+    .sidenote strong {
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .sidenote.is-active {
+      background: #f8fafc;
+      border-left-color: #1d4ed8;
+      color: #334155;
+    }
+
+    .eq-label {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-muted);
+      font-size: 13px;
+      text-align: center;
+      margin-top: -8px;
+      margin-bottom: 14px;
+    }
+
+    code, pre {
+      font-family: 'JetBrains Mono', 'SF Mono', Menlo, Monaco, monospace;
+      font-size: 13px;
+    }
+
+    code.inline {
+      background: #eef2ff;
+      color: #3730a3;
+      border: 1px solid #e0e7ff;
+      border-radius: 5px;
+      padding: 1px 5px;
+      font-size: 0.85em;
+    }
+
+    pre {
+      background: #0b1324;
+      color: #dbeafe;
+      border-radius: 10px;
+      padding: 14px 16px;
+      overflow-x: auto;
+      margin: 16px 0 22px;
+      line-height: 1.65;
+      border: 1px solid #1e293b;
+      font-size: 12px;
+    }
+
+    figure {
+      margin: 24px 0 26px;
+    }
+
+    .svg-figure, figure img {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    }
+
+    figcaption {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 10px;
+      line-height: 1.55;
+    }
+
+    .plain-notes {
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+
+    .plain-notes li {
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .references {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #334155;
+      margin-left: 20px;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    footer {
+      margin-top: 52px;
+      padding-top: 26px;
+      border-top: 1px solid var(--border-light);
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+    }
+
+    @media (max-width: 1200px) {
+      .container {
+        max-width: 860px;
+        display: block;
+      }
+      article { max-width: 100%; }
+      .toc-rail { display: none; }
+      .sidenote {
+        float: none;
+        width: auto;
+        margin: 8px 0 18px;
+        border-left: 2px solid var(--border);
+      }
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 38px; }
+      h2 { font-size: 33px; margin-top: 42px; }
+      h3 { font-size: 28px; }
+      .hero {
+        padding-top: 48px;
+        margin-bottom: 28px;
+      }
+      .subtitle { font-size: 18px; }
+      article {
+        font-size: 17px;
+        line-height: 1.62;
+      }
+      .summary p { font-size: 17px; }
+      .nav-links a {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">Shreshth Saini</a>
+      <div class="nav-links">
+        <a href="index.html#about">About</a>
+        <a href="index.html#experience">Experience</a>
+        <a href="index.html#research">Research</a>
+        <a href="blogs.html" class="active">Blogs</a>
+        <a href="data/CV_Shreshth_Saini_2026.pdf">CV</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <aside class="toc-rail" aria-label="On this page">
+      <div class="toc-head">
+        <p class="toc-title">Rectified Flow Note</p>
+      </div>
+      <nav class="toc-items">
+        <a class="toc-item" href="#sec-summary"><span class="toc-dot"></span><span class="toc-label">Summary</span></a>
+        <a class="toc-item" href="#sec-setup"><span class="toc-dot"></span><span class="toc-label">Setup: Coupling and Targets</span></a>
+        <a class="toc-item" href="#sec-loss"><span class="toc-dot"></span><span class="toc-label">Loss and Regression Optimum</span></a>
+        <a class="toc-item" href="#sec-matrix"><span class="toc-dot"></span><span class="toc-label">Matrix Sanity Check</span></a>
+        <a class="toc-item" href="#sec-sampling"><span class="toc-dot"></span><span class="toc-label">Sampling and Curvature</span></a>
+        <a class="toc-item" href="#sec-reflow"><span class="toc-dot"></span><span class="toc-label">Reflow and Loss Variants</span></a>
+        <a class="toc-item sub" href="#sec-param"><span class="toc-dot"></span><span class="toc-label">Parameterization Identities</span></a>
+        <a class="toc-item sub" href="#sec-snippet"><span class="toc-dot"></span><span class="toc-label">Weighted Training Snippet</span></a>
+        <a class="toc-item" href="#sec-practical"><span class="toc-dot"></span><span class="toc-label">Practical Notes</span></a>
+        <a class="toc-item" href="#sec-references"><span class="toc-dot"></span><span class="toc-label">References</span></a>
+      </nav>
+    </aside>
+
+    <div class="main-column">
+    <header class="hero">
+      <h1>Rectified Flow: A Technical Note on Objectives, Geometry, and Training</h1>
+      <p class="subtitle">
+        This post is a dense technical walkthrough of Rectified Flow: the exact regression objective, what it means in matrix form,
+        why trajectory curvature dominates low-step sampling error, and which training tricks matter in practice.
+      </p>
+      <div class="meta">
+        <span>Dec 2025</span>
+        <span class="pill">Flow Models</span>
+        <span class="pill">Technical Note</span>
+      </div>
+    </header>
+
+    <article>
+      <div id="sec-summary"></div>
+      <div class="summary">
+        <p><strong>Thesis.</strong> Rectified Flow is best understood as supervised regression of a time-indexed velocity field under a chosen coupling between noise and data distributions.</p>
+        <p><strong>Main technical point.</strong> The objective is simple, but quality at low solver steps is controlled by trajectory curvature, not only endpoint correctness.</p>
+        <p><strong>Practical implication.</strong> Better time sampling, loss weighting, and reflow-style rectification often buy more than adding another large architectural block.</p>
+      </div>
+
+      <h2 id="sec-setup">1) Setup: Coupling, Interpolation, and Targets</h2>
+
+      <aside class="sidenote" id="note-1" data-ref="note-ref-1">
+        <strong>1.</strong> In this note, "coupling" means a joint distribution \(\pi(x_0, x_1)\) with marginals \(p_0\) and \(p_1\). Independent coupling is common in first-pass RF training, but semantic couplings can improve conditional fidelity.
+      </aside>
+
+      <p>
+        Let \(x_0 \sim p_0\) be a base sample (usually Gaussian), and \(x_1 \sim p_1\) be a data sample. A coupling \(\pi(x_0, x_1)\)
+        defines how these endpoints are paired<sup class="note-ref" id="note-ref-1"><a href="#note-1">1</a></sup><sup class="cite"><a href="#ref1">[1]</a></sup>. Given \(t \in [0,1]\), define the linear interpolation
+      </p>
+
+      <p class="display-eq">\[
+        x_t = (1-t)x_0 + t x_1.
+      \]</p>
+
+      <p>
+        The instantaneous displacement target is
+      </p>
+
+      <p class="display-eq">\[
+        u(x_0,x_1) = x_1 - x_0.
+      \]</p>
+
+      <p>
+        Rectified Flow trains a neural vector field \(v_\theta(x,t)\) to predict this displacement from \((x_t,t)\). If \(v_\theta\) matches the conditional mean velocity,
+        integrating \(\dot{x}_t = v_\theta(x_t,t)\) pushes \(p_0\) toward \(p_1\) with straightened trajectories<sup class="cite"><a href="#ref1">[1]</a></sup><sup class="cite"><a href="#ref2">[2]</a></sup>.
+      </p>
+
+      <figure>
+        <svg class="svg-figure" viewBox="0 0 860 300" aria-label="Curved and straight transport trajectories">
+          <defs>
+            <marker id="arrowA" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3 z" fill="#2563eb"></path>
+            </marker>
+          </defs>
+          <rect x="0" y="0" width="860" height="300" fill="url(#bgGrad)"></rect>
+          <defs>
+            <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f8fafc"></stop>
+              <stop offset="100%" stop-color="#ffffff"></stop>
+            </linearGradient>
+          </defs>
+
+          <text x="150" y="40" fill="#334155" font-size="16" font-family="Inter" font-weight="600">Curved Transport</text>
+          <text x="560" y="40" fill="#334155" font-size="16" font-family="Inter" font-weight="600">Rectified Transport</text>
+
+          <circle cx="80" cy="240" r="8" fill="#0ea5e9"></circle>
+          <circle cx="320" cy="80" r="8" fill="#ef4444"></circle>
+          <path d="M80 240 C 120 140, 230 220, 320 80" stroke="#2563eb" stroke-width="4" fill="none" marker-end="url(#arrowA)"></path>
+          <circle cx="140" cy="180" r="4" fill="#1d4ed8"></circle>
+          <circle cx="220" cy="190" r="4" fill="#1d4ed8"></circle>
+          <circle cx="280" cy="130" r="4" fill="#1d4ed8"></circle>
+
+          <circle cx="460" cy="240" r="8" fill="#0ea5e9"></circle>
+          <circle cx="760" cy="80" r="8" fill="#ef4444"></circle>
+          <path d="M460 240 L760 80" stroke="#16a34a" stroke-width="4" fill="none" marker-end="url(#arrowA)"></path>
+          <circle cx="535" cy="200" r="4" fill="#15803d"></circle>
+          <circle cx="610" cy="160" r="4" fill="#15803d"></circle>
+          <circle cx="685" cy="120" r="4" fill="#15803d"></circle>
+
+          <text x="42" y="263" fill="#0369a1" font-size="12" font-family="Inter">noise</text>
+          <text x="300" y="73" fill="#b91c1c" font-size="12" font-family="Inter">data</text>
+          <text x="422" y="263" fill="#0369a1" font-size="12" font-family="Inter">noise</text>
+          <text x="739" y="73" fill="#b91c1c" font-size="12" font-family="Inter">data</text>
+        </svg>
+        <figcaption>
+          Geometric view: low-step ODE solvers approximate straight trajectories much better than curved ones.
+        </figcaption>
+      </figure>
+
+      <h2 id="sec-loss">2) Loss Function and the Regression Optimum</h2>
+
+      <p>
+        The basic objective is
+      </p>
+
+      <p class="display-eq">\[
+        \mathcal{L}_{\mathrm{RF}}(\theta)
+        =
+        \mathbb{E}_{(x_0,x_1)\sim\pi,\; t\sim\rho}
+        \bigl[\|v_\theta(x_t,t) - (x_1-x_0)\|_2^2\bigr].
+      \]</p>
+
+      <p>
+        Here \(\rho(t)\) is the time-sampling distribution (uniform is the default; non-uniform choices are often better in practice).
+        The minimizer at each \((x,t)\) is the conditional expectation
+      </p>
+
+      <p class="display-eq">\[
+        v^\star(x,t) = \mathbb{E}[x_1-x_0 \mid x_t=x,\; t].
+      \]</p>
+
+      <p>
+        This follows from the projection theorem in \(L_2\):
+      </p>
+
+      <p class="display-eq">\[
+        \mathbb{E}\|v-u\|^2
+        =
+        \mathbb{E}\|v-v^\star\|^2 + \mathbb{E}\|u-v^\star\|^2,
+      \]</p>
+
+      <p>
+        so optimization can only reduce the first term; the second is irreducible variance from ambiguous pairings.
+        This decomposition is useful when debugging: if training loss plateaus early with large data variance,
+        the bottleneck may be coupling noise, not model capacity.
+      </p>
+
+      <p>
+        In matrix form for a batch of size \(B\), define \(X_t \in \mathbb{R}^{B\times d}\), \(U \in \mathbb{R}^{B\times d}\),
+        and \(V_\theta(X_t,t)\in\mathbb{R}^{B\times d}\). Then
+      </p>
+
+      <p class="display-eq">\[
+        \mathcal{L}_B(\theta)=\frac{1}{B}\|V_\theta(X_t,t)-U\|_F^2.
+      \]</p>
+
+      <p>
+        This Frobenius form makes clear that RF training is a standard least-squares regression over features \((x_t,t)\), which is why most
+        optimization tricks transfer directly from diffusion training pipelines<sup class="cite"><a href="#ref5">[5]</a></sup>.
+      </p>
+
+      <h2 id="sec-matrix">3) Matrix Sanity Check: Deterministic Linear Map</h2>
+
+      <aside class="sidenote" id="note-2" data-ref="note-ref-2">
+        <strong>2.</strong> This section is intentionally "toy" but useful: if your implementation fails this case, the issue is usually target construction, time conditioning, or solver parameterization.
+      </aside>
+
+      <p>
+        Consider a deterministic linear transport \(x_1 = A x_0\)<sup class="note-ref" id="note-ref-2"><a href="#note-2">2</a></sup>, with \(x_0 \sim \mathcal{N}(0, I)\). Then
+      </p>
+
+      <p class="display-eq">\[
+        x_t = \bigl((1-t)I + tA\bigr)x_0 = M_t x_0,
+        \quad
+        M_t := (1-t)I+tA.
+      \]</p>
+
+      <p>
+        The target displacement is \(u=(A-I)x_0\), so expressed in terms of \(x_t\):
+      </p>
+
+      <p class="display-eq">\[
+        u = (A-I)M_t^{-1}x_t = K_t x_t,
+        \quad
+        K_t := (A-I)M_t^{-1}.
+      \]</p>
+
+      <p>
+        Therefore the optimal velocity is exactly linear in \(x_t\) at each \(t\). If you fit a linear model class
+      </p>
+
+      <p class="display-eq">\[
+        v_W(x,t)=W_t x,
+      \]</p>
+
+      <p>
+        then \(W_t=K_t\) is the minimizer, and normal equations recover it in closed form in finite data when \(X_t^\top X_t\) is full rank:
+      </p>
+
+      <p class="display-eq">\[
+        W_t^{\star} = (X_t^\top X_t)^{-1}X_t^\top U.
+      \]</p>
+
+      <p>
+        This toy case explains why RF often converges quickly on low-dimensional synthetic distributions: the regression target is well-conditioned and nearly linear.
+        In high-dimensional image manifolds, the same formula holds locally, but \(K_t\) varies sharply across regions, which is where network capacity and time embeddings matter.
+      </p>
+
+      <h2 id="sec-sampling">4) Sampling Dynamics and Why Curvature Matters</h2>
+
+      <p>
+        Generation solves the ODE
+      </p>
+
+      <p class="display-eq">\[
+        \frac{dx_t}{dt} = v_\theta(x_t,t),
+        \qquad x_{t=0}\sim p_0.
+      \]</p>
+
+      <p>
+        Euler integration with \(N\) steps uses
+      </p>
+
+      <p class="display-eq">\[
+        x_{k+1} = x_k + \Delta t\, v_\theta(x_k,t_k),
+        \qquad \Delta t = 1/N.
+      \]</p>
+
+      <p>
+        The second time derivative along the trajectory is
+      </p>
+
+      <p class="display-eq">\[
+        \ddot{x}_t = \partial_t v_\theta(x_t,t) + J_{v_\theta}(x_t,t)\,v_\theta(x_t,t),
+      \]</p>
+
+      <p>
+        and this directly controls local truncation error:
+      </p>
+
+      <p class="display-eq">\[
+        e_{\text{local}} = \frac{\Delta t^2}{2}\ddot{x}_t + \mathcal{O}(\Delta t^3).
+      \]</p>
+
+      <p>
+        The practical message is simple: for a fixed step budget, you want small effective curvature.
+        Reflow/rectification methods can be interpreted as pushing the learned coupling toward self-consistency so that the solver follows straighter paths<sup class="cite"><a href="#ref1">[1]</a></sup>.
+      </p>
+
+      <figure>
+        <svg class="svg-figure" viewBox="0 0 860 300" aria-label="Discretization error with curved versus straight trajectories">
+          <defs>
+            <marker id="arrowB" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3 z" fill="#1d4ed8"></path>
+            </marker>
+          </defs>
+          <line x1="80" y1="250" x2="390" y2="250" stroke="#94a3b8" stroke-width="1.5"></line>
+          <line x1="80" y1="250" x2="80" y2="60" stroke="#94a3b8" stroke-width="1.5"></line>
+          <line x1="470" y1="250" x2="780" y2="250" stroke="#94a3b8" stroke-width="1.5"></line>
+          <line x1="470" y1="250" x2="470" y2="60" stroke="#94a3b8" stroke-width="1.5"></line>
+
+          <text x="92" y="78" fill="#334155" font-size="15" font-family="Inter" font-weight="600">Curved path + coarse Euler</text>
+          <text x="482" y="78" fill="#334155" font-size="15" font-family="Inter" font-weight="600">Rectified path + coarse Euler</text>
+
+          <path d="M95 230 C 155 130, 250 210, 365 95" stroke="#2563eb" stroke-width="4" fill="none"></path>
+          <circle cx="95" cy="230" r="4.5" fill="#0ea5e9"></circle>
+          <circle cx="180" cy="170" r="4.5" fill="#0ea5e9"></circle>
+          <circle cx="260" cy="185" r="4.5" fill="#0ea5e9"></circle>
+          <circle cx="320" cy="140" r="4.5" fill="#0ea5e9"></circle>
+          <circle cx="365" cy="95" r="4.5" fill="#ef4444"></circle>
+          <path d="M95 230 L180 170 L260 185 L320 140 L365 95" stroke="#f97316" stroke-width="2.5" fill="none" stroke-dasharray="5 5" marker-end="url(#arrowB)"></path>
+          <text x="240" y="226" fill="#ea580c" font-size="12" font-family="Inter">large discretization gap</text>
+
+          <path d="M485 230 L755 95" stroke="#16a34a" stroke-width="4" fill="none"></path>
+          <circle cx="485" cy="230" r="4.5" fill="#0ea5e9"></circle>
+          <circle cx="552" cy="197" r="4.5" fill="#0ea5e9"></circle>
+          <circle cx="620" cy="164" r="4.5" fill="#0ea5e9"></circle>
+          <circle cx="688" cy="130" r="4.5" fill="#0ea5e9"></circle>
+          <circle cx="755" cy="95" r="4.5" fill="#ef4444"></circle>
+          <path d="M485 230 L552 197 L620 164 L688 130 L755 95" stroke="#1d4ed8" stroke-width="2.5" fill="none" stroke-dasharray="5 5" marker-end="url(#arrowB)"></path>
+          <text x="625" y="226" fill="#15803d" font-size="12" font-family="Inter">small discretization gap</text>
+        </svg>
+        <figcaption>
+          Same compute budget, different geometry. RF quality-speed tradeoff is often a curvature control problem.
+        </figcaption>
+      </figure>
+
+      <h2 id="sec-reflow">5) Reflow Objective and Practical Loss Variants</h2>
+
+      <p>
+        A common rectification loop is:
+      </p>
+
+      <ol>
+        <li>Train base \(v_{\theta_0}\) with the standard RF objective.</li>
+        <li>Sample \(x_0\sim p_0\), then integrate \(\dot{x}=v_{\theta_0}(x,t)\) to obtain \(\hat{x}_1=\Phi_{\theta_0}^{0\to1}(x_0)\).</li>
+        <li>Use pairs \((x_0,\hat{x}_1)\) to retrain a new field \(v_{\theta_1}\).</li>
+      </ol>
+
+      <p>
+        This process is closely related to reflow/trajectory-straightening ideas in RF literature and to practical guidance adaptations in conditional flow sampling<sup class="cite"><a href="#ref1">[1]</a></sup><sup class="cite"><a href="#ref4">[4]</a></sup>.
+      </p>
+
+      <p>
+        The retrained objective is
+      </p>
+
+      <p class="display-eq">\[
+        \mathcal{L}_{\mathrm{reflow}}(\theta)
+        =
+        \mathbb{E}_{x_0\sim p_0,\; t\sim\rho}
+        \left[\left\|v_\theta\bigl((1-t)x_0+t\hat{x}_1,t\bigr) - (\hat{x}_1-x_0)\right\|^2\right].
+      \]</p>
+
+      <p>
+        In addition, weighted losses are usually more stable than plain MSE in large latent spaces:
+      </p>
+
+      <p class="display-eq">\[
+        \mathcal{L}_{\lambda}(\theta)
+        =
+        \mathbb{E}\left[\lambda(t)\,\|v_\theta(x_t,t)-u\|_2^2\right],
+        \qquad
+        \lambda(t)=\frac{1}{t(1-t)+\tau}.
+      \]</p>
+
+      <p>
+        The \(\lambda(t)\) factor up-weights boundary regions where errors are most visible. In practice, choose \(\tau\in[10^{-3},10^{-2}]\)
+        to avoid exploding weights.
+      </p>
+
+      <p>
+        From a broader viewpoint, this sits inside the stochastic-interpolant family: change the interpolation law and you change both the conditional targets and the geometry of the learned field<sup class="cite"><a href="#ref3">[3]</a></sup>.
+      </p>
+
+      <h3 id="sec-param">Parameterization identities (useful in implementation)</h3>
+
+      <p>
+        If \(v\) is predicted, then endpoint estimates follow directly:
+      </p>
+
+      <p class="display-eq">\[
+        \hat{x}_1 = x_t + (1-t)\,v_\theta(x_t,t),
+        \qquad
+        \hat{x}_0 = x_t - t\,v_\theta(x_t,t).
+      \]</p>
+
+      <p>
+        These formulas are often used for auxiliary losses: e.g., reconstruction losses on \(\hat{x}_1\), or consistency regularizers between
+        endpoint predictions at neighboring times.
+      </p>
+
+      <h3 id="sec-snippet">Minimal training snippet with weighting and stable target scaling</h3>
+      <pre><code>def rf_weighted_loss(model, x1, tau=1e-2):
+    x0 = torch.randn_like(x1)
+    # Beta sampling can emphasize boundaries without singular weights
+    t = torch.distributions.Beta(0.9, 0.9).sample((x1.size(0),)).to(x1.device)
+    t = t[:, None, None, None]
+
+    xt = (1.0 - t) * x0 + t * x1
+    target_v = x1 - x0
+    pred_v = model(xt, t)
+
+    w = 1.0 / (t * (1.0 - t) + tau)
+    per_example = ((pred_v - target_v) ** 2).flatten(1).mean(1, keepdim=True)
+    return (w.flatten(1) * per_example).mean()</code></pre>
+
+      <h2 id="sec-practical">6) Practical Notes (Detailed Checklist)</h2>
+
+      <ul class="plain-notes">
+        <li><strong>Time sampling:</strong> Uniform \(t\sim U[0,1]\) is a clean baseline, but beta distributions such as Beta(0.9, 0.9) often improve endpoint behavior. If you observe noisy textures near the final steps, increase mass near \(t\approx1\).</li>
+        <li><strong>Loss scale management:</strong> In latent diffusion backbones, \(\|x_1-x_0\|\) can vary by channel and resolution. Normalize targets per channel or use adaptive gradient clipping; otherwise optimization focuses on high-variance channels.</li>
+        <li><strong>EMA is non-optional:</strong> Maintain EMA weights for sampling. For RF, EMA typically improves perceived smoothness and text alignment because it reduces high-frequency oscillation in \(v_\theta\).</li>
+        <li><strong>Solver choices:</strong> Euler is useful for debugging, but midpoint/Heun usually gives better quality at fixed steps. If the model is trained for 8-16 step inference, verify quality with the exact solver used in deployment, not only with high-step validation.</li>
+        <li><strong>Guidance scaling:</strong> In conditional models, high classifier-free guidance can bend trajectories and amplify curvature terms. A practical compromise is guidance annealing: lower scale early, higher scale near \(t\to1\).</li>
+        <li><strong>Reflow scheduling:</strong> One reflow pass often gives a large gain; additional passes may have diminishing returns. Measure both FID-like scores and user-facing prompt adherence before paying extra retraining cost.</li>
+        <li><strong>Batch construction:</strong> Randomly permuting \(x_1\) each step is cheap and surprisingly effective in unconditional settings. For conditional tasks, pair inside each condition bucket (same text class or style bin) to reduce target variance.</li>
+        <li><strong>Matrix diagnostics:</strong> Track \(\|J_v\|_F\) proxies (finite differences) and trajectory curvature statistics during validation. If curvature grows while training loss decreases, expect low-step sampling regressions.</li>
+      </ul>
+
+      <h2 id="sec-references">References</h2>
+      <ol class="references">
+        <li id="ref1"><a href="https://arxiv.org/abs/2209.03003">Liu et al., Flow Straight and Fast: Learning to Generate and Transfer Data with Rectified Flow, 2022.</a></li>
+        <li id="ref2"><a href="https://arxiv.org/abs/2210.02747">Lipman et al., Flow Matching for Generative Modeling, 2022.</a></li>
+        <li id="ref3"><a href="https://arxiv.org/abs/2303.08797">Albergo and Vanden-Eijnden, Stochastic Interpolants: A Unifying Framework for Flows and Diffusions, 2023.</a></li>
+        <li id="ref4"><a href="https://shreshthsaini.github.io/Rectified-CFGpp/">Saini et al., Rectified CFG++ for Flow Based Models, NeurIPS 2025.</a></li>
+        <li id="ref5"><a href="https://arxiv.org/abs/2206.00364">Karras et al., Elucidating the Design Space of Diffusion-Based Generative Models, 2022.</a></li>
+      </ol>
+    </article>
+
+    <footer>
+      <p>&copy; 2026 Shreshth Saini &middot; <a href="blogs.html">Back to Scratch Pad</a></p>
+    </footer>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const tocLinks = Array.from(document.querySelectorAll('.toc-item'));
+      if (!tocLinks.length) return;
+
+      const sections = tocLinks
+        .map((link) => document.querySelector(link.getAttribute('href')))
+        .filter(Boolean);
+      if (!sections.length) return;
+
+      function setActive(id) {
+        tocLinks.forEach((link) => {
+          const isActive = link.getAttribute('href') === '#' + id;
+          link.classList.toggle('active', isActive);
+        });
+      }
+
+      const initial = window.location.hash ? window.location.hash.slice(1) : sections[0].id;
+      setActive(initial);
+
+      tocLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          const id = link.getAttribute('href').replace('#', '');
+          setActive(id);
+        });
+      });
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        },
+        { rootMargin: '-30% 0px -60% 0px', threshold: 0 }
+      );
+
+      sections.forEach((section) => observer.observe(section));
+    })();
+
+    (function () {
+      const notes = Array.from(document.querySelectorAll('.sidenote[data-ref]'));
+      if (!notes.length) return;
+
+      notes.forEach((note) => {
+        const refId = note.getAttribute('data-ref');
+        if (!refId) return;
+        const ref = document.getElementById(refId);
+        if (!ref) return;
+        const refAnchor = ref.querySelector('a') || ref;
+
+        const activate = () => {
+          note.classList.add('is-active');
+          ref.classList.add('is-active');
+        };
+
+        const deactivate = () => {
+          note.classList.remove('is-active');
+          ref.classList.remove('is-active');
+        };
+
+        note.addEventListener('mouseenter', activate);
+        note.addEventListener('mouseleave', deactivate);
+        ref.addEventListener('mouseenter', activate);
+        ref.addEventListener('mouseleave', deactivate);
+        refAnchor.addEventListener('focus', activate);
+        refAnchor.addEventListener('blur', deactivate);
+      });
+    })();
+  </script>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</body>
+</html>
