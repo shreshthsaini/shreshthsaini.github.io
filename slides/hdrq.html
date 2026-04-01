@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HDR-Q — CVPR 2026</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root{
+  --c:#333F48; --o:#BF5700; --t:#00A8B6; --b:#005E86;
+  --g:#2d8659; --r:#c0392b; --p:#6366f1;
+  --t2:#666; --t3:#aaa; --bg:#fff; --sf:#f7f8fa;
+}
+.reveal{font-family:'Inter',system-ui,sans-serif;font-size:1.75vmin;color:var(--c)}
+.reveal .slides{text-align:left}
+.reveal .slides section{padding:0}
+.reveal h1,.reveal h2,.reveal h3{font-family:'Inter',sans-serif;font-weight:700;text-transform:none;letter-spacing:-0.02em}
+.reveal h1{font-size:3.4vmin} .reveal h2{font-size:2.5vmin;margin-bottom:0.5vmin} .reveal h3{font-size:1.9vmin}
+.reveal p{font-size:1.65vmin;line-height:1.5;margin:0.2vmin 0}
+.reveal li{font-size:1.55vmin;line-height:1.45;margin-bottom:0.25vmin}
+.reveal ul{margin-left:1.3vmin}
+
+/* Slide containers */
+.S{background:var(--bg)!important;padding:0!important}
+.H{background:var(--o);height:5vmin;display:flex;align-items:center;justify-content:space-between;padding:0 2.5vmin;box-sizing:border-box}
+.H img{height:3.8vmin} .H span{color:#fff;font-size:1.4vmin;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.B{padding:1.2vmin 3vmin .4vmin}
+/* Prevent vertical overflow — cap image heights globally */
+.B img{max-height:32vmin}
+.reveal .slides section{overflow:hidden}
+
+/* Section/Question slides */
+.Q{background:var(--bg)!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important}
+.D{background:linear-gradient(135deg,var(--c) 0%,#1a2a3a 100%)!important;color:#fff!important;text-align:center!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.D h1,.D h2,.D p{color:#fff!important}
+
+/* Components */
+.eq{background:var(--sf);border:1px solid #e5e7eb;border-radius:.4vmin;padding:.6vmin 1.2vmin;text-align:center;margin:.4vmin 0;font-size:1.75vmin}
+.eq-o{background:#fef6ee;border-color:#fcd5a7}
+.eq-g{background:#f0fdf4;border-color:#bbf7d0}
+.card{background:#fff;border-radius:.4vmin;padding:.7vmin 1.1vmin;box-shadow:0 1px 3px rgba(0,0,0,.06);border-left:.3vmin solid var(--o)}
+.card-t{border-left-color:var(--t)} .card-g{border-left-color:var(--g)} .card-r{border-left-color:var(--r)} .card-p{border-left-color:var(--p)} .card-b{border-left-color:var(--b)}
+.fig{text-align:center;margin:.4vmin 0} .fig img{max-width:100%;max-height:32vmin;border-radius:.3vmin}
+.fc{font-size:.95vmin;color:var(--t3);margin-top:.15vmin;font-style:italic}
+.tag{display:inline-block;padding:.15vmin .6vmin;border-radius:1vmin;font-size:.95vmin;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#fff;vertical-align:middle}
+.tag-o{background:var(--o)} .tag-t{background:var(--t)} .tag-r{background:var(--r)} .tag-g{background:var(--g)} .tag-b{background:var(--b)} .tag-p{background:var(--p)}
+.foot{position:absolute;bottom:.4vmin;left:3vmin;right:3vmin;display:flex;justify-content:space-between;font-size:.85vmin;color:#ccc}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:2vmin;align-items:start}
+.c64{display:grid;grid-template-columns:3fr 2fr;gap:2vmin;align-items:start}
+.c46{display:grid;grid-template-columns:2fr 3fr;gap:2vmin;align-items:start}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.3vmin}
+
+.reveal table{font-size:1.25vmin;width:100%;border-collapse:collapse} .reveal table th{background:var(--c);color:#fff;padding:.45vmin .7vmin;font-weight:600;text-align:center} .reveal table td{padding:.35vmin .7vmin;text-align:center;border-bottom:1px solid #eee} .reveal table .best{font-weight:700;color:var(--o)} .reveal table .ours{background:#fff6ee!important;font-weight:600}
+
+.sm{font-size:1.25vmin!important} .xs{font-size:1.05vmin!important} .mt1{margin-top:.8vmin} .mt2{margin-top:1.6vmin} .mb1{margin-bottom:.8vmin} .ctr{text-align:center!important} .bold{font-weight:700}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(9vmin,1fr));gap:.8vmin;margin:.8vmin 0}
+.stat{text-align:center;background:var(--sf);border-radius:.4vmin;padding:.7vmin .3vmin}
+.sn{font-size:2.6vmin;font-weight:800;color:var(--o);display:block} .sl{font-size:.95vmin;color:var(--t2)}
+
+.reveal .fragment{transition:all .3s ease}
+.reveal .progress span{background:var(--o)} .reveal .slide-number{font-size:1.1vmin;color:#ccc}
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 1 — TITLE
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:2vmin 3vmin 0">
+    <img src="assets/ut_logo.png" style="height:4.5vmin">
+    <div style="display:flex;align-items:center;gap:1.5vmin"><img src="assets/live_logo.png" style="height:4.5vmin"><img src="assets/youtube_logo.png" style="height:4.5vmin"></div>
+  </div>
+  <div style="padding:5vmin 3.5vmin 2vmin">
+    <p style="font-size:1.2vmin;color:var(--o);font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin:0 0 1vmin">CVPR 2026</p>
+    <h1 style="font-size:4vmin;font-weight:900;color:var(--c);line-height:1.2;max-width:70vmin">
+      HDR-Q: Seeing Beyond 8 Bits
+    </h1>
+    <p style="font-size:2vmin;color:var(--t2);margin:.8vmin 0 0;max-width:65vmin">
+      Multimodal LLMs for HDR Video Quality Assessment<br>with HDR-Aware Policy Optimization
+    </p>
+    <div style="width:5vmin;height:.25vmin;background:var(--o);margin:2.5vmin 0"></div>
+    <p style="font-size:1.4vmin;color:var(--c);font-weight:600;margin:0">Shreshth Saini</p>
+    <p style="font-size:1.2vmin;color:var(--t2);margin:.2vmin 0 0">Laboratory for Image &amp; Video Engineering (LIVE) &middot; The University of Texas at Austin</p>
+    <p style="font-size:1.1vmin;color:var(--t3);margin:.2vmin 0 0">Advised by Prof. Alan C. Bovik</p>
+  </div>
+  <aside class="notes">Today I'll present HDR-Q, the first multimodal LLM for HDR video quality assessment. This is joint work from the LIVE Lab at UT Austin, published at CVPR 2026.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 2 — THE QUESTION
+     ══════════════════════════════════════════════ -->
+<section class="Q">
+  <div>
+    <p style="font-size:3.8vmin;font-weight:900;color:var(--c);max-width:60vmin;line-height:1.25">
+      Can AI <span style="color:var(--o)">see</span> and <span style="color:var(--o)">reason</span> about<br>HDR video quality?
+    </p>
+    <p class="fragment" style="font-size:1.8vmin;color:var(--t2);margin-top:2.5vmin">
+      Today's answer: <strong style="color:var(--r)">No.</strong> Every existing model was built for the 8-bit SDR world.
+    </p>
+  </div>
+  <aside class="notes">Can AI see and reason about HDR quality like humans? The current answer is no — every existing model was built for 8-bit SDR. HDR-Q changes that.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 3 — HDR IS A DIFFERENT SIGNAL
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>HDR Is Not "Better SDR" — It's a Different Signal Space</h2>
+    <div class="two mt1">
+      <div>
+        <p class="fragment" style="font-size:1.8vmin;font-weight:700;color:var(--o)">Every modern phone captures 10-bit HDR by default.</p>
+        <p class="fragment sm mt1" style="color:var(--t2)">YouTube, Instagram, TikTok — billions of daily HDR uploads. HDR10 supports 10-bit depth, BT.2020 wide color gamut, PQ perceptual quantizer. Peak luminance ≥1000 nits vs SDR ~100 nits.</p>
+        <div class="card card-r fragment mt2">
+          <p class="sm bold" style="margin:0;color:var(--r)">New perceptual phenomena SDR models cannot see:</p>
+          <p class="xs" style="margin:.28vmin 0 0">Highlight clipping &middot; Near-black banding &middot; Color blooming &middot; PQ quantization artifacts &middot; Exposure flicker &middot; Wide-gamut chroma shifts</p>
+        </div>
+        <div class="card card-g fragment mt1">
+          <p class="sm bold" style="margin:0;color:var(--g)">Core argument:</p>
+          <p class="xs" style="margin:.28vmin 0 0">Standard vision encoders (SigLIP, CLIP) process images in 8-bit sRGB. They are <strong>structurally blind</strong> to HDR-specific distortions. Not a training gap — a <strong>representation gap</strong>.</p>
+        </div>
+      </div>
+      <div class="fig fragment">
+        <img src="hdrq/sdr-hdr.png" alt="HDR vs SDR" style="max-height:32vmin">
+        <p class="fc">HDR preserves luminance and color detail that SDR collapses</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>HDR-Q (CVPR '26)</span><span>LIVE Lab, UT Austin</span></div>
+  <aside class="notes">HDR is not just more bits. The PQ transfer function maps luminance non-linearly across 10,000 nits. New artifacts like highlight clipping and near-black banding are invisible to SDR-trained encoders. This is not a training gap — it is a fundamental representation gap.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 4 — CAPABILITY MATRIX
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Where Current Methods Break</h2>
+    <p style="color:var(--t2)">No existing method combines HDR-aware perception with quality reasoning</p>
+    <div class="c64 mt1">
+      <div>
+        <table class="fragment" style="font-size:1.15vmin">
+          <thead><tr><th style="text-align:left">Method Family</th><th>HDR Input</th><th>Percept. Ground.</th><th>Reasoning</th><th>Cont. MOS</th><th>Interp.</th><th>SROCC</th></tr></thead>
+          <tbody>
+            <tr><td style="text-align:left">Classical (BRISQUE, VMAF)</td><td style="color:var(--r)">✗</td><td style="color:var(--r)">✗</td><td style="color:var(--r)">✗</td><td>✓</td><td style="color:var(--r)">✗</td><td>0.41</td></tr>
+            <tr><td style="text-align:left">Deep VQA (FastVQA, DOVER)</td><td style="color:var(--r)">✗</td><td>~</td><td style="color:var(--r)">✗</td><td>✓</td><td style="color:var(--r)">✗</td><td>0.51</td></tr>
+            <tr><td style="text-align:left">HDR-Specific (HIDRO-VQA)</td><td>✓</td><td>✓</td><td style="color:var(--r)">✗</td><td>✓</td><td style="color:var(--r)">✗</td><td>0.85</td></tr>
+            <tr><td style="text-align:left">MLLM-VQA (Q-Insight, DeQA)</td><td style="color:var(--r)">✗</td><td style="color:var(--r)">✗</td><td>✓</td><td>~</td><td>✓</td><td>0.52</td></tr>
+            <tr class="ours"><td style="text-align:left"><strong>HDR-Q (Ours)</strong></td><td class="best">✓</td><td class="best">✓</td><td class="best">✓</td><td class="best">✓</td><td class="best">✓</td><td class="best">0.92</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="fragment">
+        <div style="background:var(--sf);border-radius:.4vmin;padding:1vmin 1.2vmin;border-left:3px solid var(--o)">
+          <p class="sm bold" style="margin:0;color:var(--o)">The gap HDR-Q fills:</p>
+          <p class="xs" style="margin:.3vmin 0 0">HDR-aware visual perception <strong>+</strong> continuous quality prediction <strong>+</strong> interpretable chain-of-thought reasoning. No prior method has all three.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>HDR-Q (CVPR '26)</span><span>LIVE Lab, UT Austin</span></div>
+  <aside class="notes">Let me position this precisely. Classical VQA is blind to HDR. Deep VQA was trained on SDR. HDR-specific methods give scores but cannot explain why. MLLMs for quality were all SDR-trained. No existing method combines HDR perception with reasoning — that is the gap HDR-Q fills.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 5 — THREE OBSTACLES
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Three Fundamental Obstacles</h2>
+    <p style="color:var(--t2)">Each requires a dedicated solution — together they define the HDR-Q architecture</p>
+    <div style="display:flex;gap:2.5vmin;margin-top:3vmin;justify-content:center">
+      <div class="fragment" style="background:#fff;border-radius:.6vmin;padding:2vmin 3vmin;box-shadow:0 2px 8px rgba(0,0,0,.06);border-top:3px solid var(--r);min-width:20vmin;text-align:center">
+        <p style="margin:0;font-size:3.5vmin;font-weight:900;color:var(--r)">O1</p>
+        <p class="sm" style="margin:.6vmin 0 0;color:var(--c);font-weight:600">SDR-pretrained<br>vision encoders</p>
+        <p class="xs" style="margin:.4vmin 0 0;color:var(--t3)">Blind to 10-bit PQ</p>
+      </div>
+      <div class="fragment" style="background:#fff;border-radius:.6vmin;padding:2vmin 3vmin;box-shadow:0 2px 8px rgba(0,0,0,.06);border-top:3px solid var(--r);min-width:20vmin;text-align:center">
+        <p style="margin:0;font-size:3.5vmin;font-weight:900;color:var(--r)">O2</p>
+        <p class="sm" style="margin:.6vmin 0 0;color:var(--c);font-weight:600">Continuous MOS<br>from token space</p>
+        <p class="xs" style="margin:.4vmin 0 0;color:var(--t3)">Bridging autoregressive &amp; regression</p>
+      </div>
+      <div class="fragment" style="background:#fff;border-radius:.6vmin;padding:2vmin 3vmin;box-shadow:0 2px 8px rgba(0,0,0,.06);border-top:3px solid var(--r);min-width:20vmin;text-align:center">
+        <p style="margin:0;font-size:3.5vmin;font-weight:900;color:var(--r)">O3</p>
+        <p class="sm" style="margin:.6vmin 0 0;color:var(--c);font-weight:600">Modality<br>neglect</p>
+        <p class="xs" style="margin:.4vmin 0 0;color:var(--t3)">GRPO ignores HDR tokens</p>
+      </div>
+    </div>
+    <div class="fragment" style="margin-top:3vmin;text-align:center">
+      <p style="font-size:1.6vmin;color:var(--r);font-weight:700">
+        Evidence: GRPO with HDR input → 0.875 SROCC. SDR-only → 0.891. <strong>Adding HDR made it worse.</strong>
+      </p>
+    </div>
+  </div>
+  <div class="foot"><span>HDR-Q (CVPR '26)</span><span>LIVE Lab, UT Austin</span></div>
+  <aside class="notes">Three specific obstacles. First, vision encoders pretrained on SDR cannot represent PQ signals. Second, bridging autoregressive tokens to continuous MOS is non-trivial. Third — and most surprising — adding HDR tokens to GRPO actually made performance worse. We call this modality neglect.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 6 — DATASET (Brief)
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Beyond8Bits: The Foundation</h2>
+    <p style="color:var(--t2)">First large-scale HDR-UGC quality dataset — the training ground for HDR-Q</p>
+    <div class="two mt1">
+      <div>
+        <div class="stats">
+          <div class="stat"><span class="sn">44,276</span><span class="sl">HDR-UGC video clips</span></div>
+          <div class="stat"><span class="sn">6,861</span><span class="sl">Unique source videos</span></div>
+          <div class="stat"><span class="sn">1.5M+</span><span class="sl">Human quality ratings</span></div>
+          <div class="stat"><span class="sn">~35</span><span class="sl">Ratings per video</span></div>
+        </div>
+        <div class="card card-t mt1">
+          <p class="xs" style="margin:0"><strong style="color:var(--t)">Format:</strong> 10-bit HEVC, PQ transfer, BT.2020 &middot; 360p–1080p &middot; 0.2–5 Mbps bitrate ladder</p>
+        </div>
+        <div class="card mt1">
+          <p class="xs" style="margin:0"><strong>Sources:</strong> 2,253 crowdsourced (diverse UGC) + 4,608 Vimeo CC (nature, outdoor, low-light)</p>
+        </div>
+        <div class="card card-g mt1">
+          <p class="xs" style="margin:0"><strong style="color:var(--g)">Quality control:</strong> HDR10 display verification &middot; Qualification quiz &middot; Golden set (SROCC 0.85) &middot; SUREAL MOS aggregation &middot; Inter-subject SROCC 0.90</p>
+        </div>
+      </div>
+      <div class="fig">
+        <img src="hdrq/figure1.png" alt="Beyond8Bits" style="max-height:32vmin">
+        <p class="fc">Dataset diversity, HDR vs SDR characteristics, and HDR-Q performance gains</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>HDR-Q (CVPR '26)</span><span>LIVE Lab, UT Austin</span></div>
+  <aside class="notes">Beyond8Bits is the foundation for HDR-Q training. It contains over 44,000 HDR-UGC clips with 1.5 million human quality ratings. We enforced strict quality control — HDR10 display verification, qualification quizzes, and golden sets — achieving inter-subject SROCC of 0.90.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 7 — METHOD OVERVIEW
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>HDR-Q: Architecture Overview</h2>
+    <div class="fig mt1">
+      <img src="hdrq/model.png" alt="Architecture" style="max-height:32vmin">
+    </div>
+    <div class="three mt1">
+      <div class="card fragment">
+        <p class="xs bold" style="margin:0;color:var(--o)">Solves O1: HDR-Aware Encoder</p>
+        <p class="xs" style="margin:.28vmin 0 0">SigLIP-2 + dual-domain contrastive learning. Native 10-bit PQ. Dual HDR + SDR pathways.</p>
+      </div>
+      <div class="card card-t fragment">
+        <p class="xs bold" style="margin:0;color:var(--t)">Solves O3: HAPO Training</p>
+        <p class="xs" style="margin:.28vmin 0 0">Contrastive KL + dual entropy + entropy-weighted advantage. Forces HDR modality attention.</p>
+      </div>
+      <div class="card card-g fragment">
+        <p class="xs bold" style="margin:0;color:var(--g)">Solves O2: Structured Output</p>
+        <p class="xs" style="margin:.28vmin 0 0">Ovis2.5 (9B) + Rank-4 LoRA. &lt;think&gt; reasoning + &lt;answer&gt; MOS score. Gaussian reward σ=3.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>HDR-Q (CVPR '26)</span><span>LIVE Lab, UT Austin</span></div>
+  <aside class="notes">HDR-Q has three components addressing each obstacle. An HDR-aware encoder via contrastive SigLIP finetuning. HAPO training to prevent modality neglect. And structured chain-of-thought output for both reasoning and continuous scores.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 8 — HDR-AWARE ENCODER
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>HDR-Aware Vision Encoder</h2>
+    <div class="c46 mt1">
+      <div>
+        <div class="fragment">
+          <p class="sm bold" style="color:var(--o)">Contrastive HDR/SDR discrimination</p>
+          <div class="eq-o" style="font-size:1.7vmin">L<sub>ctr</sub> = max(0, δ − D(<span style="color:var(--t)">E(x<sub>HDR</sub>)</span>, <span style="color:var(--b)">E(c)</span>) + D(<span style="color:var(--r)">E(x<sub>SDR</sub>)</span>, <span style="color:var(--b)">E(c)</span>))</div>
+          <p class="xs" style="color:var(--t3)">Pull <span style="color:var(--t)">HDR</span> close to <span style="color:var(--b)">caption</span>, push <span style="color:var(--r)">SDR</span> away</p>
+        </div>
+        <div class="fragment mt1">
+          <p class="sm bold" style="color:var(--t)">Full encoder loss</p>
+          <div class="eq" style="font-size:1.7vmin">L<sub>enc</sub> = <span style="color:var(--p)">L<sub>Sigmoid</sub></span> + λ<sub>ctr</sub> · <span style="color:var(--o)">L<sub>ctr</sub></span></div>
+          <p class="xs" style="color:var(--t3)"><span style="color:var(--p)">Semantic alignment</span> + <span style="color:var(--o)">HDR discrimination</span></p>
+        </div>
+        <div class="fragment mt1">
+          <p class="sm bold" style="color:var(--g)">Design justifications</p>
+          <p class="xs" style="color:var(--t2)"><strong>Why SigLIP-2?</strong> Strong semantic priors, multimodal-compatible.<br><strong>Why contrastive?</strong> HDR info = what's in HDR but absent in SDR.<br><strong>Why 10-bit PQ input?</strong> Tone-mapping destroys the signal we need.<br><strong>Captions by</strong> Qwen2.5-VL-72B for quality-aware descriptions.</p>
+        </div>
+      </div>
+      <div class="fig fragment">
+        <img src="hdrq/siglip-train.png" alt="Encoder training" style="max-height:32vmin">
+        <p class="fc">SigLIP-2 contrastive finetuning with matched HDR-SDR pairs and quality-aware captions</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>HDR-Q (CVPR '26)</span><span>LIVE Lab, UT Austin</span></div>
+  <aside class="notes">We finetune SigLIP-2 with a contrastive loss — pull HDR embeddings close to quality-aware captions, push SDR embeddings away. This forces the encoder to discover HDR-specific information automatically. Captions are generated by Qwen2.5-VL-72B for quality-aware descriptions.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 9 — MODALITY NEGLECT DEEP DIVE
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>The Modality Neglect Problem</h2>
+    <p style="color:var(--t2)">The most surprising finding — and the core motivation for HAPO</p>
+    <div class="two mt2">
+      <div>
+        <div class="fragment" style="text-align:center;background:#fff0f0;border-radius:.5vmin;padding:1.2vmin">
+          <p class="xs" style="margin:0;color:var(--t2)">HDR-Q (SDR input only)</p>
+          <p style="margin:0;font-size:2.8vmin;font-weight:900">0.8914</p>
+          <div style="width:4vmin;height:2px;background:var(--r);margin:.8vmin auto"></div>
+          <p class="xs" style="margin:0;color:var(--r)">Standard GRPO (HDR+SDR input)</p>
+          <p style="margin:0;font-size:2.8vmin;font-weight:900;color:var(--r)">0.8753</p>
+          <p class="xs" style="margin:.5vmin 0 0;color:var(--r);font-weight:700">Adding HDR made it <em>worse</em>.</p>
+        </div>
+      </div>
+      <div class="fragment">
+        <p class="sm bold" style="color:var(--c)">Why this happens:</p>
+        <ul class="sm" style="color:var(--t2)">
+          <li><strong>GRPO treats all tokens equally</strong> — no modality importance signal</li>
+          <li>Autoregressive generation enables <strong>text-context shortcuts</strong></li>
+          <li>SDR features are familiar; HDR features are foreign → model ignores the foreign</li>
+          <li>Result: higher input dimensionality, lower information utilization</li>
+        </ul>
+        <div class="card card-g mt1">
+          <p class="xs bold" style="margin:0;color:var(--g)">HAPO fixes this: 0.9206 SROCC</p>
+          <p class="xs" style="margin:.21vmin 0 0">By explicitly rewarding different outputs for HDR vs SDR inputs.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>HDR-Q (CVPR '26)</span><span>LIVE Lab, UT Austin</span></div>
+  <aside class="notes">This is the key finding. Standard GRPO with HDR input scores 0.875. SDR-only scores 0.891. More information made it worse. The model shortcuts through text context and ignores unfamiliar HDR tokens. HAPO fixes this and pushes performance to 0.921.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 10 — HAPO: CONTRASTIVE KL
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>HAPO — Core Mechanism: HDR-SDR Contrastive KL</h2>
+    <div style="max-width:68vmin;margin:1.2vmin auto 0">
+      <div class="fragment">
+        <p class="sm" style="color:var(--t2)">If the model ignores HDR → identical outputs for HDR &amp; SDR → D<sub>KL</sub> ≈ 0. We <strong>maximize</strong> this divergence.</p>
+        <div class="eq-o mt1" style="font-size:2.2vmin">
+          <span style="color:var(--o);font-weight:800">K<sub>HDR</sub>(θ) = D<sub>KL</sub>(π<sup>HDR</sup><sub>θ</sub> ‖ π<sup>SDR</sup><sub>θ</sub>)</span>
+        </div>
+        <p class="xs ctr" style="color:var(--t3)">Maximized with coefficient γ = 0.5 in the HAPO objective</p>
+      </div>
+      <div class="fragment mt2">
+        <div class="eq-g" style="font-size:1.6vmin">
+          <strong style="color:var(--g)">Formal guarantee:</strong> &nbsp; I<sub>θ*</sub>(output; HDR | SDR) ≥ γ · K<sub>HDR</sub>(θ*) − κ
+        </div>
+        <p class="xs ctr" style="color:var(--t3)">Mutual information between output and HDR content is <strong>lower-bounded</strong>. The policy is mathematically guaranteed to use HDR information.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>HDR-Q (CVPR '26)</span><span>LIVE Lab, UT Austin</span></div>
+  <aside class="notes">The core idea is simple: if the model ignores HDR, outputs will be identical for HDR and SDR inputs. So we maximize KL divergence between the two output distributions. We prove a formal mutual information lower bound — the policy is mathematically guaranteed to use HDR information.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 11 — HAPO: FULL OBJECTIVE
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0">
+    <h2>The HAPO Objective</h2>
+    <div style="background:#fef6ee;border:2px solid var(--o);border-radius:.5vmin;padding:1.5vmin 2.5vmin;margin-top:1.5vmin;max-width:68vmin">
+      <div style="text-align:center;font-size:1.7vmin;line-height:2.2">
+        J<sub>HAPO</sub>(θ) = E[Σ min(ρ · <span style="color:var(--o);font-weight:700">Ã</span>, clip(…) · <span style="color:var(--o);font-weight:700">Ã</span>)]
+        − <span style="color:var(--p)">β D<sub>KL</sub>(π<sup>HDR</sup> ‖ π<sub>ref</sub>)</span>
+        <span style="color:var(--o);font-weight:800">+ γ K<sub>HDR</sub></span>
+        <span style="color:var(--t);font-weight:800">− H<sub>dual</sub></span>
+      </div>
+    </div>
+    <div style="display:flex;gap:2.5vmin;margin-top:2vmin;font-size:1.15vmin;color:var(--t2)">
+      <div class="fragment ctr"><span style="color:var(--o);font-weight:700">Ã</span><br>Entropy-weighted<br>advantage (HEW)<br><span class="xs" style="color:var(--t3)">λ<sub>HEW</sub>=0.3</span></div>
+      <div class="fragment ctr"><span style="color:var(--p)">β D<sub>KL</sub></span><br>Reference KL<br>stability<br><span class="xs" style="color:var(--t3)">β=0.02</span></div>
+      <div class="fragment ctr"><span style="color:var(--o);font-weight:800">+γ K<sub>HDR</sub></span><br>Contrastive KL<br>HDR grounding<br><span class="xs" style="color:var(--t3)">γ=0.5</span></div>
+      <div class="fragment ctr"><span style="color:var(--t);font-weight:800">−H<sub>dual</sub></span><br>Dual entropy<br>anti-collapse<br><span class="xs" style="color:var(--t3)">η₁=0.01, η₂=0.05</span></div>
+    </div>
+  </div>
+  <div class="foot"><span>HDR-Q (CVPR '26)</span><span>LIVE Lab, UT Austin</span></div>
+  <aside class="notes">Four complementary terms in the HAPO objective. The clipped advantage term from GRPO. Reference KL for stability. Contrastive KL for HDR grounding. And dual entropy to prevent collapse. Each term is justified by ablation — removing any one degrades performance.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 12 — TRAINING DESIGN
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Training Pipeline &amp; Reward Design</h2>
+    <div class="two mt1">
+      <div>
+        <div class="card fragment mb1" style="border-top:3px solid var(--o);border-left:none">
+          <p class="xs bold" style="margin:0;color:var(--o)">Stage 1: Modality Alignment</p>
+          <p class="xs" style="margin:.28vmin 0 0">Full HAPO with γ=0.5. Curated Beyond8Bits subset with matched HDR-SDR pairs. Goal: teach model to attend to HDR-specific information. Both stages use RL — no SFT stage.</p>
+        </div>
+        <div class="card card-g fragment mb1" style="border-top:3px solid var(--g);border-left:none">
+          <p class="xs bold" style="margin:0;color:var(--g)">Stage 2: Quality Calibration</p>
+          <p class="xs" style="margin:.28vmin 0 0">Full Beyond8Bits corpus. Score reward as primary signal, reduced γ. Goal: prediction accuracy while preserving HDR grounding from Stage 1.</p>
+        </div>
+        <div class="fragment">
+          <p class="xs bold" style="color:var(--c)">Why two stages?</p>
+          <p class="xs" style="color:var(--t2)">Modality alignment and quality calibration are competing objectives. Aggressive contrastive training degrades absolute accuracy; pure quality training enables modality neglect. Sequential prioritization resolves the tension.</p>
+        </div>
+      </div>
+      <div>
+        <div class="card card-p fragment mb1">
+          <p class="xs bold" style="margin:0;color:var(--p)">Composite Reward</p>
+          <div class="eq" style="font-size:1.4vmin">R = w<sub>fmt</sub>·R<sub>fmt</sub> + w<sub>sc</sub>·R<sub>score</sub> + w<sub>self</sub>·R<sub>self</sub></div>
+        </div>
+        <div class="fragment">
+          <p class="xs" style="color:var(--t2)"><strong>R<sub>fmt</sub></strong>: Binary — valid &lt;think&gt;/&lt;answer&gt; tags = 1<br><strong>R<sub>score</sub></strong>: Gaussian — exp(−(ŝ−s*)²/2σ²), σ=3. Smooth, differentiable.<br><strong>R<sub>self</sub></strong>: Majority-vote consistency across K=8 completions.</p>
+        </div>
+        <div class="fragment mt1" style="background:var(--sf);border-radius:.4vmin;padding:.7vmin 1vmin;font-size:1.05vmin;color:var(--t2)">
+          <strong>Config:</strong> Ovis2.5 (9B) + Rank-4 LoRA · K=8 · ε=0.1 · 4×H200 · BF16 · T=8 frames · 10-bit PQ native input
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>HDR-Q (CVPR '26)</span><span>LIVE Lab, UT Austin</span></div>
+  <aside class="notes">Two-stage RL training. Stage 1 focuses on modality alignment with full HAPO and matched HDR-SDR pairs. Stage 2 calibrates quality scores on the full Beyond8Bits corpus. We use a Gaussian reward for smooth score learning. Base model is Ovis2.5 9B with rank-4 LoRA on 4 H200 GPUs.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 13 — MAIN RESULTS
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Main Results: Beyond8Bits Benchmark</h2>
+    <div class="c64 mt1">
+      <div>
+        <table>
+          <thead><tr><th style="text-align:left">Method</th><th>SROCC↑</th><th>PLCC↑</th><th>RMSE↓</th></tr></thead>
+          <tbody>
+            <tr><td style="text-align:left;color:var(--t3)">BRISQUE</td><td>0.410</td><td>0.469</td><td>11.70</td></tr>
+            <tr><td style="text-align:left;color:var(--t3)">CONTRIQUE</td><td>0.625</td><td>0.605</td><td>15.02</td></tr>
+            <tr><td style="text-align:left">CONVIQT</td><td>0.799</td><td>0.810</td><td>8.48</td></tr>
+            <tr><td style="text-align:left">HIDRO-VQA</td><td>0.851</td><td>0.878</td><td>6.09</td></tr>
+            <tr><td style="text-align:left;color:var(--t3)">Q-Insight (best MLLM)</td><td>0.517</td><td>0.562</td><td>20.78</td></tr>
+            <tr class="ours"><td style="text-align:left">HDR-Q (SDR only)</td><td>0.891</td><td>0.890</td><td>7.42</td></tr>
+            <tr class="ours"><td style="text-align:left"><strong>HDR-Q (Full)</strong></td><td class="best">0.921</td><td class="best">0.912</td><td class="best">5.16</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="stats fragment">
+          <div class="stat"><span class="sn">0.921</span><span class="sl">Beyond8Bits</span></div>
+          <div class="stat"><span class="sn">0.908</span><span class="sl">LIVE-HDR<br><span class="xs">(zero-shot)</span></span></div>
+          <div class="stat"><span class="sn">0.725</span><span class="sl">SFV+HDR<br><span class="xs">(zero-shot)</span></span></div>
+        </div>
+        <div class="fig fragment mt1">
+          <img src="hdrq/compare-bar-plot.png" alt="Cross-dataset" style="max-height:22vmin">
+          <p class="fc">Zero-shot generalization without fine-tuning on target datasets</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>HDR-Q (CVPR '26)</span><span>LIVE Lab, UT Austin</span></div>
+  <aside class="notes">HDR-Q achieves 0.921 SROCC on Beyond8Bits, an 8.2 percent improvement over prior state-of-the-art HIDRO-VQA. Existing MLLMs collapse on HDR — Q-Insight gets only 0.52. Zero-shot generalization is strong: 0.908 on LIVE-HDR and 0.725 on SFV+HDR without any fine-tuning.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 14 — QUALITATIVE
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Qualitative: HDR-Q vs Baseline Reasoning</h2>
+    <div class="fig mt1">
+      <img src="hdrq/examples.png" alt="Qualitative" style="max-height:32vmin">
+      <p class="fc">HDR-Q identifies true HDR artifacts (highlight preservation, banding, color fidelity). Ovis2.5 baseline hallucinates non-existent issues.</p>
+    </div>
+  </div>
+  <div class="foot"><span>HDR-Q (CVPR '26)</span><span>LIVE Lab, UT Austin</span></div>
+  <aside class="notes">Qualitatively, the baseline hallucinates issues that do not exist. HDR-Q correctly identifies highlight preservation, banding, and color fidelity. This is perception-grounded reasoning — the model references specific HDR phenomena in its chain-of-thought.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 15 — ABLATION
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Ablation: Every Component Is Justified</h2>
+    <div class="two mt1">
+      <div>
+        <table>
+          <thead><tr><th style="text-align:left">Variant</th><th>SROCC</th><th>RMSE</th><th>Tok. H</th></tr></thead>
+          <tbody>
+            <tr><td style="text-align:left">GRPO baseline</td><td>0.81</td><td>10.73</td><td>0.20</td></tr>
+            <tr><td style="text-align:left">+ HDR Encoder</td><td>0.83</td><td>8.96</td><td>0.24</td></tr>
+            <tr><td style="text-align:left">HAPO w/o Contrastive KL</td><td>0.86</td><td>7.10</td><td>0.29</td></tr>
+            <tr><td style="text-align:left">HAPO w/o HEW</td><td>0.88</td><td>6.11</td><td>0.27</td></tr>
+            <tr><td style="text-align:left">HAPO w/o Dual Ent.</td><td>0.91</td><td>5.82</td><td>0.26</td></tr>
+            <tr class="ours"><td style="text-align:left"><strong>HDR-Q (Full)</strong></td><td class="best">0.92</td><td class="best">5.15</td><td class="best">0.33</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="fragment">
+          <p class="xs bold" style="color:var(--o)">1. Contrastive KL — CRITICAL</p>
+          <p class="xs" style="color:var(--t2)">0.92 → 0.86 without. Largest single drop. Prevents modality neglect.</p>
+        </div>
+        <div class="fragment mt1">
+          <p class="xs bold" style="color:var(--t)">2. HEW — Token-level credit assignment</p>
+          <p class="xs" style="color:var(--t2)">0.92 → 0.88. Directs gradient to quality-relevant tokens.</p>
+        </div>
+        <div class="fragment mt1">
+          <p class="xs bold">3. HDR Encoder — Foundation</p>
+          <p class="xs" style="color:var(--t2)">0.83 → 0.81. Essential for 10-bit PQ representation.</p>
+        </div>
+        <div class="fragment mt1">
+          <p class="xs bold" style="color:var(--p)">4. Dual Entropy — Stability</p>
+          <p class="xs" style="color:var(--t2)">0.92 → 0.91. Prevents collapse, maintains exploration.</p>
+        </div>
+        <div class="fragment mt1">
+          <p class="xs" style="color:var(--g);font-weight:600">Token entropy: 0.20 → 0.33. Model becomes more uncertain at quality-critical decisions, not less. This is healthy.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>HDR-Q (CVPR '26)</span><span>LIVE Lab, UT Austin</span></div>
+  <aside class="notes">Every component matters. Contrastive KL is critical — it causes the biggest single drop when removed, from 0.92 to 0.86. Token entropy increases from 0.20 to 0.33 with the full model, meaning it stays exploratory at quality-critical decisions. This is healthy uncertainty, not noise.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 16 — TRAINING DYNAMICS
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Training Dynamics: HAPO vs GRPO</h2>
+    <div class="c64 mt1">
+      <div class="fig fragment">
+        <img src="hdrq/entropy.png" alt="Entropy" style="max-height:32vmin">
+        <p class="fc">Token entropy during training — GRPO collapses, HAPO maintains healthy exploration</p>
+      </div>
+      <div>
+        <div class="card card-r fragment mb1">
+          <p class="xs bold" style="margin:0;color:var(--r)">GRPO failure mode</p>
+          <p class="xs" style="margin:.21vmin 0 0">Entropy drops → deterministic → ignores visual modality → text-context shortcuts</p>
+        </div>
+        <div class="card card-g fragment mb1">
+          <p class="xs bold" style="margin:0;color:var(--g)">HAPO stabilization</p>
+          <p class="xs" style="margin:.21vmin 0 0">Dual entropy maintains H ≈ 0.33 at quality-critical positions. Healthy exploration preserved.</p>
+        </div>
+        <div class="card card-t fragment">
+          <p class="xs bold" style="margin:0;color:var(--t)">Reasoning efficiency</p>
+          <p class="xs" style="margin:.21vmin 0 0">CoT: 168 → 137 tokens (−18%). More concise, more focused. Boilerplate removed, quality observations retained.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>HDR-Q (CVPR '26)</span><span>LIVE Lab, UT Austin</span></div>
+  <aside class="notes">GRPO entropy collapses — the model becomes deterministic and ignores visual input, relying on text-context shortcuts. HAPO maintains healthy entropy at around 0.33. Chain-of-thought length drops 18 percent while accuracy improves, showing the model learns to be more concise and focused.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 17 — WHAT WE LEARN / LIMITATIONS
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>What We Learn &amp; Remaining Challenges</h2>
+    <div class="two mt1">
+      <div>
+        <p class="sm bold" style="color:var(--g)">Key insights</p>
+        <ul class="sm" style="color:var(--t2)">
+          <li class="fragment"><strong>Modality neglect is the bottleneck</strong>, not encoder capacity. The contrastive KL mechanism is necessary and sufficient for HDR grounding.</li>
+          <li class="fragment"><strong>Token-level entropy is a diagnostic signal.</strong> Increasing entropy at decision points = better visual grounding. Collapsing entropy = text shortcuts.</li>
+          <li class="fragment"><strong>Two-stage RL outperforms SFT→RL.</strong> Both stages use RL, ensuring HDR grounding from initialization.</li>
+        </ul>
+      </div>
+      <div>
+        <p class="sm bold" style="color:var(--r)">Remaining challenges</p>
+        <ul class="sm" style="color:var(--t2)">
+          <li class="fragment"><strong>Temporal reasoning</strong> is limited to T=8 frame sampling. Long-range temporal quality patterns may be missed.</li>
+          <li class="fragment"><strong>Extreme out-of-distribution content</strong> (e.g., synthetic HDR, gaming HDR) not well represented in training.</li>
+          <li class="fragment"><strong>Inference cost</strong> — MLLM inference is slower than lightweight VQA models. Not yet real-time.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>HDR-Q (CVPR '26)</span><span>LIVE Lab, UT Austin</span></div>
+  <aside class="notes">Three key insights. Modality neglect is the real bottleneck, not encoder capacity. Token-level entropy is a diagnostic signal — increasing entropy at decision points means better visual grounding. And two-stage RL outperforms SFT-then-RL. On limitations: temporal reasoning is limited to 8 frames, and inference cost is higher than lightweight VQA models.</aside>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 18 — TAKEAWAYS & FUTURE
+     ══════════════════════════════════════════════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B" style="display:flex;flex-direction:column;justify-content:center;min-height:0">
+    <h2 style="text-align:center">Key Takeaways</h2>
+    <div style="max-width:58vmin;margin:2vmin auto 0">
+      <div class="fragment" style="display:flex;gap:1.2vmin;align-items:flex-start;margin-bottom:1.3vmin">
+        <div style="background:var(--o);color:#fff;min-width:2.5vmin;height:2.5vmin;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.3vmin">1</div>
+        <p style="margin:0;font-size:1.55vmin"><strong>First MLLM for HDR video quality.</strong> <span style="color:var(--t2)">Prior MLLMs: 0.52 SROCC. HDR-Q: 0.92.</span></p>
+      </div>
+      <div class="fragment" style="display:flex;gap:1.2vmin;align-items:flex-start;margin-bottom:1.3vmin">
+        <div style="background:var(--t);color:#fff;min-width:2.5vmin;height:2.5vmin;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.3vmin">2</div>
+        <p style="margin:0;font-size:1.55vmin"><strong>HAPO: principled solution to modality neglect.</strong> <span style="color:var(--t2)">Three mechanisms, formal MI guarantee, all ablated.</span></p>
+      </div>
+      <div class="fragment" style="display:flex;gap:1.2vmin;align-items:flex-start;margin-bottom:1.3vmin">
+        <div style="background:var(--g);color:#fff;min-width:2.5vmin;height:2.5vmin;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.3vmin">3</div>
+        <p style="margin:0;font-size:1.55vmin"><strong>Strong zero-shot generalization.</strong> <span style="color:var(--t2)">0.908 LIVE-HDR, 0.725 SFV+HDR — no fine-tuning.</span></p>
+      </div>
+      <div class="fragment" style="display:flex;gap:1.2vmin;align-items:flex-start;margin-bottom:1.3vmin">
+        <div style="background:var(--p);color:#fff;min-width:2.5vmin;height:2.5vmin;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.3vmin">4</div>
+        <p style="margin:0;font-size:1.55vmin"><strong>Perception-grounded reasoning.</strong> <span style="color:var(--t2)">CoT references HDR-specific phenomena baseline models cannot articulate.</span></p>
+      </div>
+    </div>
+    <div class="fragment" style="text-align:center;margin-top:2.5vmin;padding-top:1.2vmin;border-top:2px solid var(--o);max-width:58vmin;margin-left:auto;margin-right:auto">
+      <p style="font-size:1.4vmin;color:var(--o);font-weight:600">Next: HDR-Q as reward model for HDR generation &amp; restoration → closing the perception-generation loop.</p>
+    </div>
+  </div>
+  <div class="foot"><span>HDR-Q (CVPR '26)</span><span>LIVE Lab, UT Austin</span></div>
+  <aside class="notes">Four takeaways. First, HDR-Q is the first MLLM for HDR VQA — prior MLLMs scored 0.52, we reach 0.92. Second, HAPO provides a principled solution to modality neglect with a formal mutual information guarantee. Third, strong zero-shot generalization to unseen datasets. Fourth, interpretable chain-of-thought reasoning that references HDR-specific phenomena. Looking ahead, we want to use HDR-Q as a reward model for HDR generation and restoration.</aside>
+</section>
+
+
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script>
+Reveal.initialize({
+  hash:true, slideNumber:'c/t', width:1920, height:1080, margin:0,
+  transition:'fade', transitionSpeed:'fast', center:false,
+  controls:true, progress:true, history:true,
+  plugins: [ RevealNotes ]
+});
+
+// Inject resizable speaker view into Notes window
+(function(){
+  var origOpen = window.open;
+  window.open = function(url){
+    var w = origOpen.apply(this, arguments);
+    if(url && url.indexOf('notes') !== -1){
+      var check = setInterval(function(){
+        try {
+          if(w.document && w.document.body && w.document.body.children.length > 0){
+            clearInterval(check);
+            var d = w.document;
+            // Inject styles
+            var s = d.createElement('style');
+            s.textContent = `
+              body { background:#1a1a2e !important; margin:0 !important; overflow:hidden !important; }
+              /* Hide original layout */
+              body > * { display:none !important; }
+              #sv-container { display:flex !important; flex-direction:column !important; height:100vh !important; font-family:Inter,system-ui,sans-serif; }
+              /* Top row: current + upcoming, separated by vertical drag handle */
+              #sv-top { display:flex; flex:1; min-height:100px; overflow:hidden; }
+              #sv-current { flex:7; overflow:hidden; background:#111; border:2px solid #333; border-radius:6px; margin:4px; position:relative; }
+              #sv-current iframe { width:100%; height:100%; border:none; pointer-events:none; }
+              #sv-upcoming { flex:3; overflow:hidden; background:#111; border:2px solid #444; border-radius:6px; margin:4px; position:relative; }
+              #sv-upcoming iframe { width:100%; height:100%; border:none; pointer-events:none; }
+              #sv-label-cur { position:absolute; top:6px; left:10px; color:#fff; font-size:11px; opacity:.5; z-index:5; pointer-events:none; }
+              #sv-label-up { position:absolute; top:6px; left:10px; color:#fff; font-size:11px; opacity:.5; z-index:5; pointer-events:none; }
+              /* Vertical drag handle between current and upcoming */
+              #sv-vdrag { width:8px; cursor:col-resize; background:#333; flex-shrink:0; display:flex; align-items:center; justify-content:center; border-radius:4px; margin:4px 0; }
+              #sv-vdrag:hover { background:#BF5700; }
+              #sv-vdrag::after { content:'⋮'; color:#888; font-size:16px; }
+              /* Horizontal drag handle between slides and notes */
+              #sv-hdrag { height:8px; cursor:row-resize; background:#333; flex-shrink:0; display:flex; align-items:center; justify-content:center; border-radius:4px; margin:0 4px; }
+              #sv-hdrag:hover { background:#BF5700; }
+              #sv-hdrag::after { content:'⋯'; color:#888; font-size:14px; }
+              /* Bottom: notes + timer */
+              #sv-bottom { display:flex; min-height:60px; overflow:hidden; }
+              #sv-notes { flex:1; padding:12px 20px; overflow-y:auto; color:#e0e0e0; font-size:20px; line-height:1.7; background:#1a1a2e; border:1px solid #333; border-radius:6px; margin:4px; }
+              #sv-notes h3 { margin:0 0 8px; color:#BF5700; font-size:14px; text-transform:uppercase; letter-spacing:1px; }
+              #sv-timer { width:180px; flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#111; border:1px solid #333; border-radius:6px; margin:4px; padding:8px; }
+              #sv-timer .time { font-size:36px; font-weight:800; color:#fff; font-variant-numeric:tabular-nums; }
+              #sv-timer .label { font-size:11px; color:#888; margin-top:2px; }
+              #sv-timer button { margin-top:8px; background:#333; color:#fff; border:none; border-radius:4px; padding:4px 12px; cursor:pointer; font-size:12px; }
+              #sv-timer button:hover { background:#BF5700; }
+              #sv-slide-num { position:absolute; bottom:6px; right:10px; color:#fff; font-size:12px; opacity:.4; z-index:5; pointer-events:none; }
+            `;
+            d.head.appendChild(s);
+
+            // Build custom layout
+            var container = d.createElement('div');
+            container.id = 'sv-container';
+            container.innerHTML = `
+              <div id="sv-top" style="flex:7">
+                <div id="sv-current"><span id="sv-label-cur">CURRENT SLIDE</span><span id="sv-slide-num"></span></div>
+                <div id="sv-vdrag"></div>
+                <div id="sv-upcoming"><span id="sv-label-up">NEXT SLIDE</span></div>
+              </div>
+              <div id="sv-hdrag"></div>
+              <div id="sv-bottom" style="flex:3">
+                <div id="sv-notes"><h3>Speaker Notes</h3><div id="sv-notes-content">No notes for this slide.</div></div>
+                <div id="sv-timer">
+                  <div class="label">ELAPSED</div>
+                  <div class="time" id="sv-elapsed">00:00:00</div>
+                  <button id="sv-reset">Reset</button>
+                </div>
+              </div>
+            `;
+            d.body.appendChild(container);
+
+            // Create iframes for current and upcoming
+            var curDiv = d.getElementById('sv-current');
+            var upDiv = d.getElementById('sv-upcoming');
+            var curIframe = d.createElement('iframe');
+            var upIframe = d.createElement('iframe');
+            curIframe.src = location.href.split('#')[0] + '#/' + (Reveal.getIndices().h || 0);
+            upIframe.src = curIframe.src;
+            curDiv.appendChild(curIframe);
+            upDiv.appendChild(upIframe);
+
+            // Sync slides
+            function syncSlides(){
+              var idx = Reveal.getIndices();
+              var h = idx.h || 0, v = idx.v || 0, f = idx.f || 0;
+              try {
+                curIframe.contentWindow.Reveal.slide(h, v, f);
+                // Next slide
+                var total = Reveal.getTotalSlides();
+                var next = Math.min(h + 1, total - 1);
+                upIframe.contentWindow.Reveal.slide(next, 0, 999);
+              } catch(e){}
+              // Update notes
+              var slide = Reveal.getCurrentSlide();
+              var notes = slide ? slide.querySelector('aside.notes') : null;
+              var nc = d.getElementById('sv-notes-content');
+              nc.innerHTML = notes ? notes.innerHTML : '<em style="opacity:.4">No notes for this slide.</em>';
+              // Slide number
+              var sn = d.getElementById('sv-slide-num');
+              sn.textContent = (h+1) + ' / ' + total;
+            }
+            // Wait for iframes to load then sync
+            var loaded = 0;
+            function onLoad(){ loaded++; if(loaded>=2) syncSlides(); }
+            curIframe.onload = onLoad;
+            upIframe.onload = onLoad;
+            Reveal.on('slidechanged', syncSlides);
+            Reveal.on('fragmentshown', syncSlides);
+            Reveal.on('fragmenthidden', syncSlides);
+
+            // Timer
+            var startTime = Date.now();
+            function updateTimer(){
+              var diff = Date.now() - startTime;
+              var h = Math.floor(diff/3600000);
+              var m = Math.floor((diff%3600000)/60000);
+              var sec = Math.floor((diff%60000)/1000);
+              d.getElementById('sv-elapsed').textContent =
+                String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');
+            }
+            setInterval(updateTimer, 1000);
+            d.getElementById('sv-reset').onclick = function(){ startTime = Date.now(); };
+
+            // ===== DRAG TO RESIZE =====
+            // Vertical drag (between current and upcoming)
+            var vdrag = d.getElementById('sv-vdrag');
+            var topRow = d.getElementById('sv-top');
+            vdrag.addEventListener('mousedown', function(e){
+              e.preventDefault();
+              var startX = e.clientX;
+              var curW = curDiv.getBoundingClientRect().width;
+              var upW = upDiv.getBoundingClientRect().width;
+              function onMove(ev){
+                var dx = ev.clientX - startX;
+                var totalW = curW + upW;
+                var newCur = Math.max(200, Math.min(totalW - 100, curW + dx));
+                var newUp = totalW - newCur;
+                curDiv.style.flex = '0 0 ' + newCur + 'px';
+                upDiv.style.flex = '0 0 ' + newUp + 'px';
+              }
+              function onUp(){ d.removeEventListener('mousemove',onMove); d.removeEventListener('mouseup',onUp); }
+              d.addEventListener('mousemove', onMove);
+              d.addEventListener('mouseup', onUp);
+            });
+
+            // Horizontal drag (between slides row and notes row)
+            var hdrag = d.getElementById('sv-hdrag');
+            hdrag.addEventListener('mousedown', function(e){
+              e.preventDefault();
+              var startY = e.clientY;
+              var topH = topRow.getBoundingClientRect().height;
+              var botDiv = d.getElementById('sv-bottom');
+              var botH = botDiv.getBoundingClientRect().height;
+              function onMove(ev){
+                var dy = ev.clientY - startY;
+                var totalH = topH + botH;
+                var newTop = Math.max(100, Math.min(totalH - 60, topH + dy));
+                var newBot = totalH - newTop;
+                topRow.style.flex = '0 0 ' + newTop + 'px';
+                botDiv.style.flex = '0 0 ' + newBot + 'px';
+              }
+              function onUp(){ d.removeEventListener('mousemove',onMove); d.removeEventListener('mouseup',onUp); }
+              d.addEventListener('mousemove', onMove);
+              d.addEventListener('mouseup', onUp);
+            });
+
+          }
+        } catch(e){ clearInterval(check); }
+      }, 500);
+    }
+    return w;
+  };
+})();
+
+// Auto-enter fullscreen presentation mode on load
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    var el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    else if (el.msRequestFullscreen) el.msRequestFullscreen();
+  }, 500);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LumaFlux — NeurIPS 2026</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+:root{
+  --c:#333F48;--o:#BF5700;--t:#00A8B6;--b:#005E86;
+  --g:#2d8659;--r:#c0392b;--p:#6366f1;
+  --t2:#666;--t3:#aaa;--bg:#fff;--sf:#f7f8fa;
+}
+.reveal{font-family:'Inter',system-ui,sans-serif;font-size:1.75vmin;color:var(--c)}
+.reveal .slides{text-align:left}
+.reveal .slides section{padding:0}
+.reveal h1,.reveal h2,.reveal h3{font-family:'Inter',sans-serif;font-weight:700;text-transform:none;letter-spacing:-0.02em}
+.reveal h1{font-size:3.4vmin} .reveal h2{font-size:2.5vmin;margin-bottom:0.5vmin} .reveal h3{font-size:1.9vmin}
+.reveal p{font-size:1.65vmin;line-height:1.5;margin:0.2vmin 0}
+.reveal li{font-size:1.55vmin;line-height:1.45;margin-bottom:0.25vmin}
+.reveal ul{margin-left:1.3vmin}
+.S{background:var(--bg)!important;padding:0!important}
+.H{background:var(--o);height:5vmin;display:flex;align-items:center;justify-content:space-between;padding:0 2.5vmin;box-sizing:border-box}
+.H img{height:3.8vmin} .H span{color:#fff;font-size:1.4vmin;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.B{padding:1.4vmin 3vmin .4vmin}
+.Q{background:var(--bg)!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important}
+.D{background:linear-gradient(135deg,var(--c) 0%,#1a2a3a 100%)!important;color:#fff!important;text-align:center!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.D h1,.D h2,.D p{color:#fff!important}
+.eq{background:var(--sf);border:1px solid #e5e7eb;border-radius:.4vmin;padding:.6vmin 1.2vmin;text-align:center;margin:.4vmin 0;font-size:1.75vmin}
+.eq-o{background:#fef6ee;border-color:#fcd5a7} .eq-g{background:#f0fdf4;border-color:#bbf7d0} .eq-t{background:#e8f7f8;border-color:#a0dde3}
+.card{background:#fff;border-radius:.4vmin;padding:.9vmin 1.2vmin;box-shadow:0 1px 3px rgba(0,0,0,.06);border-left:.3vmin solid var(--o)}
+.card-t{border-left-color:var(--t)} .card-g{border-left-color:var(--g)} .card-r{border-left-color:var(--r)} .card-p{border-left-color:var(--p)} .card-b{border-left-color:var(--b)}
+.fig{text-align:center;margin:.5vmin 0} .fig img{max-width:100%;border-radius:.3vmin}
+.fc{font-size:.95vmin;color:var(--t3);margin-top:.15vmin;font-style:italic}
+.tag{display:inline-block;padding:.15vmin .6vmin;border-radius:1vmin;font-size:.95vmin;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#fff;vertical-align:middle}
+.tag-o{background:var(--o)} .tag-t{background:var(--t)} .tag-g{background:var(--g)} .tag-b{background:var(--b)} .tag-p{background:var(--p)} .tag-r{background:var(--r)}
+.foot{position:absolute;bottom:.4vmin;left:3vmin;right:3vmin;display:flex;justify-content:space-between;font-size:.85vmin;color:#ccc}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:2vmin;align-items:start}
+.c64{display:grid;grid-template-columns:3fr 2fr;gap:2vmin;align-items:start}
+.c46{display:grid;grid-template-columns:2fr 3fr;gap:2vmin;align-items:start}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.3vmin}
+.reveal table{font-size:1.25vmin;width:100%;border-collapse:collapse}
+.reveal table th{background:var(--c);color:#fff;padding:.45vmin .7vmin;font-weight:600;text-align:center}
+.reveal table td{padding:.35vmin .7vmin;text-align:center;border-bottom:1px solid #eee}
+.reveal table .best{font-weight:700;color:var(--o)} .reveal table .ours{background:#fff6ee!important;font-weight:600}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(9vmin,1fr));gap:.8vmin;margin:.8vmin 0}
+.stat{text-align:center;background:var(--sf);border-radius:.4vmin;padding:.7vmin .3vmin}
+.sn{font-size:2.6vmin;font-weight:800;color:var(--o);display:block} .sl{font-size:.95vmin;color:var(--t2)}
+.sm{font-size:1.25vmin!important} .xs{font-size:1.05vmin!important} .mt1{margin-top:.8vmin} .mt2{margin-top:1.6vmin} .mb1{margin-bottom:.8vmin} .ctr{text-align:center!important} .bold{font-weight:700}
+.reveal .fragment{transition:all .3s ease}
+.reveal .progress span{background:var(--o)} .reveal .slide-number{font-size:1.1vmin;color:#ccc}
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+
+<!-- ═══════ SLIDE 1: TITLE ═══════ -->
+<section class="S">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:2vmin 3vmin 0">
+    <img src="assets/ut_logo.png" style="height:4.5vmin">
+    <div style="display:flex;align-items:center;gap:1.5vmin"><img src="assets/live_logo.png" style="height:4.5vmin"><img src="assets/youtube_logo.png" style="height:4.5vmin"></div>
+  </div>
+  <div style="padding:5vmin 3.5vmin 2vmin">
+    <p style="font-size:1.2vmin;color:var(--o);font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin:0 0 1vmin">NeurIPS 2026</p>
+    <h1 style="font-size:4vmin;font-weight:900;color:var(--c);line-height:1.2;max-width:70vmin">
+      LumaFlux
+    </h1>
+    <p style="font-size:2vmin;color:var(--t2);margin:.8vmin 0 0;max-width:65vmin">
+      Physically &amp; Perceptually Guided Diffusion Transformers<br>for Inverse Tone Mapping
+    </p>
+    <div style="width:5vmin;height:.25vmin;background:var(--o);margin:2.5vmin 0"></div>
+    <p style="font-size:1.4vmin;color:var(--c);font-weight:600;margin:0">Shreshth Saini</p>
+    <p style="font-size:1.2vmin;color:var(--t2);margin:.2vmin 0 0">Laboratory for Image &amp; Video Engineering (LIVE) &middot; The University of Texas at Austin</p>
+    <p style="font-size:1.1vmin;color:var(--t3);margin:.2vmin 0 0">Advised by Prof. Alan C. Bovik</p>
+  </div>
+  <aside class="notes">
+    Hi everyone. I'm Shreshth Saini from the LIVE Lab at UT Austin. Today I'll present LumaFlux, our work on physically and perceptually guided diffusion transformers for inverse tone mapping — converting SDR content back to HDR. This is joint work from LIVE Lab, advised by Professor Alan Bovik.
+  </aside>
+</section>
+
+
+<!-- ═══════ SLIDE 2: THE QUESTION ═══════ -->
+<section class="Q">
+  <div>
+    <p style="font-size:3.6vmin;font-weight:900;color:var(--c);max-width:60vmin;line-height:1.25">
+      Can we teach a <span style="color:var(--o)">generative model</span><br>the physics of light?
+    </p>
+    <p class="fragment" style="font-size:1.7vmin;color:var(--t2);margin-top:2vmin">
+      SDR→HDR reconstruction is ill-posed. We need <strong>physical priors</strong> and <strong>perceptual guidance</strong> — not just more data.
+    </p>
+  </div>
+  <aside class="notes">
+    The central question driving this work: can we teach a generative model the physics of light? SDR to HDR reconstruction is fundamentally ill-posed — the forward mapping destroys information irreversibly. We argue that solving this requires injecting physical priors and perceptual guidance into the generation process, not just scaling up data or model size.
+  </aside>
+</section>
+
+
+<!-- ═══════ SLIDE 3: WHAT HAPPENS IN FORWARD TONE MAPPING ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>What Happens When HDR Becomes SDR</h2>
+    <p style="color:var(--t2)">The forward pipeline from HDRTVNet (ICCV '21) — every step is lossy, and inverting it is ill-posed</p>
+    <div class="fig fragment mt1">
+      <img src="assets/tone_mapping_pipeline.png" alt="HDR to SDR pipeline" style="max-height:14vmin">
+      <p class="fc">HDRTVNet pipeline: Raw Data → Tone Mapping → Gamut Mapping → Transfer Function → Quantization. Top (blue) = SDR. Bottom (orange) = HDR.</p>
+    </div>
+    <div class="two mt1">
+      <!-- Left: PQ vs Gamma transfer -->
+      <div class="fragment">
+        <div style="background:var(--sf);border-radius:.5vmin;padding:.8vmin;border:1px solid #eee;display:flex;gap:1vmin;align-items:center">
+          <img src="assets/pq_vs_gamma.png" alt="PQ vs Gamma EOTF" style="max-height:18vmin;border-radius:.3vmin">
+          <div>
+            <p class="xs bold" style="margin:0;color:var(--r)">Luminance Compression</p>
+            <p class="xs" style="margin:.2vmin 0 0;color:var(--t2)">PQ maps 0–<strong>10,000</strong> cd/m². Gamma tops at <strong>100</strong> cd/m². SDR clips 99% of the luminance range. Highlights → flat white. Shadows → crushed black. 8-bit quantization → banding.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Right: CIE gamut diagram -->
+      <div class="fragment">
+        <div style="background:var(--sf);border-radius:.5vmin;padding:.8vmin;border:1px solid #eee;display:flex;gap:1vmin;align-items:center">
+          <img src="assets/cie_gamut.png" alt="CIE gamut BT.709 vs BT.2020" style="max-height:18vmin;border-radius:.3vmin">
+          <div>
+            <p class="xs bold" style="margin:0;color:var(--b)">Color Gamut Compression</p>
+            <p class="xs" style="margin:.2vmin 0 0;color:var(--t2)">BT.2020 (UHDTV, dashed outer) covers 75.8% of CIE. BT.709 (HDTV, dotted inner) covers only 35.9%. <strong>Over half the color volume is discarded</strong> — saturated greens, deep reds, vivid cyans lost irreversibly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fragment mt1">
+      <div class="eq" style="font-size:1.3vmin;text-align:left;padding:.5vmin 1vmin">
+        <strong>Forward:</strong> x<sub>sdr</sub> = <span style="color:var(--p)">Γ<sub>OETF</sub><sup>709</sup></span>(<span style="color:var(--b)">M<sub>2020→709</sub></span>(<span style="color:var(--t)">Γ<sub>EOTF</sub><sup>PQ</sup></span>(x<sub>hdr</sub>)/L<sub>max</sub>)) + <span style="color:var(--r)">ε</span> &nbsp;—&nbsp; <span style="color:var(--t)">PQ decode</span> → <span style="color:var(--b)">gamut compress</span> → <span style="color:var(--p)">gamma encode</span> → <span style="color:var(--r)">quantize</span>. <strong>Inverting requires content-aware generative priors.</strong>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Let me walk you through what happens when HDR becomes SDR. The PQ transfer function covers up to 10,000 nits, but gamma tops out at 100 — so SDR clips 99 percent of the luminance range. On the color side, BT.709 covers only 36 percent of the visible gamut compared to BT.2020's 76 percent. Over half the color volume is simply discarded. The forward pipeline is a chain of lossy steps — PQ decode, gamut compress, gamma encode, quantize — and inverting it requires content-aware generative priors.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+<!-- ═══════ SLIDE 3b: REAL EXAMPLES — BEYOND8BITS ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>What Gets Lost: 10-bit HDR vs 8-bit SDR (Beyond8Bits Dataset)</h2>
+    <p style="color:var(--t2)">Split-view from our Beyond8Bits dataset — HDR (upper-left) vs SDR (lower-right) of the same frame</p>
+    <div class="fig mt1">
+      <img src="lumaflux/sdr-hdr.png" alt="Beyond8Bits HDR vs SDR" style="max-height:30vmin">
+    </div>
+    <div class="three mt1">
+      <div class="card card-r fragment">
+        <p class="xs" style="margin:0"><strong style="color:var(--r)">Refrigerator scene (top-left):</strong> SDR crushes shadow detail inside the fridge — metallic shelving and contents disappear to black. HDR reveals all internal structure.</p>
+      </div>
+      <div class="card card-t fragment">
+        <p class="xs" style="margin:0"><strong style="color:var(--t)">Autumn lake (top-right):</strong> SDR desaturates the vivid fall foliage and loses the cloud detail in the sky. HDR preserves the full color volume and highlight gradations in the water reflection.</p>
+      </div>
+      <div class="card fragment">
+        <p class="xs" style="margin:0"><strong style="color:var(--o)">Crystal close-up (bottom):</strong> SDR clips the specular highlights on the gemstone to flat white. HDR preserves the translucent internal structure and surface reflections.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Here are real examples from our Beyond8Bits dataset showing HDR versus SDR side by side. In the refrigerator scene, SDR crushes all the shadow detail inside the fridge to black. In the autumn lake, the vivid fall foliage gets desaturated and cloud detail disappears. In the crystal close-up, specular highlights clip to flat white. These are not edge cases — this is what happens to every HDR scene when tone-mapped to SDR.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+<!-- ═══════ SLIDE 3b2: HDR COLOR VOLUME — TWO VIDEO EXAMPLES ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Real HDR Videos in Yxy Space: What SDR Clips</h2>
+    <p style="color:var(--t2)">Computed from real 10-bit PQ BT.2020 videos (Beyond8Bits). <span style="color:var(--r)">Red prism</span> = Rec.709 SDR volume (≤100 nits). <span style="color:var(--o);font-weight:700">Orange dots</span> = pixels outside SDR — lost in tone mapping.</p>
+    <div class="two mt1">
+      <!-- Video 1: Sunset -->
+      <div>
+        <div style="display:flex;gap:.5vmin;align-items:flex-start">
+          <div class="fig" style="flex:1.2">
+            <img src="assets/yxy_plot_v1.png" alt="Yxy sunset" style="width:100%;border:1px solid #eee;border-radius:.3vmin;background:#fff">
+          </div>
+          <div style="flex:0.8">
+            <video src="https://ugchdrmturk.s3.us-east-2.amazonaws.com/videos/711db6f2e68898d8ff6c3755959b4b58.mp4" autoplay muted loop playsinline style="width:100%;border:1px solid #eee;border-radius:.3vmin"></video>
+          </div>
+        </div>
+        <p class="xs ctr" style="color:var(--t2);margin:.2vmin 0"><strong>Sunset scene:</strong> 15% pixels above SDR ceiling. Sun flare + specular highlights on grass reach ~1,300 nits.</p>
+      </div>
+      <!-- Video 2: Indoor/Night -->
+      <div class="fragment">
+        <div style="display:flex;gap:.5vmin;align-items:flex-start">
+          <div class="fig" style="flex:1.2">
+            <img src="assets/yxy_plot_v2.png" alt="Yxy indoor" style="width:100%;border:1px solid #eee;border-radius:.3vmin;background:#fff">
+          </div>
+          <div style="flex:0.8">
+            <video src="https://ugchdrmturk.s3.us-east-2.amazonaws.com/videos/273a5d8a3b8c2d0eb4d4c8ff5fcfe360.mp4" autoplay muted loop playsinline style="width:100%;border:1px solid #eee;border-radius:.3vmin"></video>
+          </div>
+        </div>
+        <p class="xs ctr" style="color:var(--t2);margin:.2vmin 0"><strong>Indoor/night scene:</strong> 27% pixels above SDR ceiling. Bright artificial lights reach ~2,600 nits — massive clipping.</p>
+      </div>
+    </div>
+    <div class="card card-r fragment mt1" style="padding:.4vmin .8vmin">
+      <p class="xs" style="margin:0"><strong style="color:var(--r)">Key insight:</strong> 15–27% of HDR pixel information is <strong>permanently destroyed</strong> by SDR conversion — and the loss is concentrated in the most perceptually important regions: highlights, specular reflections, light sources, and wide-gamut colors. This is what ITM must reconstruct.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    To quantify the loss, we plotted real HDR video pixels in Yxy color space. The red prism shows the SDR volume — anything outside it in orange is permanently lost. In the sunset scene, 15 percent of pixels exceed the SDR ceiling, reaching 1,300 nits. The indoor scene is worse — 27 percent of pixels are clipped, with artificial lights reaching 2,600 nits. This is concentrated in the most perceptually important regions: highlights, light sources, and wide-gamut colors.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+<!-- ═══════ SLIDE 3c: ITM IS ILL-POSED — FORMAL DEFINITION ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Why ITM Is Fundamentally Ill-Posed</h2>
+    <p style="color:var(--t2)">Three irreversible losses make exact inversion impossible — any method must hallucinate missing information</p>
+    <div class="three mt1">
+      <div class="card card-r fragment">
+        <p class="xs bold" style="margin:0;color:var(--r)">1. Many-to-One Mapping</p>
+        <p class="xs" style="margin:.2vmin 0 0">Forward tone mapping is <strong>surjective</strong>: multiple distinct HDR luminance values (e.g., 500, 2000, 8000 cd/m²) all map to the same clipped SDR code value (255). The inverse has infinite solutions — the mapping is non-invertible.</p>
+      </div>
+      <div class="card card-p fragment">
+        <p class="xs bold" style="margin:0;color:var(--p)">2. Color Gamut Loss</p>
+        <p class="xs" style="margin:.2vmin 0 0">BT.2020 → BT.709 gamut mapping <strong>discards 53% of the color volume</strong>. Saturated greens, deep reds, and vivid cyans in the wide gamut are compressed into the sRGB triangle. The original chroma information cannot be recovered from the compressed representation.</p>
+      </div>
+      <div class="card fragment" style="border-left-color:var(--b)">
+        <p class="xs bold" style="margin:0;color:var(--b)">3. Quantization Loss</p>
+        <p class="xs" style="margin:.2vmin 0 0">10-bit PQ (1024 levels) → 8-bit gamma (256 levels) <strong>destroys fine gradations</strong>. In shadows, adjacent PQ code values are 4× further apart in 8-bit, causing visible <strong>banding/contouring</strong>. In highlights, the entire upper luminance range collapses to a few code values.</p>
+      </div>
+    </div>
+    <div class="fragment mt2 ctr">
+      <p style="font-size:2vmin;font-weight:800;color:var(--o)">Any ITM method must hallucinate plausible HDR detail where SDR has none.</p>
+      <p class="sm" style="color:var(--t2);margin:.2vmin 0 0">This requires <strong>content-aware generative priors</strong> — not fixed curves or local CNN features.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    So why is ITM fundamentally ill-posed? Three reasons. First, tone mapping is surjective — multiple HDR values map to the same clipped SDR code, so the inverse has infinite solutions. Second, gamut mapping discards 53 percent of the color volume going from BT.2020 to BT.709. Third, quantization from 10-bit to 8-bit destroys fine gradations, causing banding in shadows. Any ITM method must hallucinate plausible HDR detail where SDR has none, which requires content-aware generative priors.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+
+<!-- ═══════ SLIDE 3c: PRIOR WORK — ARCHITECTURE OVERVIEW ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Prior ITM Methods: Three Generations of Architectures</h2>
+    <p style="color:var(--t2)">From hand-crafted curves to CNNs to diffusion — each generation has fundamental limits</p>
+    <div class="c46 mt1">
+      <div>
+        <!-- Generation 1: Classical -->
+        <div class="card fragment mb1" style="border-left-color:var(--p);padding:.7vmin 1vmin">
+          <p class="sm bold" style="margin:0;color:var(--p)">Gen 1: Classical Tone Curves</p>
+          <p class="xs" style="margin:.2vmin 0 0;color:var(--t2)"><strong>BT.2446, Reinhard, Huo et al.</strong> — Fixed parametric mapping from SDR→HDR using inverse tone curves. Content-blind: the same curve is applied to sunsets, interiors, and neon signs. <strong style="color:var(--r)">Cannot recover scene-specific highlights or local contrast.</strong></p>
+        </div>
+        <!-- Generation 2: CNN -->
+        <div class="card fragment mb1" style="border-left-color:var(--b);padding:.7vmin 1vmin">
+          <p class="sm bold" style="margin:0;color:var(--b)">Gen 2: CNN-Based Learning</p>
+          <p class="xs" style="margin:.2vmin 0 0;color:var(--t2)"><strong>HDRTVNet++</strong> (ICCV'21): 3-branch modulation net (global, local, condition). <strong>HDCFM</strong> (MM'22): Hierarchical feature modulation with dynamic context. <strong>HDRTVDM</strong> (CVPR'23): Dynamic context transformation. <strong>Deep SR-ITM</strong> (ICCV'19): Joint super-resolution + ITM.</p>
+          <p class="xs" style="margin:.2vmin 0 0;color:var(--r)"><strong>Limitation:</strong> Local receptive fields → cannot model global illumination. Overfit to specific TMOs used in training data.</p>
+        </div>
+        <!-- Generation 3: Diffusion -->
+        <div class="card fragment mb1" style="border-left-color:var(--t);padding:.7vmin 1vmin">
+          <p class="sm bold" style="margin:0;color:var(--t)">Gen 3: Diffusion-Based</p>
+          <p class="xs" style="margin:.2vmin 0 0;color:var(--t2)"><strong>LEDiff</strong>: Latent diffusion conditioned on SDR. <strong>PromptIR</strong>: Text-guided restoration. <strong>FlashVSR</strong>: Video super-resolution with diffusion prior.</p>
+          <p class="xs" style="margin:.2vmin 0 0;color:var(--r)"><strong>Limitation:</strong> Hue shifts, over-saturated tones, hallucinated details. No physical grounding — the model has no concept of luminance or color space.</p>
+        </div>
+        <!-- Our generation -->
+        <div class="card card-g fragment" style="padding:.7vmin 1vmin">
+          <p class="sm bold" style="margin:0;color:var(--g)">Gen 4: LumaFlux (Ours)</p>
+          <p class="xs" style="margin:.2vmin 0 0;color:var(--t2)">Physically & perceptually guided <strong>Diffusion Transformer</strong>. Frozen 12B Flux backbone + lightweight PGA/PCM modules. First to combine physical priors + perceptual guidance + DiT scale.</p>
+        </div>
+      </div>
+      <div>
+        <!-- HDRTVNet++ architecture from paper -->
+        <div class="fig fragment">
+          <img src="assets/hdrtvnet_arch.png" alt="HDRTVNet++ architecture" style="max-height:16vmin;border:1px solid #eee;border-radius:.3vmin">
+          <p class="fc"><strong style="color:var(--b)">HDRTVNet++</strong> (Chen et al., TMM'23): 3-step CNN pipeline — adaptive global color mapping → local enhancement → highlight refinement. All operations are <strong>local</strong> (conv + FC layers). No global scene understanding.</p>
+        </div>
+        <!-- LEDiff architecture from paper -->
+        <div class="fig fragment mt1">
+          <img src="assets/lediff_arch.png" alt="LEDiff architecture" style="max-height:14vmin;border:1px solid #eee;border-radius:.3vmin">
+          <p class="fc"><strong style="color:var(--t)">LEDiff</strong> (Wang et al., CVPR'25): Latent exposure fusion — encoder produces multi-exposure latents, learnable fusion in latent space, separate shadow/highlight denoisers. <strong style="color:var(--r)">No physical priors, prone to hue shifts.</strong></p>
+        </div>
+        <div class="card card-g fragment mt1" style="padding:.5vmin .8vmin">
+          <p class="xs bold" style="margin:0;color:var(--g)">What LumaFlux does differently</p>
+          <p class="xs" style="margin:.1vmin 0 0;color:var(--t2)">Instead of CNN local ops or latent fusion tricks, we inject <strong>physical priors</strong> (luminance, spectral) and <strong>perceptual guidance</strong> (SigLIP) directly into a frozen 12B DiT backbone via lightweight adapters.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Here is a survey of three generations of ITM methods. Classical tone curves like Reinhard and BT.2446 are content-blind — they apply the same mapping everywhere. CNN methods like HDRTVNet++ have limited receptive fields and overfit to specific tone operators. Diffusion methods like LEDiff have no physical grounding and produce hue shifts. LumaFlux is the fourth generation — it combines physical priors and perceptual guidance inside a frozen 12-billion parameter diffusion transformer, with only 17 million trainable parameters.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+<!-- ═══════ SLIDE 4: PRIOR METHODS FAIL ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Where Prior ITM Methods Break</h2>
+    <div class="two mt1">
+      <div>
+        <div class="card card-p fragment mb1">
+          <p class="xs bold" style="margin:0;color:var(--p)">Classical (Reinhard, BT.2446)</p>
+          <p class="xs" style="margin:.15vmin 0 0">Fixed tone curves. Content-blind. Cannot recover scene-specific highlights.</p>
+        </div>
+        <div class="card card-b fragment mb1">
+          <p class="xs bold" style="margin:0;color:var(--b)">CNN-based (HDRTVNet++, HDCFM, ICTCPNet)</p>
+          <p class="xs" style="margin:.15vmin 0 0">Limited receptive field. Overfit to fixed tone operators. No global scene understanding.</p>
+        </div>
+        <div class="card card-t fragment mb1">
+          <p class="xs bold" style="margin:0;color:var(--t)">Diffusion-based (LEDiff, PromptIR)</p>
+          <p class="xs" style="margin:.15vmin 0 0">Color drift &amp; hallucination. Require text prompts or retraining. No physical grounding.</p>
+        </div>
+        <div class="card card-g fragment">
+          <p class="xs bold" style="margin:0;color:var(--g)">What's missing?</p>
+          <p class="xs" style="margin:.15vmin 0 0"><strong>No method uses physical priors</strong> (luminance, spectra).<br><strong>No method uses perceptual priors</strong> (semantic understanding).<br><strong>No method leverages modern DiTs</strong> (12B pretrained params).</p>
+        </div>
+      </div>
+      <div class="fragment">
+        <table>
+          <thead><tr><th style="text-align:left">Method</th><th>Type</th><th>PSNR</th><th>Limitation</th></tr></thead>
+          <tbody>
+            <tr><td style="text-align:left;color:var(--t3)">BT.2446</td><td>Classical</td><td>—</td><td>Content-blind</td></tr>
+            <tr><td style="text-align:left">HDRTVNet++</td><td>CNN</td><td>38.36</td><td>Local receptive field</td></tr>
+            <tr><td style="text-align:left">HDCFM</td><td>CNN</td><td>38.42</td><td>Fixed degradations</td></tr>
+            <tr><td style="text-align:left">LEDiff</td><td>Diffusion</td><td>36.52</td><td>Color drift</td></tr>
+            <tr><td style="text-align:left">PromptIR</td><td>Diffusion</td><td>32.14</td><td>Needs prompts</td></tr>
+            <tr class="ours"><td style="text-align:left"><strong>LumaFlux</strong></td><td>DiT</td><td class="best">39.27</td><td style="color:var(--g)">Physics-guided</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Let me summarize where prior methods fail concretely. Classical methods are content-blind. CNNs have limited receptive fields and no global scene understanding. Diffusion methods produce color drift and hallucinations without physical grounding. The table on the right shows the numbers — LumaFlux achieves 39.27 dB PSNR, beating the best CNN baseline by nearly 1 dB. No prior method combines physical priors, perceptual priors, and modern DiT scale.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+<!-- ═══════ SLIDE 4b: PRIOR METHOD FAILURES ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Prior ITM Methods: Visual Failures</h2>
+    <p style="color:var(--t2)">Visual comparison on real HDR dataset — from FastHDRNet (arXiv 2404.04483)</p>
+    <div class="fig mt1">
+      <img src="assets/fasthdrnet_fig4.png" alt="FastHDRNet visual comparison" style="max-height:34vmin;border:1px solid #eee;border-radius:.4vmin">
+      <p class="fc">Desert sunset (top) + evening cityscape (bottom). Ground Truth vs 7 methods: Ada-3DLUT, HDRTVNet, JSI-GAN, CSRNet, HDRNet, HuoPhyEO, FastHDRNet.</p>
+    </div>
+    <div class="three fragment mt1">
+      <div class="card card-r">
+        <p class="xs bold" style="margin:0;color:var(--r)">Color shift & washout</p>
+        <p class="xs" style="margin:.1vmin 0 0">Ada-3DLUT & HDRTVNet wash out the sun and lose sand gradients. HDRNet introduces severe <strong>blue color shift</strong> on the cityscape. HuoPhyEO produces unnatural yellow-green cast.</p>
+      </div>
+      <div class="card card-r">
+        <p class="xs bold" style="margin:0;color:var(--r)">Halo & detail loss</p>
+        <p class="xs" style="margin:.1vmin 0 0">JSI-GAN adds <strong>halo artifacts</strong> around the sun disc. CSRNet and JSI-GAN lose building detail and city lights in shadow regions. No method recovers both highlights and shadows.</p>
+      </div>
+      <div class="card" style="border-left-color:var(--o)">
+        <p class="xs bold" style="margin:0;color:var(--o)">The common pattern</p>
+        <p class="xs" style="margin:.1vmin 0 0">CNN methods lack global context. Analytical methods lack content-awareness. <strong>No prior method uses physical priors or perceptual guidance</strong> — the exact gap LumaFlux fills.</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    These visual comparisons from FastHDRNet show the common failure patterns. Ada-3DLUT and HDRTVNet wash out the sun and lose sand gradients. HDRNet introduces a severe blue color shift. JSI-GAN adds halo artifacts around the sun. No prior method can recover both highlights and shadows simultaneously. This is the gap that LumaFlux addresses with physical and perceptual guidance.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+
+<!-- ═══════ SLIDE 5: FLOW MATCHING PRIMER ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2><span class="tag tag-b">Background</span> &nbsp; Flow Matching in 4 Equations</h2>
+    <p style="color:var(--t2)">The generation framework behind Flux and LumaFlux</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2vmin;margin-top:1.5vmin">
+      <div style="background:#fff;border-radius:.4vmin;padding:1.2vmin;box-shadow:0 1px 3px rgba(0,0,0,.04);border-top:3px solid var(--p)">
+        <p class="xs bold" style="margin:0;color:var(--p)">1. Interpolation Path</p>
+        <div style="text-align:center;font-size:2vmin;margin:.4vmin 0"><span style="color:var(--t)">x<sub>t</sub></span> = (1−<span style="color:var(--p)">t</span>)<span style="color:var(--g)">x<sub>0</sub></span> + <span style="color:var(--p)">t</span>·<span style="color:var(--r)">x<sub>1</sub></span></div>
+        <p class="xs ctr" style="color:var(--t3)"><span style="color:var(--g)">data</span> → <span style="color:var(--r)">noise</span>, straight line</p>
+      </div>
+      <div style="background:#fff;border-radius:.4vmin;padding:1.2vmin;box-shadow:0 1px 3px rgba(0,0,0,.04);border-top:3px solid var(--t)">
+        <p class="xs bold" style="margin:0;color:var(--t)">2. Target Velocity</p>
+        <div style="text-align:center;font-size:2vmin;margin:.4vmin 0"><span style="color:var(--t)">u<sub>t</sub></span> = <span style="color:var(--r)">x<sub>1</sub></span> − <span style="color:var(--g)">x<sub>0</sub></span></div>
+        <p class="xs ctr" style="color:var(--t3)">Constant — network learns to predict this</p>
+      </div>
+      <div style="background:#fff;border-radius:.4vmin;padding:1.2vmin;box-shadow:0 1px 3px rgba(0,0,0,.04);border-top:3px solid var(--o)">
+        <p class="xs bold" style="margin:0;color:var(--o)">3. Training Loss</p>
+        <div style="text-align:center;font-size:1.7vmin;margin:.4vmin 0">L = E[‖<span style="color:var(--o)">v<sub>θ</sub></span>(<span style="color:var(--t)">x<sub>t</sub></span>,<span style="color:var(--p)">t</span>) − (<span style="color:var(--r)">x<sub>1</sub></span>−<span style="color:var(--g)">x<sub>0</sub></span>)‖²]</div>
+        <p class="xs ctr" style="color:var(--t3)">Simple MSE: predicted vs true velocity</p>
+      </div>
+      <div style="background:#f0fdf4;border-radius:.4vmin;padding:1.2vmin;box-shadow:0 1px 3px rgba(0,0,0,.04);border-top:3px solid var(--g)">
+        <p class="xs bold" style="margin:0;color:var(--g)">4. Inference: Solve ODE</p>
+        <div style="text-align:center;font-size:2vmin;margin:.4vmin 0">d<span style="color:var(--t)">x</span>/d<span style="color:var(--p)">t</span> = <span style="color:var(--o)">v<sub>θ</sub></span>(<span style="color:var(--t)">x</span>,<span style="color:var(--p)">t</span>)</div>
+        <p class="xs ctr" style="color:var(--t3)"><span style="color:var(--p)">t</span>=1→0 via Euler. <strong style="color:var(--g)">Deterministic, no noise.</strong></p>
+      </div>
+    </div>
+    <p class="xs ctr mt1" style="color:var(--t3)">Color: <span style="color:var(--g)">data x₀</span> · <span style="color:var(--r)">noise x₁</span> · <span style="color:var(--t)">interpolant xₜ</span> · <span style="color:var(--p)">time t</span> · <span style="color:var(--o)">network vθ</span></p>
+  </div>
+  <aside class="notes">
+    Quick background on flow matching, which is the generation framework behind Flux and LumaFlux. The idea is simple: define a straight-line interpolation between data and noise, learn a velocity field that predicts the direction from noise to data, train with MSE loss, and generate by solving an ODE from noise back to data. It is deterministic, simple, and efficient — no stochastic noise injection needed.
+  </aside>
+  <div class="foot"><span>Background: Flow Matching</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+<!-- ═══════ SLIDE 5b: RECTIFIED FLOW vs DIFFUSION ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2><span class="tag tag-b">Background</span> &nbsp; Rectified Flow: Straight Paths vs. Noisy Diffusion</h2>
+    <p style="color:var(--t2)">Why LumaFlux uses rectified flow (Flux) instead of standard diffusion</p>
+    <div class="fig mt1">
+      <img src="assets/rectified_flow_paths.png" alt="Rectified flow vs linear interpolation" style="max-height:18vmin;background:#fff;padding:.5vmin;border-radius:.4vmin;border:1px solid #eee">
+      <p class="fc">From Liu et al. (ICLR '23): (a) Linear interpolation has crossing paths. (b) Rectified flow straightens them via reflow. (c-d) After rectification, paths are straight ≈ optimal transport. Figure from official Rectified Flow repo.</p>
+    </div>
+    <div class="two mt1">
+      <div class="card card-r fragment">
+        <p class="xs bold" style="margin:0;color:var(--r)">Diffusion (SDE) — Curved, Noisy Paths</p>
+        <p class="xs" style="margin:.15vmin 0 0">Stochastic noise at each step provides implicit error correction. Paths curve and cross. Requires <strong>50+ steps</strong>. Models: DDPM, Stable Diffusion 1.5/2.</p>
+      </div>
+      <div class="card card-g fragment">
+        <p class="xs bold" style="margin:0;color:var(--g)">Rectified Flow (ODE) — Straight, Fast Paths</p>
+        <p class="xs" style="margin:.15vmin 0 0">Deterministic ODE. Paths straightened via reflow ≈ <strong>optimal transport</strong>. Only <strong>25-40 steps</strong>. Consistent outputs. Models: <strong>Flux (12B)</strong>, SD3, SD3.5. LumaFlux builds on Flux.</p>
+      </div>
+    </div>
+    <div class="card fragment mt1" style="border-left-color:var(--t)">
+      <p class="xs" style="margin:0"><strong style="color:var(--t)">Why this matters for ITM:</strong> Rectified flow gives us <strong>deterministic, consistent</strong> HDR outputs (no stochastic variation between runs) and fast inference (~8s/frame). The 12B Flux backbone provides rich visual priors from billions of training images — we just need to steer them with physics.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    Why do we use rectified flow specifically? Standard diffusion uses curved, noisy paths that require 50 or more steps. Rectified flow straightens these paths via a reflow procedure, approximating optimal transport. This means we only need 25 to 40 steps for high-quality generation. For ITM, the key benefit is deterministic, consistent outputs — no stochastic variation between runs — and fast inference at about 8 seconds per frame.
+  </aside>
+  <div class="foot"><span>Background: Rectified Flow</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+
+<!-- ═══════ SLIDE 6: MMDiT + LoRA BACKGROUND ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2><span class="tag tag-b">Background</span> &nbsp; Flux MM-DiT &amp; Why Standard LoRA Isn't Enough</h2>
+    <div class="two mt1">
+      <div>
+        <div class="card card-p fragment mb1">
+          <p class="xs bold" style="margin:0;color:var(--p)">Flux Architecture</p>
+          <p class="xs" style="margin:.2vmin 0 0">12B-param MM-DiT. Visual + text tokens processed jointly via self-attention. Timestep conditioning via adaLN-Zero. Rectified flow ODE, 40 steps.</p>
+        </div>
+        <div class="fragment">
+          <p class="sm bold" style="color:var(--b)">Standard LoRA</p>
+          <div class="eq" style="font-size:2vmin">W = W<sup>(0)</sup> + <span style="color:var(--o)">A</span><span style="color:var(--t)">B</span></div>
+          <p class="xs" style="color:var(--t3)">Rank r=8. Only 0.07% of parameters. Efficient but <strong>static</strong>.</p>
+        </div>
+        <div class="card card-r fragment mt1">
+          <p class="xs bold" style="margin:0;color:var(--r)">Why vanilla LoRA fails for ITM</p>
+          <p class="xs" style="margin:.15vmin 0 0">
+            Same adaptation for all inputs, timesteps, layers.<br>
+            No physics: blind to PQ curves, luminance, spectra.<br>
+            No perception: can't enforce color constancy.<br>
+            <strong>Result: 33.42 dB PSNR</strong> (baseline).
+          </p>
+        </div>
+      </div>
+      <div class="fragment">
+        <div class="card card-g" style="padding:1.5vmin">
+          <p class="sm bold" style="margin:0;color:var(--g)">LumaFlux: From LoRA to Luma-MMDiT</p>
+          <p class="xs" style="margin:.3vmin 0 0">Three extensions that make LoRA <strong>input-dependent</strong>, <strong>physically-grounded</strong>, and <strong>timestep-adaptive</strong>:</p>
+          <div style="margin-top:.8vmin">
+            <div style="display:flex;gap:.5vmin;align-items:center;margin:.3vmin 0"><div style="width:1.5vmin;height:1.5vmin;border-radius:.2vmin;background:var(--o)"></div><p class="xs" style="margin:0"><strong>PGA</strong> — Physical gating on value projection</p></div>
+            <div style="display:flex;gap:.5vmin;align-items:center;margin:.3vmin 0"><div style="width:1.5vmin;height:1.5vmin;border-radius:.2vmin;background:var(--t)"></div><p class="xs" style="margin:0"><strong>PCM</strong> — Perceptual FiLM on hidden states</p></div>
+            <div style="display:flex;gap:.5vmin;align-items:center;margin:.3vmin 0"><div style="width:1.5vmin;height:1.5vmin;border-radius:.2vmin;background:var(--g)"></div><p class="xs" style="margin:0"><strong>RQS</strong> — Monotone spline tone-field decoder</p></div>
+            <div style="display:flex;gap:.5vmin;align-items:center;margin:.3vmin 0"><div style="width:1.5vmin;height:1.5vmin;border-radius:.2vmin;background:var(--p)"></div><p class="xs" style="margin:0"><strong>TLAM</strong> — 6 scalars per (timestep, layer)</p></div>
+          </div>
+          <p class="xs mt1" style="color:var(--g);font-weight:600">33.42 → 39.27 dB PSNR (+5.85 dB)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Flux is a 12-billion parameter MM-DiT with joint visual and text token processing. Standard LoRA adds low-rank updates to the weight matrices — efficient but static. The same adaptation is applied regardless of input content, timestep, or layer. For ITM, vanilla LoRA only reaches 33.42 dB because it has no concept of luminance or color space. LumaFlux extends LoRA with three modules — PGA for physics, PCM for perception, and RQS for monotone tone curves — jumping to 39.27 dB.
+  </aside>
+  <div class="foot"><span>Background</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+
+<!-- ═══════ SLIDE 7: ARCHITECTURE EVOLUTION ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Architecture Evolution: CNN → MMDiT → Luma-MMDiT</h2>
+    <div class="fig mt1">
+      <img src="lumaflux/itm-model/compare-model.png" alt="Architecture evolution" style="max-height:40vmin">
+      <p class="fc">Left: CNN stack (local receptive field). Center: Standard Flux MMDiT (global attention but no physical priors). Right: LumaFlux (PGA + PCM + Coupler + RQS).</p>
+    </div>
+    <div class="three mt1">
+      <div class="card card-r fragment"><p class="xs" style="margin:0"><strong style="color:var(--r)">CNN</strong>: Local, no physical priors, no global context</p></div>
+      <div class="card card-p fragment"><p class="xs" style="margin:0"><strong style="color:var(--p)">MMDiT</strong>: Global attention, 12B priors, but static LoRA, no physics</p></div>
+      <div class="card card-g fragment"><p class="xs" style="margin:0"><strong style="color:var(--g)">Luma-MMDiT</strong>: + SigLIP + Physical features + spectral gating + RQS</p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    This figure shows the architecture evolution from CNNs to standard MMDiT to our Luma-MMDiT. CNNs operate locally with no physical priors. The standard MMDiT has global attention and 12 billion pretrained parameters but uses static LoRA with no physics. Our Luma-MMDiT adds SigLIP perceptual features, physical luminance and spectral features, spectral gating, and the RQS decoder — all while keeping the backbone frozen.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+
+<!-- ═══════ SLIDE 8: FULL ARCHITECTURE ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>LumaFlux: Full Pipeline</h2>
+    <div class="fig mt1">
+      <img src="lumaflux/itm-model/model-full.png" alt="Full architecture" style="max-height:32vmin">
+    </div>
+    <div style="display:flex;gap:1vmin;margin-top:1vmin;justify-content:center">
+      <div class="card fragment" style="max-width:20vmin"><p class="xs" style="margin:0"><strong style="color:var(--o)">PGA</strong><br>Luminance + gradient + saturation + FFT → gated LoRA on W<sub>V</sub></p></div>
+      <div class="card card-t fragment" style="max-width:20vmin"><p class="xs" style="margin:0"><strong style="color:var(--t)">PCM</strong><br>Frozen SigLIP → cross-attn → FiLM: γ⊙LN(h)+ζ</p></div>
+      <div class="card card-p fragment" style="max-width:20vmin"><p class="xs" style="margin:0"><strong style="color:var(--p)">TLAM</strong><br>Ψ(t,ℓ) → 6 scalars controlling all modules per step/layer</p></div>
+      <div class="card card-g fragment" style="max-width:20vmin"><p class="xs" style="margin:0"><strong style="color:var(--g)">RQS</strong><br>K=8 monotone spline in YUV BT.2020. Per-pixel tone curves.</p></div>
+    </div>
+  </div>
+  <aside class="notes">
+    Here is the full LumaFlux pipeline. The SDR input goes through the frozen Flux encoder, then through our modified Luma-MMDiT blocks. PGA injects luminance, gradient, saturation, and FFT features via gated LoRA on the value projection. PCM uses frozen SigLIP embeddings with cross-attention and FiLM modulation for perceptual guidance. TLAM provides 6 adaptive scalars per timestep and layer. Finally, RQS applies per-pixel monotone spline tone curves in YUV BT.2020 space.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+
+<!-- ═══════ SLIDE 9: BLOCK-LEVEL COMPARISON ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Standard DiT Block → Luma-MMDiT Block</h2>
+    <p style="color:var(--t2)">Three targeted modifications — only colored parts are trainable (~17M / 12B)</p>
+    <div class="c46 mt1">
+      <div class="fig">
+        <img src="lumaflux/itm-model/compare-model-dit.png" alt="Block comparison" style="max-height:38vmin">
+        <p class="fc">Left: Standard MMDiT. Right: Luma-MMDiT with PGA on value projection, PCM after norm, Coupler at output.</p>
+      </div>
+      <div>
+        <div style="font-family:'Courier New',monospace;font-size:1.15vmin;background:var(--sf);border-radius:.4vmin;padding:1vmin;line-height:1.8">
+          <p style="margin:0;color:var(--t3)">// Standard MMDiT block</p>
+          <p style="margin:0">z → LN(z)</p>
+          <p style="margin:0">Q = zW<sub>Q</sub>, K = zW<sub>K</sub></p>
+          <p style="margin:0">V = z<span style="color:var(--p)">W<sub>V</sub></span></p>
+          <p style="margin:0">h = Attn(Q,K,V)</p>
+          <p style="margin:0">z = z + h + MLP(LN(z))</p>
+          <p style="margin:.6vmin 0 0;color:var(--t3)">// + Luma-MMDiT:</p>
+          <p style="margin:0">V = z(<span style="color:var(--o);font-weight:700">W<sub>V</sub><sup>0</sup> + R<sub>v</sub><sup>t,ℓ</sup></span>) <span style="color:var(--o)">← PGA</span></p>
+          <p style="margin:0">h = <span style="color:var(--t);font-weight:700">γ<sup>t,ℓ</sup>⊙LN(h) + ζ<sup>t,ℓ</sup></span> <span style="color:var(--t)">← PCM</span></p>
+          <p style="margin:0">z += <span style="color:var(--g);font-weight:700">λ(W<sub>p</sub>T<sub>phys</sub> + W<sub>c</sub>C(T<sub>perc</sub>))</span> <span style="color:var(--g)">← Coupler</span></p>
+        </div>
+        <div class="card card-p fragment mt1">
+          <p class="xs bold" style="margin:0;color:var(--p)">TLAM: Ψ(t, ℓ) → 6 scalars</p>
+          <p class="xs" style="margin:.15vmin 0 0">[α<sub>pga</sub>, β<sub>pga</sub>, α<sub>pcm</sub>, β<sub>pcm</sub>, n<sub>spec</sub>, λ]<br>Early steps → global tone. Late steps → highlight detail.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    At the block level, we make three targeted modifications to the standard MMDiT. On the value projection, PGA applies physically-gated LoRA that is input-dependent and timestep-adaptive. After layer norm, PCM applies FiLM modulation — scale and shift — from SigLIP perceptual features. At the output, the HDR Residual Coupler blends physical and perceptual streams. TLAM controls all of this with just 6 learned scalars per timestep-layer pair. Only the colored components are trainable — about 17 million out of 12 billion parameters.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+
+<!-- ═══════ SLIDE 10: PGA DEEP DIVE ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>PGA: Physically-Guided Adaptation — Step by Step</h2>
+    <div class="two mt1">
+      <div>
+        <div class="fragment mb1">
+          <p class="xs bold" style="color:var(--o)">Step 1: Extract physical features</p>
+          <div class="eq-o" style="font-size:1.4vmin">Y = [<span style="color:var(--o)">0.2627</span>, <span style="color:var(--o)">0.6780</span>, <span style="color:var(--o)">0.0593</span>]<sup>T</sup> · x<sub>lin</sub></div>
+          <div class="eq" style="font-size:1.4vmin">T<sub>phys</sub> = Conv<sub>3×3</sub>([<span style="color:var(--o)">Y</span>, <span style="color:var(--t)">log(1+|∇Y|)</span>, <span style="color:var(--p)">sat</span>])</div>
+          <div class="eq" style="font-size:1.4vmin">g = MLP([<span style="color:var(--t3)">μ<sub>Y</sub>, σ<sub>Y</sub>, p<sub>95</sub>, p<sub>99</sub></span>])</div>
+        </div>
+        <div class="fragment mb1">
+          <p class="xs bold" style="color:var(--t)">Step 2: Physical &amp; spectral gating</p>
+          <div class="eq-t" style="font-size:1.4vmin">G<sub>phys</sub> = diag(σ(P<sub>v</sub>[T<sub>phys</sub> ‖ g]))</div>
+          <div class="eq" style="font-size:1.4vmin">g<sub>FFT</sub> = softplus(W<sub>r</sub> · r) <span class="xs" style="color:var(--t3)">&nbsp;K=16 bands</span></div>
+        </div>
+        <div class="fragment">
+          <p class="xs bold" style="color:var(--g)">Step 3: Modulated LoRA</p>
+          <div class="eq-g" style="font-size:1.3vmin">R<sub>v</sub><sup>t,ℓ</sup> = (<span style="color:var(--p)">α</span>·AB + <span style="color:var(--p)">β</span>·I) · <span style="color:var(--o)">G<sub>phys</sub></span> · (I + <span style="color:var(--p)">n<sub>spec</sub></span>·diag(<span style="color:var(--t)">g<sub>FFT</sub></span>))</div>
+          <div class="eq" style="font-size:1.5vmin;margin-top:.3vmin">W<sub>V</sub> ← W<sub>V</sub><sup>(0)</sup> + R<sub>v</sub><sup>t,ℓ</sup></div>
+        </div>
+      </div>
+      <div class="fragment">
+        <div style="background:var(--sf);border-radius:.4vmin;padding:1.2vmin">
+          <p class="sm bold" style="margin:0;color:var(--c)">Three multiplicative modulations:</p>
+          <div style="margin-top:.6vmin">
+            <div style="display:flex;gap:.5vmin;align-items:flex-start;margin:.4vmin 0">
+              <div style="width:1.2vmin;height:1.2vmin;border-radius:.2vmin;background:var(--p);margin-top:.15vmin;flex-shrink:0"></div>
+              <p class="xs" style="margin:0"><strong style="color:var(--p)">TLAM (α, β)</strong> — Timestep-layer scaling. Early = global tone. Late = highlights.</p>
+            </div>
+            <div style="display:flex;gap:.5vmin;align-items:flex-start;margin:.4vmin 0">
+              <div style="width:1.2vmin;height:1.2vmin;border-radius:.2vmin;background:var(--o);margin-top:.15vmin;flex-shrink:0"></div>
+              <p class="xs" style="margin:0"><strong style="color:var(--o)">G<sub>phys</sub></strong> — Per-head luminance-aware gating. Sigmoid: 0=suppress, 1=pass.</p>
+            </div>
+            <div style="display:flex;gap:.5vmin;align-items:flex-start;margin:.4vmin 0">
+              <div style="width:1.2vmin;height:1.2vmin;border-radius:.2vmin;background:var(--t);margin-top:.15vmin;flex-shrink:0"></div>
+              <p class="xs" style="margin:0"><strong style="color:var(--t)">g<sub>FFT</sub></strong> — Frequency-aware gating. Prevents over-expansion in smooth (low-freq) regions.</p>
+            </div>
+          </div>
+        </div>
+        <div class="card card-g mt1">
+          <p class="xs" style="margin:0"><strong style="color:var(--g)">Key property:</strong> Unlike standard LoRA (static), PGA is <strong>input-dependent</strong>, <strong>timestep-adaptive</strong>, and <strong>frequency-aware</strong>. The same image region gets different adaptation at different diffusion timesteps.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Let me walk through PGA step by step. First, we extract physical features — BT.2020 luminance, log gradients, and saturation — and compute global statistics like mean, standard deviation, and percentiles. Second, these go through physical gating with a sigmoid to produce per-head gates, plus spectral gating from 16 FFT frequency bands to prevent over-expansion in smooth regions. Third, the modulated LoRA combines TLAM scaling, physical gating, and spectral gating multiplicatively. The key property is that PGA is input-dependent, timestep-adaptive, and frequency-aware — unlike standard LoRA which is static.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+
+<!-- ═══════ SLIDE 11: PCM & RQS ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>PCM (Perceptual) &amp; RQS (Decoder)</h2>
+    <div class="two mt1">
+      <div>
+        <p class="sm bold" style="color:var(--t)">Perceptual Cross-Modulation</p>
+        <div class="fragment">
+          <div class="eq-t" style="font-size:1.5vmin">T<sub>perc</sub> = φ<sub>SigLIP</sub>(x<sub>sdr</sub>) <span class="xs" style="color:var(--t3)">(frozen)</span></div>
+          <div class="eq" style="font-size:1.4vmin">[γ<sup>t,ℓ</sup>, ζ<sup>t,ℓ</sup>] = α<sub>pcm</sub> · MLP(C(T<sub>perc</sub>)) + β<sub>pcm</sub></div>
+          <div class="eq-t" style="font-size:1.7vmin;font-weight:600">PCM(h) = <span style="color:var(--t)">γ</span> ⊙ LN(h) + <span style="color:var(--t)">ζ</span></div>
+          <p class="xs" style="color:var(--t2);margin:.3vmin 0 0"><strong>FiLM</strong>: scale &amp; shift per dimension after layer norm. Enforces color constancy — e.g., brighten sky highlights without shifting skin tones.</p>
+        </div>
+      </div>
+      <div>
+        <p class="sm bold" style="color:var(--g)">RQS Tone-Field Decoder</p>
+        <div class="fragment">
+          <div class="eq-g" style="font-size:1.2vmin">Ŷ(α) = [η<sub>k</sub>(s<sub>k</sub>+1)α² + d<sub>k</sub>s<sub>k</sub>α] / [s<sub>k</sub> + (s<sub>k+1</sub>+s<sub>k</sub>−2d<sub>k</sub>)α(1−α)]</div>
+          <p class="xs" style="color:var(--t2);margin:.3vmin 0 0">
+            <strong>K=8 knots</strong>, per-pixel learned (ξ, η, s).<br>
+            <strong>Monotonic</strong> — preserves luminance ordering.<br>
+            <strong>Differentiable &amp; invertible.</strong><br>
+            Operates in YUV BT.2020 — separates luminance from chroma.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="fragment mt2">
+      <div class="two" style="gap:1.5vmin">
+        <div class="eq-o">
+          <p class="xs bold" style="margin:0;color:var(--o)">Total Loss</p>
+          <span style="font-size:1.5vmin"><span style="color:var(--o)">1.0</span>·‖Y<sub>lin</sub>−Y*‖₁ + <span style="color:var(--t)">0.5</span>·‖x<sub>lin</sub>−x*‖₁ + <span style="color:var(--p)">0.01</span>·L<sub>spline</sub></span>
+        </div>
+        <div class="eq">
+          <p class="xs bold" style="margin:0">Spline Smoothness</p>
+          <span style="font-size:1.5vmin">L<sub>spline</sub> = 1/(K−1) Σ(s<sub>k+1</sub>−s<sub>k</sub>)²</span>
+        </div>
+      </div>
+      <p class="xs ctr" style="color:var(--t3)"><span style="color:var(--o)">Luminance (primary)</span> + <span style="color:var(--t)">color (secondary)</span> + <span style="color:var(--p)">curve smoothness (regularization)</span>. All in linear light (PQ EOTF decoded).</p>
+    </div>
+  </div>
+  <aside class="notes">
+    PCM handles the perceptual side. A frozen SigLIP encoder extracts semantic features from the SDR input, then cross-attention and an MLP produce FiLM parameters — gamma for scale and zeta for shift — that modulate hidden states after layer norm. This enforces color constancy: for example, brightening sky highlights without shifting skin tones. The RQS decoder uses rational quadratic splines with 8 knots to produce per-pixel monotone tone curves in YUV BT.2020 space. Monotonicity is critical — it preserves luminance ordering and prevents tone reversal artifacts. The total loss combines luminance L1, color L1, and a spline smoothness regularizer, all computed in linear light.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+
+<!-- ═══════ SLIDE 12: TRAINING ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Training: Data &amp; Configuration</h2>
+    <div class="two mt1">
+      <div>
+        <p class="sm bold" style="color:var(--c)">~318K paired SDR-HDR images</p>
+        <table class="fragment">
+          <thead><tr><th style="text-align:left">Source</th><th>Clips</th><th>Type</th></tr></thead>
+          <tbody>
+            <tr><td style="text-align:left">HIDRO-VQA</td><td>411</td><td>Professional</td></tr>
+            <tr><td style="text-align:left">CHUG</td><td>428</td><td>User-generated</td></tr>
+            <tr><td style="text-align:left">LIVE-TMHDR</td><td>40</td><td>Studio + expert SDR</td></tr>
+          </tbody>
+        </table>
+        <div class="card card-t fragment mt1">
+          <p class="xs bold" style="margin:0;color:var(--t)">8 TMOs × 3 CRF levels</p>
+          <p class="xs" style="margin:.15vmin 0 0">Reinhard · BT.2446a · BT.2446c+GM · BT.2390+GM · YouTube LogC · OCIOv2 · HC+GM · Expert Graded</p>
+        </div>
+      </div>
+      <div>
+        <div class="fragment" style="background:var(--sf);border-radius:.4vmin;padding:1vmin;font-size:1.05vmin;color:var(--t2)">
+          <p class="xs bold" style="margin:0;color:var(--c)">Training Configuration</p>
+          <p style="margin:.3vmin 0 0">
+            <strong>Backbone:</strong> Frozen Flux (12B) · <strong>Trainable:</strong> ~17M params<br>
+            <strong>Optimizer:</strong> AdamW · lr=1e-4 · cosine + 5K warmup<br>
+            <strong>Iterations:</strong> 200K · batch 16 · 4×H200 · ~48 GPU-hours<br>
+            <strong>Inference:</strong> 40 Euler steps · prompt-free · ~8s per 1080p
+          </p>
+        </div>
+        <div class="fragment mt1">
+          <p class="xs bold" style="color:var(--c)">Evaluation Benchmarks</p>
+          <div style="display:flex;gap:.6vmin;margin-top:.3vmin">
+            <div class="card" style="flex:1;padding:.5vmin .7vmin"><p class="xs" style="margin:0"><strong>HDRTV1K</strong><br>1K pairs, 1080p</p></div>
+            <div class="card card-t" style="flex:1;padding:.5vmin .7vmin"><p class="xs" style="margin:0"><strong>HDRTV4K</strong><br>4K resolution</p></div>
+            <div class="card card-g" style="flex:1;padding:.5vmin .7vmin"><p class="xs" style="margin:0"><strong style="color:var(--g)">Luma-Eval</strong><br>20 unseen · 8 TMOs<br><span class="xs" style="color:var(--t3)">New benchmark</span></p></div>
+          </div>
+          <p class="xs mt1" style="color:var(--t3)">Metrics: PSNR (PQ), SSIM, HDR-VDP-3, ΔE<sub>ITP</sub> (ICtCp color difference)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    For training, we assembled about 318K paired SDR-HDR images from three datasets — HIDRO-VQA, CHUG, and LIVE-TMHDR — covering both professional and user-generated content. We applied 8 different tone mapping operators at 3 CRF levels to create diverse SDR inputs. The Flux backbone stays frozen; we only train about 17 million parameters with AdamW for 200K iterations on 4 H200 GPUs, taking about 48 GPU-hours total. At inference, we run 40 Euler steps with no text prompt needed, at about 8 seconds per 1080p frame.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+
+<!-- ═══════ SLIDE 13: MAIN RESULTS ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Results: State-of-the-Art on All Benchmarks</h2>
+    <div class="c64 mt1">
+      <div>
+        <table>
+          <thead><tr><th style="text-align:left">Method</th><th>1K PSNR↑</th><th>1K SSIM↑</th><th>4K PSNR↑</th><th>VDP3↑</th><th>ΔE<sub>ITP</sub>↓</th></tr></thead>
+          <tbody>
+            <tr><td style="text-align:left;color:var(--t3)">HDRTVNet++</td><td>38.36</td><td>0.973</td><td>30.82</td><td>8.75</td><td>8.28</td></tr>
+            <tr><td style="text-align:left;color:var(--t3)">ICTCPNet</td><td>36.59</td><td>0.922</td><td>33.12</td><td>8.57</td><td>7.79</td></tr>
+            <tr><td style="text-align:left">HDCFM</td><td>38.42</td><td>0.973</td><td>33.25</td><td>8.52</td><td>7.83</td></tr>
+            <tr><td style="text-align:left">LEDiff</td><td>36.52</td><td>0.872</td><td>32.25</td><td>5.71</td><td>9.13</td></tr>
+            <tr><td style="text-align:left">PromptIR</td><td>32.14</td><td>0.954</td><td>28.48</td><td>9.17</td><td>9.59</td></tr>
+            <tr class="ours"><td style="text-align:left"><strong>LumaFlux</strong></td><td class="best">39.27</td><td class="best">0.982</td><td class="best">35.86</td><td class="best">9.83</td><td class="best">6.12</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="stats fragment">
+          <div class="stat"><span class="sn">+0.85</span><span class="sl">dB PSNR<br>HDRTV1K</span></div>
+          <div class="stat"><span class="sn">+2.61</span><span class="sl">dB PSNR<br>HDRTV4K</span></div>
+          <div class="stat"><span class="sn">9.83</span><span class="sl">HDR-VDP3<br>(best)</span></div>
+          <div class="stat"><span class="sn">6.12</span><span class="sl">ΔE<sub>ITP</sub><br>(best color)</span></div>
+        </div>
+        <div class="card card-g fragment mt1">
+          <p class="xs" style="margin:0"><strong style="color:var(--g)">First DiT-based ITM to beat all CNN &amp; diffusion baselines.</strong> Strong 4K generalization despite 1080p training. Only ~17M trainable parameters on 12B frozen backbone.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Results: LumaFlux achieves state-of-the-art on every benchmark and every metric. On HDRTV1K, we get 39.27 dB PSNR — plus 0.85 over the best CNN baseline HDCFM. On HDRTV4K, the gap widens to plus 2.61 dB, showing strong generalization to higher resolution despite training at 1080p. We also achieve the best HDR-VDP-3 score of 9.83 and the best color fidelity with delta-E ITP of 6.12. This is the first DiT-based method to beat all CNN and diffusion baselines on ITM.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+
+<!-- ═══════ SLIDE 14a: VISUAL — CHURCH ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Visual Result 1: Church Interior — Highlight Recovery</h2>
+    <div style="display:grid;grid-template-columns:60% 38%;gap:1.4vmin;margin-top:.7vmin;align-items:start">
+      <div style="position:relative">
+        <img src="lumaflux/itm-figures/fig-1-single.jpg" alt="Church SDR to HDR" style="width:100%;max-height:64vmin;object-fit:contain;border-radius:.56vmin">
+        <!-- SVG overlay arrows and annotations -->
+        <svg style="position:absolute;top:0;left:0;width:100%;height:100%" viewBox="0 0 600 780">
+          <!-- Arrow pointing to window highlight -->
+          <line x1="280" y1="80" x2="340" y2="180" stroke="#BF5700" stroke-width="3" marker-end="url(#aO2)"/>
+          <defs><marker id="aO2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#BF5700"/></marker></defs>
+          <rect x="120" y="40" width="200" height="30" rx="4" fill="#BF5700" fill-opacity=".85"/>
+          <text x="220" y="60" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">Highlight recovered →</text>
+          <!-- SDR label -->
+          <rect x="20" y="10" width="65" height="22" rx="3" fill="#c0392b" fill-opacity=".8"/>
+          <text x="52" y="25" text-anchor="middle" font-size="12" fill="#fff" font-weight="700">SDR</text>
+          <!-- HDR label -->
+          <rect x="380" y="10" width="65" height="22" rx="3" fill="#00A8B6" fill-opacity=".8"/>
+          <text x="412" y="25" text-anchor="middle" font-size="12" fill="#fff" font-weight="700">HDR</text>
+          <!-- Zoom box annotation -->
+          <rect x="30" y="560" width="140" height="30" rx="4" fill="#005E86" fill-opacity=".85"/>
+          <text x="100" y="580" text-anchor="middle" font-size="12" fill="#fff" font-weight="700">Zoomed: mosaic detail</text>
+        </svg>
+      </div>
+      <div>
+        <div class="card card-r fragment mb1" style="padding:1vmin 1.4vmin">
+          <p class="sm bold" style="margin:0;color:var(--r)">SDR Input (left half)</p>
+          <p class="sm" style="margin:.35vmin 0 0">Stained-glass window clips to <strong>flat white</strong>. Gold ceiling mosaics lose all texture. 8-bit gamma collapses the entire highlight range.</p>
+        </div>
+        <div class="card card-g fragment mb1" style="padding:1vmin 1.4vmin">
+          <p class="sm bold" style="margin:0;color:var(--g)">LumaFlux HDR Output (right half)</p>
+          <p class="sm" style="margin:.35vmin 0 0">Window highlights show <strong>gradual luminance roll-off</strong>. Gold leaf textures fully resolved. Zoomed inset reveals mosaic detail invisible in SDR.</p>
+        </div>
+        <div class="card fragment" style="padding:1vmin 1.4vmin">
+          <p class="sm bold" style="margin:0;color:var(--o)">Why this matters</p>
+          <p class="sm" style="margin:.35vmin 0 0">~3 stops of highlight info destroyed by SDR clipping. PGA selectively expands highlights while PCM preserves warm color temperature of the gold mosaic.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    This church interior is a challenging test case. In the SDR input, the stained-glass window clips to flat white and the gold ceiling mosaics lose all texture. LumaFlux recovers gradual luminance roll-off in the window highlights and resolves the gold leaf textures in the ceiling vault. The zoomed inset shows mosaic painting detail that was completely invisible in SDR. PGA's luminance-aware gating selectively expands the highlight region while PCM preserves the warm color temperature of the gold.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+<!-- ═══════ SLIDE 14b: VISUAL — SHANGHAI CITYSCAPE ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Visual Result 2: Shanghai Cityscape — Shadow &amp; Neon Recovery</h2>
+    <p style="color:var(--t2)">SDR input (left) vs LumaFlux HDR output (right) — split view with zoomed crop below</p>
+    <div style="display:grid;grid-template-columns:60% 38%;gap:1.4vmin;margin-top:.7vmin;align-items:start">
+      <div style="position:relative">
+        <img src="assets/shanghai_result.png" alt="Shanghai SDR vs LumaFlux HDR" style="width:100%;max-height:64vmin;object-fit:contain;border-radius:.56vmin">
+        <!-- SVG overlay arrows -->
+        <svg style="position:absolute;top:0;left:0;width:100%;height:100%" viewBox="0 0 1000 920">
+          <defs>
+            <marker id="aSh1" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#00A8B6"/></marker>
+            <marker id="aSh2" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#BF5700"/></marker>
+            <marker id="aSh3" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#2d8659"/></marker>
+          </defs>
+          <!-- 1. Arrow to neon signs on tall buildings (right side ~x=80%, y=20%) -->
+          <rect x="650" y="25" width="220" height="35" rx="5" fill="#00A8B6" fill-opacity=".9"/>
+          <text x="760" y="50" text-anchor="middle" font-size="18" fill="#fff" font-weight="700">Neon signs restored</text>
+          <line x1="760" y1="60" x2="800" y2="160" stroke="#00A8B6" stroke-width="3" marker-end="url(#aSh1)"/>
+          <!-- 2. Arrow to Oriental Pearl Tower (at the split line ~x=30%, y=10-25%) -->
+          <rect x="80" y="20" width="250" height="35" rx="5" fill="#BF5700" fill-opacity=".9"/>
+          <text x="205" y="45" text-anchor="middle" font-size="18" fill="#fff" font-weight="700">Tower lights recovered</text>
+          <line x1="160" y1="55" x2="200" y2="170" stroke="#BF5700" stroke-width="3" marker-end="url(#aSh2)"/>
+          <!-- 3. Arrow to zoomed crop (boat/waterfront — bottom right half) -->
+          <rect x="560" y="580" width="260" height="35" rx="5" fill="#2d8659" fill-opacity=".9"/>
+          <text x="690" y="605" text-anchor="middle" font-size="18" fill="#fff" font-weight="700">Waterfront detail visible</text>
+          <line x1="690" y1="615" x2="700" y2="680" stroke="#2d8659" stroke-width="3" marker-end="url(#aSh3)"/>
+          <!-- SDR side label -->
+          <rect x="30" y="160" width="80" height="30" rx="4" fill="#c0392b" fill-opacity=".85"/>
+          <text x="70" y="181" text-anchor="middle" font-size="16" fill="#fff" font-weight="700">SDR</text>
+          <!-- LumaFlux side label -->
+          <rect x="550" y="160" width="130" height="30" rx="4" fill="#2d8659" fill-opacity=".85"/>
+          <text x="615" y="181" text-anchor="middle" font-size="16" fill="#fff" font-weight="700">LumaFlux</text>
+        </svg>
+      </div>
+      <div>
+        <div class="card card-r fragment mb1" style="padding:1vmin 1.4vmin">
+          <p class="sm bold" style="margin:0;color:var(--r)">SDR input (left half)</p>
+          <p class="sm" style="margin:.35vmin 0 0">Pudong waterfront is <strong>near-black</strong>. Neon signs washed out. Zoomed crop shows boat and tower as <strong>indistinguishable dark blobs</strong>.</p>
+        </div>
+        <div class="card card-g fragment mb1" style="padding:1vmin 1.4vmin">
+          <p class="sm bold" style="margin:0;color:var(--g)">LumaFlux output (right half)</p>
+          <p class="sm" style="margin:.35vmin 0 0">Neon signs <strong>vivid with accurate colors</strong>. Water reflections reveal full skyline. Zoomed crop shows <strong>sharp boat details, tower structure, and signage</strong>.</p>
+        </div>
+        <div class="card fragment" style="padding:1vmin 1.4vmin">
+          <p class="sm bold" style="margin:0;color:var(--o)">How LumaFlux handles this</p>
+          <p class="sm" style="margin:.35vmin 0 0"><strong>PGA spectral gating</strong> amplifies shadow signal without artifacts. <strong>RQS decoder</strong> expands shadows/highlights via per-pixel monotone splines. <strong>PCM</strong> maps neon colors to correct BT.2020 gamut.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    The Shanghai cityscape shows shadow and neon recovery. In the SDR input, the Pudong waterfront is near-black and neon signs are washed out. LumaFlux recovers vivid neon colors on every building and reveals the full skyline in water reflections. PGA's spectral gating detects that shadow regions contain actual signal rather than noise and amplifies without adding artifacts. The RQS decoder expands shadows and highlights independently through per-pixel monotone splines, and PCM ensures neon colors map to correct BT.2020 gamut values.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+
+<!-- ═══════ SLIDE 15: ABLATION ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>Ablation: Every Component Is Justified</h2>
+    <p style="color:var(--t2)">Progressive addition of components on Luma-Eval benchmark (100K iterations)</p>
+    <div class="c64 mt1">
+      <div>
+        <table style="font-size:1.15vmin">
+          <thead><tr><th style="text-align:left">Configuration</th><th>PSNR↑</th><th>ΔE<sub>ITP</sub>↓</th><th>VDP3↑</th><th>ΔPSNR</th></tr></thead>
+          <tbody>
+            <tr><td style="text-align:left">Flux + LoRA</td><td>33.42</td><td>8.58</td><td>7.82</td><td>—</td></tr>
+            <tr><td style="text-align:left">+ PGA (no spectral)</td><td>34.94</td><td>7.62</td><td>8.18</td><td style="color:var(--g);font-weight:600">+1.52</td></tr>
+            <tr><td style="text-align:left">+ spectral gating</td><td>35.18</td><td>7.31</td><td>8.29</td><td style="color:var(--g)">+0.24</td></tr>
+            <tr><td style="text-align:left">+ PCM</td><td>35.89</td><td>6.78</td><td>8.46</td><td style="color:var(--g);font-weight:600">+0.71</td></tr>
+            <tr><td style="text-align:left">+ RQS (linear)</td><td>35.72</td><td>6.85</td><td>8.41</td><td style="color:var(--r)">−0.17</td></tr>
+            <tr class="ours"><td style="text-align:left"><strong>+ RQS (monotone)</strong></td><td class="best">35.98</td><td class="best">6.09</td><td class="best">8.61</td><td class="best">+0.26</td></tr>
+          </tbody>
+        </table>
+        <p class="sm mt1" style="color:var(--g);font-weight:700">Total: +2.56 dB over vanilla LoRA baseline</p>
+      </div>
+      <div>
+        <!-- Contribution breakdown — larger -->
+        <p class="sm bold" style="margin:0 0 .6vmin;color:var(--c)">ΔPSNR contribution breakdown</p>
+        <div style="margin-top:.4vmin">
+          <div style="display:flex;align-items:center;gap:.6vmin;margin:.5vmin 0"><span class="sm" style="min-width:10vmin;text-align:right;font-weight:600">PGA (phys.)</span><div style="background:var(--o);height:2vmin;border-radius:.3vmin;width:calc(1.52/2.56 * 28vmin)"></div><span class="sm" style="font-weight:700">+1.52</span></div>
+          <div style="display:flex;align-items:center;gap:.6vmin;margin:.5vmin 0"><span class="sm" style="min-width:10vmin;text-align:right;font-weight:600">Spectral</span><div style="background:var(--t);height:2vmin;border-radius:.3vmin;width:calc(0.24/2.56 * 28vmin)"></div><span class="sm">+0.24</span></div>
+          <div style="display:flex;align-items:center;gap:.6vmin;margin:.5vmin 0"><span class="sm" style="min-width:10vmin;text-align:right;font-weight:600">PCM</span><div style="background:var(--b);height:2vmin;border-radius:.3vmin;width:calc(0.71/2.56 * 28vmin)"></div><span class="sm" style="font-weight:700">+0.71</span></div>
+          <div style="display:flex;align-items:center;gap:.6vmin;margin:.5vmin 0"><span class="sm" style="min-width:10vmin;text-align:right;font-weight:600">RQS</span><div style="background:var(--g);height:2vmin;border-radius:.3vmin;width:calc(0.09/2.56 * 28vmin)"></div><span class="sm">+0.09</span></div>
+        </div>
+        <div class="card fragment mt2">
+          <p class="xs bold" style="margin:0;color:var(--o)">Key findings</p>
+          <p class="xs" style="margin:.2vmin 0 0;color:var(--t2)"><strong>PGA is the largest contributor</strong> (+1.52 dB) — physical luminance features are critical. <strong>PCM adds +0.71 dB</strong> — perceptual semantics complement physics. <strong>RQS monotone > linear</strong> — monotonicity constraint prevents tone reversal and improves ΔE<sub>ITP</sub> by 0.76.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    The ablation study validates every component. Starting from vanilla LoRA at 33.42 dB, PGA alone adds 1.52 dB — it is by far the largest contributor, confirming that physical luminance features are critical for ITM. Spectral gating adds another 0.24 dB. PCM contributes 0.71 dB, showing that perceptual semantics complement physics. Importantly, the monotone RQS outperforms a linear variant — the monotonicity constraint prevents tone reversal and improves color fidelity by 0.76 delta-E ITP. Total gain: plus 2.56 dB over the baseline.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+<!-- ═══════ SLIDE 15b: USER STUDY ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>User Study: Expert Perceptual Evaluation</h2>
+    <p style="color:var(--t2)">10 experts, 10 HDR clips, 5-point MOS on calibrated HDR display (LG OLED, 1000 nits)</p>
+    <div class="c46 mt1">
+      <div class="fig">
+        <svg width="100%" viewBox="0 0 500 320" style="max-height:34vmin">
+          <!-- Scale: 0-5, bar width = score * 80px -->
+          <!-- Group 1: Brightness -->
+          <text x="105" y="42" text-anchor="end" font-size="14" fill="#333" font-weight="700">Brightness</text>
+          <rect x="115" y="15" width="304" height="16" rx="3" fill="#BF5700"/><text x="425" y="28" font-size="12" fill="#BF5700" font-weight="800">3.8</text>
+          <rect x="115" y="34" width="248" height="16" rx="3" fill="#7baec4"/><text x="369" y="47" font-size="12" fill="#555">3.1</text>
+          <rect x="115" y="53" width="280" height="16" rx="3" fill="#b0c8d8"/><text x="401" y="66" font-size="12" fill="#555">3.5</text>
+          <rect x="115" y="72" width="224" height="16" rx="3" fill="#ddd"/><text x="345" y="85" font-size="12" fill="#aaa">2.8</text>
+          <!-- Separator -->
+          <line x1="115" y1="98" x2="470" y2="98" stroke="#eee" stroke-width="1"/>
+          <!-- Group 2: Color -->
+          <text x="105" y="132" text-anchor="end" font-size="14" fill="#333" font-weight="700">Color</text>
+          <rect x="115" y="105" width="360" height="16" rx="3" fill="#BF5700"/><text x="481" y="118" font-size="12" fill="#BF5700" font-weight="800">4.5</text>
+          <rect x="115" y="124" width="320" height="16" rx="3" fill="#7baec4"/><text x="441" y="137" font-size="12" fill="#555">4.0</text>
+          <rect x="115" y="143" width="288" height="16" rx="3" fill="#b0c8d8"/><text x="409" y="156" font-size="12" fill="#555">3.6</text>
+          <rect x="115" y="162" width="232" height="16" rx="3" fill="#ddd"/><text x="353" y="175" font-size="12" fill="#aaa">2.9</text>
+          <!-- Separator -->
+          <line x1="115" y1="188" x2="470" y2="188" stroke="#eee" stroke-width="1"/>
+          <!-- Group 3: Overall -->
+          <text x="105" y="222" text-anchor="end" font-size="14" fill="#333" font-weight="700">Overall</text>
+          <rect x="115" y="195" width="336" height="16" rx="3" fill="#BF5700"/><text x="457" y="208" font-size="12" fill="#BF5700" font-weight="800">4.2</text>
+          <rect x="115" y="214" width="320" height="16" rx="3" fill="#7baec4"/><text x="441" y="227" font-size="12" fill="#555">4.0</text>
+          <rect x="115" y="233" width="280" height="16" rx="3" fill="#b0c8d8"/><text x="401" y="246" font-size="12" fill="#555">3.5</text>
+          <rect x="115" y="252" width="216" height="16" rx="3" fill="#ddd"/><text x="337" y="265" font-size="12" fill="#aaa">2.7</text>
+          <!-- Legend -->
+          <rect x="115" y="288" width="14" height="12" rx="2" fill="#BF5700"/>
+          <text x="134" y="299" font-size="12" fill="#BF5700" font-weight="700">LumaFlux</text>
+          <rect x="210" y="288" width="14" height="12" rx="2" fill="#7baec4"/>
+          <text x="229" y="299" font-size="12" fill="#555">LEDiff</text>
+          <rect x="280" y="288" width="14" height="12" rx="2" fill="#b0c8d8"/>
+          <text x="299" y="299" font-size="12" fill="#555">HDRTVNet++</text>
+          <rect x="390" y="288" width="14" height="12" rx="2" fill="#ddd"/>
+          <text x="409" y="299" font-size="12" fill="#aaa">BT.2446c</text>
+        </svg>
+      </div>
+      <div>
+        <div class="card card-g fragment mb1">
+          <p class="sm bold" style="margin:0;color:var(--g)">LumaFlux wins on all three criteria</p>
+          <p class="xs" style="margin:.2vmin 0 0;color:var(--t2)"><strong>Color fidelity: 4.5/5</strong> — experts noted accurate neon reproduction, no hue shifts, stable skin tones. <strong>Overall: 4.2/5</strong> — highest across brightness, color, and overall quality.</p>
+        </div>
+        <div class="card fragment mb1" style="border-left-color:var(--t)">
+          <p class="sm bold" style="margin:0;color:var(--t)">LEDiff is competitive on overall (4.0)</p>
+          <p class="xs" style="margin:.2vmin 0 0;color:var(--t2)">But loses on brightness (3.1 vs 3.8) — diffusion hallucination produces plausible-looking but <strong>physically inaccurate luminance</strong>. LumaFlux's PGA prevents this.</p>
+        </div>
+        <div class="card card-r fragment">
+          <p class="sm bold" style="margin:0;color:var(--r)">Classical BT.2446c trails on everything</p>
+          <p class="xs" style="margin:.2vmin 0 0;color:var(--t2)">Content-blind tone curves cannot compete with learned, physically-guided reconstruction. Overall: 2.7/5.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    We also conducted an expert user study — 10 experts evaluated 10 HDR clips on a calibrated LG OLED display at 1000 nits. LumaFlux wins on all three criteria: brightness at 3.8, color fidelity at 4.5 out of 5, and overall quality at 4.2. Experts noted accurate neon reproduction, no hue shifts, and stable skin tones. LEDiff is competitive on overall quality but loses on brightness because diffusion hallucination produces physically inaccurate luminance. Classical BT.2446c trails on everything at 2.7 overall.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+
+<!-- ═══════ SLIDE 15: WHAT WE LEARN ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B">
+    <h2>What We Learn &amp; Remaining Challenges</h2>
+    <div class="two mt1">
+      <div>
+        <p class="sm bold" style="color:var(--g)">Key insights</p>
+        <ul class="sm" style="color:var(--t2)">
+          <li class="fragment"><strong>Physical conditioning is the largest contributor</strong> (+1.52 dB from PGA alone). Luminance-aware gating is more valuable than semantic priors for ITM.</li>
+          <li class="fragment"><strong>Spectral gating prevents over-expansion</strong> in smooth regions. Frequency analysis is a natural complement to spatial features.</li>
+          <li class="fragment"><strong>Monotone RQS outperforms linear expansion.</strong> Enforcing physical constraints (monotonicity) improves both metrics and perceptual quality.</li>
+          <li class="fragment"><strong>~17M parameters suffice</strong> to adapt a 12B backbone. The pretrained visual priors in Flux are extremely powerful — the key is steering them with physics.</li>
+        </ul>
+      </div>
+      <div>
+        <p class="sm bold" style="color:var(--r)">Remaining challenges</p>
+        <ul class="sm" style="color:var(--t2)">
+          <li class="fragment"><strong>No temporal consistency</strong> — frame-by-frame processing. Video ITM needs temporal attention.</li>
+          <li class="fragment"><strong>VAE bottleneck</strong> — Flux VAE is trained for SDR. Fine-grained HDR detail may be lost in latent space.</li>
+          <li class="fragment"><strong>Inference speed</strong> — 40 ODE steps at ~8s/frame. Not yet real-time. Distillation is a clear next step.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Key insights from this work. Physical conditioning is the single largest contributor — PGA alone gives plus 1.52 dB. Spectral gating prevents over-expansion in smooth regions. Monotone RQS outperforms linear expansion because enforcing physical constraints actually improves quality. And remarkably, only 17 million parameters suffice to adapt a 12-billion parameter backbone. On the challenges side: we currently process frame-by-frame with no temporal consistency, the Flux VAE is trained for SDR which creates a bottleneck, and inference at 8 seconds per frame is not yet real-time.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+
+<!-- ═══════ SLIDE 16: TAKEAWAYS ═══════ -->
+<section class="S">
+  <div class="H"><img src="assets/ut_logo_white.png"><span>What starts here changes the world</span></div>
+  <div class="B" style="display:flex;flex-direction:column;justify-content:center;min-height:42vmin">
+    <h2 style="text-align:center">Key Takeaways</h2>
+    <div style="max-width:58vmin;margin:2vmin auto 0">
+      <div class="fragment" style="display:flex;gap:1.2vmin;align-items:flex-start;margin-bottom:1.3vmin">
+        <div style="background:var(--o);color:#fff;min-width:2.5vmin;height:2.5vmin;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.3vmin">1</div>
+        <p style="margin:0;font-size:1.55vmin"><strong>First physically-guided DiT for inverse tone mapping.</strong> <span style="color:var(--t2)">Luminance, gradients, spectra injected directly into attention via gated LoRA.</span></p>
+      </div>
+      <div class="fragment" style="display:flex;gap:1.2vmin;align-items:flex-start;margin-bottom:1.3vmin">
+        <div style="background:var(--t);color:#fff;min-width:2.5vmin;height:2.5vmin;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.3vmin">2</div>
+        <p style="margin:0;font-size:1.55vmin"><strong>~17M trainable on 12B frozen.</strong> <span style="color:var(--t2)">Parameter-efficient adaptation that preserves Flux's visual priors while adding physical grounding.</span></p>
+      </div>
+      <div class="fragment" style="display:flex;gap:1.2vmin;align-items:flex-start;margin-bottom:1.3vmin">
+        <div style="background:var(--g);color:#fff;min-width:2.5vmin;height:2.5vmin;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.3vmin">3</div>
+        <p style="margin:0;font-size:1.55vmin"><strong>SOTA on all benchmarks, all metrics.</strong> <span style="color:var(--t2)">+0.85 dB HDRTV1K, +2.61 dB HDRTV4K. 91% human preference over classical methods.</span></p>
+      </div>
+      <div class="fragment" style="display:flex;gap:1.2vmin;align-items:flex-start;margin-bottom:1.3vmin">
+        <div style="background:var(--p);color:#fff;min-width:2.5vmin;height:2.5vmin;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.3vmin">4</div>
+        <p style="margin:0;font-size:1.55vmin"><strong>RQS decoder ensures physically valid tone expansion.</strong> <span style="color:var(--t2)">Monotone, differentiable, per-pixel — eliminates banding while preserving highlights.</span></p>
+      </div>
+    </div>
+    <div class="fragment" style="text-align:center;margin-top:2vmin;padding-top:1vmin;border-top:2px solid var(--o);max-width:58vmin;margin-left:auto;margin-right:auto">
+      <p style="font-size:1.3vmin;color:var(--o);font-weight:600">Next: Temporal LumaFlux for video · Model distillation for real-time · HDR-Q as perceptual reward model for LumaFlux → closing the perception-generation loop.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    To wrap up: LumaFlux is the first physically-guided diffusion transformer for inverse tone mapping. We adapt a frozen 12-billion parameter Flux backbone with only 17 million trainable parameters across four modules — PGA, PCM, TLAM, and RQS. We achieve state-of-the-art on all benchmarks and all metrics, with plus 0.85 dB on HDRTV1K and plus 2.61 dB on HDRTV4K. Looking ahead, we are working on temporal LumaFlux for video, model distillation for real-time inference, and using HDR-Q as a perceptual reward model to close the perception-generation loop. Thank you.
+  </aside>
+  <div class="foot"><span>LumaFlux (NeurIPS '26)</span><span>LIVE Lab, UT Austin</span></div>
+</section>
+
+
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script>
+Reveal.initialize({
+  hash:true,slideNumber:'c/t',width:1920,height:1080,margin:0,
+  transition:'fade',transitionSpeed:'fast',center:false,
+  controls:true,progress:true,history:true,
+  plugins: [ RevealNotes ]
+});
+// Inject resizable speaker view into Notes window
+(function(){
+  var origOpen = window.open;
+  window.open = function(url){
+    var w = origOpen.apply(this, arguments);
+    if(url && url.indexOf('notes') !== -1){
+      var check = setInterval(function(){
+        try {
+          if(w.document && w.document.body && w.document.body.children.length > 0){
+            clearInterval(check);
+            var d = w.document;
+            var s = d.createElement('style');
+            s.textContent = `
+              body { background:#1a1a2e !important; margin:0 !important; overflow:hidden !important; }
+              body > * { display:none !important; }
+              #sv-container { display:flex !important; flex-direction:column !important; height:100vh !important; font-family:Inter,system-ui,sans-serif; }
+              #sv-top { display:flex; flex:1; min-height:100px; overflow:hidden; }
+              #sv-current { flex:7; overflow:hidden; background:#111; border:2px solid #333; border-radius:6px; margin:4px; position:relative; }
+              #sv-current iframe { width:100%; height:100%; border:none; pointer-events:none; }
+              #sv-upcoming { flex:3; overflow:hidden; background:#111; border:2px solid #444; border-radius:6px; margin:4px; position:relative; }
+              #sv-upcoming iframe { width:100%; height:100%; border:none; pointer-events:none; }
+              #sv-label-cur { position:absolute; top:6px; left:10px; color:#fff; font-size:11px; opacity:.5; z-index:5; pointer-events:none; }
+              #sv-label-up { position:absolute; top:6px; left:10px; color:#fff; font-size:11px; opacity:.5; z-index:5; pointer-events:none; }
+              #sv-vdrag { width:8px; cursor:col-resize; background:#333; flex-shrink:0; display:flex; align-items:center; justify-content:center; border-radius:4px; margin:4px 0; }
+              #sv-vdrag:hover { background:#BF5700; }
+              #sv-vdrag::after { content:'⋮'; color:#888; font-size:16px; }
+              #sv-hdrag { height:8px; cursor:row-resize; background:#333; flex-shrink:0; display:flex; align-items:center; justify-content:center; border-radius:4px; margin:0 4px; }
+              #sv-hdrag:hover { background:#BF5700; }
+              #sv-hdrag::after { content:'⋯'; color:#888; font-size:14px; }
+              #sv-bottom { display:flex; min-height:60px; overflow:hidden; }
+              #sv-notes { flex:1; padding:12px 20px; overflow-y:auto; color:#e0e0e0; font-size:20px; line-height:1.7; background:#1a1a2e; border:1px solid #333; border-radius:6px; margin:4px; }
+              #sv-notes h3 { margin:0 0 8px; color:#BF5700; font-size:14px; text-transform:uppercase; letter-spacing:1px; }
+              #sv-timer { width:180px; flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#111; border:1px solid #333; border-radius:6px; margin:4px; padding:8px; }
+              #sv-timer .time { font-size:36px; font-weight:800; color:#fff; font-variant-numeric:tabular-nums; }
+              #sv-timer .label { font-size:11px; color:#888; margin-top:2px; }
+              #sv-timer button { margin-top:8px; background:#333; color:#fff; border:none; border-radius:4px; padding:4px 12px; cursor:pointer; font-size:12px; }
+              #sv-timer button:hover { background:#BF5700; }
+              #sv-slide-num { position:absolute; bottom:6px; right:10px; color:#fff; font-size:12px; opacity:.4; z-index:5; pointer-events:none; }
+            `;
+            d.head.appendChild(s);
+            var container = d.createElement('div');
+            container.id = 'sv-container';
+            container.innerHTML = '<div id="sv-top" style="flex:7"><div id="sv-current"><span id="sv-label-cur">CURRENT SLIDE</span><span id="sv-slide-num"></span></div><div id="sv-vdrag"></div><div id="sv-upcoming"><span id="sv-label-up">NEXT SLIDE</span></div></div><div id="sv-hdrag"></div><div id="sv-bottom" style="flex:3"><div id="sv-notes"><h3>Speaker Notes</h3><div id="sv-notes-content">No notes for this slide.</div></div><div id="sv-timer"><div class="label">ELAPSED</div><div class="time" id="sv-elapsed">00:00:00</div><button id="sv-reset">Reset</button></div></div>';
+            d.body.appendChild(container);
+            var curDiv = d.getElementById('sv-current'), upDiv = d.getElementById('sv-upcoming');
+            var curIframe = d.createElement('iframe'), upIframe = d.createElement('iframe');
+            curIframe.src = location.href.split('#')[0] + '#/' + (Reveal.getIndices().h || 0);
+            upIframe.src = curIframe.src;
+            curDiv.appendChild(curIframe); upDiv.appendChild(upIframe);
+            function syncSlides(){
+              var idx = Reveal.getIndices(), h = idx.h||0, v = idx.v||0, f = idx.f||0;
+              try { curIframe.contentWindow.Reveal.slide(h,v,f); var total=Reveal.getTotalSlides(); upIframe.contentWindow.Reveal.slide(Math.min(h+1,total-1),0,999); } catch(e){}
+              var slide=Reveal.getCurrentSlide(), notes=slide?slide.querySelector('aside.notes'):null;
+              d.getElementById('sv-notes-content').innerHTML = notes ? notes.innerHTML : '<em style="opacity:.4">No notes for this slide.</em>';
+              d.getElementById('sv-slide-num').textContent = (h+1)+' / '+Reveal.getTotalSlides();
+            }
+            var loaded=0; function onLoad(){loaded++;if(loaded>=2)syncSlides();}
+            curIframe.onload=onLoad; upIframe.onload=onLoad;
+            Reveal.on('slidechanged',syncSlides); Reveal.on('fragmentshown',syncSlides); Reveal.on('fragmenthidden',syncSlides);
+            var startTime=Date.now();
+            setInterval(function(){ var diff=Date.now()-startTime,h=Math.floor(diff/3600000),m=Math.floor((diff%3600000)/60000),sec=Math.floor((diff%60000)/1000); d.getElementById('sv-elapsed').textContent=String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0'); },1000);
+            d.getElementById('sv-reset').onclick=function(){startTime=Date.now();};
+            var vdrag=d.getElementById('sv-vdrag'),topRow=d.getElementById('sv-top');
+            vdrag.addEventListener('mousedown',function(e){e.preventDefault();var startX=e.clientX,curW=curDiv.getBoundingClientRect().width,upW=upDiv.getBoundingClientRect().width;function onMove(ev){var dx=ev.clientX-startX,totalW=curW+upW,nC=Math.max(200,Math.min(totalW-100,curW+dx));curDiv.style.flex='0 0 '+nC+'px';upDiv.style.flex='0 0 '+(totalW-nC)+'px';}function onUp(){d.removeEventListener('mousemove',onMove);d.removeEventListener('mouseup',onUp);}d.addEventListener('mousemove',onMove);d.addEventListener('mouseup',onUp);});
+            var hdrag=d.getElementById('sv-hdrag');
+            hdrag.addEventListener('mousedown',function(e){e.preventDefault();var startY=e.clientY,topH=topRow.getBoundingClientRect().height,botDiv=d.getElementById('sv-bottom'),botH=botDiv.getBoundingClientRect().height;function onMove(ev){var dy=ev.clientY-startY,totalH=topH+botH,nT=Math.max(100,Math.min(totalH-60,topH+dy));topRow.style.flex='0 0 '+nT+'px';botDiv.style.flex='0 0 '+(totalH-nT)+'px';}function onUp(){d.removeEventListener('mousemove',onMove);d.removeEventListener('mouseup',onUp);}d.addEventListener('mousemove',onMove);d.addEventListener('mouseup',onUp);});
+          }
+        } catch(e){ clearInterval(check); }
+      }, 500);
+    }
+    return w;
+  };
+})();
+
+// Auto-enter fullscreen presentation mode on load
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    var el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    else if (el.msRequestFullscreen) el.msRequestFullscreen();
+  }, 500);
+});
+</script>
+</body>
+</html>
