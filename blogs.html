@@ -152,6 +152,23 @@
     .tag-hdr { background: rgba(245, 158, 11, 0.12); color: #b45309; }
     .tag-vqa { background: rgba(16, 185, 129, 0.12); color: #047857; }
     .tag-subjective { background: rgba(139, 92, 246, 0.12); color: #7c3aed; }
+    .tag-slides { background: rgba(191, 87, 0, 0.12); color: #bf5700; }
+    .tag-mllm { background: rgba(220, 38, 38, 0.1); color: #dc2626; }
+    .tag-itm { background: rgba(6, 95, 70, 0.12); color: #065f46; }
+
+    .slide-note {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: rgba(191, 87, 0, 0.06);
+      border: 1px solid rgba(191, 87, 0, 0.15);
+      border-radius: 6px;
+      font-size: 12px;
+      color: #92400e;
+      margin-top: 12px;
+    }
+    .slide-note svg { flex-shrink: 0; }
     
     .post-title {
       font-family: 'Crimson Pro', Georgia, serif;
@@ -304,6 +321,76 @@
     <section class="posts-section">
       <div class="posts-grid">
         
+        <!-- Slide Decks -->
+        <article class="post-card">
+          <div class="post-meta">
+            <span class="post-date">Apr 2026</span>
+            <span class="post-tag tag-slides">Slides</span>
+            <span class="post-tag tag-hdr">HDR</span>
+            <span class="post-tag tag-mllm">MLLM</span>
+            <span class="post-tag tag-dm">DM</span>
+            <span class="post-tag tag-flow">Flow Model</span>
+          </div>
+          <h2 class="post-title"><a href="slides/defense.html">PhD Defense: Perceptual Quality Assessment and Enhancement of Visual Media using Generative Priors</a></h2>
+          <p class="post-excerpt">Full PhD dissertation defense slides covering HDR-Q (MLLM for HDR VQA), LumaFlux (inverse tone mapping with diffusion transformers), and Rectified-CFG++ (geometry-aware guidance for flow models). ~90 slides with speaker notes.</p>
+          <a href="slides/defense.html" class="read-more">View slides &rarr;</a>
+          <div class="slide-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            For best viewing, adjust browser zoom to fit your display. Slides auto-enter fullscreen.
+          </div>
+        </article>
+
+        <article class="post-card">
+          <div class="post-meta">
+            <span class="post-date">Mar 2026</span>
+            <span class="post-tag tag-slides">Slides</span>
+            <span class="post-tag tag-hdr">HDR</span>
+            <span class="post-tag tag-mllm">MLLM</span>
+            <span class="post-tag tag-vqa">VQA</span>
+          </div>
+          <h2 class="post-title"><a href="slides/hdrq.html">HDR-Q: Quality-Aware HDR Video Assessment via Multimodal LLMs</a></h2>
+          <p class="post-excerpt">Presentation slides for HDR-Q (CVPR 2026) — the first multimodal LLM for HDR video quality assessment, featuring HAPO (HDR-Aware Policy Optimization) with contrastive KL, dual-entropy regularization, and SigLIP-2 HDR-aware encoding.</p>
+          <a href="slides/hdrq.html" class="read-more">View slides &rarr;</a>
+          <div class="slide-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            For best viewing, adjust browser zoom to fit your display. Slides auto-enter fullscreen.
+          </div>
+        </article>
+
+        <article class="post-card">
+          <div class="post-meta">
+            <span class="post-date">Mar 2026</span>
+            <span class="post-tag tag-slides">Slides</span>
+            <span class="post-tag tag-hdr">HDR</span>
+            <span class="post-tag tag-itm">ITM</span>
+            <span class="post-tag tag-dm">DM</span>
+          </div>
+          <h2 class="post-title"><a href="slides/lumaflux.html">LumaFlux: Physically & Perceptually Guided Diffusion Transformers for Inverse Tone Mapping</a></h2>
+          <p class="post-excerpt">Presentation slides for LumaFlux — SDR-to-HDR inverse tone mapping using Flux 12B with Physically-Guided Adaptation (PGA), Perceptual Cross-Modulation (PCM), and Rational Quadratic Spline (RQS) decoder with only ~17M trainable parameters.</p>
+          <a href="slides/lumaflux.html" class="read-more">View slides &rarr;</a>
+          <div class="slide-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            For best viewing, adjust browser zoom to fit your display. Slides auto-enter fullscreen.
+          </div>
+        </article>
+
+        <article class="post-card">
+          <div class="post-meta">
+            <span class="post-date">Mar 2026</span>
+            <span class="post-tag tag-slides">Slides</span>
+            <span class="post-tag tag-flow">Flow Model</span>
+            <span class="post-tag tag-dm">DM</span>
+          </div>
+          <h2 class="post-title"><a href="slides/rectcfg.html">Rectified-CFG++: Geometry-Aware Guidance for Rectified Flow Models</a></h2>
+          <p class="post-excerpt">Presentation slides for Rectified-CFG++ (NeurIPS 2025) — a predictor-corrector guidance method that fixes CFG artifacts on flow models like Flux, SD3, and Lumina-Next with theoretical guarantees and zero extra training cost.</p>
+          <a href="slides/rectcfg.html" class="read-more">View slides &rarr;</a>
+          <div class="slide-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            For best viewing, adjust browser zoom to fit your display. Slides auto-enter fullscreen.
+          </div>
+        </article>
+
+        <!-- Blog Posts -->
         <article class="post-card">
           <div class="post-meta">
             <span class="post-date">Dec 2025</span>
