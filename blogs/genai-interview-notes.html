@@ -1,0 +1,1784 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Prepping for a Research Scientist, GenAI Position - A Pointer Notebook</title>
+  <meta name="author" content="Shreshth Saini">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A pointer notebook for Research Scientist / GenAI interview prep &mdash; a map of topics to study with short notes, code stubs, and curated resources. Not a detailed textbook; it is a reference scaffold across coding, ML/CV fundamentals, transformers, diffusion and flow models, T2I, video, training lifecycle, and RL alignment.">
+
+  <link rel="icon" type="image/jpg" href="../images/UT_profile.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.08);
+      --bg: #ffffff;
+      --bg-subtle: #f8fafc;
+      --border: #e2e8f0;
+      --border-light: #f1f5f9;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text-secondary);
+      background: var(--bg);
+      line-height: 1.75;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0 20px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .nav-container {
+      max-width: 1120px;
+      margin: 0 auto;
+      height: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo { font-weight: 600; color: var(--text-primary); text-decoration: none; letter-spacing: -0.2px; }
+    .nav-links { display: flex; gap: 8px; }
+    .nav-links a {
+      text-decoration: none; color: var(--text-secondary);
+      font-size: 13px; font-weight: 500;
+      padding: 8px 12px; border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+    .nav-links a:hover { color: var(--accent); background: var(--bg-subtle); }
+    .nav-links a.active { color: var(--accent); background: var(--accent-soft); }
+
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px 64px; }
+
+    .toc-rail {
+      position: fixed;
+      top: 92px;
+      left: 10px;
+      width: 200px;
+      z-index: 20;
+      font-family: 'Inter', sans-serif;
+      user-select: none;
+      max-height: calc(100vh - 110px);
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+    .toc-head { margin-bottom: 12px; padding-left: 12px; }
+    .toc-title { font-size: 13px; letter-spacing: 0.5px; text-transform: uppercase; color: #334155; font-weight: 600; line-height: 1.4; margin-bottom: 2px; }
+    .toc-items { position: relative; }
+    .toc-items::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 1px; background: #cbd5e1; }
+    .toc-item { position: relative; display: block; min-height: 28px; padding-left: 24px; margin: 2px 0; text-decoration: none; color: #64748b; }
+    .toc-item.sub { margin-left: 12px; min-height: 24px; }
+    .toc-dot { position: absolute; left: 3px; top: 10px; width: 7px; height: 7px; border-radius: 999px; background: #94a3b8; border: 2px solid #ffffff; box-shadow: 0 0 0 1px #94a3b8; transition: all 0.15s ease; }
+    .toc-item.sub .toc-dot { width: 5px; height: 5px; left: 4px; top: 11px; border: 0; box-shadow: none; }
+    .toc-label { display: inline-block; font-size: 12.5px; line-height: 1.3; opacity: 0; transform: translateX(-8px); transition: opacity 0.16s ease, transform 0.16s ease; pointer-events: none; padding-right: 2px; }
+    .toc-rail:hover .toc-label { opacity: 1; transform: translateX(0); }
+    .toc-item.active .toc-dot, .toc-item:hover .toc-dot { background: #1d4ed8; box-shadow: 0 0 0 1px #1d4ed8; }
+
+    .main-column { max-width: 760px; margin: 0 auto; min-width: 0; }
+    .hero { max-width: 100%; padding: 72px 0 36px; border-bottom: 1px solid var(--border-light); margin-bottom: 34px; }
+
+    h1 { font-family: 'Crimson Pro', Georgia, serif; font-weight: 500; font-size: 48px; line-height: 1.12; color: var(--text-primary); letter-spacing: -0.8px; margin-bottom: 16px; }
+    .subtitle { font-family: 'Crimson Pro', Georgia, serif; font-size: 20px; line-height: 1.35; color: var(--text-secondary); margin-bottom: 18px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; font-size: 13px; color: var(--text-muted); font-weight: 500; }
+    .pill { border: 1px solid var(--border); background: var(--bg-subtle); border-radius: 999px; padding: 4px 10px; color: #1d4ed8; font-size: 11px; letter-spacing: 0.4px; text-transform: uppercase; font-weight: 600; }
+
+    article { position: relative; max-width: 100%; font-family: 'Crimson Pro', Georgia, serif; color: #1f2937; font-size: 19px; line-height: 1.68; letter-spacing: 0.1px; }
+    article p { margin: 0 0 18px; }
+    h2 { font-family: 'Crimson Pro', Georgia, serif; color: var(--text-primary); font-size: 36px; font-weight: 500; line-height: 1.2; margin: 54px 0 18px; letter-spacing: -0.35px; }
+    h3 { font-family: 'Crimson Pro', Georgia, serif; color: var(--text-primary); font-size: 29px; font-weight: 500; line-height: 1.25; margin: 40px 0 14px; letter-spacing: -0.25px; }
+    h4 { font-family: 'Crimson Pro', Georgia, serif; color: var(--text-primary); font-size: 23px; font-weight: 500; line-height: 1.3; margin: 30px 0 10px; letter-spacing: -0.2px; }
+
+    ul, ol { margin: 0 0 20px 26px; }
+    li { margin-bottom: 10px; padding-left: 4px; }
+
+    .summary { border-left: 3px solid #2563eb; padding-left: 16px; margin: 24px 0 12px; color: #374151; }
+    .summary p { margin-bottom: 10px; font-size: 18px; line-height: 1.52; }
+
+    .display-eq { text-align: center; margin: 18px 0 20px; overflow-x: auto; color: #0f172a; font-size: 0.84em; }
+    .display-eq mjx-container[jax="SVG"] { display: inline-block; }
+
+    .cite, .note-ref { font-size: 0.62em; vertical-align: super; line-height: 0; margin-left: 2px; font-family: 'Inter', sans-serif; }
+    .note-ref a { color: #475569; text-decoration: none; border: 1px solid #cbd5e1; border-radius: 3px; padding: 0 3px; background: #ffffff; transition: all 0.14s ease; }
+    .note-ref.is-active a, .note-ref a:hover { color: #1d4ed8; border-color: #1d4ed8; background: rgba(37, 99, 235, 0.12); }
+    .cite a { color: #334155; text-decoration: none; font-weight: 600; }
+    .cite a:hover { color: var(--accent); text-decoration: underline; }
+
+    .sidenote { float: right; clear: right; width: 290px; margin-right: -340px; margin-left: 24px; margin-bottom: 14px; font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.55; color: var(--text-muted); padding: 8px 0 8px 12px; border-left: 1px solid var(--border); border-radius: 6px; transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease; cursor: pointer; }
+    .sidenote strong { color: #475569; font-weight: 600; }
+    .sidenote.is-active { background: #f8fafc; border-left-color: #1d4ed8; color: #334155; }
+
+    code, pre { font-family: 'JetBrains Mono', 'SF Mono', Menlo, Monaco, monospace; font-size: 13px; }
+    code.inline { background: #eef2ff; color: #3730a3; border: 1px solid #e0e7ff; border-radius: 5px; padding: 1px 5px; font-size: 0.85em; }
+    pre { background: #0b1324; color: #dbeafe; border-radius: 10px; padding: 14px 16px; overflow-x: auto; margin: 16px 0 22px; line-height: 1.65; border: 1px solid #1e293b; font-size: 12px; }
+
+    figure { margin: 24px 0 26px; }
+    .svg-figure, figure img { width: 100%; display: block; border-radius: 12px; border: 1px solid var(--border); background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%); }
+    figcaption { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-muted); margin-top: 10px; line-height: 1.55; }
+
+    .plain-notes { margin-top: 8px; margin-bottom: 8px; }
+    .plain-notes li { margin-bottom: 12px; line-height: 1.5; }
+
+    .references { font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.7; color: #334155; margin-left: 20px; }
+    .references li { margin-bottom: 6px; }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .ds-table { width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif; font-size: 14px; margin: 18px 0 24px; }
+    .ds-table th, .ds-table td { padding: 10px 12px; border: 1px solid var(--border); text-align: left; vertical-align: top; color: #1f2937; }
+    .ds-table th { background: var(--bg-subtle); font-weight: 600; color: var(--text-primary); }
+    .ds-table td code { font-size: 12px; }
+
+    .callout { background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: 10px; padding: 14px 18px; margin: 18px 0 22px; font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.6; color: #334155; }
+    .callout strong { color: var(--text-primary); }
+
+    .callout-highlight {
+      background: linear-gradient(135deg, #fff7ed 0%, #fef9c3 100%);
+      border: 1px solid #fde68a;
+      border-left: 4px solid #f59e0b;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin: 22px 0 26px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: #78350f;
+      box-shadow: 0 1px 3px rgba(245, 158, 11, 0.08);
+    }
+    .callout-highlight strong { color: #7c2d12; font-weight: 700; }
+    .callout-highlight a { color: #b45309; font-weight: 600; }
+
+    .deep-dive {
+      font-family: 'Inter', sans-serif;
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--text-muted);
+      margin: 10px 0 22px;
+      padding: 8px 12px;
+      border-left: 2px solid #c7d2fe;
+      background: rgba(79, 70, 229, 0.03);
+      border-radius: 0 6px 6px 0;
+    }
+    .deep-dive strong { color: #4338ca; font-weight: 600; }
+    .deep-dive a { color: var(--accent); }
+
+    .roadmap { background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%); border: 1px solid var(--border); border-radius: 12px; padding: 22px 26px; margin: 24px 0 26px; font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.65; }
+    .roadmap h4 { font-family: 'Inter', sans-serif; font-size: 13px; letter-spacing: 0.5px; text-transform: uppercase; color: var(--text-muted); font-weight: 600; margin: 0 0 10px; }
+    .roadmap ol { margin: 0 0 0 22px; }
+    .roadmap li { margin-bottom: 6px; color: #334155; }
+    .roadmap li strong { color: var(--text-primary); }
+    .roadmap a { color: inherit; text-decoration: none; border-bottom: 1px dashed transparent; transition: border-color 0.12s ease, color 0.12s ease; }
+    .roadmap a:hover { color: var(--accent); border-bottom-color: var(--accent); text-decoration: none; }
+    .roadmap a strong { color: inherit; }
+    .roadmap a:hover strong { color: var(--accent); }
+
+    footer { margin-top: 52px; padding-top: 26px; border-top: 1px solid var(--border-light); font-size: 13px; color: var(--text-muted); text-align: center; font-family: 'Inter', sans-serif; }
+
+    @media (max-width: 1200px) {
+      .container { max-width: 860px; display: block; }
+      article { max-width: 100%; }
+      .toc-rail { display: none; }
+      .sidenote { float: none; width: auto; margin: 8px 0 18px; border-left: 2px solid var(--border); }
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 38px; }
+      h2 { font-size: 33px; margin-top: 42px; }
+      h3 { font-size: 28px; }
+      h4 { font-size: 22px; }
+      .hero { padding-top: 48px; margin-bottom: 28px; }
+      .subtitle { font-size: 18px; }
+      article { font-size: 17px; line-height: 1.62; }
+      .summary p { font-size: 17px; }
+      .nav-links a { padding: 6px 10px; font-size: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">Shreshth Saini</a>
+      <div class="nav-links">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#experience">Experience</a>
+        <a href="../index.html#research">Research</a>
+        <a href="../blogs.html" class="active">Blogs</a>
+        <a href="../data/CV_Shreshth_Saini_2026.pdf">CV</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <aside class="toc-rail" aria-label="On this page">
+      <div class="toc-head">
+        <p class="toc-title">GenAI Prep Notebook</p>
+      </div>
+      <nav class="toc-items">
+        <a class="toc-item" href="#sec-framing"><span class="toc-dot"></span><span class="toc-label">0. Framing &amp; outline</span></a>
+        <a class="toc-item" href="#sec-coding"><span class="toc-dot"></span><span class="toc-label">1. Coding tier</span></a>
+        <a class="toc-item" href="#sec-ml-fund"><span class="toc-dot"></span><span class="toc-label">2. ML fundamentals</span></a>
+        <a class="toc-item" href="#sec-genai-fund"><span class="toc-dot"></span><span class="toc-label">3. GenAI fundamentals</span></a>
+        <a class="toc-item" href="#sec-cv-fund"><span class="toc-dot"></span><span class="toc-label">4. Classical CV</span></a>
+        <a class="toc-item" href="#sec-cv-quality"><span class="toc-dot"></span><span class="toc-label">5. CV quality</span></a>
+        <a class="toc-item" href="#sec-cv-deep"><span class="toc-dot"></span><span class="toc-label">6. CNNs &amp; SSL</span></a>
+        <a class="toc-item" href="#sec-transformer"><span class="toc-dot"></span><span class="toc-label">7. Transformers</span></a>
+        <a class="toc-item sub" href="#sec-attn"><span class="toc-dot"></span><span class="toc-label">Attention variants</span></a>
+        <a class="toc-item sub" href="#sec-pe"><span class="toc-dot"></span><span class="toc-label">Positional encoding</span></a>
+        <a class="toc-item sub" href="#sec-kv"><span class="toc-dot"></span><span class="toc-label">KV cache</span></a>
+        <a class="toc-item" href="#sec-vae"><span class="toc-dot"></span><span class="toc-label">8. VAE &amp; ELBO</span></a>
+        <a class="toc-item" href="#sec-ddpm"><span class="toc-dot"></span><span class="toc-label">9. DDPM</span></a>
+        <a class="toc-item" href="#sec-sde"><span class="toc-dot"></span><span class="toc-label">10. Score &amp; SDE</span></a>
+        <a class="toc-item" href="#sec-fm"><span class="toc-dot"></span><span class="toc-label">11. Flow matching &amp; RF</span></a>
+        <a class="toc-item" href="#sec-sampling"><span class="toc-dot"></span><span class="toc-label">12. Sampling &amp; guidance</span></a>
+        <a class="toc-item" href="#sec-cond"><span class="toc-dot"></span><span class="toc-label">13. Conditioning</span></a>
+        <a class="toc-item" href="#sec-t2i"><span class="toc-dot"></span><span class="toc-label">14. T2I design space</span></a>
+        <a class="toc-item" href="#sec-video"><span class="toc-dot"></span><span class="toc-label">15. Video generation</span></a>
+        <a class="toc-item" href="#sec-discrete"><span class="toc-dot"></span><span class="toc-label">16. Discrete diffusion</span></a>
+        <a class="toc-item" href="#sec-llm"><span class="toc-dot"></span><span class="toc-label">17. LLMs &amp; nanoGPT</span></a>
+        <a class="toc-item" href="#sec-metrics"><span class="toc-dot"></span><span class="toc-label">18. Eval metrics</span></a>
+        <a class="toc-item" href="#sec-lifecycle"><span class="toc-dot"></span><span class="toc-label">19. Training lifecycle</span></a>
+        <a class="toc-item" href="#sec-training"><span class="toc-dot"></span><span class="toc-label">20. Training nuances</span></a>
+        <a class="toc-item" href="#sec-inference"><span class="toc-dot"></span><span class="toc-label">21. Inference nuances</span></a>
+        <a class="toc-item" href="#sec-rl"><span class="toc-dot"></span><span class="toc-label">22. RL alignment</span></a>
+        <a class="toc-item" href="#sec-papers"><span class="toc-dot"></span><span class="toc-label">23. Paper trace</span></a>
+        <a class="toc-item" href="#sec-checklist"><span class="toc-dot"></span><span class="toc-label">Checklist</span></a>
+        <a class="toc-item" href="#sec-reading"><span class="toc-dot"></span><span class="toc-label">Reading list</span></a>
+        <a class="toc-item" href="#sec-references"><span class="toc-dot"></span><span class="toc-label">References</span></a>
+      </nav>
+    </aside>
+
+    <div class="main-column">
+    <header class="hero">
+      <h1>Prepping for a Research Scientist, GenAI Position &mdash; A Pointer Notebook</h1>
+      <p class="subtitle">
+        A topic-pointer notebook for Research Scientist / GenAI loops focused on image generation, perceptual quality, and video processing. Ordered progressively &mdash; coding warmups, then ML and CV fundamentals, then transformers, then diffusion and flow models, then T2I and video, and finally the training and inference tier.
+      </p>
+      <div class="meta">
+        <span>Apr 2026</span>
+        <span class="pill">Interview Prep</span>
+        <span class="pill">Diffusion</span>
+        <span class="pill">Flow Models</span>
+        <span class="pill">T2I</span>
+        <span class="pill">Video</span>
+        <span class="pill">VQA</span>
+      </div>
+    </header>
+
+    <article>
+      <div class="summary">
+        <p><strong>Thesis.</strong> A Research Scientist, GenAI loop is five overlapping interviews stacked on top of each other &mdash; coding, ML/CV fundamentals, research dive, system design, behavioral.</p>
+        <p><strong>Main technical point.</strong> Almost every modern generative system collapses to three primitives: a forward corruption process, a denoiser/velocity that reverses it, and a sampler that integrates the reverse dynamics. VAE, DDPM, score, flow matching, rectified flow, DDIM, CFG, DPS are all specific instantiations of those primitives.</p>
+        <p><strong>Practical implication.</strong> Revise in the order you&rsquo;d build a system: warm up with Python, cover ML and classical CV foundations, master the transformer, stack on diffusion and flow models, then climb to text-to-image and video, and only then worry about serving and RL alignment. This post is that order.</p>
+      </div>
+
+      <div class="callout-highlight">
+        <strong>&#x1F4D3; How to read this post.</strong> This is a <em>pointer notebook</em> &mdash; a map of topics you should know, with short explanations, minimal code stubs, and links to the places where each topic is actually taught in depth. It does not contain the detailed material itself. Each section is meant to jog your memory, show you roughly how the pieces connect, and point you at a better resource for the full derivation. Treat it like an index card, not a textbook.
+        <br><br>
+        <strong>&#x1F91D; Suggest additions.</strong> This is a living document. If you know a better resource, a missed topic, a cleaner derivation, or a recent paper that should be in the pointer set, please open an <a href="https://github.com/shreshthsaini/shreshthsaini.github.io/issues/new">issue on the repo</a> or email me at <a href="mailto:saini.2@utexas.edu">saini.2@utexas.edu</a>. I&rsquo;ll keep merging good additions in.
+      </div>
+
+      <h2 id="sec-framing">0. Framing and the full outline</h2>
+
+      <p>
+        My loops decomposed into the same ladder every time. Knowing which round you are in keeps your answers at the right altitude.
+      </p>
+
+      <ul>
+        <li><strong>Coding.</strong> Usually one LeetCode-medium plus one applied-ML question (&ldquo;implement MLE for a Gaussian,&rdquo; &ldquo;write the forward pass for scaled dot-product attention,&rdquo; &ldquo;compute KV-cache memory for a given model shape&rdquo;).</li>
+        <li><strong>ML / CV fundamentals.</strong> Losses, MLE vs MAP, KL divergence, SVM hinge loss, clustering, classical CV (SSIM/VIF/LPIPS, histogram equalization, Sobel), CNN output shape, BatchNorm vs LayerNorm, self-supervised learning.</li>
+        <li><strong>Research dive.</strong> Depth-first on one of your papers. Derive the loss, ablate components, predict what breaks under a change.</li>
+        <li><strong>System design.</strong> Build a T2I or T2V product end-to-end &mdash; data &rarr; latent space &rarr; backbone &rarr; training &rarr; eval &rarr; serving &mdash; in 45 minutes on a whiteboard.</li>
+        <li><strong>Paper trace + behavioral.</strong> Contrast 5&ndash;8 landmark papers in the team&rsquo;s area in 30 seconds each; be ready with a 30-second, 2-minute, and 10-minute pitch of your own work.</li>
+      </ul>
+
+      <p>
+        The rest of this note is the ladder itself. The order matters &mdash; each section builds on the last.
+      </p>
+
+      <div class="roadmap">
+        <h4>Full outline &mdash; click any entry to jump</h4>
+        <ol>
+          <li><a href="#sec-coding"><strong>Coding tier.</strong> Python internals, CNN/attention-forward-pass warmups, DSA cadence, ML-system-design checklist.</a></li>
+          <li><a href="#sec-ml-fund"><strong>ML fundamentals.</strong> MLE/MAP, loss zoo (L1/L2/CE/hinge/triplet/KL), normalization, clustering, SVM.</a></li>
+          <li><a href="#sec-genai-fund"><strong>GenAI fundamentals.</strong> Generative vs discriminative, likelihood-based vs likelihood-free family tree.</a></li>
+          <li><a href="#sec-cv-fund"><strong>Classical CV.</strong> Histogram equalization, Sobel, Gaussian/median filters, NLM, SIFT, color theory, color spaces, Retinex.</a></li>
+          <li><a href="#sec-cv-quality"><strong>CV quality.</strong> PSNR, SSIM, VIF, LPIPS/DISTS, NR-IQA, HDR quality, FID/FVD, CLIPScore/HPS/ImageReward, VBench/PhysGenBench, MLLM-as-judge.</a></li>
+          <li><a href="#sec-cv-deep"><strong>CNNs &amp; SSL.</strong> ConvNet primer, contrastive and masked SSL.</a></li>
+          <li><a href="#sec-transformer"><strong>Transformers.</strong> Scaled dot-product attention, multi-head, cross, masked, RoPE 1D/2D/3D, ALiBi, FlashAttention, GQA/MLA, KV cache.</a></li>
+          <li><a href="#sec-vae"><strong>VAE &amp; ELBO.</strong> Two derivations, reparameterization, VQ-VAE, SAE.</a></li>
+          <li><a href="#sec-ddpm"><strong>DDPM.</strong> Forward chain, reverse parameterization, \(\epsilon\)-prediction, Tweedie.</a></li>
+          <li><a href="#sec-sde"><strong>Score &amp; SDE.</strong> DSM, EBM, VP/VE SDE, probability-flow ODE.</a></li>
+          <li><a href="#sec-fm"><strong>Flow matching &amp; rectified flow.</strong> Linear interpolant, reflow, mean flow, logit-normal time.</a></li>
+          <li><a href="#sec-sampling"><strong>Sampling &amp; guidance.</strong> DDIM, Euler/Midpoint/Heun, CFG, classifier guidance, DPS, MPGD.</a></li>
+          <li><a href="#sec-cond"><strong>Conditioning.</strong> AdaIN/FiLM/AdaLN, cross-attention, ControlNet, T2I-Adapter, LoRA, MM-DiT.</a></li>
+          <li><a href="#sec-t2i"><strong>T2I design space.</strong> SD1 &rarr; SD3 &rarr; Flux &rarr; Nano Banana; why CLIP needed T5.</a></li>
+          <li><a href="#sec-video"><strong>Video generation.</strong> Temporal attention, LVDM, inverse tone mapping (SDR&rarr;HDR).</a></li>
+          <li><a href="#sec-discrete"><strong>Discrete diffusion.</strong> Transition matrix, MLDM/LLaDA.</a></li>
+          <li><a href="#sec-llm"><strong>LLMs &amp; nanoGPT.</strong> Tokenization, causal LM, sampling.</a></li>
+          <li><a href="#sec-metrics"><strong>Evaluation metrics.</strong> When each metric saturates.</a></li>
+          <li><a href="#sec-lifecycle"><strong>Training lifecycle.</strong> Pretraining, mid-training, post-training (SFT, preference tuning, RLHF), and the diffusion-specific analogues.</a></li>
+          <li><a href="#sec-training"><strong>Training nuances.</strong> Mixed precision, ZeRO, FSDP, gradient accumulation, EMA.</a></li>
+          <li><a href="#sec-inference"><strong>Inference nuances.</strong> Quantization, distillation, pruning, continuous batching, vLLM/TensorRT-LLM.</a></li>
+          <li><a href="#sec-rl"><strong>RL alignment (details).</strong> PPO, DPO, GRPO, DAPO, Best-of-N.</a></li>
+          <li><a href="#sec-papers"><strong>Paper trace + behavioral.</strong></a></li>
+        </ol>
+      </div>
+
+      <h2 id="sec-coding">1. Coding tier</h2>
+
+      <h3>Python essentials</h3>
+
+      <p>
+        Interviewers love a 5-minute sanity check on Python internals before anything else.
+      </p>
+      <ul>
+        <li><strong>Execution model.</strong> Python source &rarr; lexer &rarr; parser &rarr; AST &rarr; bytecode &rarr; CPython VM (stack-based). PyPy adds JIT on top; CPython does not.</li>
+        <li><strong>PEP 8.</strong> 4-space indent, 79-char lines, <code class="inline">snake_case</code> variables, <code class="inline">CamelCase</code> classes.</li>
+        <li><strong>Memory.</strong> Reference counting + generational GC. When refcount hits zero, the object is deallocated; the cyclic collector handles reference cycles.</li>
+        <li><strong><code class="inline">*args, **kwargs</code>.</strong> Variable positional (tuple) and keyword (dict) arguments.</li>
+      </ul>
+
+      <h3>Applied-ML warmups (run these in your head)</h3>
+
+      <p>
+        <strong>MLE for a Gaussian</strong> &mdash; derive and code. \(\nabla_\theta \log\prod_i f(x_i;\theta)=0\) gives closed-form \(\hat\mu=\tfrac{1}{N}\sum x_i,\ \hat\sigma^2=\tfrac{1}{N}\sum(x_i-\hat\mu)^2\).
+      </p>
+
+      <pre><code>import numpy as np
+
+def gaussian_mle(x):
+    mu = x.mean()
+    sigma2 = ((x - mu) ** 2).mean()
+    return mu, sigma2
+
+# MAP with Gaussian prior N(mu0, tau2) on mu, known sigma2
+def gaussian_map_mean(x, sigma2, mu0, tau2):
+    n = len(x)
+    return (mu0 / tau2 + x.sum() / sigma2) / (1 / tau2 + n / sigma2)</code></pre>
+
+      <p>
+        <strong>CNN output shape.</strong> For input width \(W\), filter \(F\), stride \(S\), padding \(P\):
+      </p>
+      <p class="display-eq">\[ O = \left\lfloor\frac{W - F + 2P}{S}\right\rfloor + 1 \]</p>
+
+      <p>
+        <strong>k-th smallest.</strong> Heap, \(O(n\log k)\):
+      </p>
+      <pre><code>import heapq
+def kth_smallest(nums, k):
+    return heapq.nsmallest(k, nums)[-1]</code></pre>
+
+      <p>
+        <strong>Naive attention forward pass</strong> &mdash; the single most common whiteboard ask.
+      </p>
+      <pre><code>import torch, math
+
+def attention(q, k, v, mask=None):
+    # q, k, v: (B, H, T, d_k)
+    scores = (q @ k.transpose(-2, -1)) / math.sqrt(q.size(-1))
+    if mask is not None:                       # causal mask shape (T, T)
+        scores = scores.masked_fill(mask == 0, float('-inf'))
+    attn = torch.softmax(scores, dim=-1)
+    return attn @ v, attn</code></pre>
+
+      <h3>DSA cadence</h3>
+
+      <p>
+        What worked for me: 1 hour/day of LeetCode plus 2 structured hours, 2&ndash;3 problems daily, 300 most-frequent list over ~2 months<sup class="cite"><a href="#ref-neetcode">[1]</a></sup>. Pattern list:
+      </p>
+      <ul>
+        <li>Two pointers &amp; sliding window (longest substring, k-distinct, min window).</li>
+        <li>Binary search on the answer (Koko bananas, split array largest sum).</li>
+        <li>Heap / priority queue (top-k, merge-k-lists, schedulers).</li>
+        <li>Monotonic stack (daily temperatures, largest rectangle).</li>
+        <li>Dynamic programming &mdash; 1D, 2D, on intervals, trees, bitmask.</li>
+        <li>Graph BFS/DFS, Dijkstra, topological sort, union-find.</li>
+        <li>Backtracking (permutations, combinations, N-queens).</li>
+        <li>Bit manipulation and prefix-sum tricks.</li>
+      </ul>
+
+      <h3>ML system-design checklist (T2I/T2V)</h3>
+
+      <ol>
+        <li><strong>Data.</strong> Crawl &rarr; filter (CLIP relevance, aesthetics, dedup, NSFW), recaption with a VLM.</li>
+        <li><strong>Latent space.</strong> Train VAE / VQ-VAE / advanced VAE with perceptual + adversarial loss.</li>
+        <li><strong>Backbone.</strong> MM-DiT scale; positional encoding (RoPE 2D/3D); FSDP or ZeRO-3 sharding.</li>
+        <li><strong>Training.</strong> Flow matching with logit-normal time; EMA; mixed precision.</li>
+        <li><strong>Eval harness.</strong> Prompt set &times; metrics (CLIPScore, HPSv2, ImageReward, VBench, MLLM-judge).</li>
+        <li><strong>Inference.</strong> Heun/DPM-Solver; step distillation; FP8/INT8; CFG annealing; continuous batching for AR heads.</li>
+        <li><strong>Safety.</strong> Prompt pre-filter, output post-filter, concept-erasing LoRA.</li>
+      </ol>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://neetcode.io/roadmap">NeetCode Coding Interview Roadmap</a> &middot; <a href="https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ">Karpathy &mdash; Neural Networks: Zero to Hero</a> for the applied-ML coding muscle.</p>
+
+      <h2 id="sec-ml-fund">2. Machine learning fundamentals</h2>
+
+      <h3>MLE and MAP</h3>
+
+      <p class="display-eq">\[
+        \theta^\text{MLE} = \arg\max_\theta \prod_i p(x_i\mid\theta), \quad
+        \theta^\text{MAP} = \arg\max_\theta \prod_i p(x_i\mid\theta)\,p(\theta).
+      \]</p>
+
+      <p>
+        Practical identity: maximizing likelihood equals minimizing negative log-likelihood equals minimizing cross-entropy against empirical data distribution.
+      </p>
+
+      <h3>The loss-function zoo</h3>
+
+      <ul>
+        <li><strong>\(L_1\) vs \(L_2\).</strong> \(L_1\) promotes sparsity and robustness to outliers; \(L_2\) is smoother and mean-seeking. Image reconstruction typically uses a convex mix.</li>
+        <li><strong>Cross-entropy.</strong> Canonical classification/token-level loss.</li>
+        <li><strong>Hinge (SVM).</strong> \(\arg\min \tfrac{1}{2}\|w\|^2 + C\sum_i \max(0, 1 - y_i(w^\top x_i - b))\).</li>
+        <li><strong>Triplet.</strong> \(\max(0, d(A,P) - d(A,N) + m)\). Enforces anchor&ndash;positive closer than anchor&ndash;negative by margin \(m\).</li>
+        <li><strong>KL divergence.</strong> \(D_\text{KL}(p\Vert q)=\sum p\log(p/q)\). Non-negative, asymmetric, zero iff equal.</li>
+      </ul>
+
+      <pre><code>import torch.nn.functional as F
+
+def kl_divergence(p, q, eps=1e-12):              # both shape (..., C)
+    return (p * (p.clamp_min(eps).log() - q.clamp_min(eps).log())).sum(-1)
+
+def hinge_loss(scores, y):                        # y in {-1, +1}
+    return F.relu(1 - y * scores).mean()
+
+def triplet_loss(a, p, n, margin=1.0):
+    d_ap = (a - p).norm(dim=-1)
+    d_an = (a - n).norm(dim=-1)
+    return F.relu(d_ap - d_an + margin).mean()</code></pre>
+
+      <h3>Normalization</h3>
+
+      <ul>
+        <li><strong>BatchNorm.</strong> Normalize per-channel across the batch. Depends on batch statistics &mdash; breaks with very small batches.</li>
+        <li><strong>LayerNorm.</strong> Normalize per-sample across features. Batch-size independent; the default for transformers.</li>
+        <li><strong>RMSNorm.</strong> LayerNorm without mean subtraction; \(\tfrac{1}{\sqrt{\text{RMS}(x)^2+\varepsilon}}\cdot x\). Used in LLaMA-family models.</li>
+        <li><strong>GroupNorm.</strong> Middle ground used inside UNets and DiT blocks.</li>
+      </ul>
+
+      <h3>Clustering (quick)</h3>
+
+      <ul>
+        <li><strong>K-means.</strong> Hard assignment via nearest centroid; iterative \((\text{assign}, \text{update})\).</li>
+        <li><strong>GMM.</strong> Soft clustering with \(K\) Gaussians \((\mu_k,\Sigma_k,\pi_k)\) via EM; ellipsoidal clusters.</li>
+        <li><strong>DBSCAN.</strong> Density-based; arbitrary-shape clusters; noise is a first-class output.</li>
+      </ul>
+
+      <h3>SVM and kernels</h3>
+
+      <p>
+        Find the hyperplane \(w^\top x + b\) with max margin. Non-linear case: transform data via \(\phi\) into a higher-dim space where classes are linearly separable; the kernel trick avoids constructing \(\phi\) explicitly via \(K(x,y) = \phi(x)^\top\phi(y)\) (linear, polynomial, RBF).
+      </p>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://www.youtube.com/playlist?list=PLoROMvodv4rMiGQp3WXShtMGgzqpfVfbU">Stanford CS229 (Andrew Ng)</a> for the math &middot; <a href="https://www.youtube.com/user/joshstarmer">StatQuest with Josh Starmer</a> for 10-minute intuition videos on MLE, PCA, SVM, GMM, clustering.</p>
+
+      <h2 id="sec-genai-fund">3. Generative modeling fundamentals</h2>
+
+      <p>
+        Generative modeling learns \(p(x)\) or \(p(x,y)\); discriminative modeling learns \(p(y\mid x)\) directly.
+      </p>
+
+      <h3>Family tree</h3>
+
+      <ul>
+        <li><strong>Likelihood-based:</strong> VAE, autoregressive, diffusion, normalizing flows, energy-based models.</li>
+        <li><strong>Likelihood-free:</strong> GANs &mdash; min-max adversarial, strong images at small scale but prone to mode collapse; WGAN-GP mitigates with a Lipschitz critic and gradient penalty.</li>
+      </ul>
+
+      <p>
+        Why the shift? Sampling directly from \(p(x)\) in high-dim is intractable; simpler to <em>transport</em> a Gaussian base to the data via a tractable forward corruption and a learned reverse &mdash; the diffusion/flow-matching recipe (sections 9&ndash;11).
+      </p>
+
+      <h3>Autoregressive factorization</h3>
+
+      <p class="display-eq">\[ p_\theta(x) = p_\theta(x_1)\,p_\theta(x_2\mid x_1)\cdots p_\theta(x_L\mid x_{&lt;L}) \]</p>
+
+      <p>
+        Loss collapses to token-level CE. Sampling: top-\(k\) (restrict to top \(k\) logits) or nucleus (top-\(p\)) sampling.
+      </p>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://lilianweng.github.io/posts/2018-08-12-vae/">Lilian Weng &mdash; From Autoencoder to Beta-VAE</a> &middot; <a href="https://huggingface.co/learn/computer-vision-course/en/unit5/generative-models/introduction">HF CV Course &mdash; Generative Models (Unit 5)</a>.</p>
+
+      <h2 id="sec-cv-fund">4. Classical computer vision</h2>
+
+      <h3>Image processing primitives</h3>
+
+      <ul>
+        <li><strong>Histogram equalization.</strong> Remap intensities through the CDF of the image&rsquo;s histogram: \(\text{img}'[i,j] = \text{CDF}(\text{img}[i,j])\cdot 255\). Boosts contrast on low-dynamic-range imagery.</li>
+        <li><strong>Sobel edges.</strong> \(G_x=\begin{bmatrix}-1&amp;0&amp;1\\-2&amp;0&amp;2\\-1&amp;0&amp;1\end{bmatrix},\ G_y=G_x^\top,\ |G|=\sqrt{G_x^2+G_y^2}\).</li>
+        <li><strong>Gaussian filter.</strong> Low-pass \(\tfrac{1}{16}\begin{bmatrix}1&amp;2&amp;1\\2&amp;4&amp;2\\1&amp;2&amp;1\end{bmatrix}\) smooths additive noise.</li>
+        <li><strong>Median filter.</strong> Best for salt-and-pepper noise (Gaussian blur makes it worse).</li>
+        <li><strong>Non-Local Means (NLM).</strong> Compare <em>patches</em> not pixels; average similar patches within a search window.</li>
+        <li><strong>SIFT.</strong> Scale-invariant keypoint detection via Difference-of-Gaussians; assign orientation; 128-dim descriptor.</li>
+      </ul>
+
+      <pre><code>import numpy as np
+from scipy.ndimage import convolve
+
+def sobel(img):
+    Gx = np.array([[-1,0,1],[-2,0,2],[-1,0,1]])
+    Gy = Gx.T
+    gx, gy = convolve(img, Gx), convolve(img, Gy)
+    return np.sqrt(gx**2 + gy**2)
+
+def hist_eq(img):                                  # img: uint8
+    hist, _ = np.histogram(img.ravel(), 256, (0,256))
+    cdf = hist.cumsum()
+    cdf = (cdf - cdf.min()) * 255 / (cdf.max() - cdf.min())
+    return cdf[img].astype(np.uint8)</code></pre>
+
+      <h3>Color theory and color spaces</h3>
+
+      <p>
+        Human vision perceives <em>surface color</em> as context (Retinex): the retina + cortex compare reflectance against surroundings across three wavelength channels (L/M/S) rather than raw luminance. That is <em>color constancy</em> &mdash; an apple is red under bright or dim light.
+      </p>
+      <ul>
+        <li><strong>sRGB / Rec. 709.</strong> 8-bit SDR; ~1/3 of visible gamut.</li>
+        <li><strong>Rec. 2020.</strong> 10/12-bit; wide-gamut HDR.</li>
+        <li><strong>XYZ (CIE 1931).</strong> Device-independent linear space.</li>
+        <li><strong>LAB.</strong> Perceptually uniform: \(L\) lightness, \(a\) green&ndash;red, \(b\) blue&ndash;yellow.</li>
+      </ul>
+      <p>
+        Three knobs define a color space: <strong>primaries</strong> (gamut vertices), <strong>white point</strong> (e.g.&nbsp;D65), <strong>transfer function</strong> (OETF/EOTF: gamma ~2.2 for sRGB; PQ/HLG for HDR).
+      </p>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://szeliski.org/Book/">Szeliski &mdash; Computer Vision: Algorithms and Applications (2nd ed., free PDF)</a> &middot; <a href="https://www.cambridgeincolour.com/tutorials.htm">Cambridge in Colour tutorials</a> for color theory, gamut, transfer functions.</p>
+
+      <h2 id="sec-cv-quality">5. Perceptual quality assessment</h2>
+
+      <h3>Full-reference (FR)</h3>
+
+      <ul>
+        <li><strong>PSNR.</strong> \(10\log_{10}(255^2/\text{MSE})\). Pixel fidelity; weak human correlation.</li>
+        <li><strong>SSIM.</strong> Luminance &times; contrast &times; structure:
+          \(\text{SSIM}(x,y)=\frac{(2\mu_x\mu_y+C_1)(2\sigma_{xy}+C_2)}{(\mu_x^2+\mu_y^2+C_1)(\sigma_x^2+\sigma_y^2+C_2)}\).</li>
+        <li><strong>VIF.</strong><sup class="cite"><a href="#ref-vif">[2]</a></sup> Visual Information Fidelity: model images as natural-scene statistics (NSS) via Gaussian Scale Mixtures in a wavelet basis; HVS has internal noise \(n\); distortion adds attenuation \(g\) and noise \(v\); compute MI ratio
+          \(\text{VIF} = I(C;F_\text{dist})/I(C;F_\text{ref})\).</li>
+        <li><strong>LPIPS.</strong> Feature-space distance over a frozen VGG with learned per-layer weights.</li>
+        <li><strong>DISTS.</strong> Structure + texture similarity in learned feature space; robust to texture shifts.</li>
+      </ul>
+
+      <h3>No-reference (NR)</h3>
+
+      <ul>
+        <li>NSS-based: NIQE, BRISQUE, MSCN.</li>
+        <li>Learned: Re-IQA, CONTRIQUE, DOVER<sup class="cite"><a href="#ref-dover">[3]</a></sup> (decouples aesthetic and technical quality for video), Q-Align, DEQA (MLLM-based).</li>
+      </ul>
+
+      <h3>Generative-model metrics</h3>
+
+      <ul>
+        <li><strong>FID / FVD.</strong> Frechet distance of Inception (image) or I3D (video) features; saturates for SOTA T2I.</li>
+        <li><strong>CLIPScore.</strong> Cosine of CLIP text&ndash;image embeddings; good for alignment, weak for realism.</li>
+        <li><strong>HPSv2 / ImageReward.</strong><sup class="cite"><a href="#ref-hps">[4]</a></sup> Learned preference models on pick-a-pic data.</li>
+        <li><strong>VBench / VBenchv2.</strong><sup class="cite"><a href="#ref-vbench">[5]</a></sup> Multi-facet video eval (subject identity, motion smoothness, dynamic degree, spatial relations).</li>
+        <li><strong>PhysGenBench / VideoPhy2.</strong> Physics commonsense for video.</li>
+        <li><strong>MLLM-as-judge.</strong> Cheap holistic eval with a capable VLM (Gemini, Qwen-VL, GPT-4o).</li>
+      </ul>
+
+      <div class="callout">
+        <strong>When metrics saturate.</strong> FID, FVD, and CLIPScore are all learned and don&rsquo;t reward novel outputs. On modern T2I/T2V, they&rsquo;re close to noise past a threshold. Holistic, grounded, human-aligned metrics (HPSv2, ImageReward, VBenchv2, PhysGenBench, MLLM-judge) are the current default for paper-grade eval.
+      </div>
+
+      <h3>HDR-specific</h3>
+      <p>
+        Standard SDR metrics computed on tonemapped HDR previews are misleading. Use HDR-VDP, PU-encoded PSNR/SSIM, or MLLM-based HDR-aware judges. See <a href="../slides/hdrq.html">HDR-Q slides</a> for a CVPR 2026 take on this.
+      </p>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://live.ece.utexas.edu/publications.php">UT LIVE Lab publications</a> for the IQA/VQA canon (SSIM, VIF, BRISQUE, NIQE, VMAF) &middot; <a href="https://github.com/richzhang/PerceptualSimilarity">LPIPS repo + paper</a> &middot; <a href="https://vchitect.github.io/VBench-project/">VBench project page</a>.</p>
+
+      <h2 id="sec-cv-deep">6. CNNs and self-supervised learning</h2>
+
+      <h3>CNN primer</h3>
+
+      <p>
+        Stanford <em>CS231n</em> is still the canonical course for this layer of the stack<sup class="cite"><a href="#ref-cs231n">[6]</a></sup>. Quick hits:
+      </p>
+      <ul>
+        <li>Convolution as learnable filter banks; parameter sharing + spatial equivariance.</li>
+        <li>Receptive field grows with depth; dilated convs expand it cheaply.</li>
+        <li>ResNet identity shortcuts enable very deep training; ConvNeXt revisits CNNs with transformer-style design.</li>
+      </ul>
+
+      <h3>Self-supervised learning</h3>
+
+      <ul>
+        <li><strong>Contrastive:</strong> SimCLR, MoCo. InfoNCE loss:
+          \(\mathcal{L} = -\log\tfrac{\exp(q\cdot k^+/\tau)}{\sum_i \exp(q\cdot k_i/\tau)}\).</li>
+        <li><strong>BYOL / DINO.</strong> Non-contrastive; online + EMA target networks.</li>
+        <li><strong>Masked image modeling (MAE).</strong> Mask 75% of patches, reconstruct; strong downstream classification.</li>
+        <li><strong>CLIP.</strong> Contrastive on (image, caption) pairs; InfoNCE across the batch.</li>
+      </ul>
+
+      <pre><code>def info_nce(q, k_pos, k_neg, tau=0.07):           # shapes: (B,d),(B,d),(B,K,d)
+    logits_pos = (q * k_pos).sum(-1, keepdim=True) / tau
+    logits_neg = (q.unsqueeze(1) * k_neg).sum(-1) / tau
+    logits = torch.cat([logits_pos, logits_neg], dim=-1)
+    labels = torch.zeros(q.size(0), dtype=torch.long, device=q.device)
+    return F.cross_entropy(logits, labels)</code></pre>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://cs231n.stanford.edu/">Stanford CS231n</a> for CNNs &middot; <a href="https://lilianweng.github.io/posts/2021-05-31-contrastive/">Lilian Weng &mdash; Contrastive Representation Learning</a> &middot; <a href="https://ai.meta.com/blog/dino-paws-computer-vision-with-self-supervised-transformers-and-10x-more-efficient-training/">Meta AI &mdash; DINO blog</a>.</p>
+
+      <h2 id="sec-transformer">7. Transformers</h2>
+
+      <h3 id="sec-attn">Attention in full</h3>
+
+      <p class="display-eq">\[ \text{Attn}(Q,K,V) = \text{softmax}\!\left(\tfrac{QK^\top}{\sqrt{d_k}}\right)V. \]</p>
+
+      <p>
+        Why \(\sqrt{d_k}\)? The dot product of two \(d_k\)-dim unit-variance vectors has variance \(d_k\). Without scaling, softmax saturates into near-one-hot distributions and gradients vanish on the un-picked tokens.
+      </p>
+
+      <p>
+        <strong>Cross-attention:</strong> \(Q\) from decoder sequence, \(K,V\) from encoder sequence (e.g., T5 tokens in a T2I UNet / DiT).
+      </p>
+
+      <p>
+        <strong>Masked attention:</strong> add a \(-\infty\) bias to forbidden positions before softmax. Causal masking is the lower-triangular case.
+      </p>
+
+      <pre><code>import torch, math, torch.nn.functional as F
+
+class MultiHeadAttention(torch.nn.Module):
+    def __init__(self, d_model, n_heads):
+        super().__init__()
+        assert d_model % n_heads == 0
+        self.h, self.dk = n_heads, d_model // n_heads
+        self.qkv = torch.nn.Linear(d_model, 3 * d_model)
+        self.out = torch.nn.Linear(d_model, d_model)
+
+    def forward(self, x, mask=None):
+        B, T, D = x.shape
+        q, k, v = self.qkv(x).chunk(3, dim=-1)
+        q, k, v = [t.view(B, T, self.h, self.dk).transpose(1, 2) for t in (q, k, v)]
+        s = q @ k.transpose(-2, -1) / math.sqrt(self.dk)
+        if mask is not None:
+            s = s.masked_fill(mask == 0, float('-inf'))
+        a = F.softmax(s, dim=-1)
+        y = (a @ v).transpose(1, 2).contiguous().view(B, T, D)
+        return self.out(y)</code></pre>
+
+      <h4>Sparse, Flash, Linear, GQA, MLA</h4>
+
+      <ul>
+        <li><strong>Sparse attention.</strong> Block-sparse; each token attends to \(n\) blocks out of full set &rarr; \(O((T^2/n)d)\). Heads can learn different patterns.</li>
+        <li><strong>Native Sparse Attention (NSA).</strong> Combines token <em>compression</em> (coarse windowed pooling of K/V), <em>selection</em> (top-\(k\) via importance scores), and <em>sliding window</em> (local); the three paths are gated-summed.</li>
+        <li><strong>Flash Attention.</strong><sup class="cite"><a href="#ref-flash">[7]</a></sup> Tiling + online (safe) softmax reduces memory from \(O(N^2)\) to \(O(N)\). Key identity: maintain running max \(m_i\) and denominator \(d_i\) so <code class="inline">exp(x - m)</code> never overflows, then rescale on each new tile.</li>
+        <li><strong>Linear attention.</strong> \(\text{softmax}(QK^\top)\approx\phi(Q)\phi(K)^\top\); per-query cost \(O(nd)\). Good for long sequences and streaming, bad when you need sharp attention.</li>
+        <li><strong>Grouped Query Attention (GQA).</strong><sup class="cite"><a href="#ref-gqa">[8]</a></sup> Share K/V across groups of query heads; e.g. 16 query heads, 4 K/V heads. LLaMA uses 1:8.</li>
+        <li><strong>Multi-head Latent Attention (MLA).</strong><sup class="cite"><a href="#ref-mla">[9]</a></sup> Compress K/V into a low-rank latent then project back at attention time; ~4&ndash;10&times; KV-cache reduction.</li>
+      </ul>
+
+      <h3 id="sec-pe">Positional encoding</h3>
+
+      <ul>
+        <li><strong>Sinusoidal.</strong> \(\text{PE}(\text{pos}, 2i)=\sin(\text{pos}/10000^{2i/d})\). Length-independent. Added to input embeddings.</li>
+        <li><strong>RoPE</strong><sup class="cite"><a href="#ref-rope">[10]</a></sup>. Rotate \(q, k\) by a position-dependent angle before the dot product. \(q^\top k\) becomes sensitive only to the <em>relative</em> angle. 2D RoPE splits embedding into \((x, y)\) chunks for images; 3D RoPE further for video \((t, x, y)\).</li>
+        <li><strong>ALiBi</strong><sup class="cite"><a href="#ref-alibi">[11]</a></sup>. Add linear negative bias \(-m\cdot|i-j|\) in attention logits; acts as soft local attention; extrapolates cleanly to longer sequences.</li>
+      </ul>
+
+      <pre><code>def rope_1d(x, theta=10000.0):                     # x: (B, T, d) with d even
+    B, T, d = x.shape
+    pos = torch.arange(T, device=x.device).float()[:, None]
+    i = torch.arange(d // 2, device=x.device).float()
+    freq = 1.0 / (theta ** (2 * i / d))
+    angles = pos * freq                            # (T, d/2)
+    cos, sin = angles.cos(), angles.sin()
+    x1, x2 = x[..., 0::2], x[..., 1::2]
+    xr = torch.stack([x1*cos - x2*sin, x1*sin + x2*cos], dim=-1)
+    return xr.flatten(-2)</code></pre>
+
+      <h3 id="sec-kv">KV cache memory</h3>
+
+      <p class="display-eq">\[ \text{mem} = 2 \times \text{bytes} \times n_\text{layers} \times d_\text{model} \times \text{seq\_len} \times \text{batch}. \]</p>
+
+      <p>
+        30B params with \(n_\text{layers}=48,\ d_\text{model}=7168,\ \text{fp16} (2\text{ bytes})\), seq-len 1,024, batch 128 &rarr; KV cache &asymp; 180 GB &mdash; roughly 3&times; the model weights. That memory pressure is why GQA/MLA and paged KV caches dominate production serving.
+      </p>
+
+      <pre><code>def kv_cache_bytes(layers, d_model, seq_len, batch, dtype_bytes=2):
+    return 2 * dtype_bytes * layers * d_model * seq_len * batch
+
+kv_cache_bytes(48, 7168, 1024, 128) / 1e9          # ~180 GB</code></pre>
+
+      <h3>FFN, SwiGLU, norms</h3>
+
+      <p>
+        FFN is \(\sigma(W_1 x)W_2\); SwiGLU replaces \(\sigma\) with a gated Swish: \((xW + b)\otimes\text{Swish}(zV + c)\), Swish \(=x\sigma(\beta x)\). Ubiquitous in LLaMA.
+      </p>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://jalammar.github.io/illustrated-transformer/">Jay Alammar &mdash; The Illustrated Transformer</a> &middot; <a href="http://nlp.seas.harvard.edu/annotated-transformer/">The Annotated Transformer (Harvard NLP)</a> &middot; <a href="https://www.youtube.com/watch?v=kCc8FmEb1nY">Karpathy &mdash; &ldquo;Let&rsquo;s build GPT: from scratch&rdquo;</a>.</p>
+
+      <h2 id="sec-vae">8. VAE and the ELBO</h2>
+
+      <p>
+        VAE<sup class="cite"><a href="#ref-vae">[12]</a></sup>: encoder \(q_\phi(z\mid x)\), decoder \(p_\theta(x\mid z)\). Evidence lower bound:
+      </p>
+      <p class="display-eq">\[
+        \log p_\theta(x) \ge \mathbb{E}_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)] - D_\text{KL}\big(q_\phi(z\mid x)\,\Vert\,p(z)\big).
+      \]</p>
+
+      <p><em>Derivation A (Jensen):</em></p>
+      <p class="display-eq">\[
+        \log p_\theta(x) = \log\int q_\phi(z\mid x)\tfrac{p_\theta(x,z)}{q_\phi(z\mid x)}dz \ge \mathbb{E}_{q_\phi}\log\tfrac{p_\theta(x,z)}{q_\phi(z\mid x)}.
+      \]</p>
+
+      <p><em>Derivation B (chain rule):</em></p>
+      <p class="display-eq">\[
+        \log p_\theta(x) = \mathbb{E}_{q_\phi}\log\tfrac{p_\theta(x,z)}{q_\phi(z\mid x)} + D_\text{KL}\big(q_\phi(z\mid x)\,\Vert\,p_\theta(z\mid x)\big).
+      \]</p>
+
+      <p>
+        The gap (right term) tightens as the encoder matches the true posterior.
+      </p>
+
+      <h3>Reparameterization trick &amp; closed-form KL</h3>
+
+      <p>
+        For \(q_\phi(z\mid x)=\mathcal{N}(\mu_\phi,\sigma_\phi^2 I)\) and \(p(z)=\mathcal{N}(0,I)\):
+      </p>
+      <p class="display-eq">\[
+        z = \mu_\phi + \sigma_\phi\odot\epsilon,\ \epsilon\sim\mathcal{N}(0,I),\quad
+        D_\text{KL} = \tfrac{1}{2}\sum_d(\mu_d^2 + \sigma_d^2 - 1 - 2\log\sigma_d).
+      \]</p>
+
+      <pre><code>class VAE(torch.nn.Module):
+    def __init__(self, enc, dec):
+        super().__init__(); self.enc, self.dec = enc, dec
+    def forward(self, x):
+        mu, log_sigma = self.enc(x).chunk(2, dim=-1)
+        z = mu + log_sigma.exp() * torch.randn_like(mu)   # reparameterize
+        x_rec = self.dec(z)
+        kl = 0.5 * (mu.pow(2) + (2*log_sigma).exp() - 1 - 2*log_sigma).sum(-1)
+        rec = ((x - x_rec) ** 2).flatten(1).sum(-1)
+        return (rec + kl).mean(), x_rec</code></pre>
+
+      <h3>VQ-VAE and advanced VAEs</h3>
+
+      <p>
+        Vanilla VAE is blurry (L2 mean-seeking), vague in semantics, and prone to <em>posterior collapse</em> when the decoder is too strong. VQ-VAE<sup class="cite"><a href="#ref-vqvae">[13]</a></sup> replaces the continuous latent with a discrete codebook (nearest-neighbor quantize, straight-through gradient) so the latent is transformer-friendly and sharp. SD3/Flux-era &ldquo;advanced VAEs&rdquo; add BN in latent space, more channels, REPA-style alignment to large vision-model embeddings, and spatial packing.
+      </p>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://lilianweng.github.io/posts/2018-08-12-vae/">Lilian Weng &mdash; From Autoencoder to Beta-VAE</a> &middot; <a href="https://arxiv.org/abs/1606.05908">Doersch &mdash; Tutorial on VAEs (arXiv 1606.05908)</a>.</p>
+
+      <h2 id="sec-ddpm">9. DDPM</h2>
+
+      <p>
+        Forward Markov chain<sup class="cite"><a href="#ref-ddpm">[14]</a></sup>:
+      </p>
+      <p class="display-eq">\[
+        q(x_t\mid x_{t-1}) = \mathcal{N}(\sqrt{1-\beta_t}\,x_{t-1}, \beta_t I),\quad
+        q(x_t\mid x_0) = \mathcal{N}(\sqrt{\bar\alpha_t}\,x_0, (1-\bar\alpha_t)I).
+      \]</p>
+      <p>
+        \(\bar\alpha_t = \prod_{s\le t}(1-\beta_s)\). One-shot corruption: \(x_t = \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\epsilon\).
+      </p>
+
+      <figure>
+        <svg class="svg-figure" viewBox="0 0 860 260" aria-label="Forward and reverse diffusion chain">
+          <defs>
+            <marker id="arrFwd" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3 z" fill="#2563eb"></path>
+            </marker>
+            <marker id="arrRev" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3 z" fill="#16a34a"></path>
+            </marker>
+          </defs>
+          <circle cx="90" cy="130" r="26" fill="#ecfeff" stroke="#0e7490" stroke-width="1.5"></circle>
+          <text x="90" y="135" text-anchor="middle" fill="#0369a1" font-size="16" font-family="Inter" font-weight="600">x0</text>
+          <circle cx="270" cy="130" r="22" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.2"></circle>
+          <text x="270" y="135" text-anchor="middle" fill="#475569" font-size="14" font-family="Inter">x_{t-1}</text>
+          <circle cx="450" cy="130" r="22" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.2"></circle>
+          <text x="450" y="135" text-anchor="middle" fill="#475569" font-size="14" font-family="Inter">x_t</text>
+          <circle cx="630" cy="130" r="22" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.2"></circle>
+          <text x="630" y="135" text-anchor="middle" fill="#475569" font-size="14" font-family="Inter">x_{t+1}</text>
+          <circle cx="780" cy="130" r="26" fill="#fef2f2" stroke="#b91c1c" stroke-width="1.5"></circle>
+          <text x="780" y="135" text-anchor="middle" fill="#b91c1c" font-size="16" font-family="Inter" font-weight="600">x_T</text>
+
+          <path d="M116 120 Q 180 85, 248 120" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrFwd)"></path>
+          <text x="178" y="80" text-anchor="middle" fill="#1d4ed8" font-size="12" font-family="Inter">q(x_t|x_{t-1})</text>
+          <path d="M292 120 Q 360 85, 428 120" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrFwd)"></path>
+          <path d="M472 120 Q 540 85, 608 120" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrFwd)"></path>
+          <path d="M652 120 Q 710 90, 754 120" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrFwd)"></path>
+
+          <path d="M248 142 Q 180 180, 116 145" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrRev)"></path>
+          <text x="178" y="200" text-anchor="middle" fill="#15803d" font-size="12" font-family="Inter">p_&theta;(x_{t-1}|x_t)</text>
+          <path d="M428 142 Q 360 180, 292 145" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrRev)"></path>
+          <path d="M608 142 Q 540 180, 472 145" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrRev)"></path>
+          <path d="M754 142 Q 710 180, 652 145" stroke="#16a34a" stroke-width="2" fill="none" marker-end="url(#arrRev)"></path>
+
+          <text x="430" y="40" text-anchor="middle" fill="#334155" font-size="13" font-family="Inter" font-weight="600">Forward (fixed, no params): noising</text>
+          <text x="430" y="240" text-anchor="middle" fill="#334155" font-size="13" font-family="Inter" font-weight="600">Reverse (learned): denoising</text>
+        </svg>
+        <figcaption>
+          The forward kernel is analytic; only the reverse is learned. Training is one-shot at a random \(t\) thanks to the closed-form marginal.
+        </figcaption>
+      </figure>
+
+      <h3>Training objective</h3>
+
+      <p class="display-eq">\[
+        \mathcal{L}_\text{simple}(\theta) = \mathbb{E}_{t,x_0,\epsilon}\!\left[\|\epsilon - \epsilon_\theta(\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon,t)\|^2\right].
+      \]</p>
+
+      <pre><code>def ddpm_loss(model, x0, alphas_bar):
+    t = torch.randint(0, len(alphas_bar), (x0.size(0),), device=x0.device)
+    ab = alphas_bar[t].view(-1, 1, 1, 1)
+    eps = torch.randn_like(x0)
+    xt = ab.sqrt() * x0 + (1 - ab).sqrt() * eps
+    eps_pred = model(xt, t)
+    return F.mse_loss(eps_pred, eps)</code></pre>
+
+      <h3>Ancestral sampler</h3>
+
+      <p class="display-eq">\[
+        x_{t-1} = \tfrac{1}{\sqrt{\alpha_t}}\!\left(x_t - \tfrac{\beta_t}{\sqrt{1-\bar\alpha_t}}\epsilon_\theta(x_t,t)\right) + \sigma_t z.
+      \]</p>
+
+      <h3>Tweedie&rsquo;s formula</h3>
+
+      <p class="display-eq">\[
+        \hat x_{0\mid t} = \tfrac{1}{\sqrt{\bar\alpha_t}}(x_t - \sqrt{1-\bar\alpha_t}\,\epsilon_\theta(x_t, t)).
+      \]</p>
+
+      <p>
+        The single identity that powers DDIM, classifier guidance in data space, DPS, and every &ldquo;predict \(\hat x_0\)&rdquo; parameterization.
+      </p>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://lilianweng.github.io/posts/2021-07-11-diffusion-models/">Lilian Weng &mdash; What are Diffusion Models?</a> &middot; <a href="https://calvinyluo.com/2022/08/26/diffusion-tutorial.html">Calvin Luo &mdash; Understanding Diffusion Models: A Unified Perspective</a> &middot; <a href="https://huggingface.co/learn/diffusion-course/en/unit0/1">HF Diffusion Models Course</a>.</p>
+
+      <h2 id="sec-sde">10. Score-based models and the SDE umbrella</h2>
+
+      <p>
+        Score \(s(x) = \nabla_x\log p(x)\). Denoising score matching<sup class="cite"><a href="#ref-songermon">[15]</a></sup> sidesteps the intractable partition function of energy-based models
+        \(p_\theta(x)=\tfrac{1}{Z(\theta)}\exp(-f_\theta(x))\):
+      </p>
+      <p class="display-eq">\[
+        \mathcal{L}(\theta) = \tfrac{1}{2}\mathbb{E}_{x,\tilde x}\!\left[\|s_\theta(\tilde x) - \nabla_{\tilde x}\log q(\tilde x\mid x)\|^2\right].
+      \]</p>
+
+      <p>
+        Song et al.<sup class="cite"><a href="#ref-songsde">[16]</a></sup> unified DDPM and NCSN under a continuous-time SDE \(dx_t = f(x_t,t)dt + g(t)dw_t\) with reverse
+        \(dx_t = [f(x_t,t) - g^2(t)\nabla_x\log p_t(x_t)]dt + g(t)d\bar w_t\).
+      </p>
+
+      <table class="ds-table">
+        <thead>
+          <tr><th></th><th>Discrete</th><th>Continuous</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>NCSN &rarr; VE-SDE</strong></td>
+              <td>\(f=0,\ g=\sqrt{d\sigma^2/dt}\)</td>
+              <td>\(dx=g(t)dw\)</td></tr>
+          <tr><td><strong>DDPM &rarr; VP-SDE</strong></td>
+              <td>\(f=-\tfrac{1}{2}\beta(t)x,\ g=\sqrt{\beta_t}\)</td>
+              <td>\(dx=-\tfrac{1}{2}\beta(t)x\,dt+\sqrt{\beta_t}dw\)</td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        The <strong>probability-flow ODE</strong> drops the stochastic term:
+        \(dx_t = [f(x_t,t) - \tfrac{1}{2}g^2(t)\nabla_x\log p_t(x_t)]dt\). Deterministic, preserves marginals, exact likelihood.
+      </p>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://yang-song.net/blog/2021/score/">Yang Song &mdash; Generative Modeling by Estimating Gradients of the Data Distribution</a> &middot; <a href="https://arxiv.org/abs/2206.00364">Karras et al. EDM</a>.</p>
+
+      <h2 id="sec-fm">11. Flow matching and rectified flow</h2>
+
+      <p>
+        Flow matching<sup class="cite"><a href="#ref-fm">[17]</a></sup> learns a velocity field \(v_\theta(x,t)\) transporting base \(p_0\) to data \(p_1\). Rectified Flow<sup class="cite"><a href="#ref-rf">[18]</a></sup> uses the linear coupling
+        \(x_t=(1-t)x_0+tx_1\), target \(v^\star(x,t)=\mathbb{E}[x_1-x_0\mid x_t=x,t]\):
+      </p>
+      <p class="display-eq">\[
+        \mathcal{L}_\text{RF}(\theta)=\mathbb{E}_{(x_0,x_1)\sim\pi,\,t\sim\rho}\!\left[\|v_\theta(x_t,t)-(x_1-x_0)\|^2\right].
+      \]</p>
+
+      <pre><code>def rf_loss(model, x1):
+    x0 = torch.randn_like(x1)
+    t = torch.rand(x1.size(0), device=x1.device)         # uniform
+    tb = t.view(-1, 1, 1, 1)
+    xt = (1 - tb) * x0 + tb * x1
+    v_target = x1 - x0
+    v_pred = model(xt, t)
+    return F.mse_loss(v_pred, v_target)</code></pre>
+
+      <p>
+        <strong>Reflow.</strong> After first training, retrain on self-generated pairs \((x_0,\hat x_1)\). Curvature drops, few-step sampling becomes viable. For a dedicated walk-through see my <a href="rectified-flow.html">Rectified Flow note</a>.
+      </p>
+
+      <p>
+        <strong>Logit-normal time.</strong> Uniform \(t\) under-trains the middle of the trajectory. SD3 samples \(t\sim \sigma(\mathcal{N}(\mu,\sigma^2))\) to push mass where errors accumulate.
+      </p>
+
+      <p>
+        <strong>Mean flow.</strong> Predict average velocity over an interval \([t_1, t_2]\); approximates single-step generation.
+      </p>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://neurips.cc/virtual/2024/tutorial/99531">NeurIPS 2024 Tutorial &mdash; Flow Matching for Generative Modeling</a> &middot; <a href="https://diffusionflow.github.io/">Google DeepMind &mdash; Diffusion Meets Flow Matching blog</a>.</p>
+
+      <h2 id="sec-sampling">12. Sampling and guidance</h2>
+
+      <h3>DDIM</h3>
+
+      <p>
+        DDIM<sup class="cite"><a href="#ref-ddim">[19]</a></sup> replaces the ancestral Markov update with a deterministic step using \(\hat x_{0\mid t}\):
+      </p>
+      <p class="display-eq">\[
+        x_{t-1} = \sqrt{\bar\alpha_{t-1}}\,\hat x_{0\mid t} + \sqrt{1-\bar\alpha_{t-1}-\sigma_t^2}\,\epsilon_\theta(x_t,t) + \sigma_t z.
+      \]</p>
+      <p>
+        \(\sigma_t=0\) &rarr; deterministic DDIM (same marginals, skip allowed). DDPM reverse <em>with</em> the diffusion term (\(g(t)d\bar w_t\)) versus DDIM reverse <em>without</em> it is the distinction to keep in mind.
+      </p>
+
+      <pre><code>@torch.no_grad()
+def ddim_sample(model, alphas_bar, steps, shape, device, eta=0.0):
+    xt = torch.randn(shape, device=device)
+    ts = torch.linspace(len(alphas_bar) - 1, 0, steps + 1).long().to(device)
+    for i in range(steps):
+        t_now, t_nxt = ts[i], ts[i + 1]
+        ab, ab_nxt = alphas_bar[t_now], alphas_bar[t_nxt]
+        eps = model(xt, t_now.expand(shape[0]))
+        x0_hat = (xt - (1 - ab).sqrt() * eps) / ab.sqrt()
+        sigma = eta * ((1 - ab_nxt) / (1 - ab) * (1 - ab / ab_nxt)).sqrt()
+        noise = torch.randn_like(xt) if eta > 0 else 0
+        xt = ab_nxt.sqrt() * x0_hat + (1 - ab_nxt - sigma**2).sqrt() * eps + sigma * noise
+    return xt</code></pre>
+
+      <h3>ODE solvers</h3>
+
+      <p>
+        Given the PF-ODE / FM velocity, higher-order solvers buy quality at fixed step count:
+      </p>
+      <ul>
+        <li><strong>Euler.</strong> \(x_{t-\Delta t} = x_t + \Delta t\,v_\theta(x_t,t)\).</li>
+        <li><strong>Midpoint.</strong> Half-step then evaluate at midpoint.</li>
+        <li><strong>Heun.</strong> Euler step, re-evaluate, average (2nd order).</li>
+        <li><strong>DPM-Solver / EDM</strong><sup class="cite"><a href="#ref-edm">[20]</a></sup>. Exploit the semi-linear structure; strong baselines.</li>
+      </ul>
+
+      <h3>Classifier-free guidance (CFG)</h3>
+
+      <p>
+        Train one network on both conditional \(\epsilon_\theta(x,t,c)\) and unconditional \(\epsilon_\theta(x,t,\varnothing)\) by randomly dropping \(c\). At inference:
+      </p>
+      <p class="display-eq">\[
+        \tilde\epsilon = \epsilon_\theta(x,t,\varnothing) + w\,(\epsilon_\theta(x,t,c) - \epsilon_\theta(x,t,\varnothing)).
+      \]</p>
+
+      <pre><code>@torch.no_grad()
+def cfg_eps(model, x, t, c, w=7.5):
+    eps_c   = model(x, t, c)
+    eps_unc = model(x, t, None)
+    return eps_unc + w * (eps_c - eps_unc)</code></pre>
+
+      <p>
+        On flow models, naive CFG <em>amplifies trajectory curvature</em>; my <a href="rectified-cfgpp.html">Rectified-CFG++</a><sup class="cite"><a href="#ref-rcfgpp">[21]</a></sup> fixes this with a predictor-corrector step.
+      </p>
+
+      <h3>Classifier guidance, DPS, MPGD</h3>
+
+      <p>
+        <strong>Classifier guidance.</strong><sup class="cite"><a href="#ref-cg">[22]</a></sup>
+        \(\nabla_x\log p(x\mid c) = \nabla_x\log p(c\mid x) + \nabla_x\log p(x)\). Uses a differentiable classifier.
+      </p>
+
+      <p>
+        <strong>DPS.</strong><sup class="cite"><a href="#ref-dps">[23]</a></sup> For inverse problems \(y = A(x)+n\):
+        \(\nabla_{x_t}\log p(y\mid x_t)\approx -\tfrac{1}{\sigma_y^2}\nabla_{x_t}\|y - A(\hat x_{0\mid t})\|^2\). Goes off-manifold.
+      </p>
+
+      <p>
+        <strong>MPGD.</strong><sup class="cite"><a href="#ref-mpgd">[24]</a></sup> Project the guidance update back onto the manifold via a VAE/autoencoder tangent. Extra forward pass; big quality win.
+      </p>
+
+      <figure>
+        <svg class="svg-figure" viewBox="0 0 860 280" aria-label="DPS off-manifold vs MPGD">
+          <defs>
+            <marker id="mArr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3 z" fill="#334155"></path>
+            </marker>
+          </defs>
+          <path d="M60 190 Q 260 70, 460 170 Q 660 260, 820 150" stroke="#0f766e" stroke-width="3.5" fill="none"></path>
+          <text x="780" y="180" fill="#0f766e" font-size="13" font-family="Inter">data manifold</text>
+          <circle cx="200" cy="140" r="6" fill="#2563eb"></circle>
+          <text x="200" y="125" text-anchor="middle" fill="#1d4ed8" font-size="12" font-family="Inter">x̂0|t</text>
+          <path d="M206 138 L 280 80" stroke="#ef4444" stroke-width="2.5" fill="none" marker-end="url(#mArr)"></path>
+          <text x="320" y="75" fill="#b91c1c" font-size="12" font-family="Inter">DPS update (off manifold)</text>
+          <circle cx="500" cy="170" r="6" fill="#2563eb"></circle>
+          <text x="500" y="155" text-anchor="middle" fill="#1d4ed8" font-size="12" font-family="Inter">x̂0|t</text>
+          <path d="M506 168 L 580 130" stroke="#ef4444" stroke-width="2.5" fill="none" stroke-dasharray="4 4" marker-end="url(#mArr)"></path>
+          <path d="M580 130 Q 620 150, 660 180" stroke="#16a34a" stroke-width="2.5" fill="none" marker-end="url(#mArr)"></path>
+          <text x="610" y="120" fill="#15803d" font-size="12" font-family="Inter">MPGD: project back via AE</text>
+          <text x="430" y="40" text-anchor="middle" fill="#334155" font-size="15" font-family="Inter" font-weight="600">DPS pushes off the manifold; MPGD maps it back.</text>
+        </svg>
+        <figcaption>Same gradient direction, different landing point.</figcaption>
+      </figure>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://sander.ai/2022/05/26/guidance.html">Sander Dieleman &mdash; Guidance: a cheat code for diffusion models</a> &middot; <a href="https://sander.ai/2023/07/20/perspectives.html">Sander Dieleman &mdash; Perspectives on diffusion</a>.</p>
+
+      <h2 id="sec-cond">13. Conditioning in generative models</h2>
+
+      <p>Three families; real systems combine them.</p>
+
+      <ol>
+        <li>
+          <strong>Architectural injection</strong>
+          <ul>
+            <li><em>Concatenation</em> \([x, c]\) &mdash; GAN/AR defaults.</li>
+            <li><em>Cross-attention</em> &mdash; T2I workhorse.</li>
+            <li><em>Conditional norms</em>:
+              <ul>
+                <li><strong>AdaIN:</strong> \(\gamma(c)\tfrac{x-\mu(x)}{\sigma(x)}+\beta(c)\).</li>
+                <li><strong>FiLM:</strong> \(c\to(\gamma,\beta)\to\gamma\odot x+\beta\).</li>
+                <li><strong>AdaLN / AdaLN-Zero:</strong> LayerNorm with scale/shift from \(c\); DiT/MM-DiT.</li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><strong>Guidance methods</strong>: CFG, classifier guidance, attention-guided sampling.</li>
+        <li>
+          <strong>Spatial / structural conditioning</strong>
+          <ul>
+            <li><strong>ControlNet</strong><sup class="cite"><a href="#ref-controlnet">[25]</a></sup>: locked base UNet + trainable copy added via zero-initialized 1&times;1 convs.</li>
+            <li><strong>T2I-Adapter</strong><sup class="cite"><a href="#ref-t2iadapter">[26]</a></sup>: lightweight side network added at intermediate layers.</li>
+            <li><strong>LoRA</strong><sup class="cite"><a href="#ref-lora">[27]</a></sup>: \(W + \Delta W = W + AB\); \(A\) Gaussian-init, \(B\) zero. Trainable params = \(r(d_\text{in}+d_\text{out})\) per layer.</li>
+          </ul>
+        </li>
+      </ol>
+
+      <pre><code>class LoRALinear(torch.nn.Module):
+    def __init__(self, base: torch.nn.Linear, r=8, alpha=16):
+        super().__init__()
+        self.base = base
+        for p in base.parameters(): p.requires_grad_(False)
+        self.A = torch.nn.Parameter(torch.randn(r, base.in_features) * 0.02)
+        self.B = torch.nn.Parameter(torch.zeros(base.out_features, r))
+        self.scale = alpha / r
+    def forward(self, x):
+        return self.base(x) + (x @ self.A.T @ self.B.T) * self.scale</code></pre>
+
+      <h3>MM-DiT (SD3 / Flux)</h3>
+
+      <p>
+        Caption encoded jointly by CLIP-L/14, CLIP-G/14, and T5-XXL. Pooled CLIP + sinusoidal timestep &rarr; MLP &rarr; AdaLN-Zero modulation. T5 token sequence is concatenated with image patch tokens; joint self-attention across the combined sequence, with per-stream norms and projections. AdaLN-Zero initializes modulation scale to zero so blocks act as identity at the start of training.
+      </p>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://arxiv.org/abs/2302.05543">ControlNet paper</a> &middot; <a href="https://huggingface.co/docs/peft/conceptual_guides/lora">HF PEFT &mdash; LoRA conceptual guide</a> &middot; <a href="https://arxiv.org/abs/2403.03206">SD3 / MM-DiT paper</a>.</p>
+
+      <h2 id="sec-t2i">14. Text-to-image design space</h2>
+
+      <p>
+        Every modern T2I/T2V decomposes on three axes. Memorize this grid.
+      </p>
+
+      <table class="ds-table">
+        <thead>
+          <tr><th>Model</th><th>Training</th><th>Latent</th><th>Backbone</th><th>Text</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>SD 1/2</td><td>DDPM</td><td>VQ-GAN</td><td>UNet</td><td>CLIP</td></tr>
+          <tr><td>SD 3 / Flux 1</td><td>Flow matching</td><td>Advanced VAE</td><td>DiT / MM-DiT</td><td>CLIP + T5</td></tr>
+          <tr><td>Flux 2 / Z-Image / Qwen-Image</td><td>Flow matching</td><td>Advanced VAE</td><td>MM-DiT</td><td>LLM/VLM/MLLM + MM-DiT</td></tr>
+          <tr><td>Transfusion / Hunyuan 3.0</td><td>Flow matching</td><td>Advanced VAE</td><td>Native-MM</td><td>Native MM tokens</td></tr>
+          <tr><td>Nano Banana / GPT-4o Image</td><td>FM + diffusion head</td><td>Advanced VAE</td><td>Native-MM</td><td>Native MM + tools</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Why CLIP alone stalled as text encoder</h3>
+
+      <ul>
+        <li>Spatial relations (&ldquo;dog left of cat&rdquo;) &mdash; weak.</li>
+        <li>Negation (&ldquo;room without a window&rdquo;) &mdash; fails.</li>
+        <li>Counting and fine-grained attributes &mdash; fails.</li>
+        <li>77-token cap &mdash; too short.</li>
+      </ul>
+      <p>
+        T5-XXL handles long captions, dense semantics, and compositional detail; SD3/Flux use <em>both</em> (CLIP for pooled, T5 for token sequence). Flux 2-era models drop CLIP and use a single LLM/VLM encoder.
+      </p>
+
+      <h3>Scaling rule</h3>
+
+      <p>
+        Rule-of-thumb: <strong>#parameters &asymp; 10&times; dataset size</strong>. Holds well for text; for T2I, data ceilings kick in as resolution climbs.
+      </p>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://stability.ai/research/stable-diffusion-3-research-paper">Stability AI &mdash; SD3 research blog</a> &middot; <a href="https://blackforestlabs.ai/announcing-black-forest-labs/">Black Forest Labs &mdash; Flux announcement</a> &middot; <a href="https://arxiv.org/abs/2408.11039">Transfusion paper (Meta)</a>.</p>
+
+      <h2 id="sec-video">15. Video generation and inverse problems</h2>
+
+      <h3>Temporal attention strategies</h3>
+
+      <p>
+        Joint 3D attention is prohibitive. Alternatives:
+      </p>
+      <ul>
+        <li><strong>Window attention.</strong> Current frame + last \(k\) neighbors.</li>
+        <li><strong>Sliding window.</strong> Stride &lt; window; smoother transitions.</li>
+        <li><strong>Factorized spatial&ndash;temporal.</strong> Alternate spatial and temporal blocks (Lumiere, Hunyuan-Video).</li>
+        <li><strong>Token compression.</strong> Compress older frames into fewer K/V tokens.</li>
+      </ul>
+
+      <h3>Latent video diffusion</h3>
+
+      <p>
+        Shared outline across Movie Gen, Sora, Veo, Hunyuan-Video, Wan, OpenSora:
+      </p>
+      <ol>
+        <li>3D VAE (or causal 3D VAE) to compress space + time.</li>
+        <li>MM-DiT backbone with alternating / joint 3D attention.</li>
+        <li>Flow matching + CFG at inference.</li>
+        <li>Camera / motion conditioning via cross-attention with motion tokens.</li>
+      </ol>
+
+      <h3>Inverse Tone Mapping (SDR&rarr;HDR)</h3>
+
+      <p>
+        From my <a href="../slides/lumaflux.html">LumaFlux</a> line of work:
+      </p>
+      <ul>
+        <li><strong>Gain-map learning.</strong> Predict per-pixel gain scaling SDR luminance.</li>
+        <li><strong>Diffusion-prior ITM.</strong> Start from SDR conditioning, generate the HDR residual; Physically-Guided Adaptation (PGA) + Perceptual Cross-Modulation (PCM).</li>
+        <li><strong>Rational Quadratic Spline (RQS) decoder.</strong> Learnable invertible tone curve.</li>
+      </ul>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://openai.com/index/video-generation-models-as-world-simulators/">OpenAI &mdash; Sora technical report</a> &middot; <a href="https://arxiv.org/abs/2412.03603">Hunyuan-Video tech report</a> &middot; <a href="https://ai.meta.com/research/movie-gen/">Meta &mdash; Movie Gen</a>.</p>
+
+      <h2 id="sec-discrete">16. Discrete diffusion</h2>
+
+      <p>
+        For tokens/molecules, noising is random state transitions. Transition matrix \(Q\) gives
+      </p>
+      <p class="display-eq">\[
+        x_t\mid x_{t-1}\sim\text{Cat}(p=x_{t-1}Q_t),\quad x_t\mid x_0\sim\text{Cat}(p=x_0\bar Q_t).
+      \]</p>
+      <p>
+        Reverse posterior
+      </p>
+      <p class="display-eq">\[
+        q(x_{t-1}\mid x_t,x_0) = x_{t-1}\,\tfrac{x_tQ_t^\top\odot x_0\bar Q_{t-1}}{x_0\bar Q_t}.
+      \]</p>
+      <p>
+        MLDM, LLaDA<sup class="cite"><a href="#ref-llada">[28]</a></sup>, and the dLLM line apply this to text generation &mdash; the language-side analogue of image diffusion.
+      </p>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://arxiv.org/abs/2107.03006">Austin et al. &mdash; Structured Denoising Diffusion Models in Discrete State-Spaces (D3PM)</a> &middot; <a href="https://arxiv.org/abs/2502.09992">LLaDA paper</a>.</p>
+
+      <h2 id="sec-llm">17. LLMs, GPT, nanoGPT</h2>
+
+      <p>
+        All modern decoder-only LLMs are thin wrappers on the same stack: tokenizer &rarr; embedding &rarr; \(N\)&times; (RMSNorm, MHA with RoPE and GQA/MLA, RMSNorm, SwiGLU FFN) &rarr; LM head. Karpathy&rsquo;s <code class="inline">nanoGPT</code><sup class="cite"><a href="#ref-nanogpt">[29]</a></sup> is the smallest fluent reference &mdash; read it end-to-end.
+      </p>
+
+      <pre><code>class GPTBlock(torch.nn.Module):
+    def __init__(self, d, h):
+        super().__init__()
+        self.ln1 = torch.nn.LayerNorm(d)
+        self.attn = MultiHeadAttention(d, h)
+        self.ln2 = torch.nn.LayerNorm(d)
+        self.ffn = torch.nn.Sequential(
+            torch.nn.Linear(d, 4*d), torch.nn.GELU(),
+            torch.nn.Linear(4*d, d),
+        )
+    def forward(self, x, mask):
+        x = x + self.attn(self.ln1(x), mask)
+        x = x + self.ffn(self.ln2(x))
+        return x</code></pre>
+
+      <h3>Sampling</h3>
+      <ul>
+        <li><strong>Top-k.</strong> Keep highest-probability \(k\) tokens, renormalize.</li>
+        <li><strong>Nucleus (top-p).</strong> Smallest set with cumulative probability \(\ge p\).</li>
+        <li><strong>Temperature.</strong> Scale logits by \(1/T\) before softmax.</li>
+      </ul>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://www.youtube.com/watch?v=kCc8FmEb1nY">Karpathy &mdash; Let&rsquo;s build GPT from scratch</a> &middot; <a href="https://stanford-cs336.github.io/spring2025/">Stanford CS336 &mdash; Language Modeling from Scratch</a>.</p>
+
+      <h2 id="sec-metrics">18. Evaluation metrics (consolidated)</h2>
+
+      <p>
+        Section 5 covered image-quality metrics; this is the cross-modality summary.
+      </p>
+      <table class="ds-table">
+        <thead><tr><th>Modality</th><th>Fidelity</th><th>Alignment</th><th>Preference</th><th>Holistic</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Image gen</td>
+            <td>FID, PSNR, SSIM, VIF, LPIPS</td>
+            <td>CLIPScore, VQAScore</td>
+            <td>HPSv2, ImageReward</td>
+            <td>MLLM-judge, HEIM</td>
+          </tr>
+          <tr>
+            <td>Video gen</td>
+            <td>FVD, CLIP-Temp/FrameSim</td>
+            <td>CLIPScore over frames</td>
+            <td>(learned)</td>
+            <td>VBench v2, PhysGenBench, VideoPhy2</td>
+          </tr>
+          <tr>
+            <td>LLM</td>
+            <td>perplexity</td>
+            <td>BLEU, ROUGE</td>
+            <td>ArenaHard, AlpacaEval</td>
+            <td>MMLU, GSM8K, HELM</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://crfm.stanford.edu/helm/">Stanford HELM</a> and <a href="https://crfm.stanford.edu/helm/heim/latest/">HEIM</a> for holistic LLM / image eval &middot; <a href="https://vchitect.github.io/VBench-project/">VBench leaderboard</a> for video.</p>
+
+      <h2 id="sec-lifecycle">19. Training lifecycle: pretraining &rarr; mid-training &rarr; post-training</h2>
+
+      <p>
+        Modern generative models (LLMs and diffusion/flow image/video models) follow a three-stage pipeline. This section is a pointer map &mdash; know what each stage does, what data it consumes, and what objective it optimizes.
+      </p>
+
+      <figure>
+        <svg class="svg-figure" viewBox="0 0 860 220" aria-label="Training lifecycle: pretraining, mid-training, post-training">
+          <defs>
+            <marker id="arrLife" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3 z" fill="#334155"></path>
+            </marker>
+          </defs>
+          <rect x="40" y="70" width="200" height="80" rx="14" fill="#eff6ff" stroke="#1d4ed8" stroke-width="1.5"></rect>
+          <text x="140" y="100" text-anchor="middle" fill="#1d4ed8" font-size="15" font-family="Inter" font-weight="600">Pretraining</text>
+          <text x="140" y="122" text-anchor="middle" fill="#334155" font-size="12" font-family="Inter">broad web-scale data</text>
+          <text x="140" y="138" text-anchor="middle" fill="#334155" font-size="12" font-family="Inter">next-token / &epsilon;-loss</text>
+
+          <rect x="330" y="70" width="200" height="80" rx="14" fill="#ecfeff" stroke="#0e7490" stroke-width="1.5"></rect>
+          <text x="430" y="100" text-anchor="middle" fill="#0369a1" font-size="15" font-family="Inter" font-weight="600">Mid-training</text>
+          <text x="430" y="122" text-anchor="middle" fill="#334155" font-size="12" font-family="Inter">long-context, math/code</text>
+          <text x="430" y="138" text-anchor="middle" fill="#334155" font-size="12" font-family="Inter">higher-res, domain mix</text>
+
+          <rect x="620" y="70" width="200" height="80" rx="14" fill="#f0fdf4" stroke="#15803d" stroke-width="1.5"></rect>
+          <text x="720" y="100" text-anchor="middle" fill="#15803d" font-size="15" font-family="Inter" font-weight="600">Post-training</text>
+          <text x="720" y="122" text-anchor="middle" fill="#334155" font-size="12" font-family="Inter">SFT &rarr; preferences &rarr; RL</text>
+          <text x="720" y="138" text-anchor="middle" fill="#334155" font-size="12" font-family="Inter">align to humans/tasks</text>
+
+          <path d="M244 110 L 325 110" stroke="#334155" stroke-width="2" marker-end="url(#arrLife)"></path>
+          <path d="M534 110 L 615 110" stroke="#334155" stroke-width="2" marker-end="url(#arrLife)"></path>
+
+          <text x="430" y="40" text-anchor="middle" fill="#334155" font-size="13" font-family="Inter" font-weight="600">&ldquo;Raw model&rdquo; &rarr; &ldquo;capable model&rdquo; &rarr; &ldquo;useful model&rdquo;</text>
+          <text x="430" y="195" text-anchor="middle" fill="#64748b" font-size="12" font-family="Inter">compute shifts right; data quality shifts right; data volume shifts left</text>
+        </svg>
+        <figcaption>
+          Pretraining dominates compute; post-training dominates quality gains. Mid-training is the bridge that extends context, injects math/code/reasoning, and raises image resolution.
+        </figcaption>
+      </figure>
+
+      <h3>Pretraining</h3>
+
+      <p>
+        Learn a <em>world model</em> by predicting the next piece of content on an enormous, minimally curated corpus.
+      </p>
+      <ul>
+        <li><strong>Objective (LLM).</strong> Next-token cross-entropy
+          \(\mathcal{L} = -\mathbb{E}_{x}\sum_{t}\log p_\theta(x_t\mid x_{&lt;t})\).</li>
+        <li><strong>Objective (diffusion/FM).</strong> \(\epsilon\)-prediction or velocity regression (sections 9 and 11). Trained on web-scale image&ndash;text pairs (LAION-5B, DataComp, CommonPool, internal crawls).</li>
+        <li><strong>Data.</strong> FineWeb / FineWeb-Edu, RedPajama, RefinedWeb, The Stack, plus code/math specialty mixes. Quality filtering (CLIP score, perplexity, fastText) and heavy deduplication matter more than raw volume.</li>
+        <li><strong>Compute profile.</strong> Long horizon (weeks&ndash;months), thousands of accelerators, LR warmup + cosine decay, effective batches of ~4M tokens, FP8/BF16 mixed precision, ZeRO-3 or FSDP sharding.</li>
+        <li><strong>Eval.</strong> Perplexity on held-out mix; a small suite of in-domain probes (MMLU, HumanEval for LLMs; small FID/CLIPScore for image models). Full eval comes later.</li>
+      </ul>
+
+      <h3>Mid-training (a.k.a. continued pretraining, annealed pretraining)</h3>
+
+      <p>
+        A second, smaller pretraining stage that reshapes the model&rsquo;s capability profile before alignment. Much more impactful than the literature suggests.
+      </p>
+      <ul>
+        <li><strong>Long-context extension.</strong> Extend context from 4K/8K to 32K &rarr; 128K &rarr; 1M. Techniques: RoPE base rescaling (NTK-aware, YaRN), PI (position interpolation), needle-in-haystack eval.</li>
+        <li><strong>Capability injection.</strong> Upsample math (OpenWebMath, NuminaMath), code (The Stack v2), reasoning chains. The &ldquo;annealing&rdquo; trick: near the end of pretraining, switch the data mix heavily toward high-quality sources and drop LR sharply.</li>
+        <li><strong>Domain adaptation.</strong> Medical / legal / finance / multilingual corpora.</li>
+        <li><strong>For image/video models:</strong> resolution curriculum (64 &rarr; 256 &rarr; 1024 &rarr; native), aspect-ratio bucketing, human-aesthetic filtering, synthetic-caption rewriting with a VLM.</li>
+      </ul>
+
+      <h3>Post-training</h3>
+
+      <p>
+        Turn a raw next-token predictor / image denoiser into something that actually follows instructions and matches human preferences.
+      </p>
+
+      <h4>1. Supervised Fine-Tuning (SFT)</h4>
+
+      <p>
+        Continue the pretraining objective on a curated set of (instruction, high-quality response) pairs. Scale: 10K&ndash;1M examples; lower LR (1e-5 to 5e-6 range); 1&ndash;3 epochs. Loss is the same token-level CE but only on the response tokens (mask the prompt).
+      </p>
+
+      <pre><code>def sft_loss(logits, labels, response_mask):
+    # logits: (B, T, V); labels: (B, T); response_mask: (B, T) 1 where response
+    shift_logits = logits[:, :-1].contiguous()
+    shift_labels = labels[:, 1:].contiguous()
+    shift_mask = response_mask[:, 1:].contiguous().float()
+    ce = F.cross_entropy(shift_logits.transpose(1, 2), shift_labels, reduction='none')
+    return (ce * shift_mask).sum() / shift_mask.sum().clamp_min(1)</code></pre>
+
+      <p>
+        Common data: FLAN, Tulu, OpenAssistant, Alpaca, ShareGPT, instruction-synth with a strong teacher (&ldquo;distillation SFT&rdquo;). Synthetic data is now the majority of most SFT pipelines.
+      </p>
+
+      <h4>2. Preference data collection</h4>
+
+      <p>
+        Triples \((x, y_w, y_l)\) with a human or AI preference over responses \(y_w \succ y_l\). Sources: human labelers (UltraFeedback), strong teacher models (<strong>RLAIF</strong>), or self-play with a reward model.
+      </p>
+
+      <h4>3. Reward modeling + RLHF (PPO)</h4>
+
+      <p>
+        Fit a scalar reward model \(r_\phi(x,y)\) to preferences via a Bradley&ndash;Terry logistic loss
+        \(\mathcal{L}_{RM} = -\log\sigma(r_\phi(x,y_w) - r_\phi(x,y_l))\).
+        Then PPO the policy with \(r_\phi\) plus a per-token KL anchor
+        \(r_t = r_\phi(x,y) - \beta\log\tfrac{\pi_\theta(y_t\mid\cdot)}{\pi_\text{ref}(y_t\mid\cdot)}\).
+        Full math and loss in <a href="#sec-rl">section 22</a>.
+      </p>
+
+      <h4>4. Direct Preference Optimization (DPO)</h4>
+
+      <p>
+        Skip the reward model. Optimize the policy directly on preference pairs (derivation in section 22). In practice DPO is the baseline for almost every open-source post-training pipeline because it is stable, single-loop, and reward-model-free.
+      </p>
+
+      <h4>5. GRPO / DAPO &mdash; critic-free RL</h4>
+
+      <p>
+        Sample \(N\) responses per prompt, normalize rewards within the group, apply PPO-style token-level clipping. GRPO removed the value network entirely; DAPO further fixes clipping, sampling, and gradient-dilution pathologies. See section 22.
+      </p>
+
+      <h4>6. Rejection sampling / Best-of-N</h4>
+
+      <p>
+        Generate \(N\) candidates, score each with a reward model, keep the best. Embarrassingly simple, widely used as both a baseline and for generating SFT data for the next iteration (&ldquo;rejection-sampling fine-tuning&rdquo;, RSFT).
+      </p>
+
+      <h4>7. Constitutional AI / RLAIF</h4>
+
+      <p>
+        Replace human preference labels with AI-generated critiques against a written constitution. Scales preference collection to millions of examples cheaply; most frontier labs use a hybrid of human + AI labels.
+      </p>
+
+      <h3>Post-training for diffusion / flow models</h3>
+
+      <p>
+        The same ideas transfer &mdash; &ldquo;response&rdquo; becomes &ldquo;generated image/video&rdquo; and the reward is an image preference / aesthetic / alignment score (ImageReward, HPSv2, PickScore, VQAScore).
+      </p>
+      <ul>
+        <li><strong>SFT for diffusion.</strong> Fine-tune with the standard diffusion loss on a curated high-quality subset (e.g., aesthetically filtered, human-preferred).</li>
+        <li><strong>Diffusion-DPO.</strong> DPO adapted to the diffusion objective: compare noise predictions on winning vs losing images per timestep.</li>
+        <li><strong>DRaFT / ReFL / AlignProp.</strong> Backprop a differentiable reward through truncated sampling; very effective at preference alignment but compute-heavy.</li>
+        <li><strong>DPOK.</strong> PPO-style policy gradient on the diffusion sampler.</li>
+        <li><strong>LoRA preference tuning.</strong> Do any of the above through low-rank adapters for cheap style / aesthetic personalization.</li>
+      </ul>
+
+      <div class="callout">
+        <strong>Rule of thumb.</strong> Pretraining buys <em>capability</em>; mid-training buys <em>context and domain competence</em>; post-training buys <em>usefulness and safety</em>. Most recent frontier wins have come from better post-training (o1/o3-style reasoning via RL, DeepSeek-R1 via GRPO on verifiable rewards), not from bigger pretraining.
+      </div>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://rlhfbook.com/">Nathan Lambert &mdash; The RLHF Book</a> &middot; <a href="https://www.interconnects.ai/p/post-training-101">Interconnects &mdash; Post-Training 101</a> &middot; <a href="https://github.com/huggingface/alignment-handbook">HF Alignment Handbook</a> &middot; <a href="https://arxiv.org/abs/2501.12948">DeepSeek-R1 technical report</a>.</p>
+
+      <h2 id="sec-training">20. Training nuances</h2>
+
+      <h3>Mixed precision</h3>
+
+      <p>
+        FP32 master copy + FP16/BF16 computation; loss scaling to prevent underflow of small gradients; BF16 is preferred (same exponent range as FP32, no loss scaling needed).
+      </p>
+
+      <h3>Data-parallel vs ZeRO vs FSDP</h3>
+
+      <ul>
+        <li><strong>DDP.</strong> Every GPU has a full model copy; gradients all-reduced each step.</li>
+        <li><strong>ZeRO-1/2/3</strong><sup class="cite"><a href="#ref-zero">[30]</a></sup>: shard optimizer state, then gradients, then parameters across GPUs.</li>
+        <li><strong>FSDP</strong><sup class="cite"><a href="#ref-fsdp">[31]</a></sup>: PyTorch-native ZeRO-3 equivalent; all-gather + reduce-scatter per layer; integrates with activation checkpointing.</li>
+      </ul>
+
+      <h3>Memory budget back-of-envelope</h3>
+
+      <p>
+        At fp16 training with Adam: params (2B) + grads (2B) + Adam moments (8B) + activations (depth-dependent) &rarr; ~12B + activations per parameter-byte. A 7B model needs ~84 GB just for weights, grads, and optimizer state &mdash; before activations. FSDP/ZeRO-3 shards that across N GPUs.
+      </p>
+
+      <h3>Gradient accumulation &amp; EMA</h3>
+
+      <p>
+        Accumulate gradients over \(k\) micro-batches before stepping the optimizer &rarr; effective batch \(B\cdot k\) at no extra memory. EMA of weights (\(\theta_\text{ema}\leftarrow\alpha\theta_\text{ema}+(1-\alpha)\theta\), \(\alpha\approx0.999\)) is non-optional for diffusion training; sample with EMA weights.
+      </p>
+
+      <pre><code>class EMA:
+    def __init__(self, model, decay=0.999):
+        self.decay = decay
+        self.shadow = {n: p.detach().clone() for n, p in model.named_parameters()}
+    @torch.no_grad()
+    def update(self, model):
+        for n, p in model.named_parameters():
+            self.shadow[n].mul_(self.decay).add_(p.detach(), alpha=1 - self.decay)</code></pre>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://huggingface.co/spaces/nanotron/ultrascale-playbook">HF &mdash; The Ultra-Scale Playbook (Training LLMs on GPU Clusters)</a> &middot; <a href="https://docs.pytorch.org/tutorials/intermediate/FSDP_advanced_tutorial.html">PyTorch FSDP Advanced Tutorial</a>.</p>
+
+      <h2 id="sec-inference">21. Inference nuances</h2>
+
+      <h3>Quantization</h3>
+
+      <p>
+        FP32 &rarr; FP16 (&times;2) &rarr; INT8 (&times;4) &rarr; INT4 (&times;8). Two common schemes:
+      </p>
+      <ul>
+        <li><strong>Zero-point (asymmetric).</strong> Map \([x_\min, x_\max]\) to \([0, 2^b-1]\); preserves zero exactly &mdash; important for ReLU activations.</li>
+        <li><strong>Absolute-max (symmetric).</strong> Map \([-|x|_\max, |x|_\max]\) to \([-2^{b-1}, 2^{b-1}-1]\).</li>
+      </ul>
+
+      <pre><code>def quantize_int8_symmetric(x):
+    scale = x.abs().max() / 127
+    q = (x / scale).round().clamp(-128, 127).to(torch.int8)
+    return q, scale
+
+def dequantize(q, scale):
+    return q.float() * scale</code></pre>
+
+      <p>
+        Activation-aware schemes (AWQ, GPTQ, AQLM) keep sensitive channels at higher precision; LLM.int8()<sup class="cite"><a href="#ref-llmint8">[32]</a></sup> handles outlier features in fp16 while quantizing the rest.
+      </p>
+
+      <h3>Pruning and distillation</h3>
+
+      <ul>
+        <li><strong>Pruning.</strong> Zero the lowest-magnitude \(x\%\) of weights per layer; structured pruning zeros entire heads/channels. Retrain or LoRA-adapt to recover.</li>
+        <li><strong>Distillation.</strong> Student learns \(\text{CE}(\text{student}, \text{true}) + \lambda\,D_\text{KL}(\text{student}\Vert\text{teacher})\).</li>
+        <li><strong>Distribution-matching distillation.</strong> Collapses multi-step image gen to 1&ndash;4 steps by matching output distributions at each noise level. Consistency models and LCM live in this family.</li>
+      </ul>
+
+      <h3>Serving stacks</h3>
+
+      <ul>
+        <li><strong>vLLM.</strong> Paged KV cache + continuous batching; the SOTA OSS LLM server.</li>
+        <li><strong>TensorRT-LLM.</strong> NVIDIA&rsquo;s fused-kernel engine; best single-node throughput.</li>
+        <li><strong>Continuous batching.</strong> Merge new requests into in-flight batches at every decode step; throughput &uparrow; by 2&ndash;5&times; over static batching.</li>
+      </ul>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://www.anyscale.com/blog/continuous-batching-llm-inference">Anyscale &mdash; Continuous batching for LLM inference</a> &middot; <a href="https://blog.vllm.ai/2023/06/20/vllm.html">vLLM &mdash; PagedAttention blog</a>.</p>
+
+      <h2 id="sec-rl">22. RL alignment &mdash; PPO, DPO, GRPO, DAPO in detail</h2>
+
+      <h3>PPO + RLHF</h3>
+
+      <p>
+        Three models: policy, reward, value. Clipped surrogate objective:
+      </p>
+      <p class="display-eq">\[
+        \mathcal{L}_\text{PPO} = \mathbb{E}\!\left[\min\!\left(r_t A_t,\ \text{clip}(r_t, 1-\varepsilon, 1+\varepsilon) A_t\right)\right], \quad r_t = \tfrac{\pi_\theta(a_t\mid s_t)}{\pi_\text{ref}(a_t\mid s_t)}.
+      \]</p>
+      <p>
+        Advantage from GAE; KL penalty \(-\beta D_\text{KL}(\pi_\theta\Vert\pi_\text{ref})\) anchors the policy.
+      </p>
+
+      <h3>DPO</h3>
+
+      <p>
+        DPO<sup class="cite"><a href="#ref-dpo">[33]</a></sup> aligns on preference pairs \((y_w, y_l)\) without a reward model:
+      </p>
+      <p class="display-eq">\[
+        \mathcal{L}_\text{DPO} = -\mathbb{E}\!\left[\log\sigma\!\left(\beta\log\tfrac{\pi_\theta(y_w)}{\pi_\text{ref}(y_w)} - \beta\log\tfrac{\pi_\theta(y_l)}{\pi_\text{ref}(y_l)}\right)\right].
+      \]</p>
+
+      <pre><code>def dpo_loss(pol_w, pol_l, ref_w, ref_l, beta=0.1):
+    # pol_w, ref_w: log-probs under policy / reference for chosen
+    # pol_l, ref_l: same for rejected
+    return -F.logsigmoid(beta * ((pol_w - ref_w) - (pol_l - ref_l))).mean()</code></pre>
+
+      <h3>GRPO</h3>
+
+      <p>
+        GRPO<sup class="cite"><a href="#ref-grpo">[34]</a></sup> drops the critic. For each prompt, sample \(N\) responses, score, and normalize within group:
+      </p>
+      <p class="display-eq">\[
+        A_i = \tfrac{r_i - \text{mean}(R_\text{group})}{\text{std}(R_\text{group})+\varepsilon}.
+      \]</p>
+
+      <pre><code>def grpo_advantages(rewards):                      # rewards: (G,)
+    return (rewards - rewards.mean()) / (rewards.std() + 1e-6)</code></pre>
+
+      <h3>DAPO</h3>
+
+      <p>
+        DAPO addresses four GRPO failure modes<sup class="cite"><a href="#ref-dapo-blog">[35]</a></sup>:
+      </p>
+      <ol>
+        <li>Wasted learning signal (GRPO discards \(A=0\) samples).</li>
+        <li>Fixed \(\varepsilon\) clipping is too aggressive for high-reward samples &rarr; <strong>Clip-Higher</strong>: asymmetric \((1+\text{high}, 1-\text{low})\).</li>
+        <li>Redundant sampling &rarr; <strong>dynamic sampling</strong> (keep only samples with non-trivial advantage).</li>
+        <li>Gradient dilution in long sequences &rarr; <strong>token-level gradient loss</strong> (average over all tokens across batch, not per-sample then over samples).</li>
+      </ol>
+
+      <h3>Best-of-N</h3>
+
+      <p>
+        Sample \(N\) outputs at \(T=0.7\), rank by reward model, keep the best. Embarrassingly simple, hard to beat at small \(N\).
+      </p>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://huggingface.co/blog/NormalUhr/grpo-to-dapo-and-gspo">HF blog &mdash; From GRPO to DAPO and GSPO</a> &middot; <a href="https://huggingface.co/docs/trl/">HF TRL library docs</a> (DPO, PPO, GRPO implementations).</p>
+
+      <h2 id="sec-papers">23. Paper trace and behavioral</h2>
+
+      <p>
+        For image-gen / quality / video roles, I lead with three papers &mdash; one minute each.
+      </p>
+      <ol>
+        <li><strong>Rectified-CFG++ (NeurIPS 2025).</strong> <em>&ldquo;Standard CFG breaks on flow models because it amplifies trajectory curvature. We introduce a predictor-corrector guidance with zero extra training cost that fixes artifacts on Flux, SD3, and Lumina-Next, improves text rendering, and comes with theoretical guarantees.&rdquo;</em> &mdash; <a href="rectified-cfgpp.html">blog</a>.</li>
+        <li><strong>HDR-Q (CVPR 2026).</strong> <em>&ldquo;First multimodal LLM for HDR video quality assessment, with HAPO: contrastive KL, dual-entropy regularization, and SigLIP-2 HDR-aware encoding.&rdquo;</em> &mdash; <a href="../slides/hdrq.html">slides</a>.</li>
+        <li><strong>LumaFlux.</strong> <em>&ldquo;SDR-to-HDR inverse tone mapping using Flux 12B; 17M trainable parameters via PGA, PCM, and a Rational Quadratic Spline decoder.&rdquo;</em> &mdash; <a href="../slides/lumaflux.html">slides</a>.</li>
+      </ol>
+
+      <p>
+        Rehearse three lengths: 30-second, 2-minute, 10-minute. Let the interviewer pick.
+      </p>
+
+      <h2 id="sec-checklist">Checklist for the night before</h2>
+
+      <ul class="plain-notes">
+        <li><strong>Python basics</strong> (GC, PEP 8, <code class="inline">*args/**kwargs</code>) &mdash; 60 seconds.</li>
+        <li><strong>MLE for a Gaussian</strong> with code.</li>
+        <li><strong>CNN output formula</strong> with one worked example.</li>
+        <li><strong>Scaled dot-product attention</strong> from scratch &mdash; derive and code.</li>
+        <li><strong>RoPE 1D/2D/3D</strong>, ALiBi, sinusoidal: pros/cons each.</li>
+        <li><strong>KV cache</strong> back-of-envelope (30B, 48-layer, 7168-dim).</li>
+        <li><strong>FlashAttention online softmax</strong> identity.</li>
+        <li><strong>VAE ELBO</strong> both derivations in 60 seconds.</li>
+        <li><strong>DDPM forward + reverse + \(\epsilon\) loss</strong> with code.</li>
+        <li><strong>Tweedie</strong> and \(\hat x_{0\mid t}\).</li>
+        <li><strong>VP-SDE vs VE-SDE</strong> table.</li>
+        <li><strong>Rectified flow loss</strong>, reflow, logit-normal time.</li>
+        <li><strong>DDIM step</strong> (stochastic &harr; deterministic).</li>
+        <li><strong>CFG</strong> in \(\epsilon\) and score form.</li>
+        <li><strong>DPS vs MPGD.</strong></li>
+        <li><strong>T2I design-space table.</strong></li>
+        <li><strong>SSIM, PSNR, VIF intuition</strong>; when FID saturates.</li>
+        <li><strong>Retinex and color spaces</strong>; PQ vs HLG.</li>
+        <li><strong>PPO / DPO / GRPO / DAPO</strong> one-liners with DAPO fixes.</li>
+        <li><strong>Three papers of my own</strong>, three durations each.</li>
+        <li><strong>One LeetCode-medium</strong> on the morning of.</li>
+      </ul>
+
+      <h2 id="sec-reading">Curated reading list</h2>
+
+      <p>
+        Resources I came back to repeatedly during prep. Grouped by ladder stage.
+      </p>
+
+      <div class="callout">
+        <strong>Live companion:</strong> my running <a href="https://meliorate.notion.site/287eed6188c380b09abfef83c3105203?v=287eed6188c381b9b0a9000c42c9a98e" target="_blank" rel="noopener">Literature notebook</a> on Notion has the paper-by-paper notes (HDR, SDR-to-HDR, diffusion, flow matching, video ITM, multimodal diffusion) along with tags, figures, and summaries that feed this post.
+      </div>
+
+      <h3>Foundations (DL / CUDA / CV)</h3>
+
+      <div class="callout">
+        <strong>General note.</strong> Most newer Stanford courses cover the foundations well and the lectures are on YouTube &mdash; just search the topic and pick the most recent offering. The list below is what I keep coming back to, but the honest meta-advice is: find the latest semester of <em>CS229</em> (ML), <em>CS231n</em> (CV), <em>CS224N</em> (NLP), <em>CS25</em> (Transformers United), <em>CS336</em> (LLMs from Scratch), or <em>CS330</em> (multitask &amp; meta-learning), open the course website alongside the YouTube playlist, and read.
+      </div>
+
+      <ul>
+        <li><a href="https://www.bishopbook.com/">Bishop &amp; Bishop &mdash; Deep Learning: Foundations and Concepts (2023)</a>. Modern, textbook-level replacement for Goodfellow; full HTML is free.</li>
+        <li><a href="https://d2l.ai/">Dive into Deep Learning (d2l.ai)</a>. Continuously updated; interactive PyTorch/JAX code alongside every chapter.</li>
+        <li><a href="https://www.youtube.com/playlist?list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ">Karpathy &mdash; Neural Networks: Zero to Hero</a> + <a href="https://github.com/karpathy/nanoGPT">nanoGPT</a> / <a href="https://github.com/karpathy/nanochat">nanochat</a>. Micrograd &rarr; makemore &rarr; GPT &rarr; tokenizers &rarr; nanochat, end-to-end and all runnable.</li>
+        <li><a href="https://lilianweng.github.io/">Lilian Weng&rsquo;s Lil&rsquo;Log</a>. Still unmatched as a survey blog for attention, VAEs, diffusion, SSL, RLHF, alignment.</li>
+        <li><a href="https://jalammar.github.io/">Jay Alammar</a>. Visual explanations of transformers, LLMs, embeddings.</li>
+        <li><a href="https://www.3blue1brown.com/topics/neural-networks">3Blue1Brown &mdash; Neural Networks series</a>. The best visual intuition for backprop and attention.</li>
+        <li><a href="https://colah.github.io/">Chris Olah&rsquo;s blog</a> and <a href="https://distill.pub/">Distill</a>. Mechanistic / interpretability intuition that still transfers.</li>
+        <li><a href="https://stanford-cs336.github.io/spring2025/">Stanford CS336 &mdash; Language Modeling from Scratch (Percy Liang, Tatsu Hashimoto, 2024/2025)</a>. The single best modern &ldquo;build an LLM end-to-end&rdquo; course.</li>
+        <li><a href="https://web.stanford.edu/class/cs25/">Stanford CS25 &mdash; Transformers United</a>. Guest-lecture series with authors of many of the papers you&rsquo;ll be asked about.</li>
+        <li><a href="https://cs231n.stanford.edu/">Stanford CS231n</a> (latest semester). Still canonical for CNNs and the vision stack.</li>
+        <li><a href="https://docs.nvidia.com/cuda/pdf/CUDA_C_Programming_Guide.pdf">NVIDIA CUDA C++ Programming Guide</a> + the <a href="https://github.com/gpu-mode/lectures">GPU Mode lecture series / Discord</a>. Modern, kernel-writing-focused CUDA learning path that supersedes the older tutorials.</li>
+        <li><a href="https://huggingface.co/learn/computer-vision-course/en/unit0/welcome/welcome">Hugging Face Computer Vision Course</a> for hands-on CV with modern backbones.</li>
+      </ul>
+
+      <h3>SSL &amp; GANs</h3>
+      <ul>
+        <li><a href="https://lilianweng.github.io/posts/2019-11-10-self-supervised/">Self-Supervised Representation Learning &mdash; Lilian Weng</a>.</li>
+        <li><a href="https://lilianweng.github.io/posts/2021-05-31-contrastive/">Contrastive Representation Learning &mdash; Lilian Weng</a>.</li>
+        <li><a href="https://github.com/jason718/awesome-self-supervised-learning">awesome-self-supervised-learning</a>.</li>
+        <li><a href="https://arxiv.org/abs/1701.00160">Goodfellow NIPS 2016 GAN Tutorial</a>.</li>
+      </ul>
+
+      <h3>Transformers, LLMs, GPT</h3>
+      <ul>
+        <li><a href="https://papers.neurips.cc/paper/7181-attention-is-all-you-need.pdf">Attention Is All You Need</a>.</li>
+        <li><a href="https://jalammar.github.io/illustrated-transformer/">The Illustrated Transformer</a>.</li>
+        <li><a href="https://huggingface.co/learn/llm-course/en/chapter1/1">Hugging Face LLM Course</a>.</li>
+        <li><a href="https://github.com/karpathy/nanoGPT">karpathy/nanoGPT</a>, <a href="https://github.com/karpathy/ng-video-lecture">ng-video-lecture</a>.</li>
+        <li><a href="https://github.com/karpathy/nanochat">karpathy/nanochat</a> &mdash; minimal end-to-end ChatGPT stack.</li>
+        <li><a href="https://www.youtube.com/playlist?list=PLoROMvodv4rOSH4v6133s9LFPRHjEmbmJ">Stanford CS224N</a>.</li>
+      </ul>
+
+      <h3>Diffusion / Flow Matching / Rectified Flow</h3>
+      <ul>
+        <li><a href="https://lilianweng.github.io/posts/2021-07-11-diffusion-models/">What are Diffusion Models? &mdash; Lilian Weng</a>.</li>
+        <li><a href="https://calvinyluo.com/2022/08/26/diffusion-tutorial.html">Understanding Diffusion Models: A Unified Perspective &mdash; Calvin Luo</a>.</li>
+        <li><a href="https://huggingface.co/learn/diffusion-course/en/unit0/1">Hugging Face Diffusion Models Course</a>.</li>
+        <li><a href="https://arxiv.org/abs/2210.02747">Flow Matching for Generative Modeling &mdash; Lipman et al.</a>.</li>
+        <li><a href="https://arxiv.org/abs/2209.03003">Flow Straight and Fast (Rectified Flow) &mdash; Liu et al.</a>.</li>
+        <li><a href="https://github.com/gnobitab/RectifiedFlow">Rectified Flow official repo</a>.</li>
+        <li><a href="https://neurips.cc/virtual/2024/tutorial/99531">NeurIPS 2024 Tutorial &mdash; Flow Matching for Generative Modeling</a>.</li>
+        <li>MIT 6.S184 &ldquo;The Principles of Diffusion Models and Flow Matching&rdquo; (spring 2026) &mdash; course notes are the densest single source I know.</li>
+      </ul>
+
+      <h3>Training large models</h3>
+      <ul>
+        <li><a href="https://github.com/deepspeedai/DeepSpeed">DeepSpeed</a>, <a href="https://www.deepspeed.ai/tutorials/zero/">ZeRO tutorial</a>.</li>
+        <li><a href="https://huggingface.co/docs/accelerate/en/usage_guides/fsdp">HF Accelerate FSDP docs</a>, <a href="https://docs.pytorch.org/tutorials/intermediate/FSDP_advanced_tutorial.html">PyTorch Advanced FSDP</a>.</li>
+        <li><a href="https://arxiv.org/html/2407.20018v1">Efficient Training of Large Language Models on Distributed Infrastructure (2024 survey)</a>.</li>
+        <li>Hugging Face <em>Ultra-Scale Playbook</em> &mdash; training LLMs on GPU clusters.</li>
+        <li>Hugging Face <em>Smol Training Playbook</em> &mdash; secrets to building world-class small LLMs.</li>
+      </ul>
+
+      <h3>Inference</h3>
+      <ul>
+        <li><a href="https://arxiv.org/abs/2208.07339">LLM.int8() &mdash; Dettmers et al.</a>.</li>
+        <li><a href="https://huggingface.co/blog/hf-bitsandbytes-integration">HF &times; bitsandbytes 8-bit integration</a>.</li>
+        <li><a href="https://www.anyscale.com/blog/continuous-batching-llm-inference">Continuous batching for LLM inference</a>.</li>
+        <li><a href="https://docs.vllm.ai/">vLLM</a>, <a href="https://github.com/NVIDIA/TensorRT-LLM">TensorRT-LLM</a>.</li>
+      </ul>
+
+      <h3>RL alignment</h3>
+      <ul>
+        <li><a href="https://rlhfbook.com/">RLHF Book &mdash; Nathan Lambert</a>.</li>
+        <li><a href="https://huggingface.co/blog/NormalUhr/grpo-to-dapo-and-gspo">From GRPO to DAPO and GSPO &mdash; HF blog</a>.</li>
+      </ul>
+
+      <h3>Interview question banks</h3>
+      <ul>
+        <li><a href="https://github.com/alirezadir/Machine-Learning-Interviews">alirezadir/Machine-Learning-Interviews</a>.</li>
+        <li><a href="https://github.com/amitshekhariitbhu/machine-learning-interview-questions">amitshekhariitbhu/machine-learning-interview-questions</a>.</li>
+        <li><a href="https://github.com/Devinterview-io/llms-interview-questions">Devinterview-io/llms-interview-questions</a>.</li>
+        <li><a href="https://github.com/KalyanKS-NLP/LLM-Interview-Questions-and-Answers-Hub">LLM Interview Q&amp;A Hub</a>.</li>
+        <li><a href="https://github.com/llmgenai/LLMInterviewQuestions">llmgenai/LLMInterviewQuestions</a>.</li>
+        <li><a href="https://github.com/a-tabaza/genai_interview_questions">a-tabaza/genai_interview_questions</a>.</li>
+        <li><a href="https://github.com/aishwaryanr/awesome-generative-ai-guide">awesome-generative-ai-guide</a>.</li>
+        <li><a href="https://arxiv.org/pdf/2201.00650">A Book for ML/DL Interview Questions (arXiv)</a>.</li>
+      </ul>
+
+      <h3>Coding practice</h3>
+      <ul>
+        <li><a href="https://neetcode.io/practice/practice/neetcode150">NeetCode 150</a>.</li>
+        <li><a href="https://leetcode.com/">LeetCode</a> &mdash; target the 300 most-frequent list.</li>
+        <li><a href="https://github.com/ombharatiya/FAANG-Coding-Interview-Questions">FAANG-Coding-Interview-Questions</a>.</li>
+        <li><a href="https://www.youtube.com/playlist?list=PLgUwDviBIf0rGEWe64KWas0Nryn7SCRWw">Graph series (Aditya Verma)</a>, <a href="https://www.youtube.com/playlist?list=PLbgVysG3YYf1vPn2OO1pNrJfHGQXydxX7">DP series</a>, <a href="https://www.youtube.com/playlist?list=PLgUwDviBIf0rGlzIn_7rsaR2FQ5e6ZOL9">Recursion series</a>.</li>
+      </ul>
+
+      <h2 id="sec-references">References</h2>
+      <ol class="references">
+        <li id="ref-neetcode"><a href="https://neetcode.io/">NeetCode &mdash; LeetCode pattern-based prep.</a></li>
+        <li id="ref-vif"><a href="https://ieeexplore.ieee.org/document/1576816">Sheikh &amp; Bovik, Image Information and Visual Quality (VIF), IEEE TIP 2006.</a></li>
+        <li id="ref-dover"><a href="https://arxiv.org/abs/2211.04894">Wu et al., DOVER: Exploring Video Quality Assessment Through Aesthetic and Technical Perspectives, 2022.</a></li>
+        <li id="ref-hps"><a href="https://arxiv.org/abs/2306.09341">Wu et al., Human Preference Score v2 (HPSv2), 2023.</a></li>
+        <li id="ref-vbench"><a href="https://arxiv.org/abs/2311.17982">Huang et al., VBench: Comprehensive Benchmark Suite for Video Generative Models, 2023.</a></li>
+        <li id="ref-cs231n"><a href="https://cs231n.github.io/">Stanford CS231n &mdash; Convolutional Neural Networks for Visual Recognition.</a></li>
+        <li id="ref-flash"><a href="https://arxiv.org/abs/2205.14135">Dao et al., FlashAttention: Fast and Memory-Efficient Exact Attention, 2022.</a></li>
+        <li id="ref-gqa"><a href="https://arxiv.org/abs/2305.13245">Ainslie et al., GQA: Training Generalized Multi-Query Transformer Models, 2023.</a></li>
+        <li id="ref-mla"><a href="https://arxiv.org/abs/2405.04434">DeepSeek-V2 Technical Report (introduces MLA), 2024.</a></li>
+        <li id="ref-rope"><a href="https://arxiv.org/abs/2104.09864">Su et al., RoFormer: Enhanced Transformer with Rotary Position Embedding, 2021.</a></li>
+        <li id="ref-alibi"><a href="https://arxiv.org/abs/2108.12409">Press et al., Train Short, Test Long: Attention with Linear Biases (ALiBi), 2021.</a></li>
+        <li id="ref-vae"><a href="https://arxiv.org/abs/1312.6114">Kingma &amp; Welling, Auto-Encoding Variational Bayes, 2013.</a></li>
+        <li id="ref-vqvae"><a href="https://arxiv.org/abs/1711.00937">van den Oord et al., Neural Discrete Representation Learning (VQ-VAE), 2017.</a></li>
+        <li id="ref-ddpm"><a href="https://arxiv.org/abs/2006.11239">Ho et al., Denoising Diffusion Probabilistic Models, 2020.</a></li>
+        <li id="ref-songermon"><a href="https://arxiv.org/abs/1907.05600">Song &amp; Ermon, Generative Modeling by Estimating Gradients of the Data Distribution, 2019.</a></li>
+        <li id="ref-songsde"><a href="https://arxiv.org/abs/2011.13456">Song et al., Score-Based Generative Modeling through Stochastic Differential Equations, 2021.</a></li>
+        <li id="ref-fm"><a href="https://arxiv.org/abs/2210.02747">Lipman et al., Flow Matching for Generative Modeling, 2022.</a></li>
+        <li id="ref-rf"><a href="https://arxiv.org/abs/2209.03003">Liu et al., Flow Straight and Fast: Rectified Flow, 2022.</a></li>
+        <li id="ref-ddim"><a href="https://arxiv.org/abs/2010.02502">Song et al., Denoising Diffusion Implicit Models, 2020.</a></li>
+        <li id="ref-edm"><a href="https://arxiv.org/abs/2206.00364">Karras et al., Elucidating the Design Space of Diffusion-Based Generative Models (EDM), 2022.</a></li>
+        <li id="ref-rcfgpp"><a href="https://shreshthsaini.github.io/Rectified-CFGpp/">Saini et al., Rectified CFG++ for Flow Based Models, NeurIPS 2025.</a></li>
+        <li id="ref-cg"><a href="https://arxiv.org/abs/2105.05233">Dhariwal &amp; Nichol, Diffusion Models Beat GANs on Image Synthesis (Classifier Guidance), 2021.</a></li>
+        <li id="ref-dps"><a href="https://arxiv.org/abs/2209.14687">Chung et al., Diffusion Posterior Sampling for General Noisy Inverse Problems (DPS), 2022.</a></li>
+        <li id="ref-mpgd"><a href="https://arxiv.org/abs/2311.16424">He et al., Manifold Preserving Guided Diffusion (MPGD), 2023.</a></li>
+        <li id="ref-controlnet"><a href="https://arxiv.org/abs/2302.05543">Zhang et al., Adding Conditional Control to Text-to-Image Diffusion Models (ControlNet), 2023.</a></li>
+        <li id="ref-t2iadapter"><a href="https://arxiv.org/abs/2302.08453">Mou et al., T2I-Adapter, 2023.</a></li>
+        <li id="ref-lora"><a href="https://arxiv.org/abs/2106.09685">Hu et al., LoRA: Low-Rank Adaptation of Large Language Models, 2021.</a></li>
+        <li id="ref-llada"><a href="https://arxiv.org/abs/2502.09992">Nie et al., Large Language Diffusion Models (LLaDA), 2025.</a></li>
+        <li id="ref-nanogpt"><a href="https://github.com/karpathy/nanoGPT">karpathy/nanoGPT.</a></li>
+        <li id="ref-zero"><a href="https://arxiv.org/abs/1910.02054">Rajbhandari et al., ZeRO: Memory Optimizations Toward Training Trillion Parameter Models, 2019.</a></li>
+        <li id="ref-fsdp"><a href="https://arxiv.org/abs/2304.11277">Zhao et al., PyTorch FSDP: Experiences on Scaling Fully Sharded Data Parallel, 2023.</a></li>
+        <li id="ref-llmint8"><a href="https://arxiv.org/abs/2208.07339">Dettmers et al., LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale, 2022.</a></li>
+        <li id="ref-dpo"><a href="https://arxiv.org/abs/2305.18290">Rafailov et al., Direct Preference Optimization, 2023.</a></li>
+        <li id="ref-grpo"><a href="https://arxiv.org/abs/2402.03300">Shao et al., DeepSeekMath (GRPO), 2024.</a></li>
+        <li id="ref-dapo-blog"><a href="https://huggingface.co/blog/NormalUhr/grpo-to-dapo-and-gspo">From GRPO to DAPO and GSPO &mdash; HF Blog (Yihua Zhang).</a></li>
+      </ol>
+    </article>
+
+    <footer>
+      <p>&copy; 2026 Shreshth Saini &middot; <a href="../blogs.html">Back to Scratch Pad</a></p>
+    </footer>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const tocLinks = Array.from(document.querySelectorAll('.toc-item'));
+      if (!tocLinks.length) return;
+
+      const sections = tocLinks
+        .map((link) => document.querySelector(link.getAttribute('href')))
+        .filter(Boolean);
+      if (!sections.length) return;
+
+      function setActive(id) {
+        tocLinks.forEach((link) => {
+          const isActive = link.getAttribute('href') === '#' + id;
+          link.classList.toggle('active', isActive);
+        });
+      }
+
+      const initial = window.location.hash ? window.location.hash.slice(1) : sections[0].id;
+      setActive(initial);
+
+      tocLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          const id = link.getAttribute('href').replace('#', '');
+          setActive(id);
+        });
+      });
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        },
+        { rootMargin: '-30% 0px -60% 0px', threshold: 0 }
+      );
+
+      sections.forEach((section) => observer.observe(section));
+    })();
+  </script>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</body>
+</html>
