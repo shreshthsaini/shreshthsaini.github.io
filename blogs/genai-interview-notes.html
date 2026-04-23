@@ -730,7 +730,7 @@ kv_cache_bytes(48, 7168, 1024, 128) / 1e9          # ~180 GB</code></pre>
         FFN is \(\sigma(W_1 x)W_2\); SwiGLU replaces \(\sigma\) with a gated Swish: \((xW + b)\otimes\text{Swish}(zV + c)\), Swish \(=x\sigma(\beta x)\). Ubiquitous in LLaMA.
       </p>
 
-      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://jalammar.github.io/illustrated-transformer/">Jay Alammar &mdash; The Illustrated Transformer</a> &middot; <a href="http://nlp.seas.harvard.edu/annotated-transformer/">The Annotated Transformer (Harvard NLP)</a> &middot; <a href="https://www.youtube.com/watch?v=kCc8FmEb1nY">Karpathy &mdash; &ldquo;Let&rsquo;s build GPT: from scratch&rdquo;</a>.</p>
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://jalammar.github.io/illustrated-transformer/">Jay Alammar &mdash; The Illustrated Transformer</a> &middot; <a href="http://nlp.seas.harvard.edu/annotated-transformer/">The Annotated Transformer (Harvard NLP)</a> &middot; <a href="https://www.youtube.com/watch?v=kCc8FmEb1nY">Karpathy &mdash; &ldquo;Let&rsquo;s build GPT: from scratch&rdquo;</a> &middot; <a href="https://magazine.sebastianraschka.com/p/visual-attention-variants">Sebastian Raschka &mdash; A Visual Guide to Attention Variants</a>.</p>
 
       <h2 id="sec-vae">8. VAE and the ELBO</h2>
 
@@ -1537,7 +1537,7 @@ def dequantize(q, scale):
         Sample \(N\) outputs at \(T=0.7\), rank by reward model, keep the best. Embarrassingly simple, hard to beat at small \(N\).
       </p>
 
-      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://huggingface.co/blog/NormalUhr/grpo-to-dapo-and-gspo">HF blog &mdash; From GRPO to DAPO and GSPO</a> &middot; <a href="https://huggingface.co/docs/trl/">HF TRL library docs</a> (DPO, PPO, GRPO implementations).</p>
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://huggingface.co/blog/NormalUhr/grpo-to-dapo-and-gspo">HF blog &mdash; From GRPO to DAPO and GSPO</a> &middot; <a href="https://huggingface.co/docs/trl/">HF TRL library docs</a> (DPO, PPO, GRPO implementations) &middot; <a href="https://algoroxyolo.github.io/blog/2026/rl-reading-list/">algoroxyolo &mdash; RL reading list (2026)</a>.</p>
 
       <h2 id="sec-papers">23. Paper trace and behavioral</h2>
 
@@ -1623,6 +1623,7 @@ def dequantize(q, scale):
       <ul>
         <li><a href="https://papers.neurips.cc/paper/7181-attention-is-all-you-need.pdf">Attention Is All You Need</a>.</li>
         <li><a href="https://jalammar.github.io/illustrated-transformer/">The Illustrated Transformer</a>.</li>
+        <li><a href="https://magazine.sebastianraschka.com/p/visual-attention-variants">Sebastian Raschka &mdash; A Visual Guide to Attention Variants</a> &mdash; MHA, MQA, GQA, MLA, sliding-window, Flash with diagrams.</li>
         <li><a href="https://huggingface.co/learn/llm-course/en/chapter1/1">Hugging Face LLM Course</a>.</li>
         <li><a href="https://github.com/karpathy/nanoGPT">karpathy/nanoGPT</a>, <a href="https://github.com/karpathy/ng-video-lecture">ng-video-lecture</a>.</li>
         <li><a href="https://github.com/karpathy/nanochat">karpathy/nanochat</a> &mdash; minimal end-to-end ChatGPT stack.</li>
@@ -1662,6 +1663,7 @@ def dequantize(q, scale):
       <ul>
         <li><a href="https://rlhfbook.com/">RLHF Book &mdash; Nathan Lambert</a>.</li>
         <li><a href="https://huggingface.co/blog/NormalUhr/grpo-to-dapo-and-gspo">From GRPO to DAPO and GSPO &mdash; HF blog</a>.</li>
+        <li><a href="https://algoroxyolo.github.io/blog/2026/rl-reading-list/">algoroxyolo &mdash; RL reading list (2026)</a> &mdash; a curated, modern RL-for-LLMs reading map.</li>
       </ul>
 
       <h3>Interview question banks</h3>
