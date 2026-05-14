@@ -209,6 +209,17 @@ nav, nav * {
   white-space: nowrap;
 }
 
+.exp-logo {
+  display: inline-block;
+  height: 22px;
+  width: 22px;
+  vertical-align: middle;
+  margin: 0 8px 2px 0;
+  border-radius: 3px;
+  object-fit: contain;
+  background: #fff;
+}
+
 .service-block {
   margin-top: 12px;
   opacity: 1;
