@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Short-X">
+  <defs>
+    <symbol id="filmstrip" overflow="visible">
+      <rect x="-55" y="-13" width="110" height="26" fill="#141414" rx="2"/>
+      <g fill="#f2f2f2">
+        <rect x="-48.5" y="-10.5" width="7" height="4.5" rx="1"/>
+        <rect x="-30.5" y="-10.5" width="7" height="4.5" rx="1"/>
+        <rect x="-12.5" y="-10.5" width="7" height="4.5" rx="1"/>
+        <rect x="5.5"   y="-10.5" width="7" height="4.5" rx="1"/>
+        <rect x="23.5"  y="-10.5" width="7" height="4.5" rx="1"/>
+        <rect x="41.5"  y="-10.5" width="7" height="4.5" rx="1"/>
+        <rect x="-48.5" y="6" width="7" height="4.5" rx="1"/>
+        <rect x="-30.5" y="6" width="7" height="4.5" rx="1"/>
+        <rect x="-12.5" y="6" width="7" height="4.5" rx="1"/>
+        <rect x="5.5"   y="6" width="7" height="4.5" rx="1"/>
+        <rect x="23.5"  y="6" width="7" height="4.5" rx="1"/>
+        <rect x="41.5"  y="6" width="7" height="4.5" rx="1"/>
+      </g>
+    </symbol>
+  </defs>
+  <g transform="translate(50 50)">
+    <use href="#filmstrip" transform="rotate(-45)"/>
+    <use href="#filmstrip" transform="rotate(45)"/>
+  </g>
+</svg>
