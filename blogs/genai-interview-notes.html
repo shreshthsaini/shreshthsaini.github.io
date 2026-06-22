@@ -1385,6 +1385,24 @@ def cfg_eps(model, x, t, c, w=7.5):
         Replace human preference labels with AI-generated critiques against a written constitution. Scales preference collection to millions of examples cheaply; most frontier labs use a hybrid of human + AI labels.
       </p>
 
+      <h4>8. On-policy distillation (OPD)</h4>
+
+      <p>
+        Classic <strong>sequence-level / off-policy KD</strong> trains the student on a fixed pile of teacher-generated outputs (the &ldquo;distillation SFT&rdquo; above). The student never sees its <em>own</em> mistakes, so it inherits the usual exposure-bias / train&ndash;inference mismatch. <strong>On-policy distillation</strong> fixes this: the student samples its own rollouts and the teacher supplies dense, per-token supervision on those trajectories &mdash; minimizing a (typically reverse, mode-seeking) KL \(\mathrm{KL}(\pi_\theta \,\|\, \pi_\text{teacher})\) over the student&rsquo;s own distribution.
+      </p>
+
+      <p>
+        It sits exactly between SFT-distillation and RL: like RL it trains on-policy (no exposure bias), but the teacher gives a <em>dense per-token reward</em> instead of a sparse scalar, so it is far more sample-efficient than RLHF/GRPO. This is the <strong>GKD</strong> (Generalized Knowledge Distillation) framing, and the cheap recipe behind compressing large reasoning models into small students.
+      </p>
+
+      <ul>
+        <li><strong>Forward vs reverse KL.</strong> Forward KL on teacher samples is mass-covering; reverse KL on student samples is mode-seeking and stops the student putting probability where the teacher has none (MiniLLM, GKD).</li>
+        <li><strong>Multi-teacher OPD.</strong> Score the student&rsquo;s rollouts with several teachers at once &mdash; average / gate their logits, weight by per-token confidence, or route to per-domain specialists &mdash; to transfer complementary skills and damp single-teacher bias.</li>
+        <li><strong>Cost.</strong> One teacher forward pass per student rollout: pricier than static SFT, far cheaper than full RL reward plumbing; speculative / partial-sequence variants trim it further.</li>
+      </ul>
+
+      <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://thinkingmachines.ai/blog/on-policy-distillation/">Thinking Machines &mdash; On-Policy Distillation</a> &middot; <a href="https://arxiv.org/abs/2306.13649">GKD &mdash; Agarwal et al.</a> &middot; <a href="https://arxiv.org/abs/2306.08543">MiniLLM &mdash; Gu et al.</a></p>
+
       <h3>Post-training for diffusion / flow models</h3>
 
       <p>
