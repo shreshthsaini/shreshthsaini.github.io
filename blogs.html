@@ -6,12 +6,12 @@
   <meta name="author" content="Shreshth Saini">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Thoughts on AI, Diffusion Models, and Research">
-  
+
   <link rel="icon" type="image/jpg" href="images/UT_profile.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
-  
+
   <style>
     :root {
       --text-primary: #0f172a;
@@ -24,10 +24,10 @@
       --border: #e2e8f0;
       --border-light: #f1f5f9;
     }
-    
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    
+
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-size: 15px;
@@ -36,7 +36,7 @@
       background: var(--bg);
       -webkit-font-smoothing: antialiased;
     }
-    
+
     nav {
       position: sticky;
       top: 0;
@@ -47,7 +47,7 @@
       z-index: 100;
       padding: 0 20px;
     }
-    
+
     .nav-container {
       max-width: 1000px;
       margin: 0 auto;
@@ -56,7 +56,7 @@
       align-items: center;
       height: 60px;
     }
-    
+
     .nav-logo {
       font-weight: 600;
       font-size: 16px;
@@ -64,9 +64,9 @@
       text-decoration: none;
       letter-spacing: -0.3px;
     }
-    
+
     .nav-links { display: flex; gap: 8px; }
-    
+
     .nav-links a {
       padding: 8px 14px;
       color: var(--text-secondary);
@@ -76,17 +76,17 @@
       border-radius: 6px;
       transition: all 0.15s ease;
     }
-    
+
     .nav-links a:hover { color: var(--accent); background: var(--bg-subtle); }
     .nav-links a.active { color: var(--accent); background: rgba(37, 99, 235, 0.08); }
-    
+
     .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
-    
+
     .blog-header {
       padding: 80px 0 48px;
       text-align: center;
     }
-    
+
     h1 {
       font-family: 'Crimson Pro', Georgia, serif;
       font-size: 48px;
@@ -96,7 +96,7 @@
       margin-bottom: 16px;
       line-height: 1.2;
     }
-    
+
     .blog-subtitle {
       font-size: 18px;
       color: var(--text-secondary);
@@ -104,11 +104,76 @@
       margin: 0 auto;
       line-height: 1.6;
     }
-    
-    .posts-section { padding: 48px 0; }
-    
+
+    .section-nav {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .section-nav a {
+      padding: 7px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      transition: all 0.15s ease;
+    }
+    .section-nav a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--bg-subtle);
+    }
+
+    .posts-section { padding: 40px 0; }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      padding-bottom: 14px;
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .section-title {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 30px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+    .section-count {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .section-hint {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: -12px 0 26px;
+    }
+    .section-hint svg { flex-shrink: 0; }
+    .section-hint kbd {
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 7px;
+      color: var(--text-secondary);
+    }
+
     .posts-grid { display: flex; flex-direction: column; gap: 32px; }
-    
+
     .post-card {
       padding: 28px;
       background: var(--bg);
@@ -116,13 +181,36 @@
       border-radius: 12px;
       transition: all 0.2s ease;
     }
-    
+
     .post-card:hover {
       border-color: var(--border);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
       transform: translateY(-2px);
     }
-    
+
+    .slides-section { padding-top: 8px; }
+    .slides-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .slide-card {
+      display: flex;
+      flex-direction: column;
+      padding: 22px;
+      background: var(--bg);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      transition: all 0.2s ease;
+    }
+    .slide-card:hover {
+      border-color: var(--border);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      transform: translateY(-2px);
+    }
+    .slide-card .post-title { font-size: 18px; margin-bottom: 10px; }
+    .slide-card .post-excerpt { font-size: 14px; margin-bottom: 14px; flex: 1; }
+
     .post-meta {
       display: flex;
       align-items: center;
@@ -130,13 +218,13 @@
       gap: 12px;
       margin-bottom: 12px;
     }
-    
+
     .post-date {
       font-size: 13px;
       color: var(--text-muted);
       font-weight: 500;
     }
-    
+
     .post-tag {
       display: inline-block;
       padding: 4px 10px;
@@ -146,7 +234,7 @@
       letter-spacing: 0.5px;
       border-radius: 4px;
     }
-    
+
     .tag-flow { background: rgba(37, 99, 235, 0.1); color: #1d4ed8; }
     .tag-dm { background: rgba(14, 116, 144, 0.1); color: #0e7490; }
     .tag-hdr { background: rgba(245, 158, 11, 0.12); color: #b45309; }
@@ -156,20 +244,6 @@
     .tag-mllm { background: rgba(220, 38, 38, 0.1); color: #dc2626; }
     .tag-itm { background: rgba(6, 95, 70, 0.12); color: #065f46; }
 
-    .slide-note {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      background: rgba(191, 87, 0, 0.06);
-      border: 1px solid rgba(191, 87, 0, 0.15);
-      border-radius: 6px;
-      font-size: 12px;
-      color: #92400e;
-      margin-top: 12px;
-    }
-    .slide-note svg { flex-shrink: 0; }
-    
     .post-title {
       font-family: 'Crimson Pro', Georgia, serif;
       font-size: 24px;
@@ -178,21 +252,21 @@
       margin-bottom: 12px;
       line-height: 1.3;
     }
-    
+
     .post-title a {
       color: inherit;
       text-decoration: none;
     }
-    
+
     .post-title a:hover { color: var(--accent); }
-    
+
     .post-excerpt {
       font-size: 15px;
       color: var(--text-secondary);
       line-height: 1.7;
       margin-bottom: 16px;
     }
-    
+
     .read-more {
       font-size: 14px;
       font-weight: 500;
@@ -202,14 +276,14 @@
       align-items: center;
       gap: 6px;
     }
-    
+
     .read-more:hover { text-decoration: underline; }
-    
+
     .subscribe-section {
       padding: 48px 0;
       border-top: 1px solid var(--border-light);
     }
-    
+
     .subscribe-box {
       background: var(--bg-subtle);
       border: 1px solid var(--border-light);
@@ -217,7 +291,7 @@
       padding: 32px;
       text-align: center;
     }
-    
+
     .subscribe-box h3 {
       font-family: 'Crimson Pro', Georgia, serif;
       font-size: 22px;
@@ -225,20 +299,20 @@
       color: var(--text-primary);
       margin-bottom: 8px;
     }
-    
+
     .subscribe-box p {
       font-size: 14px;
       color: var(--text-secondary);
       margin-bottom: 20px;
     }
-    
+
     .subscribe-form {
       display: flex;
       gap: 12px;
       max-width: 400px;
       margin: 0 auto;
     }
-    
+
     .subscribe-form input {
       flex: 1;
       padding: 12px 16px;
@@ -248,12 +322,12 @@
       outline: none;
       font-family: inherit;
     }
-    
+
     .subscribe-form input:focus {
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
-    
+
     .subscribe-form button {
       padding: 12px 24px;
       font-size: 14px;
@@ -266,27 +340,27 @@
       transition: background 0.15s ease;
       font-family: inherit;
     }
-    
+
     .subscribe-form button:hover {
       background: var(--accent-light);
     }
-    
+
     footer {
       padding: 48px 0;
       border-top: 1px solid var(--border-light);
       text-align: center;
     }
-    
+
     .footer-text {
       font-size: 13px;
       color: var(--text-muted);
     }
-    
+
     .footer-text a {
       color: var(--accent);
       text-decoration: none;
     }
-    
+
     @media (max-width: 768px) {
       h1 { font-size: 36px; }
       .blog-header { padding: 48px 0 32px; }
@@ -294,6 +368,8 @@
       .post-title { font-size: 20px; }
       .subscribe-form { flex-direction: column; }
       .nav-links a { padding: 6px 10px; font-size: 12px; }
+      .section-title { font-size: 24px; }
+      .slides-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -316,81 +392,20 @@
     <header class="blog-header">
       <h1>Scratch Pad</h1>
       <p class="blog-subtitle">Thoughts on generative models, video quality, and the intersection of perception and computation.</p>
+      <nav class="section-nav">
+        <a href="#writing">Writing</a>
+        <a href="#slides">Talks &amp; Slides</a>
+      </nav>
     </header>
 
-    <section class="posts-section">
+    <!-- ===================== WRITING ===================== -->
+    <section class="posts-section" id="writing">
+      <div class="section-head">
+        <h2 class="section-title">Writing</h2>
+        <span class="section-count">4 posts</span>
+      </div>
       <div class="posts-grid">
-        
-        <!-- Slide Decks -->
-        <article class="post-card">
-          <div class="post-meta">
-            <span class="post-date">Apr 2026</span>
-            <span class="post-tag tag-slides">Slides</span>
-            <span class="post-tag tag-hdr">HDR</span>
-            <span class="post-tag tag-mllm">MLLM</span>
-            <span class="post-tag tag-dm">DM</span>
-            <span class="post-tag tag-flow">Flow Model</span>
-          </div>
-          <h2 class="post-title"><a href="slides/defense.html">PhD Defense: Perceptual Quality Assessment and Enhancement of Visual Media using Generative Priors</a></h2>
-          <p class="post-excerpt">Full PhD dissertation defense slides covering HDR-Q (MLLM for HDR VQA), LumaFlux (inverse tone mapping with diffusion transformers), and Rectified-CFG++ (geometry-aware guidance for flow models).</p>
-          <a href="slides/defense.html" class="read-more">View slides &rarr;</a>
-          <div class="slide-note">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            For best viewing, adjust browser zoom to fit your display. Slides auto-enter fullscreen.
-          </div>
-        </article>
 
-        <article class="post-card">
-          <div class="post-meta">
-            <span class="post-date">Mar 2026</span>
-            <span class="post-tag tag-slides">Slides</span>
-            <span class="post-tag tag-hdr">HDR</span>
-            <span class="post-tag tag-mllm">MLLM</span>
-            <span class="post-tag tag-vqa">VQA</span>
-          </div>
-          <h2 class="post-title"><a href="slides/hdrq.html">HDR-Q: Quality-Aware HDR Video Assessment via Multimodal LLMs</a></h2>
-          <p class="post-excerpt">Presentation slides for HDR-Q (CVPR 2026) — the first multimodal LLM for HDR video quality assessment, featuring HAPO (HDR-Aware Policy Optimization) with contrastive KL, dual-entropy regularization, and SigLIP-2 HDR-aware encoding.</p>
-          <a href="slides/hdrq.html" class="read-more">View slides &rarr;</a>
-          <div class="slide-note">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            For best viewing, adjust browser zoom to fit your display. Slides auto-enter fullscreen.
-          </div>
-        </article>
-
-        <article class="post-card">
-          <div class="post-meta">
-            <span class="post-date">Mar 2026</span>
-            <span class="post-tag tag-slides">Slides</span>
-            <span class="post-tag tag-hdr">HDR</span>
-            <span class="post-tag tag-itm">ITM</span>
-            <span class="post-tag tag-dm">DM</span>
-          </div>
-          <h2 class="post-title"><a href="slides/lumaflux.html">LumaFlux: Physically & Perceptually Guided Diffusion Transformers for Inverse Tone Mapping</a></h2>
-          <p class="post-excerpt">Presentation slides for LumaFlux — SDR-to-HDR inverse tone mapping using Flux 12B with Physically-Guided Adaptation (PGA), Perceptual Cross-Modulation (PCM), and Rational Quadratic Spline (RQS) decoder with only ~17M trainable parameters.</p>
-          <a href="slides/lumaflux.html" class="read-more">View slides &rarr;</a>
-          <div class="slide-note">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            For best viewing, adjust browser zoom to fit your display. Slides auto-enter fullscreen.
-          </div>
-        </article>
-
-        <article class="post-card">
-          <div class="post-meta">
-            <span class="post-date">Mar 2026</span>
-            <span class="post-tag tag-slides">Slides</span>
-            <span class="post-tag tag-flow">Flow Model</span>
-            <span class="post-tag tag-dm">DM</span>
-          </div>
-          <h2 class="post-title"><a href="slides/rectcfg.html">Rectified-CFG++: Geometry-Aware Guidance for Rectified Flow Models</a></h2>
-          <p class="post-excerpt">Presentation slides for Rectified-CFG++ (NeurIPS 2025) — a predictor-corrector guidance method that fixes CFG artifacts on flow models like Flux, SD3, and Lumina-Next with theoretical guarantees and zero extra training cost.</p>
-          <a href="slides/rectcfg.html" class="read-more">View slides &rarr;</a>
-          <div class="slide-note">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            For best viewing, adjust browser zoom to fit your display. Slides auto-enter fullscreen.
-          </div>
-        </article>
-
-        <!-- Blog Posts -->
         <article class="post-card">
           <div class="post-meta">
             <span class="post-date">Apr 2026</span>
@@ -403,6 +418,17 @@
           <h2 class="post-title"><a href="blogs/genai-interview-notes.html">Prepping for a Research Scientist, GenAI Position &mdash; A Pointer Notebook</a></h2>
           <p class="post-excerpt">A long revision notebook for Research Scientist / GenAI loops focused on image generation, perceptual quality, and video processing: diffusion and flow models, transformer internals (attention variants, RoPE, KV cache), the text-to-image design space, evaluation metrics, color and HDR, classical CV, RL alignment, and the coding tier &mdash; all in one place.</p>
           <a href="blogs/genai-interview-notes.html" class="read-more">Read more &rarr;</a>
+        </article>
+
+        <article class="post-card">
+          <div class="post-meta">
+            <span class="post-date">Mar 2026</span>
+            <span class="post-tag tag-flow">Flow Model</span>
+            <span class="post-tag tag-dm">DM</span>
+          </div>
+          <h2 class="post-title"><a href="blogs/rectified-cfgpp.html">Rectified-CFG++: Fixing Guidance for Flow Models</a></h2>
+          <p class="post-excerpt">Why classifier-free guidance breaks on flow models, and how a geometry-aware predictor-corrector fixes it &mdash; with a deep dive into text rendering quality and the adaptive schedule that makes it work.</p>
+          <a href="blogs/rectified-cfgpp.html" class="read-more">Read more &rarr;</a>
         </article>
 
         <article class="post-card">
@@ -428,21 +454,76 @@
           <a href="#" class="read-more">Read more &rarr;</a>
         </article>
 
-        <article class="post-card">
+      </div>
+    </section>
+
+    <!-- ===================== TALKS & SLIDES ===================== -->
+    <section class="posts-section slides-section" id="slides">
+      <div class="section-head">
+        <h2 class="section-title">Talks &amp; Slides</h2>
+        <span class="section-count">4 decks</span>
+      </div>
+      <p class="section-hint">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Press <kbd>F</kbd> or the <kbd>&#9974;</kbd> button for fullscreen; use arrow keys to navigate.
+      </p>
+      <div class="slides-grid">
+
+        <article class="slide-card">
+          <div class="post-meta">
+            <span class="post-date">Apr 2026</span>
+            <span class="post-tag tag-slides">Slides</span>
+            <span class="post-tag tag-hdr">HDR</span>
+            <span class="post-tag tag-mllm">MLLM</span>
+            <span class="post-tag tag-dm">DM</span>
+            <span class="post-tag tag-flow">Flow Model</span>
+          </div>
+          <h2 class="post-title"><a href="slides/defense.html">PhD Defense: Perceptual Quality Assessment and Enhancement of Visual Media using Generative Priors</a></h2>
+          <p class="post-excerpt">Full dissertation defense covering HDR-Q, LumaFlux, and Rectified-CFG++ in one talk.</p>
+          <a href="slides/defense.html" class="read-more">View slides &rarr;</a>
+        </article>
+
+        <article class="slide-card">
           <div class="post-meta">
             <span class="post-date">Mar 2026</span>
+            <span class="post-tag tag-slides">Slides</span>
+            <span class="post-tag tag-hdr">HDR</span>
+            <span class="post-tag tag-mllm">MLLM</span>
+            <span class="post-tag tag-vqa">VQA</span>
+          </div>
+          <h2 class="post-title"><a href="slides/hdrq.html">HDR-Q: Quality-Aware HDR Video Assessment via Multimodal LLMs</a></h2>
+          <p class="post-excerpt">CVPR 2026: the first multimodal LLM for HDR video quality assessment, with HAPO and SigLIP-2 HDR-aware encoding.</p>
+          <a href="slides/hdrq.html" class="read-more">View slides &rarr;</a>
+        </article>
+
+        <article class="slide-card">
+          <div class="post-meta">
+            <span class="post-date">Mar 2026</span>
+            <span class="post-tag tag-slides">Slides</span>
+            <span class="post-tag tag-hdr">HDR</span>
+            <span class="post-tag tag-itm">ITM</span>
+            <span class="post-tag tag-dm">DM</span>
+          </div>
+          <h2 class="post-title"><a href="slides/lumaflux.html">LumaFlux: Physically &amp; Perceptually Guided Diffusion Transformers for Inverse Tone Mapping</a></h2>
+          <p class="post-excerpt">SDR-to-HDR inverse tone mapping with Flux 12B and only ~17M trainable parameters (PGA, PCM, RQS decoder).</p>
+          <a href="slides/lumaflux.html" class="read-more">View slides &rarr;</a>
+        </article>
+
+        <article class="slide-card">
+          <div class="post-meta">
+            <span class="post-date">Mar 2026</span>
+            <span class="post-tag tag-slides">Slides</span>
             <span class="post-tag tag-flow">Flow Model</span>
             <span class="post-tag tag-dm">DM</span>
           </div>
-          <h2 class="post-title"><a href="blogs/rectified-cfgpp.html">Rectified-CFG++: Fixing Guidance for Flow Models</a></h2>
-          <p class="post-excerpt">Why classifier-free guidance breaks on flow models, and how a geometry-aware predictor-corrector fixes it — with a deep dive into text rendering quality and the adaptive schedule that makes it work.</p>
-          <a href="blogs/rectified-cfgpp.html" class="read-more">Read more &rarr;</a>
+          <h2 class="post-title"><a href="slides/rectcfg.html">Rectified-CFG++: Geometry-Aware Guidance for Rectified Flow Models</a></h2>
+          <p class="post-excerpt">NeurIPS 2025: predictor-corrector guidance that fixes CFG artifacts on flow models like Flux, SD3, and Lumina-Next.</p>
+          <a href="slides/rectcfg.html" class="read-more">View slides &rarr;</a>
         </article>
 
       </div>
     </section>
 
-    
     <footer>
       <p class="footer-text">&copy; 2026 Shreshth Saini - <a href="index.html">Back to Home</a></p>
     </footer>
