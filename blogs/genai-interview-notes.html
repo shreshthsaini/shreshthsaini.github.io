@@ -1232,7 +1232,7 @@ def cfg_eps(model, x, t, c, w=7.5):
       <h3>Scaling rule</h3>
 
       <p>
-        Rule-of-thumb: <strong>#parameters &asymp; 10&times; dataset size</strong>. Holds well for text; for T2I, data ceilings kick in as resolution climbs.
+        Rule-of-thumb: <strong>#parameters &asymp; 10&times; dataset size</strong><sup class="cite"><a href="#ref-scaling">[36]</a></sup>. Holds well for text; for T2I, data ceilings kick in as resolution climbs. For the full story &mdash; Kaplan vs Chinchilla, data-constrained scaling, and where the compute-optimal frontier is moving &mdash; Lilian Weng&rsquo;s <a href="https://lilianweng.github.io/posts/2026-06-24-scaling-laws/" target="_blank" rel="noopener">Scaling Laws, Carefully</a> <span class="tag-new">New</span> is the single best reference.
       </p>
 
       <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://stability.ai/research/stable-diffusion-3-research-paper">Stability AI &mdash; SD3 research blog</a> &middot; <a href="https://blackforestlabs.ai/announcing-black-forest-labs/">Black Forest Labs &mdash; Flux announcement</a> &middot; <a href="https://arxiv.org/abs/2408.11039">Transfusion paper (Meta)</a>.</p>
@@ -1889,6 +1889,7 @@ def dequantize(q, scale):
         <li id="ref-dpo"><a href="https://arxiv.org/abs/2305.18290">Rafailov et al., Direct Preference Optimization, 2023.</a></li>
         <li id="ref-grpo"><a href="https://arxiv.org/abs/2402.03300">Shao et al., DeepSeekMath (GRPO), 2024.</a></li>
         <li id="ref-dapo-blog"><a href="https://huggingface.co/blog/NormalUhr/grpo-to-dapo-and-gspo">From GRPO to DAPO and GSPO &mdash; HF Blog (Yihua Zhang).</a></li>
+        <li id="ref-scaling"><a href="https://lilianweng.github.io/posts/2026-06-24-scaling-laws/">Lilian Weng, Scaling Laws, Carefully, Lil&rsquo;Log, 2026.</a></li>
       </ol>
     </article>
 
