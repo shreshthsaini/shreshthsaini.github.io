@@ -187,16 +187,6 @@ nav, nav * {
   background: rgba(37, 99, 235, 0.08);
 }
 
-.nav-links a.nav-capture {
-  background: #0f172a;
-  color: #ffffff;
-}
-
-.nav-links a.nav-capture:hover {
-  background: #2563eb;
-  color: #ffffff;
-}
-
 .page-content {
   padding-top: 8px;
 }
