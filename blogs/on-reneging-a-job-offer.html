@@ -307,6 +307,19 @@
       font-weight: 600;
     }
 
+    .aside-note {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      border-left: 3px solid #f59e0b;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 0 0 22px;
+    }
+
     figure {
       margin: 30px 0 26px;
     }
@@ -433,9 +446,15 @@
     </header>
 
     <article>
+      <div class="aside-note">
+        A note for those preparing, as of mid 2026. The job market in the US is genuinely tough right now, and for international
+        students it is even more taxing. If you are in the middle of it, give it your best and try not to stress over the factors
+        you cannot control. There is more to life than this one short season, and no single outcome in it defines you.
+      </div>
+
       <div id="sec-summary"></div>
       <div class="summary">
-        <p><strong>What this is.</strong> A caution, a practical note, and, if I am honest with myself, an indirect apology. During the job search at the end of my PhD I accepted one company's offer, and then reneged on it to join another. I have carried a consistent, quiet guilt about it ever since.</p>
+        <p><strong>What this is.</strong> A caution and a practical note. During the job search at the end of my PhD I accepted one company's offer, and then reneged on it to join another. I have carried a consistent, quiet guilt about it ever since.</p>
         <p><strong>The short version.</strong> Reneging is technically allowed, rarely punished, and widely rationalized. None of that prepares you for how it actually feels, or for how much of other people's effort and trust you are discarding when you do it.</p>
         <p><strong>My advice.</strong> Do everything you can to never reach the point where reneging feels like your only option. It costs far more than you think, and not in the ways you expect.</p>
       </div>
@@ -455,28 +474,35 @@
       </aside>
 
       <p>
-        During the final stretch of my PhD, I went through the full industry job search: roughly eight to ten companies,
+        During the final stretch of my PhD, I went through the full industry job search. Roughly eight to ten companies,
         months of preparation, and interview loops that at one point were running in parallel across several time zones.
         One loop alone was about ten rounds. By the end of it I was fortunate, genuinely and unreasonably fortunate,
         to be holding multiple offers from really good companies. This post, though, is about exactly two of them.
       </p>
 
-      <p>
-        A note before we go on: I am keeping the company names out of this post. People who know me can guess them easily,
+      <div class="aside-note">
+        A note before we go on. I am keeping the company names out of this post. People who know me can guess them easily,
         and that is fine. The point of the post does not depend on the names.
-      </p>
+      </div>
 
       <p>
         The first company was, honestly, a near-perfect match. The kind of work I wanted to do, the role itself, the day-to-day
         I could actually picture myself in, even the small thrill of imagining my work sitting behind things people watch.
-        Its timing was clean too: the loop ran, the offer came, and everything lined up. From there, my search wound down;
+        Its timing was clean too. The loop ran, the offer came, and everything lined up. From there, my search wound down;
         the offers that arrived afterwards were mostly the delayed outcomes of interviews I had already given.
         So I thought I should simply go with it, and I said yes.
       </p>
 
       <p>
-        Then the second company's offer came. It was attractive in a very different way: the chance to work at a truly
-        large scale, which is a rare thing to be offered in the current landscape of AI research.
+        I was done with every process and all set to go. In my head, I had already started at the first company.
+        Then something unexpected happened. A new opportunity came through, offering something genuinely rare, the sheer scale
+        of compute and data that is perhaps the most demanded thing in the current AI landscape. I kept thinking about it
+        for a few days, because I could not bring myself to say no to it. There were multiple factors, but the scale of compute
+        and data mattered most to me. I had not fully realized the actual reality of it, but at the time it sounded like
+        everything I could wish for. And then, under some pressure, I just changed my mind and decided to go for the new opportunity.
+      </p>
+
+      <p>
         If you had told me at the start of the season that this is how it would end, two great options and the freedom to choose,
         I would have said there was no version of it where I ended up sad.
         I was wrong about that, and the reason I was wrong is the subject of this post.
@@ -485,17 +511,17 @@
       <h2 id="sec-what-happened">What I Did</h2>
 
       <p>
-        I said yes to the first company. Then the rest of my search resolved, and the decision in my head shifted,
+        I said yes to the first company. Then the new opportunity arrived, the decision in my head shifted,
         and I walked back the commitment I had made in order to join the second.
         I am deliberately not going to relitigate the reasoning here, because the reasoning is not the point. At the time, each individual step
-        felt defensible: a decision was demanded before all the information existed, and another path appeared after
+        felt defensible. A decision was demanded before all the information existed, and another path appeared after
         I had already spoken for a different one. That is exactly how reneging happens.
         Nobody wakes up planning to go back on their word. You arrive there through a sequence of small, individually reasonable decisions,
         and then one day you are writing an email you never imagined you would write.
       </p>
 
       <p>
-        The email was polite, and the replies were kind. I want to be clear about this part: no relationship broke, no bridge burned.
+        The email was polite, and the replies were kind. I want to be clear about this part. No relationship broke, no bridge burned.
         Everyone was gracious, and I am genuinely hopeful the door is still open, that someday, if my path bends that way,
         I get to go there. The weight of this has never come from the outside. It comes entirely from me, from how it feels,
         personally and emotionally, to have gone back on a yes.
@@ -504,8 +530,8 @@
       <h2 id="sec-extent">What I Didn't Understand</h2>
 
       <p>
-        Here is the thing I want to be most honest about: <em>I did not understand the full meaning and extent of reneging when I did it.</em>
-        I understood it as a transaction: an offer is an option, an acceptance is a stronger option, and options can be unwound.
+        Here is the thing I want to be most honest about. <em>I did not understand the full meaning and extent of reneging when I did it.</em>
+        I understood it as a transaction, where an offer is an option, an acceptance is a stronger option, and options can be unwound.
         That framing is common, especially among people who will tell you "companies rescind offers too, it's just business."
         It is also, I now believe, deeply incomplete.
       </p>
@@ -526,7 +552,7 @@
       <figure>
         <canvas class="svg-figure" id="web-canvas" role="img" aria-label="Abstract animation: one point connected by faint threads to many scattered dots that only become visible when the cursor comes near"></canvas>
         <figcaption>
-          The part I could not see: one yes, quietly attached to people I would never meet.
+          The part I could not see. One yes, quietly attached to people I would never meet.
           Bring your cursor close and they appear. They were always there.
         </figcaption>
       </figure>
@@ -560,7 +586,7 @@
 
       <p>
         I know people who have reneged and moved on in a weekend. I am genuinely not judging them; people are different, and they metabolize
-        these things differently. But I have learned something about my own personality through this: I hold on to broken commitments.
+        these things differently. But I have learned something about my own personality through this. I hold on to broken commitments.
         Going back on my word, even in a context where it is common and half-expected, sits badly with me at a level that logic does not reach.
         If you recognize yourself in that description, if you are the kind of person who replays conversations, who feels a handshake
         as a weight, then the standard "it happens all the time, they'll forget you by Friday" advice is not written for you.
@@ -571,7 +597,8 @@
       <h2 id="sec-practical">If You Are Where I Was</h2>
 
       <p>
-        Some practical advice, from the other side of it. Most of this reduces to one principle: <strong>the time to prevent a renege is before you accept, not after.</strong>
+        Some practical advice, from the other side of it. Most of this reduces to one principle.
+        <strong>The time to prevent a renege is before you accept, not after.</strong>
       </p>
 
       <ul>
@@ -579,11 +606,11 @@
         <li><strong>Ask for more time, even when it is uncomfortable.</strong> The awkwardness of asking for two more weeks is trivial compared to the weight of walking back a yes. Most companies will flex more than you expect for a candidate they want.</li>
         <li><strong>Force your own timelines into alignment.</strong> Tell every company where you are in every other process. Slow the fast ones down; speed the slow ones up. Misaligned timelines are where reneges are born.</li>
         <li><strong>Decide with your gut before the offers arrive.</strong> Rank the outcomes while they are still hypothetical, when you can be honest. If one company would win over the others no matter what, know that <em>before</em> you are holding anyone else's offer with a deadline on it, and protect that possibility instead of accepting around it.</li>
-        <li><strong>If you truly must renege, do it fast and do it straight.</strong> The moment you know, tell them. No stalling, no vague hedging while you get comfortable. Call the recruiter, own it plainly, apologize without excuses. It is the only version of a bad thing that preserves any dignity for anyone.</li>
+        <li><strong>If you truly must renege, do it fast and do it straight.</strong> The moment you know, tell them. No stalling, no vague hedging while you get comfortable. Call the recruiter, own it plainly, and offer no excuses. It is the only version of a bad thing that preserves any dignity for anyone.</li>
       </ul>
 
       <p>
-        And one more, the one I most wish I had heard: before you accept anything, ask yourself not just "which job do I want?" but
+        And one more, the one I most wish I had heard. Before you accept anything, ask yourself not just "which job do I want?" but
         "which of these yeses can I actually keep?" They are different questions. Only the second one protects you from this post.
       </p>
 
@@ -598,14 +625,12 @@
       </p>
 
       <p>
-        I said what I could in the final email, and I meant it. Even so, I keep feeling I should have been more careful long before
-        it ever came to that: negotiated more openly, asked for more time, slowed the whole thing down while the choice was still
-        just a choice. And to the people who spent real hours on me, who advocated in rooms I never saw, who made space on a team
-        I never joined: it was not weightless to me. It still isn't.
+        To the people who spent real hours on me, who advocated in rooms I never saw, who made space on a team I never joined,
+        it was not weightless to me. It still isn't.
       </p>
 
       <p>
-        So this is the post I wish I had found: a data point from someone it sits heavily on. If you are lucky enough to be choosing
+        So this is the post I wish I had found, a data point from someone it sits heavily on. If you are lucky enough to be choosing
         between good options someday, choose slowly, choose once, and keep your yes. Future you will be grateful in a way that
         no compensation package can match.
       </p>
@@ -837,10 +862,28 @@
         };
       });
 
-      // Figure 3: the hum
+      // Figure 3: the hum, with occasional sharp spikes of pain
       setupCanvas('hum-canvas', 0.20, 130, 'run your cursor along it', (ctx, s) => {
+        const SPIKES = [
+          { u: 0.14, ph: 0.7 },
+          { u: 0.38, ph: 2.9 },
+          { u: 0.61, ph: 4.6 },
+          { u: 0.87, ph: 1.8 }
+        ];
+        const RED = [220, 38, 38];
+
+        function spikeAt(u) {
+          let v = 0;
+          for (const sp of SPIKES) {
+            const gate = Math.pow(Math.max(0, Math.sin(s.t * 0.8 + sp.ph)), 12);
+            const d = (u - sp.u) / 0.010;
+            v += gate * Math.exp(-d * d);
+          }
+          return v;
+        }
+
         return function draw() {
-          const STEPS = 220, mid = s.H * 0.55;
+          const STEPS = 260, mid = s.H * 0.58;
 
           function humY(u) {
             const amp = 9 * (1 - 0.62 * u) + 1.5;
@@ -850,6 +893,7 @@
               + Math.sin(u * 11 + s.t * 0.5) * amp * 0.33;
             const swell = Math.exp(-Math.abs(s.mouse.x - u * s.W) / 70);
             y += Math.sin(u * 55 - s.t * 3.2) * 10 * swell;
+            y -= spikeAt(u) * s.H * 0.34;
             return y;
           }
 
@@ -858,12 +902,14 @@
             const u1 = i / STEPS, u2 = (i + 1) / STEPS;
             const y1 = humY(u1), y2 = humY(u2);
             const glow = Math.exp(-Math.hypot(s.mouse.x - u1 * s.W, s.mouse.y - y1) / 90);
-            const c = mix(mix(AMBER, [139, 92, 246], ease(u1)), ROSE, Math.min(1, glow * 0.8));
+            const pain = Math.min(1, spikeAt(u1) * 1.5);
+            let c = mix(mix(AMBER, [139, 92, 246], ease(u1)), ROSE, Math.min(1, glow * 0.8));
+            c = mix(c, RED, pain);
             ctx.beginPath();
             ctx.moveTo(u1 * s.W, y1);
             ctx.lineTo(u2 * s.W, y2);
-            ctx.strokeStyle = rgba(c, 0.45 + 0.25 * (1 - u1 * 0.5) + glow * 0.3);
-            ctx.lineWidth = 2.2 + glow * 1.4;
+            ctx.strokeStyle = rgba(c, Math.min(1, 0.45 + 0.25 * (1 - u1 * 0.5) + glow * 0.3 + pain * 0.35));
+            ctx.lineWidth = 2.2 + glow * 1.4 + pain * 0.9;
             ctx.stroke();
           }
         };
