@@ -1,0 +1,916 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>On Reneging a Job Offer - A Caution I Wish Someone Had Given Me</title>
+  <meta name="author" content="Shreshth Saini">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A personal note on reneging a job offer, the guilt that follows, and why I would advise strongly against it.">
+
+  <link rel="icon" type="image/jpg" href="../images/UT_profile.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.08);
+      --bg: #ffffff;
+      --bg-subtle: #f8fafc;
+      --border: #e2e8f0;
+      --border-light: #f1f5f9;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text-secondary);
+      background: var(--bg);
+      line-height: 1.75;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0 20px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .nav-container {
+      max-width: 1120px;
+      margin: 0 auto;
+      height: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-weight: 600;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: -0.2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--bg-subtle);
+    }
+
+    .nav-links a.active {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px 64px;
+    }
+
+    .toc-rail {
+      position: fixed;
+      top: 92px;
+      left: 10px;
+      width: 200px;
+      z-index: 20;
+      font-family: 'Inter', sans-serif;
+      user-select: none;
+    }
+
+    .toc-head {
+      margin-bottom: 12px;
+      padding-left: 12px;
+    }
+
+    .toc-title {
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #334155;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 2px;
+    }
+
+    .toc-items {
+      position: relative;
+    }
+
+    .toc-items::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: #cbd5e1;
+    }
+
+    .toc-item {
+      position: relative;
+      display: block;
+      min-height: 34px;
+      padding-left: 24px;
+      margin: 2px 0;
+      text-decoration: none;
+      color: #64748b;
+    }
+
+    .toc-dot {
+      position: absolute;
+      left: 3px;
+      top: 11px;
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #94a3b8;
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 0 1px #94a3b8;
+      transition: all 0.15s ease;
+    }
+
+    .toc-label {
+      display: inline-block;
+      font-size: 13px;
+      line-height: 1.35;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity 0.16s ease, transform 0.16s ease;
+      pointer-events: none;
+      padding-right: 2px;
+    }
+
+    .toc-rail:hover .toc-label {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .toc-item.active .toc-dot,
+    .toc-item:hover .toc-dot {
+      background: #1d4ed8;
+      box-shadow: 0 0 0 1px #1d4ed8;
+    }
+
+    .main-column {
+      max-width: 760px;
+      margin: 0 auto;
+      min-width: 0;
+    }
+
+    .hero {
+      max-width: 100%;
+      padding: 72px 0 36px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 34px;
+    }
+
+    h1 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-weight: 500;
+      font-size: 48px;
+      line-height: 1.12;
+      color: var(--text-primary);
+      letter-spacing: -0.8px;
+      margin-bottom: 16px;
+    }
+
+    .subtitle {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 20px;
+      line-height: 1.35;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .pill {
+      border: 1px solid var(--border);
+      background: var(--bg-subtle);
+      border-radius: 999px;
+      padding: 4px 10px;
+      color: #1d4ed8;
+      font-size: 11px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    article {
+      position: relative;
+      max-width: 100%;
+      font-family: 'Crimson Pro', Georgia, serif;
+      color: #1f2937;
+      font-size: 19px;
+      line-height: 1.68;
+      letter-spacing: 0.1px;
+    }
+
+    article p {
+      margin: 0 0 18px;
+    }
+
+    h2 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      color: var(--text-primary);
+      font-size: 36px;
+      font-weight: 500;
+      line-height: 1.2;
+      margin: 54px 0 18px;
+      letter-spacing: -0.35px;
+    }
+
+    ul, ol {
+      margin: 0 0 18px 26px;
+    }
+
+    li {
+      margin-bottom: 4px;
+      padding-left: 4px;
+      line-height: 1.55;
+    }
+
+    .summary {
+      border-left: 3px solid #2563eb;
+      padding-left: 16px;
+      margin: 24px 0 12px;
+      color: #374151;
+    }
+
+    .summary p {
+      margin-bottom: 10px;
+      font-size: 18px;
+      line-height: 1.52;
+    }
+
+    .sidenote {
+      float: right;
+      clear: right;
+      width: 290px;
+      margin-right: -340px;
+      margin-left: 24px;
+      margin-bottom: 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--text-muted);
+      padding-left: 12px;
+      border-left: 1px solid var(--border);
+      border-radius: 6px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+
+    .sidenote strong {
+      color: #475569;
+      font-weight: 600;
+    }
+
+    figure {
+      margin: 30px 0 26px;
+    }
+
+    .svg-figure {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    }
+
+    figcaption {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 10px;
+      line-height: 1.55;
+    }
+
+    blockquote {
+      border-left: 3px solid var(--border);
+      padding-left: 18px;
+      margin: 24px 0;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    footer {
+      margin-top: 52px;
+      padding-top: 26px;
+      border-top: 1px solid var(--border-light);
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+    }
+
+    @media (max-width: 1200px) {
+      .container {
+        max-width: 860px;
+        display: block;
+      }
+      article { max-width: 100%; }
+      .toc-rail { display: none; }
+      .sidenote {
+        float: none;
+        width: auto;
+        margin: 8px 0 18px;
+        border-left: 2px solid var(--border);
+      }
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 38px; }
+      h2 { font-size: 33px; margin-top: 42px; }
+      .hero {
+        padding-top: 48px;
+        margin-bottom: 28px;
+      }
+      .subtitle { font-size: 18px; }
+      article {
+        font-size: 17px;
+        line-height: 1.62;
+      }
+      .summary p { font-size: 17px; }
+      .nav-links a {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">Shreshth Saini</a>
+      <div class="nav-links">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#experience">Experience</a>
+        <a href="../index.html#research">Research</a>
+        <a href="../blogs.html" class="active">Blogs</a>
+        <a href="../data/CV_Shreshth_Saini_2026.pdf">CV</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <aside class="toc-rail" aria-label="On this page">
+      <div class="toc-head">
+        <p class="toc-title">On Reneging</p>
+      </div>
+      <nav class="toc-items">
+        <a class="toc-item" href="#sec-summary"><span class="toc-dot"></span><span class="toc-label">Summary</span></a>
+        <a class="toc-item" href="#sec-context"><span class="toc-dot"></span><span class="toc-label">Some Context</span></a>
+        <a class="toc-item" href="#sec-what-happened"><span class="toc-dot"></span><span class="toc-label">What I Did</span></a>
+        <a class="toc-item" href="#sec-extent"><span class="toc-dot"></span><span class="toc-label">What I Didn't Understand</span></a>
+        <a class="toc-item" href="#sec-guilt"><span class="toc-dot"></span><span class="toc-label">The Guilt</span></a>
+        <a class="toc-item" href="#sec-practical"><span class="toc-dot"></span><span class="toc-label">If You Are Where I Was</span></a>
+        <a class="toc-item" href="#sec-closing"><span class="toc-dot"></span><span class="toc-label">A Closing Note</span></a>
+      </nav>
+    </aside>
+
+    <div class="main-column">
+    <header class="hero">
+      <h1>On Reneging a Job Offer: A Caution I Wish Someone Had Given Me</h1>
+      <p class="subtitle">
+        This is not a technical post. It is a personal one, about the offer I walked away from after saying yes,
+        the guilt that has stayed with me since, and why I would advise you, strongly and from experience, not to do what I did.
+      </p>
+      <div class="meta">
+        <span>Jul 2026</span>
+        <span class="pill">Personal</span>
+        <span class="pill">Career</span>
+      </div>
+    </header>
+
+    <article>
+      <div id="sec-summary"></div>
+      <div class="summary">
+        <p><strong>What this is.</strong> A caution, a practical note, and, if I am honest with myself, an indirect apology. During the job search at the end of my PhD I accepted one company's offer, and then reneged on it to join another. I have carried a consistent, quiet guilt about it ever since.</p>
+        <p><strong>The short version.</strong> Reneging is technically allowed, rarely punished, and widely rationalized. None of that prepares you for how it actually feels, or for how much of other people's effort and trust you are discarding when you do it.</p>
+        <p><strong>My advice.</strong> Do everything you can to never reach the point where reneging feels like your only option. It costs far more than you think, and not in the ways you expect.</p>
+      </div>
+
+      <figure>
+        <canvas class="svg-figure" id="renege-canvas" role="img" aria-label="Abstract animation: two threads leave one point; one stays bright, the other drifts away, breaks, and fades. It stirs when the cursor comes near."></canvas>
+        <figcaption>
+          Two threads from the same point. One is the life you chose. The other drifts, breaks, and fades, but never fully leaves.
+          Move your cursor over it and the faded one stirs. That is roughly how the feeling works.
+        </figcaption>
+      </figure>
+
+      <h2 id="sec-context">Some Context</h2>
+
+      <aside class="sidenote">
+        <strong>Timeline.</strong> If you want the full picture of the search itself (companies, rounds, and how the loops overlapped), I wrote about it in my <a href="genai-interview-notes.html">interview notes post</a>.
+      </aside>
+
+      <p>
+        During the final stretch of my PhD, I went through the full industry job search: roughly eight to ten companies,
+        months of preparation, and interview loops that at one point were running in parallel across several time zones.
+        One loop alone was about ten rounds. By the end of it I was fortunate, genuinely and unreasonably fortunate,
+        to be holding multiple offers from really good companies. This post, though, is about exactly two of them.
+      </p>
+
+      <p>
+        A note before we go on: I am keeping the company names out of this post. People who know me can guess them easily,
+        and that is fine. The point of the post does not depend on the names.
+      </p>
+
+      <p>
+        The first company was, honestly, a near-perfect match. The kind of work I wanted to do, the role itself, the day-to-day
+        I could actually picture myself in, even the small thrill of imagining my work sitting behind things people watch.
+        Its timing was clean too: the loop ran, the offer came, and everything lined up. From there, my search wound down;
+        the offers that arrived afterwards were mostly the delayed outcomes of interviews I had already given.
+        So I thought I should simply go with it, and I said yes.
+      </p>
+
+      <p>
+        Then the second company's offer came. It was attractive in a very different way: the chance to work at a truly
+        large scale, which is a rare thing to be offered in the current landscape of AI research.
+        If you had told me at the start of the season that this is how it would end, two great options and the freedom to choose,
+        I would have said there was no version of it where I ended up sad.
+        I was wrong about that, and the reason I was wrong is the subject of this post.
+      </p>
+
+      <h2 id="sec-what-happened">What I Did</h2>
+
+      <p>
+        I said yes to the first company. Then the rest of my search resolved, and the decision in my head shifted,
+        and I walked back the commitment I had made in order to join the second.
+        I am deliberately not going to relitigate the reasoning here, because the reasoning is not the point. At the time, each individual step
+        felt defensible: a decision was demanded before all the information existed, and another path appeared after
+        I had already spoken for a different one. That is exactly how reneging happens.
+        Nobody wakes up planning to go back on their word. You arrive there through a sequence of small, individually reasonable decisions,
+        and then one day you are writing an email you never imagined you would write.
+      </p>
+
+      <p>
+        The email was polite, and the replies were kind. I want to be clear about this part: no relationship broke, no bridge burned.
+        Everyone was gracious, and I am genuinely hopeful the door is still open, that someday, if my path bends that way,
+        I get to go there. The weight of this has never come from the outside. It comes entirely from me, from how it feels,
+        personally and emotionally, to have gone back on a yes.
+      </p>
+
+      <h2 id="sec-extent">What I Didn't Understand</h2>
+
+      <p>
+        Here is the thing I want to be most honest about: <em>I did not understand the full meaning and extent of reneging when I did it.</em>
+        I understood it as a transaction: an offer is an option, an acceptance is a stronger option, and options can be unwound.
+        That framing is common, especially among people who will tell you "companies rescind offers too, it's just business."
+        It is also, I now believe, deeply incomplete.
+      </p>
+
+      <p>
+        When you accept an offer, things start moving that you never see. A recruiter who spent weeks advocating for you closes out their search.
+        A hiring manager stops interviewing other candidates, candidates who wanted that seat, and tells their team you are coming.
+        Headcount gets committed. People who interviewed you, who spent hours of their working lives evaluating you and then vouched for you
+        in a debrief room, attach a small piece of their judgment to your name. None of these people are "the company."
+        They are individuals who extended trust, and reneging quietly spends all of it at once.
+      </p>
+
+      <aside class="sidenote">
+        <strong>On "it's just business."</strong> Maybe it is, at the level of legal documents. It is not at the level of the specific
+        humans who championed you. Those are the people your renege actually lands on.
+      </aside>
+
+      <figure>
+        <canvas class="svg-figure" id="web-canvas" role="img" aria-label="Abstract animation: one point connected by faint threads to many scattered dots that only become visible when the cursor comes near"></canvas>
+        <figcaption>
+          The part I could not see: one yes, quietly attached to people I would never meet.
+          Bring your cursor close and they appear. They were always there.
+        </figcaption>
+      </figure>
+
+      <p>
+        I also did not understand the asymmetry of it. The offer took months of effort from both sides to build.
+        The renege took one email to undo. There is something about that ratio that I have not been able to make peace with.
+      </p>
+
+      <h2 id="sec-guilt">The Guilt</h2>
+
+      <p>
+        I want to describe this part carefully, because it is the part nobody warned me about.
+      </p>
+
+      <p>
+        The guilt is not dramatic. It does not arrive as a crisis. It is a low, consistent hum, a feeling that surfaces when
+        something opens with a logo animation I once imagined my own work sitting behind, when someone at a conference asks,
+        casually, "oh, didn't you interview there?", when I am happy in the job I chose and remember what that choice cost
+        someone else. It has been months now, and the feeling has softened but not left. Coping with it is taking real time.
+        I suspect it will take a while longer.
+      </p>
+
+      <figure>
+        <canvas class="svg-figure" id="hum-canvas" role="img" aria-label="Abstract animation: a nearly flat line with a soft persistent tremor that softens along its length but never fully settles, swelling gently where the cursor passes"></canvas>
+        <figcaption>
+          The hum, roughly. It softens with time and never quite reaches zero.
+          Run your cursor along it; some days something brushes against it and it swells.
+        </figcaption>
+      </figure>
+
+      <p>
+        I know people who have reneged and moved on in a weekend. I am genuinely not judging them; people are different, and they metabolize
+        these things differently. But I have learned something about my own personality through this: I hold on to broken commitments.
+        Going back on my word, even in a context where it is common and half-expected, sits badly with me at a level that logic does not reach.
+        If you recognize yourself in that description, if you are the kind of person who replays conversations, who feels a handshake
+        as a weight, then the standard "it happens all the time, they'll forget you by Friday" advice is not written for you.
+        The company will recover immediately. Whether <em>you</em> recover quickly depends entirely on who you are, and I did not know
+        who I was on this axis until it was too late to matter.
+      </p>
+
+      <h2 id="sec-practical">If You Are Where I Was</h2>
+
+      <p>
+        Some practical advice, from the other side of it. Most of this reduces to one principle: <strong>the time to prevent a renege is before you accept, not after.</strong>
+      </p>
+
+      <ul>
+        <li><strong>Do not accept an offer to stop the clock.</strong> An acceptance is not a place to stand while you keep deciding. If you are still deciding, you have not decided. Say that, out loud, to the recruiter.</li>
+        <li><strong>Ask for more time, even when it is uncomfortable.</strong> The awkwardness of asking for two more weeks is trivial compared to the weight of walking back a yes. Most companies will flex more than you expect for a candidate they want.</li>
+        <li><strong>Force your own timelines into alignment.</strong> Tell every company where you are in every other process. Slow the fast ones down; speed the slow ones up. Misaligned timelines are where reneges are born.</li>
+        <li><strong>Decide with your gut before the offers arrive.</strong> Rank the outcomes while they are still hypothetical, when you can be honest. If one company would win over the others no matter what, know that <em>before</em> you are holding anyone else's offer with a deadline on it, and protect that possibility instead of accepting around it.</li>
+        <li><strong>If you truly must renege, do it fast and do it straight.</strong> The moment you know, tell them. No stalling, no vague hedging while you get comfortable. Call the recruiter, own it plainly, apologize without excuses. It is the only version of a bad thing that preserves any dignity for anyone.</li>
+      </ul>
+
+      <p>
+        And one more, the one I most wish I had heard: before you accept anything, ask yourself not just "which job do I want?" but
+        "which of these yeses can I actually keep?" They are different questions. Only the second one protects you from this post.
+      </p>
+
+      <h2 id="sec-closing">A Closing Note</h2>
+
+      <p>
+        I am not writing this to argue that reneging should never happen, or to moralize at anyone whose circumstances forced their hand.
+        Life is complicated; sometimes the walk-back genuinely is the right call. I am writing it because when I searched for advice
+        during those weeks, everything I found was legal and tactical (<em>can</em> they sue you, <em>will</em> you be blacklisted),
+        and almost nothing was honest about the emotional ledger. Nobody told me that the hardest consequence would not come from
+        the companies at all. It would come from me, quietly, for months.
+      </p>
+
+      <p>
+        I said what I could in the final email, and I meant it. Even so, I keep feeling I should have been more careful long before
+        it ever came to that: negotiated more openly, asked for more time, slowed the whole thing down while the choice was still
+        just a choice. And to the people who spent real hours on me, who advocated in rooms I never saw, who made space on a team
+        I never joined: it was not weightless to me. It still isn't.
+      </p>
+
+      <p>
+        So this is the post I wish I had found: a data point from someone it sits heavily on. If you are lucky enough to be choosing
+        between good options someday, choose slowly, choose once, and keep your yes. Future you will be grateful in a way that
+        no compensation package can match.
+      </p>
+    </article>
+
+    <footer>
+      <p>&copy; 2026 Shreshth Saini &middot; <a href="../blogs.html">Back to Scratch Pad</a></p>
+    </footer>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const ease = (u) => u * u * (3 - 2 * u);
+      const mix = (a, b, t) => [
+        Math.round(a[0] + (b[0] - a[0]) * t),
+        Math.round(a[1] + (b[1] - a[1]) * t),
+        Math.round(a[2] + (b[2] - a[2]) * t)
+      ];
+      const rgba = (c, a) => 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a.toFixed(3) + ')';
+
+      const BLUE = [37, 99, 235];
+      const VIOLET = [124, 58, 237];
+      const ROSE = [244, 63, 94];
+      const AMBER = [245, 158, 11];
+      const SLATE = [100, 116, 139];
+      const SOFT = [148, 163, 184];
+
+      function setupCanvas(id, aspect, minH, hint, makeDraw) {
+        const canvas = document.getElementById(id);
+        if (!canvas || !canvas.getContext) return;
+        const ctx = canvas.getContext('2d');
+        const s = { W: 0, H: 0, t: 1.7, mouse: { x: -9999, y: -9999 }, entered: false };
+        const draw = makeDraw(ctx, s);
+
+        function resize() {
+          const rect = canvas.getBoundingClientRect();
+          s.W = Math.max(300, rect.width);
+          s.H = Math.max(minH, Math.round(s.W * aspect));
+          const dpr = window.devicePixelRatio || 1;
+          canvas.style.height = s.H + 'px';
+          canvas.width = s.W * dpr;
+          canvas.height = s.H * dpr;
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        function frame() {
+          ctx.clearRect(0, 0, s.W, s.H);
+          draw();
+          if (!s.entered && hint) {
+            ctx.font = '500 12px Inter, sans-serif';
+            ctx.textAlign = 'right';
+            ctx.fillStyle = 'rgba(100, 116, 139, ' + (0.4 + Math.sin(s.t * 1.6) * 0.15).toFixed(3) + ')';
+            ctx.fillText(hint, s.W - 14, 22);
+            ctx.textAlign = 'left';
+          }
+        }
+
+        canvas.addEventListener('pointermove', (e) => {
+          const r = canvas.getBoundingClientRect();
+          s.mouse.x = e.clientX - r.left;
+          s.mouse.y = e.clientY - r.top;
+          s.entered = true;
+          if (reduceMotion) frame();
+        });
+        canvas.addEventListener('pointerleave', () => {
+          s.mouse.x = -9999;
+          s.mouse.y = -9999;
+          if (reduceMotion) frame();
+        });
+
+        resize();
+        window.addEventListener('resize', () => {
+          resize();
+          if (reduceMotion) frame();
+        });
+
+        if (reduceMotion) {
+          frame();
+        } else {
+          (function loop() {
+            s.t += 0.012;
+            frame();
+            requestAnimationFrame(loop);
+          })();
+        }
+      }
+
+      // Figure 1: two threads from one point
+      setupCanvas('renege-canvas', 0.34, 200, 'move your cursor over the threads', (ctx, s) => {
+        const motes = [];
+        const MOTE_COLORS = [ROSE, AMBER, SLATE];
+        const xAt = (u) => s.W * 0.07 + u * s.W * 0.87;
+        const wave = (u, t, ph, amp) =>
+          Math.sin(u * 7 + t + ph) * amp + Math.sin(u * 13 - t * 0.6 + ph * 2.1) * amp * 0.4;
+        const blueY = (u) => s.H * (0.52 - 0.20 * ease(u)) + wave(u, s.t, 0.8, 3.5) * ease(u);
+        const grayY = (u) => {
+          let y = s.H * (0.52 + 0.24 * ease(u)) + wave(u, s.t * 0.8, 2.6, 7) * ease(u);
+          const dx = s.mouse.x - xAt(u), dy = s.mouse.y - y;
+          y += dy * 0.35 * Math.exp(-Math.hypot(dx, dy) / 90) * ease(u);
+          return y;
+        };
+        const glowAt = (u) => {
+          const dx = s.mouse.x - xAt(u), dy = s.mouse.y - grayY(u);
+          return Math.exp(-Math.hypot(dx, dy) / 110);
+        };
+        const spawn = () => ({
+          u: 0.35 + Math.random() * 0.6,
+          y: 0,
+          vy: 0.08 + Math.random() * 0.18,
+          life: 0,
+          max: 160 + Math.random() * 180,
+          c: MOTE_COLORS[Math.floor(Math.random() * MOTE_COLORS.length)],
+          init: false
+        });
+
+        return function draw() {
+          const STEPS = 150, BREAK = 0.30;
+          ctx.lineCap = 'round';
+
+          const grad = ctx.createLinearGradient(xAt(0), 0, xAt(1), 0);
+          grad.addColorStop(0, rgba(BLUE, 0.9));
+          grad.addColorStop(1, rgba(VIOLET, 0.9));
+          ctx.beginPath();
+          for (let i = 0; i <= STEPS; i++) {
+            const u = i / STEPS, x = xAt(u), y = blueY(u);
+            i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+          }
+          ctx.shadowColor = rgba(BLUE, 0.35);
+          ctx.shadowBlur = 10;
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 3;
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+
+          for (let i = 0; i < STEPS; i++) {
+            const u1 = i / STEPS, u2 = (i + 1) / STEPS;
+            if (u1 > BREAK && Math.floor(i / 3) % 2 === 1) continue;
+            const glow = glowAt(u1);
+            let alpha = 0.55 * (1 - u1 * 0.8) + glow * 0.45;
+            if (u1 > BREAK) alpha *= 0.8;
+            const c = mix(mix(ROSE, SOFT, u1), ROSE, Math.min(1, glow));
+            ctx.beginPath();
+            ctx.moveTo(xAt(u1), grayY(u1));
+            ctx.lineTo(xAt(u2), grayY(u2));
+            ctx.strokeStyle = rgba(c, Math.min(0.9, alpha));
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+          }
+
+          ctx.beginPath();
+          ctx.arc(xAt(0), s.H * 0.52, 5, 0, Math.PI * 2);
+          ctx.fillStyle = '#0f172a';
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(xAt(1), blueY(1), 5.5, 0, Math.PI * 2);
+          ctx.fillStyle = rgba(VIOLET, 0.95);
+          ctx.fill();
+
+          ctx.beginPath();
+          ctx.arc(xAt(1), grayY(1), 5.5, 0, Math.PI * 2);
+          ctx.strokeStyle = rgba(ROSE, 0.55);
+          ctx.lineWidth = 2;
+          ctx.stroke();
+
+          if (!reduceMotion) {
+            while (motes.length < 14) motes.push(spawn());
+            for (let i = 0; i < motes.length; i++) {
+              const p = motes[i];
+              if (!p.init) { p.y = grayY(p.u); p.init = true; }
+              p.life++;
+              p.y += p.vy;
+              if (p.life > p.max) { motes[i] = spawn(); continue; }
+              const fade = Math.sin((p.life / p.max) * Math.PI);
+              ctx.beginPath();
+              ctx.arc(xAt(p.u), p.y, 1.6, 0, Math.PI * 2);
+              ctx.fillStyle = rgba(p.c, 0.14 + fade * 0.22 + glowAt(p.u) * 0.35);
+              ctx.fill();
+            }
+          }
+        };
+      });
+
+      // Figure 2: the unseen web behind one yes
+      setupCanvas('web-canvas', 0.34, 200, 'bring your cursor close', (ctx, s) => {
+        const PALETTE = [BLUE, [14, 116, 144], VIOLET, [16, 185, 129], AMBER, ROSE];
+        const seeds = [];
+        for (let i = 0; i < 16; i++) {
+          seeds.push({
+            u: 0.32 + Math.random() * 0.62,
+            v: 0.10 + Math.random() * 0.80,
+            ph: Math.random() * Math.PI * 2,
+            r: 2 + Math.random() * 1.5,
+            c: PALETTE[i % PALETTE.length]
+          });
+        }
+        return function draw() {
+          const ox = s.W * 0.10, oy = s.H * 0.5;
+          for (const n of seeds) {
+            const x = n.u * s.W + Math.sin(s.t * 0.7 + n.ph) * 4;
+            const y = n.v * s.H + Math.cos(s.t * 0.5 + n.ph) * 4;
+            const glow = Math.exp(-Math.hypot(s.mouse.x - x, s.mouse.y - y) / 90);
+            const mx = (ox + x) / 2 + Math.sin(s.t * 0.6 + n.ph) * 8;
+            const my = (oy + y) / 2 + Math.cos(s.t * 0.4 + n.ph) * 8;
+
+            ctx.beginPath();
+            ctx.moveTo(ox, oy);
+            ctx.quadraticCurveTo(mx, my, x, y);
+            ctx.strokeStyle = rgba(mix(SLATE, n.c, Math.min(1, 0.25 + glow)), 0.10 + glow * 0.6);
+            ctx.lineWidth = 1.4 + glow * 0.8;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(x, y, n.r + glow * 1.5, 0, Math.PI * 2);
+            ctx.fillStyle = rgba(n.c, 0.35 + glow * 0.55);
+            ctx.fill();
+          }
+          ctx.beginPath();
+          ctx.arc(ox, oy, 6, 0, Math.PI * 2);
+          ctx.fillStyle = '#0f172a';
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(ox, oy, 10 + Math.sin(s.t * 1.2) * 1.5, 0, Math.PI * 2);
+          ctx.strokeStyle = rgba(BLUE, 0.3);
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        };
+      });
+
+      // Figure 3: the hum
+      setupCanvas('hum-canvas', 0.20, 130, 'run your cursor along it', (ctx, s) => {
+        return function draw() {
+          const STEPS = 220, mid = s.H * 0.55;
+
+          function humY(u) {
+            const amp = 9 * (1 - 0.62 * u) + 1.5;
+            let y = mid
+              + Math.sin(u * 34 - s.t * 2.0) * amp * 0.45
+              + Math.sin(u * 77 + s.t * 1.3) * amp * 0.22
+              + Math.sin(u * 11 + s.t * 0.5) * amp * 0.33;
+            const swell = Math.exp(-Math.abs(s.mouse.x - u * s.W) / 70);
+            y += Math.sin(u * 55 - s.t * 3.2) * 10 * swell;
+            return y;
+          }
+
+          ctx.lineCap = 'round';
+          for (let i = 0; i < STEPS; i++) {
+            const u1 = i / STEPS, u2 = (i + 1) / STEPS;
+            const y1 = humY(u1), y2 = humY(u2);
+            const glow = Math.exp(-Math.hypot(s.mouse.x - u1 * s.W, s.mouse.y - y1) / 90);
+            const c = mix(mix(AMBER, [139, 92, 246], ease(u1)), ROSE, Math.min(1, glow * 0.8));
+            ctx.beginPath();
+            ctx.moveTo(u1 * s.W, y1);
+            ctx.lineTo(u2 * s.W, y2);
+            ctx.strokeStyle = rgba(c, 0.45 + 0.25 * (1 - u1 * 0.5) + glow * 0.3);
+            ctx.lineWidth = 2.2 + glow * 1.4;
+            ctx.stroke();
+          }
+        };
+      });
+    })();
+  </script>
+
+  <script>
+    (function () {
+      const tocLinks = Array.from(document.querySelectorAll('.toc-item'));
+      if (!tocLinks.length) return;
+
+      const sections = tocLinks
+        .map((link) => document.querySelector(link.getAttribute('href')))
+        .filter(Boolean);
+      if (!sections.length) return;
+
+      function setActive(id) {
+        tocLinks.forEach((link) => {
+          const isActive = link.getAttribute('href') === '#' + id;
+          link.classList.toggle('active', isActive);
+        });
+      }
+
+      const initial = window.location.hash ? window.location.hash.slice(1) : sections[0].id;
+      setActive(initial);
+
+      tocLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          const id = link.getAttribute('href').replace('#', '');
+          setActive(id);
+        });
+      });
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        },
+        { rootMargin: '-30% 0px -60% 0px', threshold: 0 }
+      );
+
+      sections.forEach((section) => observer.observe(section));
+    })();
+  </script>
+</body>
+</html>
