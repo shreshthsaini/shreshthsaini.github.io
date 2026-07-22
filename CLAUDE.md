@@ -5,6 +5,7 @@ Personal academic site. Plain static HTML, no build system; every page inlines i
 ## Hard rules
 
 - NEVER use em-dashes anywhere (prose, captions, commit messages). Restructure with commas, colons, periods, or parentheses. Keep colons in prose rare.
+- NEVER write AI slop. Follow the no-ai-slop rules by default in all prose: no banned words (delve, leverage, robust, tapestry...), no binary contrasts, no colon reveals, no throat-clearing openers, no puffery, no fake-profound kickers, no recap endings. Concrete facts, active voice, direct verbs, Shreshth's voice preserved.
 - NEVER add Claude/AI attribution: no Co-Authored-By trailers, no "Generated with" lines.
 - Show changes for review before committing or pushing. Push only when Shreshth says push.
 
