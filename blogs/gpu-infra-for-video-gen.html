@@ -2702,6 +2702,14 @@
         This reflects one team's experience on one center's systems. There are certainly things we mis-measured or could have done better. CachedSearch predates the all-host telemetry policy, and the fleet traces here are descriptive records rather than causal estimates. We are still learning, and the playbook keeps evolving as new projects expose new failure modes.
       </p>
 
+      <p>
+        The largest limitation deserves plain words. Even after every repair described here, our utilization is still not the best that the hardware allows, and we do not present it as optimum. The rolling activity we reached is respectable for an academic fleet, yet calibration overhead, queue handoffs, sequential decode phases, and recovery windows all still spend GPU time that a tighter system would not. Everything in this post is work in progress toward infrastructure that sustains the highest throughput and the best resource utilization we can defensibly measure.
+      </p>
+
+      <p>
+        It is worth knowing what the bar looks like elsewhere. Most large companies run internal platforms that treat utilization and throughput as launch criteria, and a job that cannot demonstrate a high projected efficiency often is not permitted to start at all. The open ecosystem has excellent pieces, and we cite many of them in the previous section, but nothing yet ties scheduling, calibration, batching, telemetry, evaluation, and provenance together as one end-to-end open stack. The goal behind this playbook is exactly that, a genuinely strong open-source infrastructure for these workloads, and we hope others build on it and past it.
+      </p>
+
       <h2 id="sec-guide"><span class="sec-num">13</span>Ten rules we carry forward</h2>
 
       <p>
