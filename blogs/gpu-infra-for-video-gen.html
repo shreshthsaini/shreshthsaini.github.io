@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Fleetcraft: GPU Infrastructure Notes from Three Video-Generation Projects</title>
+  <title>Fleetcraft: GPU Infrastructure Notes from Video Generation Projects</title>
   <meta name="author" content="Shreshth Saini">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Practical GPU infrastructure lessons from large-scale video inference, multi-node distillation, and asynchronous RL projects.">
@@ -210,6 +210,15 @@
       margin-bottom: 34px;
     }
 
+
+    .terminal-capture { margin: 18px 0 26px; }
+    .terminal-capture pre {
+      background: #0f172a; color: #cbd5e1; border-radius: 10px;
+      padding: 14px 16px; font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+      font-size: 10.5px; line-height: 1.45; overflow-x: auto; white-space: pre;
+    }
+    .terminal-caption { font-family: 'Inter', sans-serif; font-size: 12.5px; font-style: italic;
+      color: var(--text-muted); margin-top: 8px; }
     .hero-logo { margin-bottom: 18px; }
     .hero-logo svg { display: block; }
 
@@ -800,7 +809,7 @@
           <rect x="66" y="146" width="28" height="28" rx="7" fill="#f59e0b"/>
         </svg>
       </div>
-      <h1>Fleetcraft: GPU Infrastructure Notes from Three Video-Generation Projects</h1>
+      <h1>Fleetcraft: GPU Infrastructure Notes from Video Generation Projects</h1>
       <p class="subtitle">
         What large-scale inference search, multi-node distillation, and asynchronous RL taught us about memory, orchestration, and honest measurement.
       </p>
@@ -848,7 +857,7 @@
         For attribution, jump to the <a href="#how-to-cite">Citation</a> section near the end.
       </div>
 
-      <h2 id="sec-opening"><span class="sec-num">01</span>Three projects, one infrastructure problem</h2>
+      <h2 id="sec-opening"><span class="sec-num">01</span>The projects, one infrastructure problem</h2>
 
       <aside class="sidenote">
         <strong>Spool.</strong> A filesystem-backed queue whose state directories make ownership and recovery explicit.
@@ -1263,8 +1272,64 @@
       </p>
 
       <p>
-        For live watching during operations, per-GPU, per-node, and fleet-level utilization views came from <a href="https://github.com/lablup/all-smi">all-smi</a>, Lablup's open-source cross-platform accelerator monitor that extends the <code class="inline">nvidia-smi</code> view across many nodes at once.<span class="cite"><a href="#src-allsmi">[14]</a></span> The archived traces behind the figures in this post came from the plain <code class="inline">nvidia-smi</code> CSV logger, which is what the repository ships for durable records.
+        For live watching during operations, per-GPU, per-node, and fleet-level utilization views came from <a href="https://github.com/lablup/all-smi">all-smi</a>, Lablup's open-source cross-platform accelerator monitor that extends the <code class="inline">nvidia-smi</code> view across many nodes at once.<span class="cite"><a href="#src-allsmi">[14]</a></span> The archived traces behind the figures in this post came from the plain <code class="inline">nvidia-smi</code> CSV logger, which is what the repository ships for durable records. One caveat worth knowing: all-smi does not discover a Slurm allocation by itself, and strict SSH host-key checking can silently drop recycled nodes from the view. The exact node-discovery and host-key settings we run are in the playbook's <a href="https://github.com/shreshthsaini/fleetcraft/blob/master/skills/telemetry-and-monitoring.md">telemetry skill</a>.
       </p>
+      <div class="terminal-capture">
+        <pre>all-smi - 2026-07-22 15:39:11                                                                                                                                                                              v0.23.0
+Cluster Overview
+│ Nodes       │ Total RAM   │ GPU Cores   │ Total VRAM  │ Avg. Temp   │ Total Power │  ⊗○
+│ 1/1         │ 0.0GB       │ 1           │ 96GB        │ 73°C        │ 0.9kW       │
+│ CPU Cores   │ Used RAM    │ GPU Util    │ Used VRAM   │ Temp. Stdev │ Avg. Power  │
+│ 0           │ 0.0GB       │ <span style="color:#60a5fa;font-weight:600">100.0%</span>      │ 1GB         │ ±0.0°C      │ <span style="color:#fbbf24">851.1W</span>      │
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+Live Statistics
+GPU Util. ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿ <span style="color:#60a5fa;font-weight:600">100.0%</span> CPU Util.                                                                                        N/A
+GPU Mem.  ⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀ 1.3%   Host Mem.                                                                                        N/A
+GPU Temp. ⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶  72°C  CPU Temp.                                                                                        N/A
+
+Tabs:  All  Users  Topology  ssh://saini_2@c642-082.vista.tacc.utexas.edu·native
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+GPU  0 120GB   NVIDI @ u   c642- Util:<span style="color:#60a5fa;font-weight:600">100.0%</span> VRAM:   1.2/96GB Temp:  73°C Freq:1.86GHz <span style="color:#fbbf24">Pwr:851/900W</span> Drv:590.48.01 CUDA:13.1
+      Slowdown:89°C Shutdown:95°C MaxOp:87°C P-State:P0
+      HW NUMA:1 GSP:default v590.48.01
+     Util : [▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬  <span style="color:#60a5fa;font-weight:600">100.0%</span>]  Mem  : [▬─────────────────────────────────────────────────────────────────────────────────   1.2GB]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+h:Help q:Exit f:Filter ←→:Scroll ↑↓:Scroll p:PID m:Memory g:GPU-Mem [Sort:Default]</pre>
+        <p class="terminal-caption">A live all-smi view of one GH200 during a saturating bf16 matmul burn, captured on Vista over the SSH target list the wrapper builds from the Slurm allocation.</p>
+      </div>
+
 
       <p>
         Point probes remain useful for attribution. They tell us which GPU is computing now, which one holds project memory between bursts, and which one is truly free. Fleet health needs a rolling view. VSAO summarized five-minute windows using active-sample fraction, defined as the fraction of samples at or above 5 percent utilization, plus mean utilization and mean memory fraction. Each summary tied itself to the source telemetry by hash. <span class="provenance">(VSAO telemetry summary)</span>
@@ -2954,7 +3019,7 @@ text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: #0f172a; 
       <div class="cite-label">Blog post</div>
       <pre><code>@misc{saini2026gpuinfraprojects,
   author = {Shreshth Saini},
-  title = {Fleetcraft: GPU Infrastructure Notes from Three Video-Generation Projects},
+  title = {Fleetcraft: GPU Infrastructure Notes from Video Generation Projects},
   year = {2026},
   howpublished = {\url{https://shreshthsaini.github.io/blogs/gpu-infra-for-video-gen.html}},
   note = {Blog post}
