@@ -210,6 +210,9 @@
       margin-bottom: 34px;
     }
 
+    .hero-logo { margin-bottom: 18px; }
+    .hero-logo svg { display: block; }
+
     h1 {
       font-family: 'Crimson Pro', Georgia, serif;
       font-weight: 500;
@@ -783,6 +786,20 @@
 
     <div class="main-column">
     <header class="hero">
+      <div class="hero-logo" aria-hidden="true">
+        <svg viewBox="0 0 240 240" width="84" height="84" role="img" aria-label="Fleetcraft logo">
+          <path d="M 120 22 A 98 98 0 1 1 22 120" fill="none" stroke="#2563eb" stroke-width="10" stroke-linecap="round"/>
+          <path d="M 22 120 L 10 100 M 22 120 L 42 112" fill="none" stroke="#2563eb" stroke-width="10" stroke-linecap="round"/>
+          <rect x="66" y="66" width="34" height="34" rx="8" fill="#2563eb"/>
+          <rect x="106" y="66" width="34" height="34" rx="8" fill="#2563eb"/>
+          <rect x="66" y="106" width="34" height="34" rx="8" fill="#2563eb"/>
+          <rect x="106" y="106" width="34" height="34" rx="8" fill="#93c5fd"/>
+          <rect x="146" y="66" width="28" height="28" rx="7" fill="#0f172a"/>
+          <rect x="146" y="100" width="28" height="28" rx="7" fill="#0f172a"/>
+          <rect x="146" y="134" width="28" height="28" rx="7" fill="#475569"/>
+          <rect x="66" y="146" width="28" height="28" rx="7" fill="#f59e0b"/>
+        </svg>
+      </div>
       <h1>Fleetcraft: GPU Infrastructure Notes from Three Video-Generation Projects</h1>
       <p class="subtitle">
         What large-scale inference search, multi-node distillation, and asynchronous RL taught us about memory, orchestration, and honest measurement.
