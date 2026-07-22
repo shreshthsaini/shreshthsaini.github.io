@@ -248,6 +248,34 @@
       .fold-controls { display: none; }
     }
 
+    .fig-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin: 0 0 10px;
+    }
+
+    .fig-controls input[type="range"] {
+      flex: 0 1 240px;
+      accent-color: var(--accent);
+    }
+
+    .ctl-label { font-weight: 600; color: var(--text-primary); }
+    .ctl-value { font-weight: 700; color: var(--accent); min-width: 92px; }
+    .ctl-hint { color: var(--text-muted); font-size: 12px; }
+
+    .interactive-fig canvas {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    }
+
     .cite-box {
       background: var(--bg-subtle);
       border: 1px solid var(--border);
@@ -360,6 +388,10 @@
     </header>
 
     <article>
+      <figure class="interactive-fig">
+        <canvas id="bloom-canvas" aria-label="Abstract generative animation: scattered dots repeatedly assemble from noise into a golden-angle spiral bloom, growing from the center outward, then dissolve back into noise; moving the cursor scatters nearby dots and the structure settles back"></canvas>
+      </figure>
+
       <div class="summary">
         <p><strong>Thesis.</strong> A Research Scientist, GenAI loop is five overlapping interviews stacked on top of each other. Coding, ML/CV fundamentals, research dive, system design, behavioral.</p>
         <p><strong>Main technical point.</strong> Almost every modern generative system collapses to three primitives: a forward corruption process, a denoiser/velocity that reverses it, and a sampler that integrates the reverse dynamics. VAE, DDPM, score, flow matching, rectified flow, DDIM, CFG, DPS are all specific instantiations of those primitives.</p>
@@ -2269,6 +2301,149 @@ def dequantize(q, scale):
     </footer>
     </div>
   </div>
+
+  <script>
+    (function () {
+      const canvas = document.getElementById('bloom-canvas');
+      if (!canvas || !canvas.getContext) return;
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const mouse = { x: -9999, y: -9999 };
+      let ctx, W, H, t = 0, entered = false, reseeded = true;
+
+      const M = 620;
+      const GA = Math.PI * (3 - Math.sqrt(5));   // golden angle
+      const PAL = ['234, 88, 12', '37, 99, 235', '124, 58, 237', '14, 116, 144', '219, 39, 119'];
+      const dots = [];
+
+      function reseedNoise() {
+        for (const d of dots) {
+          d.nx = Math.random() * W;
+          d.ny = Math.random() * H;
+          d.wx = (Math.random() - 0.5) * 0.5;
+          d.wy = (Math.random() - 0.5) * 0.5;
+        }
+      }
+
+      function build() {
+        dots.length = 0;
+        for (let i = 0; i < M; i++) {
+          dots.push({ i, ox: 0, oy: 0, nx: 0, ny: 0, wx: 0, wy: 0 });
+        }
+        reseedNoise();
+      }
+
+      const smooth = (x) => {
+        const u = Math.max(0, Math.min(1, x));
+        return u * u * (3 - 2 * u);
+      };
+
+      function frame() {
+        ctx.clearRect(0, 0, W, H);
+        const cx = W * 0.5, cy = H * 0.52;
+        const R = Math.min(W * 0.46, H * 0.46);
+
+        // order parameter: breathes between noise (0) and full bloom (1)
+        const o = reduceMotion ? 1 : smooth((Math.sin(t * 0.10) + 1) / 2) * 1.18;
+        if (o < 0.02) {
+          if (!reseeded) { reseedNoise(); reseeded = true; }
+        } else {
+          reseeded = false;
+        }
+
+        // soft core glow as the bloom takes hold
+        const glow = Math.max(0, Math.min(1, (o - 0.25) * 1.4));
+        if (glow > 0.02) {
+          const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 0.85);
+          g.addColorStop(0, 'rgba(245, 158, 11, ' + (0.10 * glow).toFixed(3) + ')');
+          g.addColorStop(1, 'rgba(245, 158, 11, 0)');
+          ctx.fillStyle = g;
+          ctx.fillRect(0, 0, W, H);
+        }
+
+        for (const d of dots) {
+          const frac = d.i / M;
+          // each dot settles in sequence: the bloom grows from the center outward
+          const s = smooth((o - frac) / 0.16);
+
+          // home: phyllotaxis position, slowly rotating
+          const th = d.i * GA + t * 0.03;
+          const hr = R * Math.sqrt(frac);
+          const hx = cx + Math.cos(th) * hr;
+          const hy = cy + Math.sin(th) * hr * 0.94;
+
+          // noise: drifting wander
+          d.nx += d.wx; d.ny += d.wy;
+          if (d.nx < 0 || d.nx > W) d.wx *= -1;
+          if (d.ny < 0 || d.ny > H) d.wy *= -1;
+
+          let x = d.nx + (hx - d.nx) * s;
+          let y = d.ny + (hy - d.ny) * s;
+
+          // the interviewer's poke: cursor scatters dots, structure springs back
+          const dx = x - mouse.x, dy = y - mouse.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < 95 && dist > 0.5) {
+            const f = (1 - dist / 95) * 10;
+            d.ox += (dx / dist) * f * 0.35;
+            d.oy += (dy / dist) * f * 0.35;
+          }
+          d.ox *= 0.86; d.oy *= 0.86;
+          x += d.ox; y += d.oy;
+
+          const band = Math.min(4, Math.floor(frac * 5));
+          ctx.beginPath();
+          ctx.arc(x, y, 1.4 + s * 1.2, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(' + PAL[band] + ', ' + (0.32 + s * 0.46).toFixed(3) + ')';
+          ctx.fill();
+        }
+
+        if (!entered) {
+          ctx.font = '500 12px Inter, sans-serif';
+          ctx.textAlign = 'right';
+          ctx.fillStyle = 'rgba(100, 116, 139, ' + (0.4 + Math.sin(t * 1.4) * 0.15).toFixed(3) + ')';
+          ctx.fillText('disturb it', W - 14, 24);
+          ctx.textAlign = 'left';
+        }
+      }
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        W = Math.max(300, rect.width);
+        H = Math.max(220, Math.round(W * 0.38));
+        const dpr = window.devicePixelRatio || 1;
+        canvas.style.height = H + 'px';
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        ctx = canvas.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        build();
+        if (reduceMotion) frame();
+      }
+
+      canvas.addEventListener('pointermove', (e) => {
+        const r = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - r.left;
+        mouse.y = e.clientY - r.top;
+        entered = true;
+        if (reduceMotion) frame();
+      });
+      canvas.addEventListener('pointerleave', () => {
+        mouse.x = -9999; mouse.y = -9999;
+        if (reduceMotion) frame();
+      });
+      window.addEventListener('resize', resize);
+
+      resize();
+      if (!reduceMotion) {
+        (function loop() {
+          t += 0.016;
+          frame();
+          requestAnimationFrame(loop);
+        })();
+      }
+    })();
+  </script>
 
   <script>
     (function () {
