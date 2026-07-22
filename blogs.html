@@ -243,6 +243,8 @@
     .tag-slides { background: rgba(191, 87, 0, 0.12); color: #bf5700; }
     .tag-mllm { background: rgba(220, 38, 38, 0.1); color: #dc2626; }
     .tag-itm { background: rgba(6, 95, 70, 0.12); color: #065f46; }
+    .tag-infra { background: rgba(71, 85, 105, 0.12); color: #334155; }
+    .tag-video { background: rgba(37, 99, 235, 0.1); color: #1d4ed8; }
     .tag-personal { background: rgba(100, 116, 139, 0.12); color: #475569; }
 
     .post-title {
@@ -403,9 +405,22 @@
     <section class="posts-section" id="writing">
       <div class="section-head">
         <h2 class="section-title">Writing</h2>
-        <span class="section-count">4 posts</span>
+        <span class="section-count">5 posts</span>
       </div>
       <div class="posts-grid">
+
+        <article class="post-card">
+          <div class="post-meta">
+            <span class="post-date">Jul 2026</span>
+            <span class="post-tag tag-infra">GPU Infra</span>
+            <span class="post-tag tag-video">Video Gen</span>
+            <span class="post-tag tag-dm">HPC</span>
+          </div>
+          <h2 class="post-title"><a href="blogs/gpu-infra-for-video-gen.html">GPU Infrastructure for Video Generation: Notes from Three Projects</a></h2>
+          <p class="post-excerpt">What three video-generation projects on TACC's Vista and Lonestar6 taught us about GPU infrastructure: memory hierarchy and OOM taxonomy, calibration-first batching, queue-driven multi-node fleets, asynchronous RL orchestration, telemetry that tells the truth, and the measured utilization evidence behind each lesson.</p>
+          <a href="blogs/gpu-infra-for-video-gen.html" class="read-more">Read more &rarr;</a>
+        </article>
+
 
         <!-- UNPUBLISHED: uncomment to publish the reneging post
         <article class="post-card">
