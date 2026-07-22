@@ -19,6 +19,8 @@ Personal academic site. Plain static HTML, no build system; every page inlines i
 
 ## Interactive figures
 
+- Every blog post opens with at least one hero figure placed right after the hero header (before the `.summary` block): an ABSTRACT, INTERACTIVE piece that captures the post's core idea without being a literal method diagram. Style inspiration is the header figures on Thinking Machines' blog (thinkingmachines.ai) : generative, ambient, playable (a slider or cursor interaction), with a caption that ties the abstraction back to the post. Existing examples: the reflow transport bundle in `blogs/rectified-flow.html`, the guidance particle field in `blogs/rectified-cfgpp.html`, the two-threads figure in `blogs/on-reneging-a-job-offer.html`.
+- Every post always gets its Citation section (and captions/figures always carry proper citations where they draw on external work).
 - Vanilla `<canvas>` only, no external libraries (CSP-free static site). Controls go in a `.fig-controls` row (range sliders, `.seg` tab buttons); widgets in a `.widget` card.
 - Every canvas needs: explicit width:100% CSS (bare canvases default to 300px), devicePixelRatio-aware resize, `prefers-reduced-motion` fallback to a static frame with working controls.
 - Prefer real math over canned animation: closed-form fields, exact simulations. Verify convergence numerically with node before shipping.
