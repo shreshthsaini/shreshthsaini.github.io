@@ -334,10 +334,22 @@
 
     figcaption {
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
+      font-size: 12.5px;
+      font-style: italic;
       color: var(--text-muted);
-      margin-top: 10px;
+      margin: 12px 6px 0;
       line-height: 1.55;
+    }
+
+    figcaption[data-fig]::before {
+      content: attr(data-fig);
+      font-style: normal;
+      font-weight: 700;
+      font-size: 10.5px;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-right: 8px;
     }
 
     blockquote {
@@ -461,7 +473,7 @@
 
       <figure>
         <canvas class="svg-figure" id="renege-canvas" role="img" aria-label="Abstract animation: two threads leave one point; one stays bright, the other drifts away, breaks, and fades. It stirs when the cursor comes near."></canvas>
-        <figcaption>
+        <figcaption data-fig="Fig. 1">
           Two threads from the same point. One is the life you chose. The other drifts, breaks, and fades, but never fully leaves.
           Move your cursor over it and the faded one stirs. That is roughly how the feeling works.
         </figcaption>
@@ -551,7 +563,7 @@
 
       <figure>
         <canvas class="svg-figure" id="web-canvas" role="img" aria-label="Abstract animation: one point connected by faint threads to many scattered dots that only become visible when the cursor comes near"></canvas>
-        <figcaption>
+        <figcaption data-fig="Fig. 2">
           The part I could not see. One yes, quietly attached to people I would never meet.
           Bring your cursor close and they appear. They were always there.
         </figcaption>
@@ -578,7 +590,7 @@
 
       <figure>
         <canvas class="svg-figure" id="hum-canvas" role="img" aria-label="Abstract animation: a nearly flat line with a soft persistent tremor that softens along its length but never fully settles, swelling gently where the cursor passes"></canvas>
-        <figcaption>
+        <figcaption data-fig="Fig. 3">
           The hum, roughly. It softens with time and never quite reaches zero.
           Run your cursor along it; some days something brushes against it and it swells.
         </figcaption>

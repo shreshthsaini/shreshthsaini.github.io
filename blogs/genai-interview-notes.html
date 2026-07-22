@@ -138,12 +138,31 @@
 
     figure { margin: 24px 0 26px; }
     .svg-figure, figure img { width: 100%; display: block; border-radius: 12px; border: 1px solid var(--border); background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%); }
-    figcaption { font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text-muted); margin-top: 10px; line-height: 1.55; }
+    figcaption {
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      font-style: italic;
+      color: var(--text-muted);
+      margin: 12px 6px 0;
+      line-height: 1.55;
+    }
+
+    figcaption[data-fig]::before {
+      content: attr(data-fig);
+      font-style: normal;
+      font-weight: 700;
+      font-size: 10.5px;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-right: 8px;
+    }
 
     .plain-notes { margin-top: 8px; margin-bottom: 8px; }
     .plain-notes li { margin-bottom: 12px; line-height: 1.5; }
 
-    .references { font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.7; color: #334155; margin-left: 20px; }
+    .references { font-family: 'Inter', sans-serif; font-size: 12.5px; line-height: 1.6; color: #475569; margin-left: 20px; }
+    .references li { margin-bottom: 4px; }
     .references li { margin-bottom: 6px; }
 
     a { color: var(--accent); text-decoration: none; }
@@ -229,6 +248,19 @@
       .fold-controls { display: none; }
     }
 
+    .cite-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #334155;
+      margin: 14px 0 10px;
+    }
+
+    .cite-box + pre { margin-top: 10px; }
+
     footer { margin-top: 52px; padding-top: 26px; border-top: 1px solid var(--border-light); font-size: 13px; color: var(--text-muted); text-align: center; font-family: 'Inter', sans-serif; }
 
     @media (max-width: 1200px) {
@@ -306,6 +338,7 @@
         <a class="toc-item" href="#sec-checklist"><span class="toc-dot"></span><span class="toc-label">Checklist</span></a>
         <a class="toc-item" href="#sec-reading"><span class="toc-dot"></span><span class="toc-label">Reading list</span></a>
         <a class="toc-item" href="#sec-references"><span class="toc-dot"></span><span class="toc-label">References</span></a>
+        <a class="toc-item" href="#sec-cite"><span class="toc-dot"></span><span class="toc-label">Citation</span></a>
       </nav>
     </aside>
 
@@ -428,7 +461,7 @@
 
       <figure>
         <img src="../images/interview-timeline.svg" alt="Horizontal timeline of eight anonymized interview processes from late January to late April 2026. Each process is a track with one marker per interview round whose shape encodes the interview type, ending in a colored dot for the outcome: green offer, red rejected, blue withdrawn, gray ghosted.">
-        <figcaption>Each horizontal track is one anonymized process, from first call to final decision. Marker shape encodes the interview type; the large dot marks the outcome. Networking, referrals, and recruiter screens are not shown. Plot inspired by <a href="https://alisawuffles.github.io/blog/job-search/">Alisa Liu's job-search post</a>.</figcaption>
+        <figcaption data-fig="Fig. 1">Each horizontal track is one anonymized process, from first call to final decision. Marker shape encodes the interview type; the large dot marks the outcome. Networking, referrals, and recruiter screens are not shown. Plot inspired by <a href="https://alisawuffles.github.io/blog/job-search/">Alisa Liu's job-search post</a>.</figcaption>
       </figure>
 
       <div class="fold-controls">
@@ -1059,7 +1092,7 @@ kv_cache_bytes(48, 7168, 1024, 128) / 1e9          # ~180 GB</code></pre>
           <text x="430" y="40" text-anchor="middle" fill="#334155" font-size="13" font-family="Inter" font-weight="600">Forward (fixed, no params): noising</text>
           <text x="430" y="240" text-anchor="middle" fill="#334155" font-size="13" font-family="Inter" font-weight="600">Reverse (learned): denoising</text>
         </svg>
-        <figcaption>
+        <figcaption data-fig="Fig. 2">
           The forward kernel is analytic; only the reverse is learned. Training is one-shot at a random \(t\) thanks to the closed-form marginal.
         </figcaption>
       </figure>
@@ -1305,7 +1338,7 @@ def cfg_eps(model, x, t, c, w=7.5):
           <text x="610" y="120" fill="#15803d" font-size="12" font-family="Inter">MPGD: project back via AE</text>
           <text x="430" y="40" text-anchor="middle" fill="#334155" font-size="15" font-family="Inter" font-weight="600">DPS pushes off the manifold; MPGD maps it back.</text>
         </svg>
-        <figcaption>Same gradient direction, different landing point.</figcaption>
+        <figcaption data-fig="Fig. 3">Same gradient direction, different landing point.</figcaption>
       </figure>
 
       <p class="deep-dive"><strong>Deep dive:</strong> <a href="https://sander.ai/2022/05/26/guidance.html">Sander Dieleman: Guidance: a cheat code for diffusion models</a> &middot; <a href="https://sander.ai/2023/07/20/perspectives.html">Sander Dieleman: Perspectives on diffusion</a>.</p>
@@ -1646,7 +1679,7 @@ def cfg_eps(model, x, t, c, w=7.5):
           <text x="430" y="40" text-anchor="middle" fill="#334155" font-size="13" font-family="Inter" font-weight="600">&ldquo;Raw model&rdquo; &rarr; &ldquo;capable model&rdquo; &rarr; &ldquo;useful model&rdquo;</text>
           <text x="430" y="195" text-anchor="middle" fill="#64748b" font-size="12" font-family="Inter">compute shifts right; data quality shifts right; data volume shifts left</text>
         </svg>
-        <figcaption>
+        <figcaption data-fig="Fig. 4">
           Pretraining dominates compute; post-training dominates quality gains. Mid-training is the bridge that extends context, injects math/code/reasoning, and raises image resolution.
         </figcaption>
       </figure>
@@ -2204,6 +2237,28 @@ def dequantize(q, scale):
         <li id="ref-dapo-blog"><a href="https://huggingface.co/blog/NormalUhr/grpo-to-dapo-and-gspo">From GRPO to DAPO and GSPO: HF Blog (Yihua Zhang).</a></li>
         <li id="ref-scaling"><a href="https://lilianweng.github.io/posts/2026-06-24-scaling-laws/">Lilian Weng, Scaling Laws, Carefully, Lil&rsquo;Log, 2026.</a></li>
       </ol>
+      </div>
+      </details>
+
+      <details class="topic-fold" id="sec-cite">
+      <summary>
+        <span class="fold-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></span>
+        <span class="fold-text">
+          <span class="fold-title">Citation</span>
+          <span class="fold-hint">How to cite this notebook</span>
+        </span>
+      </summary>
+      <div class="fold-content">
+
+      <pre><code>@misc{saini2026genaiprep,
+  author       = {Saini, Shreshth},
+  title        = {Prepping for a Research Scientist, GenAI Position: A Pointer Notebook},
+  year         = {2026},
+  month        = {April},
+  howpublished = {\url{https://shreshthsaini.github.io/blogs/genai-interview-notes.html}},
+  note         = {Blog post}
+}</code></pre>
+
       </div>
       </details>
 

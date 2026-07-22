@@ -443,10 +443,22 @@
 
     figcaption {
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
+      font-size: 12.5px;
+      font-style: italic;
       color: var(--text-muted);
-      margin-top: 10px;
+      margin: 12px 6px 0;
       line-height: 1.55;
+    }
+
+    figcaption[data-fig]::before {
+      content: attr(data-fig);
+      font-style: normal;
+      font-weight: 700;
+      font-size: 10.5px;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-right: 8px;
     }
 
     .plain-notes {
@@ -459,13 +471,88 @@
       line-height: 1.5;
     }
 
+    .sec-num {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border: 1px solid rgba(37, 99, 235, 0.18);
+      border-radius: 8px;
+      padding: 2px 9px;
+      margin-right: 12px;
+      vertical-align: middle;
+      transform: translateY(-3px);
+    }
+
+    .fig-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin: 0 0 10px;
+    }
+
+    .fig-controls input[type="range"] {
+      flex: 0 1 200px;
+      accent-color: var(--accent);
+    }
+
+    .ctl-label { font-weight: 600; color: var(--text-primary); }
+    .ctl-value { font-weight: 700; color: var(--accent); min-width: 54px; }
+    .ctl-hint { color: var(--text-muted); font-size: 12px; }
+
+    .interactive-fig canvas {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    }
+
+    .fig-note {
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin: 8px 0 0;
+    }
+
+    .cite-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 18px 0 6px;
+    }
+
     .references {
       font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      line-height: 1.7;
-      color: #334155;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #475569;
       margin-left: 20px;
     }
+    .references li { margin-bottom: 5px; }
+
+    .cite-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #334155;
+      margin: 14px 0 10px;
+    }
+
+    .cite-box + pre { margin-top: 10px; }
 
     a {
       color: var(--accent);
@@ -497,6 +584,12 @@
 
     .compare-grid figcaption {
       text-align: center;
+      background: none;
+      border-left: none;
+      border-radius: 0;
+      padding: 0;
+      margin-top: 8px;
+      color: var(--text-muted);
     }
 
     .compare-label {
@@ -644,6 +737,7 @@
         <a class="toc-item" href="#sec-results"><span class="toc-dot"></span><span class="toc-label">Results</span></a>
         <a class="toc-item" href="#sec-implementation"><span class="toc-dot"></span><span class="toc-label">Implementation</span></a>
         <a class="toc-item" href="#sec-references"><span class="toc-dot"></span><span class="toc-label">References</span></a>
+        <a class="toc-item" href="#sec-cite"><span class="toc-dot"></span><span class="toc-label">Citation</span></a>
       </nav>
     </aside>
 
@@ -652,11 +746,11 @@
       <h1>Rectified-CFG++: Fixing Guidance for Flow Models</h1>
       <p class="subtitle">
         Classifier-free guidance was built for stochastic diffusion SDEs, where renoising corrects errors at every step.
-        Flow models use deterministic ODEs &mdash; there is no such safety net. This post explains why CFG breaks on flow models and how
+        Flow models use deterministic ODEs, and there is no such safety net. This post explains why CFG breaks on flow models and how
         a geometry-aware predictor-corrector fixes it, with striking improvements in text rendering.
       </p>
       <div class="meta">
-        <span>Mar 2026</span>
+        <span>Dec 2025</span>
         <span class="pill">Flow Models</span>
         <span class="pill">NeurIPS 2025</span>
         <span class="pill">Guidance</span>
@@ -665,16 +759,32 @@
 
     <article>
 
+      <figure class="interactive-fig">
+        <div class="fig-controls">
+          <label class="ctl-label" for="gh-omega">Guidance</label>
+          <input type="range" id="gh-omega" min="0" max="100" step="1" value="14">
+          <span class="ctl-value" id="gh-omega-val">&omega; = 1.0</span>
+          <span class="ctl-hint" id="gh-note">drag the guidance scale; hover to steer</span>
+        </div>
+        <canvas id="gh-canvas" aria-label="Abstract particle animation of guided generation: with no guidance the particles form a vague cloud, at moderate guidance they condense into a crisp structure, and at excessive guidance the structure overshoots into spiky artifacts"></canvas>
+        <figcaption data-fig="Fig. 1">
+          Guidance, abstractly. Thousands of particles flow from noise toward what the model believes the prompt means.
+          Unguided, they settle into a vague mass; a moderate guidance scale pulls them into crisp structure; push &omega; too far
+          and the same force overshoots, tearing the structure into exaggerated spikes. That overshoot is precisely the failure
+          this post is about, and on deterministic flows there is no noise to heal it.
+        </figcaption>
+      </figure>
+
       <!-- ============ SUMMARY ============ -->
       <div id="sec-summary"></div>
       <div class="summary">
-        <p><strong>Thesis.</strong> Classifier-free guidance (CFG) was designed for stochastic diffusion SDEs, where renoising at each step corrects extrapolation errors. Flow models solve deterministic ODEs &mdash; no renoising, no error correction. Rectified-CFG++ fixes this with a geometry-aware predictor-corrector that stays on the data manifold.</p>
+        <p><strong>Thesis.</strong> Classifier-free guidance (CFG) was designed for stochastic diffusion SDEs, where renoising at each step corrects extrapolation errors. Flow models solve deterministic ODEs, with no renoising and no error correction. Rectified-CFG++ fixes this with a geometry-aware predictor-corrector that stays on the data manifold.</p>
         <p><strong>Main technical point.</strong> The key insight is replacing extrapolation with interpolation: anchor to the conditional flow velocity, then correct with a time-decaying guidance term that vanishes near the data endpoint.</p>
         <p><strong>Practical implication.</strong> A drop-in replacement for CFG that requires no retraining. Works across Flux, SD3, SD3.5, and Lumina with consistent improvements in text rendering, prompt adherence, and perceptual quality.</p>
       </div>
 
       <!-- ============ WHY CFG BREAKS ============ -->
-      <h2 id="sec-cfg-breaks">1) Why CFG Breaks on Flow Models</h2>
+      <h2 id="sec-cfg-breaks"><span class="sec-num">01</span>Why CFG Breaks on Flow Models</h2>
 
       <aside class="sidenote" id="note-1" data-ref="note-ref-1">
         <strong>1.</strong> Ho and Salimans (2022) introduced CFG for diffusion models trained with both conditional and unconditional objectives. The idea: amplify the "direction" from unconditional to conditional by extrapolating beyond the conditional prediction.
@@ -690,7 +800,7 @@
 
       <p>
         When \(\omega > 1\), this is <em>extrapolation</em>: we overshoot past the conditional direction. In diffusion SDEs, this works because
-        each step adds noise back to the sample (the stochastic term in the reverse SDE). This renoising acts as a natural error corrector &mdash; it pulls
+        each step adds noise back to the sample (the stochastic term in the reverse SDE). This renoising acts as a natural error corrector. It pulls
         the trajectory back toward the data manifold even when guidance pushes it off.
       </p>
 
@@ -705,7 +815,7 @@
       <p>
         There is no stochastic correction. Every error in the velocity field accumulates. When CFG extrapolates the velocity,
         the ODE trajectory drifts off the learned manifold, and there is nothing to bring it back. The result: oversaturated colors, distorted geometry,
-        and garbled text &mdash; artifacts that worsen with stronger guidance.
+        and garbled text, artifacts that worsen with stronger guidance.
       </p>
 
       <figure>
@@ -776,8 +886,8 @@
           <path d="M490 270 Q 610 200, 710 145" stroke="#16a34a" stroke-width="2" fill="none" stroke-dasharray="4 3" opacity="0.5"></path>
           <text x="620" y="220" fill="#16a34a" font-size="10" font-family="Inter" opacity="0.6">ideal path</text>
         </svg>
-        <figcaption>
-          Left: In diffusion SDEs, renoising (blue dashed arrows) pulls the trajectory back toward the manifold after each CFG overshoot. Right: In flow ODEs, there is no correction mechanism &mdash; extrapolation errors compound and the trajectory drifts off-manifold.
+        <figcaption data-fig="Fig. 2">
+          Left: In diffusion SDEs, renoising (blue dashed arrows) pulls the trajectory back toward the manifold after each CFG overshoot. Right: In flow ODEs, there is no correction mechanism; extrapolation errors compound and the trajectory drifts off-manifold.
         </figcaption>
       </figure>
 
@@ -804,7 +914,7 @@
       </div>
 
       <!-- ============ THE FIX ============ -->
-      <h2 id="sec-fix">2) The Fix: Predictor-Corrector Guidance</h2>
+      <h2 id="sec-fix"><span class="sec-num">02</span>The Fix: Predictor-Corrector Guidance</h2>
 
       <aside class="sidenote" id="note-2" data-ref="note-ref-2">
         <strong>2.</strong> The name "predictor-corrector" comes from numerical ODE methods (e.g., Heun's method). The idea is the same: use a provisional step to gather information, then correct the final update. Here the "correction" is guidance-aware rather than purely numerical.
@@ -829,7 +939,7 @@
         <ol>
           <li><strong>Predictor (half-step along conditional flow):</strong><br>
             <span class="display-eq" style="margin: 8px 0; display: block;">\(\tilde{x}_{t-\Delta t/2} = x_t + \frac{\Delta t}{2} \cdot v^c_\theta(x_t, t)\)</span>
-            Move halfway using only the conditional velocity. No extrapolation here &mdash; this stays on the learned conditional trajectory.
+            Move halfway using only the conditional velocity. No extrapolation here. This stays on the learned conditional trajectory.
           </li>
           <li><strong>Evaluate at midpoint:</strong><br>
             <span class="display-eq" style="margin: 8px 0; display: block;">\(v^c_{\text{mid}} = v^c_\theta(\tilde{x}_{t-\Delta t/2},\; t - \Delta t/2), \qquad v^u_{\text{mid}} = v^u_\theta(\tilde{x}_{t-\Delta t/2},\; t - \Delta t/2)\)</span>
@@ -852,81 +962,67 @@
 
       <figure>
         <img src="../slides/rectcfg/figures/geometric.jpg" alt="Geometric view of Rectified-CFG++ predictor-corrector on the flow manifold">
-        <figcaption>
+        <figcaption data-fig="Fig. 3">
           Geometric view of the predictor-corrector scheme. The predictor follows the conditional flow (blue), the corrector adds a bounded guidance perturbation (green). The trajectory stays in a tube around the ideal conditional path.
         </figcaption>
       </figure>
 
       <!-- ============ ADAPTIVE SCHEDULE ============ -->
-      <h2 id="sec-schedule">3) The Adaptive Schedule \(\alpha(t)\)</h2>
+      <h2 id="sec-schedule"><span class="sec-num">03</span>The Adaptive Schedule \(\alpha(t)\)</h2>
 
       <aside class="sidenote" id="note-3" data-ref="note-ref-3">
-        <strong>3.</strong> The schedule is reminiscent of learning rate decay in optimization: start aggressive (large guidance when the signal-to-noise ratio is low), decay to zero (let the model handle fine details undisturbed).
+        <strong>3.</strong> Shaped like a warmup-decay learning-rate schedule: ramp guidance in once a conditional signal exists, peak while global structure is being decided, and hand the final steps back to the conditional model untouched.
       </aside>
 
       <p>
-        The guidance strength is not a constant. It follows a time-dependent schedule<sup class="note-ref" id="note-ref-3"><a href="#note-3">3</a></sup>:
+        The guidance strength is not a constant. It follows a time-dependent schedule that vanishes at <em>both</em> endpoints of
+        the trajectory and peaks in the middle<sup class="note-ref" id="note-ref-3"><a href="#note-3">3</a></sup>. A convenient
+        parameterization with exactly that behavior is
       </p>
 
       <p class="display-eq">\[
-        \alpha(t) = \lambda_{\max} \cdot (1 - t)^\gamma
+        \alpha(t) \;=\; \lambda_{\max}\,\kappa_{\gamma,\delta}\; t^{\gamma}\,(1-t)^{\delta},
+        \qquad
+        \kappa_{\gamma,\delta} = \Bigl(t_\star^{\gamma}(1-t_\star)^{\delta}\Bigr)^{-1},
+        \quad
+        t_\star = \frac{\gamma}{\gamma+\delta},
       \]</p>
 
       <p>
-        where \(\lambda_{\max}\) is the peak guidance strength and \(\gamma \geq 1\) controls the decay rate. The behavior is intuitive:
+        where \(\lambda_{\max}\) is the peak guidance strength, \(\gamma\) controls how fast guidance releases toward the data
+        endpoint, \(\delta\) controls the warmup out of pure noise, and \(\kappa_{\gamma,\delta}\) simply normalizes the peak to
+        \(\lambda_{\max}\) (attained at \(t_\star\)). This is the same philosophy as applying vanilla guidance only inside a limited
+        time interval, which independently improves diffusion models<sup class="cite"><a href="#ref8">[8]</a></sup>; the schedule is the smooth version
+        of that interval. The behavior is intuitive:
       </p>
 
       <ul>
-        <li><strong>At \(t = 1\) (pure noise):</strong> \(\alpha(1) = 0\). No guidance at the very start &mdash; there is no meaningful conditional signal to amplify yet.</li>
+        <li><strong>At \(t = 1\) (pure noise):</strong> \(\alpha(1) = 0\). No guidance at the very start, since there is no meaningful conditional signal to amplify yet.</li>
         <li><strong>At intermediate \(t\):</strong> \(\alpha(t)\) is large. This is where guidance matters most: the model is committing to global structure (composition, object layout, color palette) and needs the text conditioning signal amplified.</li>
-        <li><strong>At \(t \to 0\) (near data):</strong> \(\alpha(t) \to 0\). The conditional model alone handles fine details &mdash; letter strokes, texture microstructure, edge sharpness. Guidance perturbation would only corrupt these.</li>
+        <li><strong>At \(t \to 0\) (near data):</strong> \(\alpha(t) \to 0\). The conditional model alone handles fine details (letter strokes, texture microstructure, edge sharpness). Guidance perturbation would only corrupt these.</li>
       </ul>
 
-      <figure>
-        <svg class="svg-figure" viewBox="0 0 860 280" aria-label="Alpha schedule visualization">
-          <defs>
-            <linearGradient id="bgGrad2" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#f8fafc"></stop>
-              <stop offset="100%" stop-color="#ffffff"></stop>
-            </linearGradient>
-          </defs>
-          <rect x="0" y="0" width="860" height="280" fill="url(#bgGrad2)"></rect>
-
-          <!-- Axes -->
-          <line x1="100" y1="230" x2="760" y2="230" stroke="#94a3b8" stroke-width="1.5"></line>
-          <line x1="100" y1="230" x2="100" y2="40" stroke="#94a3b8" stroke-width="1.5"></line>
-
-          <!-- X-axis labels -->
-          <text x="100" y="252" fill="#64748b" font-size="12" font-family="Inter" text-anchor="middle">t=0</text>
-          <text x="430" y="252" fill="#64748b" font-size="12" font-family="Inter" text-anchor="middle">t=0.5</text>
-          <text x="760" y="252" fill="#64748b" font-size="12" font-family="Inter" text-anchor="middle">t=1</text>
-          <text x="430" y="272" fill="#334155" font-size="13" font-family="Inter" text-anchor="middle" font-weight="500">time (noise &larr; data)</text>
-
-          <!-- Y-axis label -->
-          <text x="60" y="135" fill="#334155" font-size="13" font-family="Inter" text-anchor="middle" font-weight="500" transform="rotate(-90, 60, 135)">&alpha;(t)</text>
-
-          <!-- Curve: alpha(t) = lambda_max * (1-t)^gamma, with gamma=1.5 -->
-          <!-- t goes 0..1, x goes 100..760; alpha max at t=0, zero at t=1 -->
-          <path d="M100 55 C 200 60, 350 100, 430 145 C 510 180, 620 210, 760 230" stroke="#2563eb" stroke-width="3.5" fill="none"></path>
-
-          <!-- Annotations -->
-          <text x="140" y="48" fill="#1d4ed8" font-size="12" font-family="Inter" font-weight="600">strong guidance</text>
-          <text x="140" y="64" fill="#64748b" font-size="11" font-family="Inter">fine details resolved here</text>
-
-          <text x="580" y="195" fill="#dc2626" font-size="12" font-family="Inter" font-weight="600">guidance &rarr; 0</text>
-          <text x="580" y="211" fill="#64748b" font-size="11" font-family="Inter">pure noise, no signal to guide</text>
-
-          <!-- Dashed reference for constant CFG -->
-          <line x1="100" y1="120" x2="760" y2="120" stroke="#dc2626" stroke-width="2" stroke-dasharray="6 4"></line>
-          <text x="770" y="124" fill="#dc2626" font-size="11" font-family="Inter">constant CFG</text>
-        </svg>
-        <figcaption>
-          The adaptive schedule \(\alpha(t) = \lambda_{\max}(1-t)^\gamma\) compared to constant CFG (red dashed). Guidance is strongest when the model resolves fine details (near \(t=0\)) and vanishes near pure noise (\(t=1\)). Note: \(t=0\) is the data endpoint in flow convention.
+      <figure class="interactive-fig">
+        <div class="fig-controls">
+          <label class="ctl-label" for="sc-gamma">&gamma; release</label>
+          <input type="range" id="sc-gamma" min="10" max="40" step="1" value="20" style="flex: 0 1 140px;">
+          <span class="ctl-value" id="sc-gamma-val">2.0</span>
+          <label class="ctl-label" for="sc-delta">&delta; warmup</label>
+          <input type="range" id="sc-delta" min="5" max="30" step="1" value="15" style="flex: 0 1 140px;">
+          <span class="ctl-value" id="sc-delta-val">1.5</span>
+          <span class="ctl-hint">shape the schedule; the peak marker follows t&#8902;</span>
+        </div>
+        <canvas id="sc-canvas" aria-label="Interactive plot of the adaptive guidance schedule: a bump curve that is zero at the data and noise endpoints and peaks mid-trajectory, adjustable with release and warmup exponents, compared against constant CFG"></canvas>
+        <figcaption data-fig="Fig. 4">
+          The adaptive schedule against constant CFG (red dashed). The three phases are the whole argument: near \(t=1\) there is
+          no conditional signal worth amplifying; in the middle, guidance shapes composition and layout; near \(t=0\) the conditional
+          model must resolve letterforms and texture undisturbed. Constant CFG spends its budget indiscriminately, including in the
+          detail phase where perturbation does the most damage.
         </figcaption>
       </figure>
 
       <!-- ============ TEXT RENDERING ============ -->
-      <h2 id="sec-text">4) Why Text Rendering Improves</h2>
+      <h2 id="sec-text"><span class="sec-num">04</span>Why Text Rendering Improves</h2>
 
       <aside class="sidenote" id="note-4" data-ref="note-ref-4">
         <strong>4.</strong> Text is arguably the hardest test for image generation models. Letters require spatially precise, high-frequency features that must be correct at the pixel level. A slight perturbation turns "STOP" into "STCP" or blurs the stroke entirely.
@@ -941,7 +1037,7 @@
       </p>
 
       <ol>
-        <li><strong>Text requires pixel-precise strokes in the final denoising steps.</strong> The global layout (where the text goes, its approximate size) is determined early. But the exact letterforms &mdash; the difference between a legible "STOP" and garbled "STCP" &mdash; are resolved in the final steps near \(t = 0\).</li>
+        <li><strong>Text requires pixel-precise strokes in the final denoising steps.</strong> The global layout (where the text goes, its approximate size) is determined early. But the exact letterforms, the difference between a legible "STOP" and garbled "STCP", are resolved in the final steps near \(t = 0\).</li>
         <li><strong>Standard CFG perturbs these strokes.</strong> With constant guidance \(\omega > 1\), the extrapolated velocity distorts the fine details that the conditional model had correctly predicted. The model "knows" the right letters but CFG pushes the trajectory off.</li>
         <li><strong>Rectified-CFG++ with \(\alpha(t) \to 0\) near data lets the conditional model finish undisturbed.</strong> In the final steps, guidance strength vanishes. The conditional velocity alone determines the fine structure. The result: clean, legible text.</li>
       </ol>
@@ -1040,7 +1136,7 @@
       </p>
 
       <!-- ============ THEORY ============ -->
-      <h2 id="sec-theory">5) Theoretical Guarantees</h2>
+      <h2 id="sec-theory"><span class="sec-num">05</span>Theoretical Guarantees</h2>
 
       <aside class="sidenote" id="note-5" data-ref="note-ref-5">
         <strong>5.</strong> The bounds here are worst-case. In practice, the velocity fields are smooth and the constants are moderate, so the actual trajectory deviation is much smaller than the bound suggests.
@@ -1083,7 +1179,7 @@
       </p>
 
       <!-- ============ RESULTS ============ -->
-      <h2 id="sec-results">6) Results</h2>
+      <h2 id="sec-results"><span class="sec-num">06</span>Results</h2>
 
       <p>
         We evaluate on MS-COCO 10K across four flow-based architectures. The table below reports FID (lower is better), CLIP score (higher is better), PickScore (higher is better), and HPSv2 (higher is better).
@@ -1219,26 +1315,27 @@
 
       <figure>
         <img src="../slides/rectcfg/figures/plots/user-study-1.png" alt="User study results showing 72.8% preference for Rectified-CFG++">
-        <figcaption>
+        <figcaption data-fig="Fig. 5">
           User study results. Human evaluators preferred Rectified-CFG++ over standard CFG in 72.8% of paired comparisons.
         </figcaption>
       </figure>
 
       <figure>
         <img src="../slides/rectcfg/figures/rec-cfgpp-compare-horizontal.jpg" alt="Comparison across methods on multiple prompts">
-        <figcaption>
+        <figcaption data-fig="Fig. 6">
           Qualitative comparison across guidance methods. Rectified-CFG++ produces consistently sharper text and more natural colors.
         </figcaption>
       </figure>
 
       <!-- ============ IMPLEMENTATION ============ -->
-      <h2 id="sec-implementation">7) Implementation</h2>
+      <h2 id="sec-implementation"><span class="sec-num">07</span>Implementation</h2>
 
       <p>
         The implementation is a drop-in replacement for the standard CFG sampling loop. Below is the core logic in Python-style pseudocode.
       </p>
 
-      <pre><code>def rectified_cfgpp_sample(model, prompt, num_steps=28, lambda_max=3.5, gamma=1.5):
+      <pre><code>def rectified_cfgpp_sample(model, prompt, num_steps=28,
+                           lambda_max=3.5, gamma=2.0, delta=1.5):
     """Rectified-CFG++ sampling loop for flow models."""
     # Initialize from noise
     x = torch.randn(1, C, H, W)
@@ -1247,11 +1344,15 @@
     # Timesteps from t=1 (noise) to t=0 (data)
     timesteps = torch.linspace(1.0, 0.0, num_steps + 1)
 
+    # Normalize the schedule so its peak equals lambda_max
+    t_star = gamma / (gamma + delta)
+    kappa = 1.0 / (t_star ** gamma * (1.0 - t_star) ** delta)
+
     for i in range(num_steps):
         t = timesteps[i]
 
-        # Adaptive guidance schedule: alpha(t) = lambda_max * (1-t)^gamma
-        alpha = lambda_max * (1.0 - t) ** gamma
+        # Adaptive schedule: zero at both endpoints, peak at t_star
+        alpha = lambda_max * kappa * (t ** gamma) * ((1.0 - t) ** delta)
 
         # --- PREDICTOR: half-step along conditional flow ---
         v_cond = model(x, t, prompt=prompt)
@@ -1277,8 +1378,13 @@
 
       <ul class="plain-notes">
         <li><strong>NFE cost:</strong> Each step requires 3 model evaluations (one conditional at current, one conditional at midpoint, one unconditional at midpoint). This is 1.5x the cost of standard CFG (2 evals per step). In practice, you can often reduce the step count by 30-40% at matched quality, so total cost is comparable.</li>
-        <li><strong>Hyperparameters:</strong> \(\lambda_{\max} \in [2.5, 4.0]\) and \(\gamma \in [1.0, 2.0]\) cover the useful range. Start with \(\lambda_{\max} = 3.5, \gamma = 1.5\) as defaults.</li>
+        <li><strong>Hyperparameters:</strong> \(\lambda_{\max} \in [2.5, 4.0]\), \(\gamma \in [1.5, 3.0]\), and \(\delta \in [1.0, 2.0]\) cover the useful range. Start with \(\lambda_{\max}=3.5,\ \gamma=2.0,\ \delta=1.5\) and tune \(\gamma\) first; it controls how early the detail phase is released from guidance.</li>
         <li><strong>Compatibility:</strong> Works with any flow model that supports conditional and unconditional forward passes. Tested on Flux, SD3, SD3.5, and Lumina-Next without modification.</li>
+        <li><strong>Batching the midpoint evaluations:</strong> The two midpoint passes share the same input \(\tilde{x}\), so run them as one batched forward with a doubled batch (the standard CFG trick). Wall-clock per step is then one sequential model call more than plain Euler, not two.</li>
+        <li><strong>Solver choice:</strong> The corrector is orthogonal to the outer ODE update. Euler is the default; swapping the final update for midpoint or Heun composes cleanly because \(\hat{v}\) is just a velocity estimate.</li>
+        <li><strong>Guidance-distilled checkpoints:</strong> Models that bake CFG into the weights (guidance-distilled Flux variants) have no meaningful unconditional branch; apply Rectified-CFG++ on true-CFG checkpoints, or re-enable the unconditional pathway before comparing.</li>
+        <li><strong>Where the remaining failures are:</strong> Very long text strings and dense typography still degrade at high \(\lambda_{\max}\); if the use case is typography-heavy, prefer a lower peak with a later release (larger \(\gamma\)) over a higher peak.</li>
+        <li><strong>Evaluation discipline:</strong> Compare methods at matched wall-clock, not matched steps, and sweep the guidance scale for every baseline; most published CFG-vs-alternative comparisons are decided by which method got its scale tuned.</li>
       </ul>
 
       <!-- ============ REFERENCES ============ -->
@@ -1291,7 +1397,28 @@
         <li id="ref5"><a href="https://shreshthsaini.github.io/Rectified-CFGpp/">Saini et al., Rectified-CFG++ for Flow-Based Models, NeurIPS 2025.</a></li>
         <li id="ref6"><a href="https://arxiv.org/abs/2403.03206">Esser et al., Scaling Rectified Flow Transformers for High-Resolution Image Synthesis (Stable Diffusion 3), 2024.</a></li>
         <li id="ref7"><a href="https://blackforestlabs.ai/flux-1/">Black Forest Labs, Flux.1, 2024.</a></li>
+        <li id="ref8"><a href="https://arxiv.org/abs/2404.07724">Kynk&auml;&auml;nniemi et al., Applying Guidance in a Limited Interval Improves Sample and Distribution Quality in Diffusion Models, 2024.</a></li>
       </ol>
+
+      <h2 id="sec-cite">Citation</h2>
+
+      <p class="cite-label">The paper</p>
+      <pre><code>@inproceedings{saini2025rectifiedcfgpp,
+  title     = {Rectified-CFG++ for Flow Based Models},
+  author    = {Shreshth Saini and Shashank Gupta and Alan C. Bovik},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2025}
+}</code></pre>
+
+      <p class="cite-label">This post</p>
+      <pre><code>@misc{saini2025rectifiedcfgpp_blog,
+  author       = {Saini, Shreshth},
+  title        = {Rectified-CFG++: Fixing Guidance for Flow Models},
+  year         = {2025},
+  month        = {December},
+  howpublished = {\url{https://shreshthsaini.github.io/blogs/rectified-cfgpp.html}},
+  note         = {Blog post}
+}</code></pre>
     </article>
 
     <footer>
@@ -1299,6 +1426,254 @@
     </footer>
     </div>
   </div>
+
+  <script>
+    (function () {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function fitCanvas(canvas, aspect, minH) {
+        const rect = canvas.getBoundingClientRect();
+        const W = Math.max(280, rect.width);
+        const H = Math.max(minH, Math.round(W * aspect));
+        const dpr = window.devicePixelRatio || 1;
+        canvas.style.height = H + 'px';
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        const ctx = canvas.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        return { ctx, W, H };
+      }
+
+      /* ============ Header: guidance as a force on particles ============ */
+      (function () {
+        const canvas = document.getElementById('gh-canvas');
+        const slider = document.getElementById('gh-omega');
+        const valEl = document.getElementById('gh-omega-val');
+        const noteEl = document.getElementById('gh-note');
+        if (!canvas || !slider || !canvas.getContext) return;
+
+        const M = 520;
+        const COLORS = ['37, 99, 235', '124, 58, 237', '14, 116, 144', '234, 88, 12', '219, 39, 119'];
+        let ctx, W, H, omega = 1.0;
+        const mouse = { x: -9999, y: -9999 };
+        const parts = [];
+
+        function omegaFromSlider() {
+          // slider 0..100 -> omega 0..10, value 14 ~ 1.0
+          const v = parseInt(slider.value, 10);
+          return Math.pow(v / 100, 1.35) * 10;
+        }
+
+        function shapeR(theta) { return 1 + 0.26 * Math.sin(5 * theta); }
+
+        function spawn(p) {
+          const a = Math.random() * Math.PI * 2;
+          const r = 0.75 + Math.random() * 0.65;
+          p.x = Math.cos(a) * r;
+          p.y = Math.sin(a) * r;
+          p.life = 240 + Math.random() * 300;
+          p.c = COLORS[Math.floor(((a + Math.PI) / (2 * Math.PI)) * 5) % 5];
+        }
+        for (let i = 0; i < M; i++) { const p = {}; spawn(p); p.life *= Math.random(); parts.push(p); }
+
+        function step(p) {
+          const th = Math.atan2(p.y, p.x);
+          const r = Math.hypot(p.x, p.y) || 1e-6;
+          const rU = 0.55;                       // unconditional: soft blob radius
+          const rC = 0.62 * shapeR(th);          // conditional: the "prompt" structure
+          const rT = rU + omega * (rC - rU);     // CFG extrapolation on the target
+          const k = 0.045;
+          p.x += k * (Math.cos(th) * rT - p.x) + (Math.random() - 0.5) * 0.012;
+          p.y += k * (Math.sin(th) * rT - p.y) + (Math.random() - 0.5) * 0.012;
+          // gentle swirl for life
+          p.x += -p.y * 0.004;
+          p.y += p.x * 0.004;
+          // cursor acts as a local extra prompt token
+          const px = toX(p.x), py = toY(p.y);
+          const dm = Math.hypot(mouse.x - px, mouse.y - py);
+          if (dm < 130) {
+            p.x += (mouse.x - px) / scale() * 0.02 * Math.exp(-dm / 90);
+            p.y += (mouse.y - py) / scale() * 0.02 * Math.exp(-dm / 90);
+          }
+          if (--p.life < 0) spawn(p);
+        }
+
+        function scale() { return Math.min(W, H * 1.6) * 0.30; }
+        function toX(x) { return W * 0.5 + x * scale(); }
+        function toY(y) { return H * 0.52 + y * scale() * 0.92; }
+
+        function drawFrame(trail) {
+          if (trail) {
+            ctx.fillStyle = 'rgba(252, 253, 255, 0.16)';
+            ctx.fillRect(0, 0, W, H);
+          } else {
+            ctx.clearRect(0, 0, W, H);
+          }
+          for (const p of parts) {
+            step(p);
+            ctx.beginPath();
+            ctx.arc(toX(p.x), toY(p.y), 1.5, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(' + p.c + ', 0.55)';
+            ctx.fill();
+          }
+        }
+
+        function updateNote() {
+          if (!noteEl) return;
+          if (omega < 0.4) noteEl.textContent = 'unguided: a vague mass';
+          else if (omega < 2.2) noteEl.textContent = 'guided: structure emerges';
+          else if (omega < 5.5) noteEl.textContent = 'strong: crisp but tense';
+          else noteEl.textContent = 'over-guided: overshoot artifacts';
+        }
+
+        function resize() {
+          const f = fitCanvas(canvas, 0.42, 220);
+          ctx = f.ctx; W = f.W; H = f.H;
+          ctx.fillStyle = '#fcfdff';
+          ctx.fillRect(0, 0, W, H);
+          if (reduceMotion) {
+            for (let k = 0; k < 260; k++) for (const p of parts) step(p);
+            drawFrame(false);
+          }
+        }
+
+        slider.addEventListener('input', () => {
+          omega = omegaFromSlider();
+          valEl.innerHTML = '&omega; = ' + omega.toFixed(1);
+          updateNote();
+          if (reduceMotion) {
+            for (let k = 0; k < 200; k++) for (const p of parts) step(p);
+            drawFrame(false);
+          }
+        });
+        canvas.addEventListener('pointermove', (e) => {
+          const r = canvas.getBoundingClientRect();
+          mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+        });
+        canvas.addEventListener('pointerleave', () => { mouse.x = -9999; mouse.y = -9999; });
+        window.addEventListener('resize', resize);
+
+        omega = omegaFromSlider();
+        updateNote();
+        resize();
+        if (!reduceMotion) {
+          (function loop() { drawFrame(true); requestAnimationFrame(loop); })();
+        }
+      })();
+
+      /* ============ Adaptive schedule, interactive ============ */
+      (function () {
+        const canvas = document.getElementById('sc-canvas');
+        const gS = document.getElementById('sc-gamma');
+        const dS = document.getElementById('sc-delta');
+        const gV = document.getElementById('sc-gamma-val');
+        const dV = document.getElementById('sc-delta-val');
+        if (!canvas || !gS || !dS || !canvas.getContext) return;
+
+        let ctx, W, H;
+        const padL = 64, padR = 24, padT = 30, padB = 44;
+
+        function alpha(t, g, d) {
+          const ts = g / (g + d);
+          const kap = 1 / (Math.pow(ts, g) * Math.pow(1 - ts, d));
+          return kap * Math.pow(t, g) * Math.pow(1 - t, d);
+        }
+        function toPx(t, a) {
+          // x axis: t=0 (data) left -> t=1 (noise) right; y: alpha 0..1.15
+          return [padL + t * (W - padL - padR), H - padB - (a / 1.15) * (H - padT - padB)];
+        }
+
+        function draw() {
+          const g = parseInt(gS.value, 10) / 10;
+          const d = parseInt(dS.value, 10) / 10;
+          gV.textContent = g.toFixed(1);
+          dV.textContent = d.toFixed(1);
+          ctx.clearRect(0, 0, W, H);
+          ctx.lineCap = 'round';
+          ctx.font = '11px Inter, sans-serif';
+
+          // phase bands
+          const bands = [
+            [0, 0.22, 'rgba(22, 163, 74, 0.06)', '#15803d', 'detail lock-in', 'guidance must be off'],
+            [0.22, 0.72, 'rgba(37, 99, 235, 0.06)', '#1d4ed8', 'global structure', 'guidance does its work'],
+            [0.72, 1.0, 'rgba(100, 116, 139, 0.08)', '#64748b', 'no signal yet', 'nothing to amplify']
+          ];
+          for (const [a, b, fill, tc, l1, l2] of bands) {
+            const [x0] = toPx(a, 0), [x1] = toPx(b, 0);
+            ctx.fillStyle = fill;
+            ctx.fillRect(x0, padT, x1 - x0, H - padT - padB);
+            ctx.fillStyle = tc;
+            ctx.font = '600 12px Inter, sans-serif';
+            ctx.fillText(l1, x0 + 8, padT + 16);
+            ctx.font = '11px Inter, sans-serif';
+            ctx.fillStyle = '#64748b';
+            ctx.fillText(l2, x0 + 8, padT + 31);
+          }
+
+          // axes
+          ctx.strokeStyle = '#94a3b8';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(padL, padT); ctx.lineTo(padL, H - padB); ctx.lineTo(W - padR, H - padB);
+          ctx.stroke();
+          ctx.fillStyle = '#64748b';
+          ctx.font = '12px Inter, sans-serif';
+          ctx.fillText('t = 0 (data)', padL - 4, H - padB + 18);
+          ctx.fillText('t = 1 (noise)', W - padR - 62, H - padB + 18);
+          ctx.save();
+          ctx.translate(padL - 40, (padT + H - padB) / 2);
+          ctx.rotate(-Math.PI / 2);
+          ctx.textAlign = 'center';
+          ctx.fillText('guidance weight', 0, 0);
+          ctx.restore();
+
+          // constant CFG reference
+          const [, yc] = toPx(0, 0.78);
+          ctx.strokeStyle = '#dc2626';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([6, 4]);
+          ctx.beginPath();
+          ctx.moveTo(padL, yc); ctx.lineTo(W - padR, yc);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.fillStyle = '#dc2626';
+          ctx.font = '600 11px Inter, sans-serif';
+          ctx.fillText('constant CFG', W - padR - 82, yc - 6);
+
+          // schedule curve
+          ctx.beginPath();
+          for (let i = 0; i <= 120; i++) {
+            const t = i / 120;
+            const q = toPx(t, alpha(t, g, d));
+            i === 0 ? ctx.moveTo(q[0], q[1]) : ctx.lineTo(q[0], q[1]);
+          }
+          ctx.strokeStyle = '#2563eb';
+          ctx.lineWidth = 3.2;
+          ctx.stroke();
+
+          // peak marker
+          const ts = g / (g + d);
+          const [px, py] = toPx(ts, 1);
+          ctx.beginPath(); ctx.arc(px, py, 5, 0, Math.PI * 2);
+          ctx.fillStyle = '#1d4ed8'; ctx.fill();
+          ctx.fillStyle = '#1d4ed8';
+          ctx.font = '600 11px Inter, sans-serif';
+          ctx.fillText('peak at t⋆ = ' + ts.toFixed(2) + ',  α = λ_max', px - 46, py - 12);
+        }
+
+        function resize() {
+          const f = fitCanvas(canvas, 0.40, 220);
+          ctx = f.ctx; W = f.W; H = f.H;
+          draw();
+        }
+
+        gS.addEventListener('input', draw);
+        dS.addEventListener('input', draw);
+        window.addEventListener('resize', resize);
+        resize();
+      })();
+    })();
+  </script>
 
   <script>
     (function () {

@@ -443,10 +443,22 @@
 
     figcaption {
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
+      font-size: 12.5px;
+      font-style: italic;
       color: var(--text-muted);
-      margin-top: 10px;
+      margin: 12px 6px 0;
       line-height: 1.55;
+    }
+
+    figcaption[data-fig]::before {
+      content: attr(data-fig);
+      font-style: normal;
+      font-weight: 700;
+      font-size: 10.5px;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-right: 8px;
     }
 
     .plain-notes {
@@ -461,11 +473,205 @@
 
     .references {
       font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      line-height: 1.7;
-      color: #334155;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #475569;
       margin-left: 20px;
     }
+    .references li { margin-bottom: 5px; }
+
+    .sec-num {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border: 1px solid rgba(37, 99, 235, 0.18);
+      border-radius: 8px;
+      padding: 2px 9px;
+      margin-right: 12px;
+      vertical-align: middle;
+      transform: translateY(-3px);
+    }
+
+    .fig-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin: 0 0 10px;
+    }
+
+    .fig-controls input[type="range"] {
+      flex: 0 1 220px;
+      accent-color: var(--accent);
+    }
+
+    .ctl-label { font-weight: 600; color: var(--text-primary); }
+    .ctl-value { font-weight: 700; color: var(--accent); min-width: 54px; }
+    .ctl-hint { color: var(--text-muted); font-size: 12px; }
+    .ctl-check { display: flex; align-items: center; gap: 6px; color: var(--text-secondary); cursor: pointer; }
+
+    .fig-controls button {
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border: 1px solid rgba(37, 99, 235, 0.25);
+      border-radius: 999px;
+      padding: 5px 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .fig-controls button:hover { background: rgba(37, 99, 235, 0.15); }
+
+    .interactive-fig canvas {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    }
+
+    .widget {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px 14px;
+      margin: 26px 0 30px;
+      background: var(--bg);
+    }
+
+    .widget-head { margin-bottom: 10px; }
+
+    .widget-title {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text-primary);
+      letter-spacing: 0.3px;
+    }
+
+    .widget-sub {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .widget-row {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: stretch;
+    }
+
+    .widget-code { flex: 1 1 300px; min-width: 280px; }
+    .widget-code pre { margin: 0; height: 100%; }
+    .widget-canvas-wrap { flex: 1 1 320px; min-width: 280px; }
+
+    .widget-canvas-wrap canvas {
+      width: 100%;
+      display: block;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    }
+
+    .widget-note {
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin: 8px 0 0;
+    }
+
+    .widget > canvas {
+      width: 100%;
+      display: block;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    }
+
+    .seg {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    .seg-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: transparent;
+      border: none;
+      border-right: 1px solid var(--border-light);
+      padding: 7px 14px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .seg-btn:last-child { border-right: none; }
+    .seg-btn:hover { color: var(--accent); background: var(--bg-subtle); }
+    .seg-btn.active { background: var(--accent); color: #ffffff; }
+
+    .cmp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Inter', sans-serif;
+      font-size: 13.5px;
+      line-height: 1.5;
+      margin: 20px 0 24px;
+    }
+
+    .cmp-table th {
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-primary);
+      background: var(--bg-subtle);
+      border-bottom: 2px solid var(--border);
+      padding: 9px 12px;
+      white-space: nowrap;
+    }
+
+    .cmp-table td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border-light);
+      color: #334155;
+      vertical-align: top;
+    }
+
+    .cmp-table td:first-child {
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+
+    .table-scroll { overflow-x: auto; }
+
+    .cite-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #334155;
+      margin: 14px 0 10px;
+    }
+
+    .cite-box + pre { margin-top: 10px; }
 
     a {
       color: var(--accent);
@@ -542,15 +748,20 @@
       </div>
       <nav class="toc-items">
         <a class="toc-item" href="#sec-summary"><span class="toc-dot"></span><span class="toc-label">Summary</span></a>
+        <a class="toc-item" href="#sec-intuition"><span class="toc-dot"></span><span class="toc-label">Why Straight Paths</span></a>
         <a class="toc-item" href="#sec-setup"><span class="toc-dot"></span><span class="toc-label">Setup: Coupling and Targets</span></a>
         <a class="toc-item" href="#sec-loss"><span class="toc-dot"></span><span class="toc-label">Loss and Regression Optimum</span></a>
+        <a class="toc-item" href="#sec-family"><span class="toc-dot"></span><span class="toc-label">DDPM vs Flow Matching vs RF</span></a>
         <a class="toc-item" href="#sec-matrix"><span class="toc-dot"></span><span class="toc-label">Matrix Sanity Check</span></a>
         <a class="toc-item" href="#sec-sampling"><span class="toc-dot"></span><span class="toc-label">Sampling and Curvature</span></a>
-        <a class="toc-item" href="#sec-reflow"><span class="toc-dot"></span><span class="toc-label">Reflow and Loss Variants</span></a>
+        <a class="toc-item" href="#sec-reflow"><span class="toc-dot"></span><span class="toc-label">Reflow and Few-Step Generation</span></a>
+        <a class="toc-item" href="#sec-impl"><span class="toc-dot"></span><span class="toc-label">Implementation Corner</span></a>
         <a class="toc-item sub" href="#sec-param"><span class="toc-dot"></span><span class="toc-label">Parameterization Identities</span></a>
         <a class="toc-item sub" href="#sec-snippet"><span class="toc-dot"></span><span class="toc-label">Weighted Training Snippet</span></a>
         <a class="toc-item" href="#sec-practical"><span class="toc-dot"></span><span class="toc-label">Practical Notes</span></a>
+        <a class="toc-item" href="#sec-ships"><span class="toc-dot"></span><span class="toc-label">What Ships Today</span></a>
         <a class="toc-item" href="#sec-references"><span class="toc-dot"></span><span class="toc-label">References</span></a>
+        <a class="toc-item" href="#sec-cite"><span class="toc-dot"></span><span class="toc-label">Citation</span></a>
       </nav>
     </aside>
 
@@ -558,11 +769,12 @@
     <header class="hero">
       <h1>Rectified Flow: A Technical Note on Objectives, Geometry, and Training</h1>
       <p class="subtitle">
-        This post is a dense technical walkthrough of Rectified Flow: the exact regression objective, what it means in matrix form,
-        why trajectory curvature dominates low-step sampling error, and which training tricks matter in practice.
+        A dense but self-contained walkthrough of Rectified Flow: the intuition for why straight paths sample fast, the exact
+        regression objective, where RF sits next to DDPM and flow matching, why trajectory curvature dominates low-step sampling
+        error, how reflow and distillation buy few-step generation, and the training tricks that matter in practice.
       </p>
       <div class="meta">
-        <span>Dec 2025</span>
+        <span>Sep 2025</span>
         <span class="pill">Flow Models</span>
         <span class="pill">Technical Note</span>
       </div>
@@ -576,7 +788,49 @@
         <p><strong>Practical implication.</strong> Better time sampling, loss weighting, and reflow-style rectification often buy more than adding another large architectural block.</p>
       </div>
 
-      <h2 id="sec-setup">1) Setup: Coupling, Interpolation, and Targets</h2>
+      <h2 id="sec-intuition"><span class="sec-num">01</span>Intuition: Straight Lines Are Cheap</h2>
+
+      <p>
+        Every generative model of images is secretly solving a transport problem. You start from something trivial to sample
+        (a Gaussian noise tensor) and you must end at something hard to sample (a natural image). The models differ in the
+        <em>route</em> they take between those two points, and the route is not an aesthetic detail. At generation time,
+        every step along the route costs one full forward pass of the network (one NFE, number of function evaluations),
+        so the geometry of the route is literally your latency budget.
+      </p>
+
+      <p>
+        A DDPM learns to undo a gradual noising process, and at sampling time it retraces that reversal as a long sequence of
+        small denoising moves. The resulting trajectory is heavily curved, and a curved route can only be followed accurately
+        with many small steps. Rectified Flow asks the blunt question: if the only requirement is to move mass from noise to data,
+        why not learn a route that is as close to a straight line as possible? Straight routes are the best case for any ODE solver.
+        One Euler step follows a perfectly straight path exactly, so the straighter the learned flow, the fewer steps you need
+        before quality stops improving.
+      </p>
+
+      <figure class="interactive-fig">
+        <div class="fig-controls">
+          <label class="ctl-label" for="hero-rectify">Reflow</label>
+          <input type="range" id="hero-rectify" min="0" max="100" step="1" value="0">
+          <span class="ctl-value" id="hero-rectify-val">curved</span>
+          <span class="ctl-hint">drag to straighten the transport; hover to trace individual paths</span>
+        </div>
+        <canvas id="hero-canvas" aria-label="Abstract animated bundle of transport paths flowing from a noise distribution to a two-mode data distribution; a slider morphs the bundle from curved to straight while every path keeps its endpoints"></canvas>
+        <figcaption data-fig="Fig. 1">
+          The whole idea in one object. Each trajectory is one noise sample flowing to the data distribution, computed from the exact
+          velocity field used throughout this note. At the left end of the slider you see the marginal flow of the independent
+          coupling: paths bend because the field must average through crossings. Dragging right performs the reflow morph:
+          every path keeps its endpoints and sheds its curvature. Same transport, straighter geometry, fewer steps.
+        </figcaption>
+      </figure>
+
+      <p>
+        The rest of this note builds that picture up with the actual objects: the coupling and interpolation that define the
+        training targets, the regression view of the loss, where RF sits relative to DDPM and flow matching, why curvature is
+        the quantity that controls few-step quality, and how reflow buys straightness. The theme throughout is that RF is not
+        exotic. It is least-squares regression on a velocity field, plus a geometric agenda.
+      </p>
+
+      <h2 id="sec-setup"><span class="sec-num">02</span>Setup: Coupling, Interpolation, and Targets</h2>
 
       <aside class="sidenote" id="note-1" data-ref="note-ref-1">
         <strong>1.</strong> In this note, "coupling" means a joint distribution \(\pi(x_0, x_1)\) with marginals \(p_0\) and \(p_1\). Independent coupling is common in first-pass RF training, but semantic couplings can improve conditional fidelity.
@@ -641,12 +895,30 @@
           <text x="422" y="263" fill="#0369a1" font-size="12" font-family="Inter">noise</text>
           <text x="739" y="73" fill="#b91c1c" font-size="12" font-family="Inter">data</text>
         </svg>
-        <figcaption>
+        <figcaption data-fig="Fig. 2">
           Geometric view: low-step ODE solvers approximate straight trajectories much better than curved ones.
         </figcaption>
       </figure>
 
-      <h2 id="sec-loss">2) Loss Function and the Regression Optimum</h2>
+      <p>
+        One subtlety deserves emphasis early, because it explains most of what follows. Each <em>pair</em> \((x_0,x_1)\) is connected
+        by a perfectly straight segment, but the <em>learned field</em> is not automatically straight. Many different pairs pass through
+        the same point \((x,t)\), and the network can only output one velocity there, the average over all pairs passing through:
+      </p>
+
+      <p class="display-eq">\[
+        v^\star(x,t)=\mathbb{E}\bigl[x_1-x_0 \,\big|\, x_t=x\bigr].
+      \]</p>
+
+      <p>
+        Wherever segments <em>cross</em>, that average points somewhere none of the individual segments point, and the marginal flow bends.
+        Under an independent coupling of noise and data, crossings are everywhere, so a first-pass RF model is straighter than a DDPM
+        trajectory but still noticeably curved. Removing the crossings, by re-pairing endpoints so segments no longer intersect,
+        is exactly what reflow does in <a href="#sec-reflow">Section 07</a>. Keep this picture in mind: straight pieces, curved average, and
+        rectification as untangling.
+      </p>
+
+      <h2 id="sec-loss"><span class="sec-num">03</span>Loss Function and the Regression Optimum</h2>
 
       <p>
         The basic objective is
@@ -698,7 +970,71 @@
         optimization tricks transfer directly from diffusion training pipelines<sup class="cite"><a href="#ref5">[5]</a></sup>.
       </p>
 
-      <h2 id="sec-matrix">3) Matrix Sanity Check: Deterministic Linear Map</h2>
+      <h2 id="sec-family"><span class="sec-num">04</span>Where RF Sits: DDPM, Score SDE, Flow Matching</h2>
+
+      <p>
+        RF is easiest to place once you see that the whole family shares one template. Pick a path that interpolates between
+        a noise sample and a data sample,
+      </p>
+
+      <p class="display-eq">\[
+        x_t = \alpha_t\, x_1 + \sigma_t\, x_0,
+        \qquad
+        \dot{x}_t = \dot{\alpha}_t\, x_1 + \dot{\sigma}_t\, x_0,
+      \]</p>
+
+      <p>
+        then train a network to predict something that identifies the path at \((x_t, t)\): the noise \(\epsilon\), the clean sample
+        \(x_1\), the score \(\nabla_x \log p_t(x)\), or the velocity \(\dot{x}_t\). These targets are affine functions of one another
+        at fixed \((x_t,t)\), so the choice is a parameterization decision, not a modeling decision. What genuinely differs across
+        the family is the <em>schedule</em> \((\alpha_t, \sigma_t)\) and the <em>sampler</em> you run afterwards.
+      </p>
+
+      <div class="table-scroll">
+      <table class="cmp-table">
+        <tr>
+          <th>Model</th><th>Schedule / interpolant</th><th>Network target</th><th>Typical sampler</th><th>Path geometry</th>
+        </tr>
+        <tr>
+          <td>DDPM<sup class="cite"><a href="#ref6">[6]</a></sup></td>
+          <td>\(\alpha_t=\sqrt{\bar\alpha_t}\), \(\sigma_t=\sqrt{1-\bar\alpha_t}\) (VP)</td>
+          <td>noise \(\epsilon\)</td>
+          <td>ancestral (stochastic), 50 to 1000 steps</td>
+          <td>heavily curved</td>
+        </tr>
+        <tr>
+          <td>Score SDE / EDM<sup class="cite"><a href="#ref5">[5]</a></sup></td>
+          <td>VP or VE schedules, continuous time</td>
+          <td>score \(\nabla_x\log p_t\)</td>
+          <td>SDE or probability-flow ODE, 20 to 80 steps</td>
+          <td>curved, schedule-dependent</td>
+        </tr>
+        <tr>
+          <td>Flow matching<sup class="cite"><a href="#ref2">[2]</a></sup></td>
+          <td>any \((\alpha_t,\sigma_t)\), often linear</td>
+          <td>velocity \(v\)</td>
+          <td>ODE solver, 10 to 50 steps</td>
+          <td>depends on path choice</td>
+        </tr>
+        <tr>
+          <td>Rectified Flow<sup class="cite"><a href="#ref1">[1]</a></sup></td>
+          <td>\(\alpha_t=t\), \(\sigma_t=1-t\) (linear)</td>
+          <td>velocity \(v\)</td>
+          <td>Euler / midpoint, 1 to 8 steps after reflow</td>
+          <td>near-straight by design</td>
+        </tr>
+      </table>
+      </div>
+
+      <p>
+        Two consequences of this table are worth internalizing. First, RF <em>is</em> flow matching with the linear path,
+        plus an explicit program (reflow) for straightening the marginal flow; the training losses are the same MSE template.
+        Second, a DDPM is not doomed to a thousand steps because of its loss. Its probability-flow ODE can be integrated
+        deterministically like any flow. It needs many steps because the VP schedule bends trajectories hard near the ends,
+        which is precisely the geometric defect the linear interpolant avoids<sup class="cite"><a href="#ref3">[3]</a></sup>.
+      </p>
+
+      <h2 id="sec-matrix"><span class="sec-num">05</span>Matrix Sanity Check: Deterministic Linear Map</h2>
 
       <aside class="sidenote" id="note-2" data-ref="note-ref-2">
         <strong>2.</strong> This section is intentionally "toy" but useful: if your implementation fails this case, the issue is usually target construction, time conditioning, or solver parameterization.
@@ -745,7 +1081,26 @@
         In high-dimensional image manifolds, the same formula holds locally, but \(K_t\) varies sharply across regions, which is where network capacity and time embeddings matter.
       </p>
 
-      <h2 id="sec-sampling">4) Sampling Dynamics and Why Curvature Matters</h2>
+      <p>
+        A concrete instance makes the geometry vivid. Take \(A\) to be the 90&deg; rotation
+        \(A=\begin{pmatrix}0 & -1\\ 1 & 0\end{pmatrix}\). Then
+      </p>
+
+      <p class="display-eq">\[
+        M_t=\begin{pmatrix}1-t & -t\\ t & 1-t\end{pmatrix},
+        \qquad
+        \det M_t = (1-t)^2 + t^2 \;\ge\; \tfrac{1}{2},
+      \]</p>
+
+      <p>
+        so the interpolation never collapses, and \(K_t=(A-I)M_t^{-1}\) is a rotation-scaling whose angle sweeps continuously
+        as \(t\) goes from 0 to 1. Even this fully Gaussian, fully linear problem has a marginal flow that bends: the independent
+        coupling forces mass to swap places, and the swap shows up as curvature. The resolution is the same as everywhere else in
+        this note. For Gaussian endpoints, iterating reflow provably converges to the linear optimal-transport (Monge) map, so the
+        bending is a coupling artifact, not a modeling limitation<sup class="cite"><a href="#ref12">[12]</a></sup>.
+      </p>
+
+      <h2 id="sec-sampling"><span class="sec-num">06</span>Sampling Dynamics and Why Curvature Matters</h2>
 
       <p>
         Generation solves the ODE
@@ -786,45 +1141,95 @@
         Reflow/rectification methods can be interpreted as pushing the learned coupling toward self-consistency so that the solver follows straighter paths<sup class="cite"><a href="#ref1">[1]</a></sup>.
       </p>
 
+      <p>
+        Straightness can be made quantitative. For a flow with trajectories \(x_t\), define
+      </p>
+
+      <p class="display-eq">\[
+        S \;=\; \int_0^1 \mathbb{E}\,\bigl\|\, (x_1 - x_0) - \dot{x}_t \,\bigr\|^2 \, dt .
+      \]</p>
+
+      <p>
+        \(S=0\) exactly when every trajectory is a straight line traversed at constant speed, in which case one Euler step
+        is exact. Liu et al. prove that each round of reflow does not increase \(S\), which is the formal version of
+        &ldquo;rectification straightens the flow&rdquo;<sup class="cite"><a href="#ref1">[1]</a></sup>. Tracking an
+        empirical estimate of \(S\) during validation is a cheap way to predict few-step sampling quality without running a full eval.
+      </p>
+
+      <p>
+        Three practical layers sit on top of the error formula. First, <em>solver order</em>: Euler's global error is
+        \(\mathcal{O}(\Delta t)\), while Heun's second-order corrector reaches \(\mathcal{O}(\Delta t^2)\) at two network calls
+        per step; the EDM study found Heun to be the sweet spot for diffusion-family ODEs at moderate budgets<sup class="cite"><a href="#ref5">[5]</a></sup>,
+        and dedicated exponential integrators such as DPM-Solver exploit the semi-linear structure of diffusion ODEs to do even
+        better at 10 to 20 steps<sup class="cite"><a href="#ref11">[11]</a></sup>. Second, <em>where the curvature lives</em>: for VP-style
+        schedules it concentrates near the data end of the trajectory, which is why EDM's \(\rho\)-schedule crowds its steps there,
+        and why RF training recipes that emphasize boundary times (Beta sampling) or mid-path variance (logit-normal) both help
+        in different regimes<sup class="cite"><a href="#ref7">[7]</a></sup>. Third, <em>stiffness at the data end</em>: any conversion between the velocity
+        and endpoint views multiplies by \(1/(1-t)\), so late-time steps amplify prediction error; production samplers clamp the
+        final time at \(t_{\max}=1-\varepsilon\) and treat the last step specially.
+      </p>
+
+      <p>
+        And the deeper &ldquo;why&rdquo; behind all of it is the crossing argument from
+        <a href="#sec-setup">Section 02</a>: curvature in the marginal flow is the geometric price of averaging over a coupling
+        whose segments intersect<sup class="cite"><a href="#ref1">[1]</a></sup><sup class="cite"><a href="#ref3">[3]</a></sup>. Solvers manage that price; only rectification actually removes it.
+      </p>
+
+      <div class="widget" id="flow-explorer">
+        <div class="widget-head">
+          <span class="widget-title">Flow explorer: watch the paths change</span>
+          <span class="widget-sub">Trajectories from a 1D Gaussian (left edge) into a two-mode target (right edge), all computed from exact closed-form fields, in the spirit of the interactive figures in Fjelde et al.&rsquo;s flow-matching introduction<sup class="cite"><a href="#ref13">[13]</a></sup>. Switch the model family, then drag the step budget and watch both the paths and the arrival histogram on the right edge.</span>
+        </div>
+        <div class="fig-controls">
+          <div class="seg" role="tablist" aria-label="Model family">
+            <button type="button" class="seg-btn active" data-mode="sde">Diffusion SDE</button>
+            <button type="button" class="seg-btn" data-mode="fm">Flow matching ODE</button>
+            <button type="button" class="seg-btn" data-mode="rf">Rectified (reflowed)</button>
+          </div>
+          <label class="ctl-label" for="fx-steps">Steps</label>
+          <input type="range" id="fx-steps" min="0" max="7" step="1" value="3">
+          <span class="ctl-value" id="fx-steps-val">N = 8</span>
+          <label class="ctl-check"><input type="checkbox" id="fx-exact" checked> exact path</label>
+          <button type="button" id="fx-resample">resample</button>
+        </div>
+        <canvas id="fx-canvas" aria-label="Trajectories from a Gaussian to a two-mode distribution under the selected model family and step budget, with an arrival histogram against the target density"></canvas>
+        <p class="widget-note" id="fx-note"></p>
+      </div>
+
+      <h2 id="sec-reflow"><span class="sec-num">07</span>Reflow, Distillation, and Few-Step Generation</h2>
+
       <figure>
-        <svg class="svg-figure" viewBox="0 0 860 300" aria-label="Discretization error with curved versus straight trajectories">
-          <defs>
-            <marker id="arrowB" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-              <path d="M0,0 L0,6 L7,3 z" fill="#1d4ed8"></path>
-            </marker>
-          </defs>
-          <line x1="80" y1="250" x2="390" y2="250" stroke="#94a3b8" stroke-width="1.5"></line>
-          <line x1="80" y1="250" x2="80" y2="60" stroke="#94a3b8" stroke-width="1.5"></line>
-          <line x1="470" y1="250" x2="780" y2="250" stroke="#94a3b8" stroke-width="1.5"></line>
-          <line x1="470" y1="250" x2="470" y2="60" stroke="#94a3b8" stroke-width="1.5"></line>
+        <svg class="svg-figure" viewBox="0 0 860 300" aria-label="Before reflow, transport segments cross each other; after reflow, endpoints are re-paired so segments are parallel and non-crossing">
+          <text x="120" y="42" fill="#334155" font-size="16" font-family="Inter" font-weight="600">Before reflow: crossings</text>
+          <text x="540" y="42" fill="#334155" font-size="16" font-family="Inter" font-weight="600">After reflow: untangled</text>
 
-          <text x="92" y="78" fill="#334155" font-size="15" font-family="Inter" font-weight="600">Curved path + coarse Euler</text>
-          <text x="482" y="78" fill="#334155" font-size="15" font-family="Inter" font-weight="600">Rectified path + coarse Euler</text>
+          <!-- left: crossing pairs -->
+          <circle cx="100" cy="100" r="8" fill="#0ea5e9"></circle>
+          <circle cx="100" cy="220" r="8" fill="#0ea5e9"></circle>
+          <circle cx="380" cy="100" r="8" fill="#ef4444"></circle>
+          <circle cx="380" cy="220" r="8" fill="#ef4444"></circle>
+          <line x1="108" y1="104" x2="372" y2="216" stroke="#2563eb" stroke-width="3"></line>
+          <line x1="108" y1="216" x2="372" y2="104" stroke="#2563eb" stroke-width="3"></line>
+          <circle cx="240" cy="160" r="14" fill="none" stroke="#ea580c" stroke-width="2.5" stroke-dasharray="4 4"></circle>
+          <text x="215" y="196" fill="#ea580c" font-size="12" font-family="Inter">average bends here</text>
+          <text x="72" y="86" fill="#0369a1" font-size="12" font-family="Inter">noise</text>
+          <text x="368" y="86" fill="#b91c1c" font-size="12" font-family="Inter">data</text>
 
-          <path d="M95 230 C 155 130, 250 210, 365 95" stroke="#2563eb" stroke-width="4" fill="none"></path>
-          <circle cx="95" cy="230" r="4.5" fill="#0ea5e9"></circle>
-          <circle cx="180" cy="170" r="4.5" fill="#0ea5e9"></circle>
-          <circle cx="260" cy="185" r="4.5" fill="#0ea5e9"></circle>
-          <circle cx="320" cy="140" r="4.5" fill="#0ea5e9"></circle>
-          <circle cx="365" cy="95" r="4.5" fill="#ef4444"></circle>
-          <path d="M95 230 L180 170 L260 185 L320 140 L365 95" stroke="#f97316" stroke-width="2.5" fill="none" stroke-dasharray="5 5" marker-end="url(#arrowB)"></path>
-          <text x="240" y="226" fill="#ea580c" font-size="12" font-family="Inter">large discretization gap</text>
-
-          <path d="M485 230 L755 95" stroke="#16a34a" stroke-width="4" fill="none"></path>
-          <circle cx="485" cy="230" r="4.5" fill="#0ea5e9"></circle>
-          <circle cx="552" cy="197" r="4.5" fill="#0ea5e9"></circle>
-          <circle cx="620" cy="164" r="4.5" fill="#0ea5e9"></circle>
-          <circle cx="688" cy="130" r="4.5" fill="#0ea5e9"></circle>
-          <circle cx="755" cy="95" r="4.5" fill="#ef4444"></circle>
-          <path d="M485 230 L552 197 L620 164 L688 130 L755 95" stroke="#1d4ed8" stroke-width="2.5" fill="none" stroke-dasharray="5 5" marker-end="url(#arrowB)"></path>
-          <text x="625" y="226" fill="#15803d" font-size="12" font-family="Inter">small discretization gap</text>
+          <!-- right: rewired pairs -->
+          <circle cx="520" cy="100" r="8" fill="#0ea5e9"></circle>
+          <circle cx="520" cy="220" r="8" fill="#0ea5e9"></circle>
+          <circle cx="800" cy="100" r="8" fill="#ef4444"></circle>
+          <circle cx="800" cy="220" r="8" fill="#ef4444"></circle>
+          <line x1="528" y1="100" x2="792" y2="100" stroke="#16a34a" stroke-width="3"></line>
+          <line x1="528" y1="220" x2="792" y2="220" stroke="#16a34a" stroke-width="3"></line>
+          <text x="612" y="168" fill="#15803d" font-size="12" font-family="Inter">same marginals, no crossings</text>
         </svg>
-        <figcaption>
-          Same compute budget, different geometry. RF quality-speed tradeoff is often a curvature control problem.
+        <figcaption data-fig="Fig. 3">
+          Reflow never moves the endpoint distributions; it re-pairs them. The model integrates its own ODE to find which noise
+          lands on which sample, then retrains on those self-generated pairs. Crossings disappear, the conditional average stops
+          bending, and the flow straightens.
         </figcaption>
       </figure>
-
-      <h2 id="sec-reflow">5) Reflow Objective and Practical Loss Variants</h2>
 
       <p>
         A common rectification loop is:
@@ -872,6 +1277,43 @@
         From a broader viewpoint, this sits inside the stochastic-interpolant family: change the interpolation law and you change both the conditional targets and the geometry of the learned field<sup class="cite"><a href="#ref3">[3]</a></sup>.
       </p>
 
+      <p>
+        It is worth separating reflow from <em>distillation</em>, because the two are often blurred together. Reflow retrains the
+        velocity field on self-generated couplings. The result is still a genuine ODE model: you can run it at 1 step or 50, and quality
+        degrades gracefully with fewer steps. Distillation instead trains a student to reproduce the teacher&rsquo;s <em>solver output</em>
+        at a fixed budget, typically one step. It squeezes out the last factor of latency but freezes the step count and inherits any bias
+        in the teacher&rsquo;s samples. The strongest few-step systems do both in sequence: reflow once or twice to straighten,
+        then distill the nearly-straight flow into a one-step generator, which is exactly the InstaFlow recipe<sup class="cite"><a href="#ref8">[8]</a></sup>.
+        In practice one reflow round captures most of the straightening, and additional rounds trade diversity for marginal gains,
+        so measure \(S\) and FID per round rather than iterating blindly.
+      </p>
+
+      <p>
+        The reflow operator also comes with guarantees that are stronger than the pictures suggest. Writing
+        \(Z^{k+1}=\mathrm{Reflow}(Z^k)\) for the coupling produced by integrating the \(k\)-rectified field, three properties
+        hold<sup class="cite"><a href="#ref1">[1]</a></sup><sup class="cite"><a href="#ref12">[12]</a></sup>:
+      </p>
+
+      <ul>
+        <li><strong>Marginal preservation.</strong> Every \(Z^k\) has exactly the marginals \(p_0\) and \(p_1\); rectification never trades sample fidelity for speed at the population level.</li>
+        <li><strong>Transport-cost monotonicity.</strong> \(\mathbb{E}\,[c(x_1-x_0)]\) is non-increasing in \(k\) for <em>every</em> convex cost \(c\), simultaneously; reflow moves the coupling toward optimal transport without picking a cost in advance.</li>
+        <li><strong>Straightness monotonicity.</strong> \(S(Z^{k+1})\le S(Z^k)\), with equality only at fixed points; for Gaussian endpoints the fixed point is the linear OT map<sup class="cite"><a href="#ref12">[12]</a></sup>.</li>
+      </ul>
+
+      <p>
+        It also helps to place reflow against its neighbors in the few-step landscape. <em>Progressive distillation</em> halves the
+        step count each round by regressing a student on two teacher steps, keeping the diffusion parameterization
+        intact<sup class="cite"><a href="#ref9">[9]</a></sup>. <em>Consistency models</em> train a map \(f(x_t,t)\mapsto x_1\) that is
+        self-consistent along trajectories, deleting the ODE solve entirely at inference<sup class="cite"><a href="#ref10">[10]</a></sup>.
+        Reflow is different in kind: it keeps a bona fide velocity field and improves the <em>geometry</em> that any solver will face.
+        The approaches therefore compose rather than compete, and the strongest recipes chain them, reflow for geometry, then a
+        distillation or consistency stage for the final collapse to one step<sup class="cite"><a href="#ref8">[8]</a></sup>. The shared
+        caveat is that every post-hoc stage trains on synthetic pairs, so the teacher's sample quality is a hard ceiling; production
+        pipelines keep some real-data fine-tuning or preference signal in the loop to avoid compounding the teacher's biases.
+      </p>
+
+      <h2 id="sec-impl"><span class="sec-num">08</span>Implementation Corner</h2>
+
       <h3 id="sec-param">Parameterization identities (useful in implementation)</h3>
 
       <p>
@@ -904,7 +1346,75 @@
     per_example = ((pred_v - target_v) ** 2).flatten(1).mean(1, keepdim=True)
     return (w.flatten(1) * per_example).mean()</code></pre>
 
-      <h2 id="sec-practical">6) Practical Notes (Detailed Checklist)</h2>
+      <h3>Time sampling: where the gradient signal goes</h3>
+
+      <p>
+        The distribution \(\rho(t)\) decides which part of the trajectory the network practices most. Uniform sampling is the
+        neutral baseline. Beta distributions with parameters below one push mass toward the endpoints, which sharpens the final
+        approach into the data manifold. Logit-normal sampling does the opposite: it concentrates training in the middle of the
+        path, where the velocity target has the highest conditional variance, and it is the choice that shipped in SD3 after a
+        broad ablation<sup class="cite"><a href="#ref7">[7]</a></sup>.
+      </p>
+
+      <figure>
+        <svg class="svg-figure" viewBox="0 0 860 260" aria-label="Sketch of three time-sampling densities over the unit interval: uniform is flat, Beta(0.9, 0.9) rises at both endpoints, logit-normal peaks in the middle">
+          <line x1="70" y1="210" x2="810" y2="210" stroke="#94a3b8" stroke-width="1.5"></line>
+          <line x1="70" y1="210" x2="70" y2="50" stroke="#94a3b8" stroke-width="1.5"></line>
+          <text x="62" y="232" fill="#64748b" font-size="12" font-family="Inter">0</text>
+          <text x="802" y="232" fill="#64748b" font-size="12" font-family="Inter">1</text>
+          <text x="430" y="240" fill="#64748b" font-size="12" font-family="Inter">t</text>
+          <text x="40" y="130" fill="#64748b" font-size="12" font-family="Inter" transform="rotate(-90 40 130)">&rho;(t)</text>
+
+          <line x1="70" y1="150" x2="810" y2="150" stroke="#64748b" stroke-width="3"></line>
+          <path d="M70 80 C 200 195, 640 195, 810 80" stroke="#2563eb" stroke-width="3" fill="none"></path>
+          <path d="M70 205 C 280 205, 300 70, 440 70 C 580 70, 600 205, 810 205" stroke="#16a34a" stroke-width="3" fill="none"></path>
+
+          <rect x="600" y="58" rx="6" width="196" height="66" fill="#ffffff" stroke="#e2e8f0"></rect>
+          <line x1="612" y1="74" x2="638" y2="74" stroke="#64748b" stroke-width="3"></line>
+          <text x="646" y="78" fill="#334155" font-size="12" font-family="Inter">Uniform</text>
+          <line x1="612" y1="94" x2="638" y2="94" stroke="#2563eb" stroke-width="3"></line>
+          <text x="646" y="98" fill="#334155" font-size="12" font-family="Inter">Beta(0.9, 0.9), endpoint focus</text>
+          <line x1="612" y1="114" x2="638" y2="114" stroke="#16a34a" stroke-width="3"></line>
+          <text x="646" y="118" fill="#334155" font-size="12" font-family="Inter">Logit-normal, mid-path focus</text>
+        </svg>
+        <figcaption data-fig="Fig. 4">
+          Three common choices of \(\rho(t)\), sketched. There is no universal winner: endpoint-heavy sampling helps texture and
+          final fidelity, mid-heavy sampling helps global structure. SD3&rsquo;s ablations landed on logit-normal for large-scale T2I.
+        </figcaption>
+      </figure>
+
+      <h3>Resolution changes the clock: timestep shift</h3>
+
+      <p>
+        A subtlety that bites when you scale resolution: the same \(t\) corrupts a 1024px latent far less, perceptually, than a
+        256px one, because noise averages out over more spatially-correlated pixels. SD3 compensates with a resolution-dependent
+        time reparameterization<sup class="cite"><a href="#ref7">[7]</a></sup>,
+      </p>
+
+      <p class="display-eq">\[
+        t' \;=\; \frac{s\,t}{1 + (s-1)\,t},
+      \]</p>
+
+      <p>
+        with shift \(s\approx 3\) at 1024px, which drags both training emphasis and the inference-time step grid toward the
+        noisy end. Two practical corollaries. If you fine-tune a pretrained flow at a new resolution and keep the old grid,
+        your steps land in the wrong part of the trajectory, and quality drops for no visible reason in the loss. And the shift
+        must be applied consistently at train and sample time; mixing shifted training with an unshifted sampler is one of the
+        most common silent bugs in RF fine-tuning pipelines.
+      </p>
+
+      <h3>Field notes (bugs I have actually chased)</h3>
+
+      <ul class="plain-notes">
+        <li><strong>Time conditioning.</strong> Use continuous Fourier or sinusoidal embeddings of \(t\in[0,1]\); reusing a discrete 1000-step DDPM timestep embedding and rescaling it interpolates poorly and shows up as banding at low NFE.</li>
+        <li><strong>Numerical guards.</strong> Every identity in this section divides by \(t\) or \(1-t\). Sample \(t\in[\varepsilon, 1-\varepsilon]\) with \(\varepsilon\approx 10^{-5}\) during training and clamp the final sampler step; NaNs from the boundary are rare enough to hide for days and correlated enough to poison EMA when they hit.</li>
+        <li><strong>Latent statistics.</strong> In latent-space RF the base distribution is \(\mathcal{N}(0,I)\), so the VAE latents must actually be scaled to unit-ish variance (the SD-VAE scale factor exists for exactly this reason). A mismatched latent std tilts every trajectory and the model wastes capacity relearning an affine map.</li>
+        <li><strong>Loss weighting is schedule design.</strong> A uniform-\(t\) velocity MSE is implicitly a particular SNR weighting of the equivalent \(\epsilon\)-loss; if you port a weighting recipe from a diffusion codebase, re-derive what it does to the velocity view before trusting it<sup class="cite"><a href="#ref5">[5]</a></sup><sup class="cite"><a href="#ref7">[7]</a></sup>.</li>
+        <li><strong>Variance reduction via pairing.</strong> The irreducible term in the loss decomposition of <a href="#sec-loss">Section 03</a> is coupling variance. Pairing noise and data within caption or class buckets lowers it measurably for conditional models; random global pairing is the right default only for unconditional runs.</li>
+        <li><strong>EMA discipline.</strong> Decay 0.999 to 0.9999 scaled with batch size, evaluate with EMA weights only, and never let a non-EMA checkpoint into a reflow round: the pairs it generates bake its noise into the next model.</li>
+      </ul>
+
+      <h2 id="sec-practical"><span class="sec-num">09</span>Practical Notes (Detailed Checklist)</h2>
 
       <ul class="plain-notes">
         <li><strong>Time sampling:</strong> Uniform \(t\sim U[0,1]\) is a clean baseline, but beta distributions such as Beta(0.9, 0.9) often improve endpoint behavior. If you observe noisy textures near the final steps, increase mass near \(t\approx1\).</li>
@@ -915,7 +1425,28 @@
         <li><strong>Reflow scheduling:</strong> One reflow pass often gives a large gain; additional passes may have diminishing returns. Measure both FID-like scores and user-facing prompt adherence before paying extra retraining cost.</li>
         <li><strong>Batch construction:</strong> Randomly permuting \(x_1\) each step is cheap and surprisingly effective in unconditional settings. For conditional tasks, pair inside each condition bucket (same text class or style bin) to reduce target variance.</li>
         <li><strong>Matrix diagnostics:</strong> Track \(\|J_v\|_F\) proxies (finite differences) and trajectory curvature statistics during validation. If curvature grows while training loss decreases, expect low-step sampling regressions.</li>
+        <li><strong>Guidance in a window:</strong> Applying CFG only in a middle interval of the trajectory, off near both ends, improves flow models the same way it improves diffusion models; full-trajectory guidance is where most oversaturation comes from<sup class="cite"><a href="#ref14">[14]</a></sup><sup class="cite"><a href="#ref4">[4]</a></sup>.</li>
+        <li><strong>A little stochasticity can help:</strong> At moderate budgets, EDM-style churn (inject a small amount of noise, then take a slightly larger step) can break up solver-induced artifacts even on flows; treat it as a knob, not a default<sup class="cite"><a href="#ref5">[5]</a></sup>.</li>
+        <li><strong>Report an NFE sweep:</strong> Validate at 1, 2, 4, and 8 steps every time, not only at the high-step setting. Straightness regressions are invisible at 50 steps and catastrophic at 4, and the sweep costs minutes.</li>
+        <li><strong>Match the step grid to the shift:</strong> If training used a resolution-dependent timestep shift, the sampler grid must use the same shift; a uniform grid on a shifted model concentrates steps where nothing is happening<sup class="cite"><a href="#ref7">[7]</a></sup>.</li>
+        <li><strong>Track \(S\) across reflow rounds:</strong> Straightness (from <a href="#sec-sampling">Section 06</a>) should drop monotonically; if it plateaus after round one, further rounds are spending compute to trade diversity for nothing<sup class="cite"><a href="#ref1">[1]</a></sup>.</li>
       </ul>
+
+      <h2 id="sec-ships"><span class="sec-num">10</span>What Ships Today</h2>
+
+      <p>
+        The linear-interpolant recipe stopped being a research curiosity and became the default. SD3 trains exactly the weighted
+        RF objective from this note at scale, with logit-normal time sampling and an MM-DiT backbone<sup class="cite"><a href="#ref7">[7]</a></sup>;
+        Flux and most current video generators follow the same template. One-step and few-step T2I systems stack reflow and
+        distillation on top<sup class="cite"><a href="#ref8">[8]</a></sup>.
+      </p>
+
+      <p>
+        One caution when you move from this note to a production flow model: guidance does not transfer untouched. Classifier-free
+        guidance was tuned on curved diffusion trajectories, and naively extrapolating along a straight flow amplifies curvature
+        exactly where you worked to remove it. That failure mode, and a predictor-corrector fix for it, is the subject of our
+        <a href="rectified-cfgpp.html">Rectified-CFG++</a> work<sup class="cite"><a href="#ref4">[4]</a></sup>.
+      </p>
 
       <h2 id="sec-references">References</h2>
       <ol class="references">
@@ -924,7 +1455,27 @@
         <li id="ref3"><a href="https://arxiv.org/abs/2303.08797">Albergo and Vanden-Eijnden, Stochastic Interpolants: A Unifying Framework for Flows and Diffusions, 2023.</a></li>
         <li id="ref4"><a href="https://shreshthsaini.github.io/Rectified-CFGpp/">Saini et al., Rectified CFG++ for Flow Based Models, NeurIPS 2025.</a></li>
         <li id="ref5"><a href="https://arxiv.org/abs/2206.00364">Karras et al., Elucidating the Design Space of Diffusion-Based Generative Models, 2022.</a></li>
+        <li id="ref6"><a href="https://arxiv.org/abs/2006.11239">Ho et al., Denoising Diffusion Probabilistic Models, 2020.</a></li>
+        <li id="ref7"><a href="https://arxiv.org/abs/2403.03206">Esser et al., Scaling Rectified Flow Transformers for High-Resolution Image Synthesis (SD3), 2024.</a></li>
+        <li id="ref8"><a href="https://arxiv.org/abs/2309.06380">Liu et al., InstaFlow: One Step is Enough for High-Quality Diffusion-Based Text-to-Image Generation, 2023.</a></li>
+        <li id="ref9"><a href="https://arxiv.org/abs/2202.00512">Salimans and Ho, Progressive Distillation for Fast Sampling of Diffusion Models, 2022.</a></li>
+        <li id="ref10"><a href="https://arxiv.org/abs/2303.01469">Song et al., Consistency Models, 2023.</a></li>
+        <li id="ref11"><a href="https://arxiv.org/abs/2206.00927">Lu et al., DPM-Solver: A Fast ODE Solver for Diffusion Probabilistic Model Sampling, 2022.</a></li>
+        <li id="ref12"><a href="https://arxiv.org/abs/2209.14577">Liu, Rectified Flow: A Marginal Preserving Approach to Optimal Transport, 2022.</a></li>
+        <li id="ref13"><a href="https://mlg.eng.cam.ac.uk/blog/2024/01/20/flow-matching.html">Fjelde, Mathieu, and Dutordoir, An Introduction to Flow Matching, 2024.</a></li>
+        <li id="ref14"><a href="https://arxiv.org/abs/2404.07724">Kynk&auml;&auml;nniemi et al., Applying Guidance in a Limited Interval Improves Sample and Distribution Quality in Diffusion Models, 2024.</a></li>
       </ol>
+
+      <h2 id="sec-cite">Citation</h2>
+
+      <pre><code>@misc{saini2025rectifiedflow,
+  author       = {Saini, Shreshth},
+  title        = {Rectified Flow: A Technical Note on Objectives, Geometry, and Training},
+  year         = {2025},
+  month        = {September},
+  howpublished = {\url{https://shreshthsaini.github.io/blogs/rectified-flow.html}},
+  note         = {Blog post}
+}</code></pre>
     </article>
 
     <footer>
@@ -932,6 +1483,451 @@
     </footer>
     </div>
   </div>
+
+  <script>
+    (function () {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function fitCanvas(canvas, aspect, minH) {
+        const rect = canvas.getBoundingClientRect();
+        const W = Math.max(280, rect.width);
+        const H = Math.max(minH, Math.round(W * aspect));
+        const dpr = window.devicePixelRatio || 1;
+        canvas.style.height = H + 'px';
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        const ctx = canvas.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        return { ctx, W, H };
+      }
+
+      function mulberry32(a) {
+        return function () {
+          a |= 0; a = (a + 0x6D2B79F5) | 0;
+          let t = Math.imul(a ^ (a >>> 15), 1 | a);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+      function gaussOf(rng) {
+        const u = Math.max(rng(), 1e-9), v = rng();
+        return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+      }
+
+      /* =========================================================
+         Hero: abstract transport bundle, morphing curved -> straight
+         ========================================================= */
+      (function () {
+        const canvas = document.getElementById('hero-canvas');
+        const slider = document.getElementById('hero-rectify');
+        const valEl = document.getElementById('hero-rectify-val');
+        if (!canvas || !slider || !canvas.getContext) return;
+
+        const MU = [[-1.55, 0.55], [1.65, -0.45]];
+        const SIG2 = 0.36 * 0.36;
+        const M = 150, K = 56;
+        let ctx, W, H, lam = 0, phase = 0;
+        const mouse = { x: -9999, y: -9999 };
+
+        function condMean2(x, y, t) {
+          const varT = t * t * SIG2 + (1 - t) * (1 - t);
+          let wsum = 0, ex = 0, ey = 0;
+          for (const m of MU) {
+            const dx = x - t * m[0], dy = y - t * m[1];
+            const w = Math.exp(-(dx * dx + dy * dy) / (2 * varT));
+            const g = (t * SIG2) / varT;
+            wsum += w; ex += w * (m[0] + g * dx); ey += w * (m[1] + g * dy);
+          }
+          return [ex / wsum, ey / wsum];
+        }
+
+        // precompute curved paths (fine Euler on the exact field)
+        const paths = [], dest = [];
+        (function build() {
+          const rng = mulberry32(2024);
+          for (let i = 0; i < M; i++) {
+            let p = [gaussOf(rng) * 0.9, gaussOf(rng) * 0.9];
+            const path = [p.slice()];
+            for (let k = 0; k < K; k++) {
+              const t = k / K, dt = 1 / K;
+              const [ex, ey] = condMean2(p[0], p[1], t);
+              p = [p[0] + dt * (ex - p[0]) / (1 - t), p[1] + dt * (ey - p[1]) / (1 - t)];
+              path.push(p.slice());
+            }
+            paths.push(path);
+            dest.push(p[0] > 0 ? 1 : 0);
+          }
+        })();
+
+        // world -> pixels: source cloud on left third, target on right
+        function toPx(p, s) {
+          // s in [0,1] shifts the world horizontally so the bundle stretches left->right
+          const wx = 0.14 + 0.72 * s;
+          return [W * wx + p[0] * W * 0.055, H * 0.5 - p[1] * H * 0.30];
+        }
+
+        function pointAt(i, s) {
+          const k = s * K;
+          const k0 = Math.min(K - 1, Math.floor(k)), f = k - k0;
+          const a = paths[i][k0], b = paths[i][k0 + 1];
+          const cx = a[0] + (b[0] - a[0]) * f, cy = a[1] + (b[1] - a[1]) * f;
+          const p0 = paths[i][0], p1 = paths[i][K];
+          const sx = p0[0] + (p1[0] - p0[0]) * s, sy = p0[1] + (p1[1] - p0[1]) * s;
+          return [cx + (sx - cx) * lam, cy + (sy - cy) * lam];
+        }
+
+        const COLORS = ['rgba(37, 99, 235, ', 'rgba(124, 58, 237, '];
+
+        function draw() {
+          ctx.clearRect(0, 0, W, H);
+          ctx.lineCap = 'round';
+
+          // full trajectories, faint
+          for (let i = 0; i < M; i++) {
+            ctx.beginPath();
+            for (let j = 0; j <= 40; j++) {
+              const q = toPx(pointAt(i, j / 40), j / 40);
+              j === 0 ? ctx.moveTo(q[0], q[1]) : ctx.lineTo(q[0], q[1]);
+            }
+            ctx.strokeStyle = COLORS[dest[i]] + '0.07)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+
+          // hover: highlight trajectories near the cursor
+          if (mouse.x > -100) {
+            for (let i = 0; i < M; i++) {
+              let near = false;
+              for (let j = 0; j <= 20 && !near; j++) {
+                const q = toPx(pointAt(i, j / 20), j / 20);
+                if (Math.hypot(q[0] - mouse.x, q[1] - mouse.y) < 26) near = true;
+              }
+              if (!near) continue;
+              ctx.beginPath();
+              for (let j = 0; j <= 40; j++) {
+                const q = toPx(pointAt(i, j / 40), j / 40);
+                j === 0 ? ctx.moveTo(q[0], q[1]) : ctx.lineTo(q[0], q[1]);
+              }
+              ctx.strokeStyle = COLORS[dest[i]] + '0.75)';
+              ctx.lineWidth = 1.8;
+              ctx.stroke();
+            }
+          }
+
+          // travelling heads with short comet tails
+          const nHeads = reduceMotion ? 0 : M;
+          for (let i = 0; i < nHeads; i++) {
+            const s = (phase + i / M) % 1;
+            for (let j = 0; j < 6; j++) {
+              const ss = Math.max(0, s - j * 0.012);
+              const q = toPx(pointAt(i, ss), ss);
+              ctx.beginPath();
+              ctx.arc(q[0], q[1], 1.9 - j * 0.25, 0, Math.PI * 2);
+              ctx.fillStyle = COLORS[dest[i]] + (0.5 - j * 0.075).toFixed(3) + ')';
+              ctx.fill();
+            }
+          }
+
+          // endpoint clouds
+          for (let i = 0; i < M; i++) {
+            const a = toPx(pointAt(i, 0), 0);
+            ctx.beginPath(); ctx.arc(a[0], a[1], 1.6, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(100, 116, 139, 0.4)'; ctx.fill();
+            const b = toPx(pointAt(i, 1), 1);
+            ctx.beginPath(); ctx.arc(b[0], b[1], 1.8, 0, Math.PI * 2);
+            ctx.fillStyle = COLORS[dest[i]] + '0.55)'; ctx.fill();
+          }
+
+          ctx.font = '600 12px Inter, sans-serif';
+          ctx.fillStyle = '#64748b';
+          ctx.fillText('noise', W * 0.10, H - 12);
+          ctx.fillText('data', W * 0.86, H - 12);
+        }
+
+        function resize() {
+          const f = fitCanvas(canvas, 0.40, 230);
+          ctx = f.ctx; W = f.W; H = f.H;
+          draw();
+        }
+
+        slider.addEventListener('input', () => {
+          lam = parseInt(slider.value, 10) / 100;
+          valEl.textContent = lam < 0.12 ? 'curved' : (lam > 0.88 ? 'straight' : ('λ = ' + lam.toFixed(2)));
+          if (reduceMotion) draw();
+        });
+        canvas.addEventListener('pointermove', (e) => {
+          const r = canvas.getBoundingClientRect();
+          mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+          if (reduceMotion) draw();
+        });
+        canvas.addEventListener('pointerleave', () => { mouse.x = -9999; mouse.y = -9999; if (reduceMotion) draw(); });
+        window.addEventListener('resize', resize);
+        resize();
+
+        if (!reduceMotion) {
+          (function loop() {
+            phase = (phase + 0.0022) % 1;
+            draw();
+            requestAnimationFrame(loop);
+          })();
+        }
+      })();
+
+      /* =========================================================
+         Flow explorer: SDE vs FM ODE vs rectified, with step budget
+         ========================================================= */
+      (function () {
+        const canvas = document.getElementById('fx-canvas');
+        const slider = document.getElementById('fx-steps');
+        const valEl = document.getElementById('fx-steps-val');
+        const exactBox = document.getElementById('fx-exact');
+        const resampleBtn = document.getElementById('fx-resample');
+        const noteEl = document.getElementById('fx-note');
+        const segBtns = Array.from(document.querySelectorAll('#flow-explorer .seg-btn'));
+        if (!canvas || !slider || !canvas.getContext) return;
+
+        const STEP_OPTS = [1, 2, 4, 8, 16, 32, 64, 128];
+        const MU = [-1.55, 1.55], SIG = 0.32, SIG2 = SIG * SIG, PI_K = [0.5, 0.5];
+        const NPATH = 22, NHIST = 500, XMAX = 3.4;
+        let ctx, W, H, mode = 'sde', seed = 7;
+
+        /* exact conditional mean for the linear (RF/FM) interpolant */
+        function condMean1(x, t) {
+          const varT = t * t * SIG2 + (1 - t) * (1 - t);
+          let wsum = 0, ex = 0;
+          for (let k = 0; k < 2; k++) {
+            const dx = x - t * MU[k];
+            const w = PI_K[k] * Math.exp(-dx * dx / (2 * varT));
+            wsum += w; ex += w * (MU[k] + (t * SIG2 / varT) * dx);
+          }
+          return ex / Math.max(wsum, 1e-300);
+        }
+        function fmStep(x, t, dt) {
+          return x + dt * (condMean1(x, t) - x) / (1 - t);
+        }
+
+        /* VP diffusion pieces: s = 0 at data, 1 at noise */
+        const B0 = 0.1, B1 = 8;
+        const beta = (s) => B0 + (B1 - B0) * s;
+        const abar = (s) => Math.exp(-(B0 * s + 0.5 * (B1 - B0) * s * s));
+        function score(x, s) {
+          const a = abar(s);
+          let wsum = 0, sc = 0;
+          for (let k = 0; k < 2; k++) {
+            const m = Math.sqrt(a) * MU[k], v = a * SIG2 + (1 - a);
+            const w = PI_K[k] * Math.exp(-(x - m) * (x - m) / (2 * v)) / Math.sqrt(v);
+            wsum += w; sc += w * (m - x) / v;
+          }
+          return sc / Math.max(wsum, 1e-300);
+        }
+        function sdePath(x0, N, rng) {
+          const pts = [[0, x0]];
+          let x = x0;
+          const ds = 1 / N;
+          for (let k = 0; k < N; k++) {
+            const s = 1 - k * ds;
+            const b = beta(s);
+            x = x + ds * (0.5 * b * x + b * score(x, s)) + Math.sqrt(b * ds) * gaussOf(rng);
+            x = Math.max(-24, Math.min(24, x));
+            pts.push([(k + 1) * ds, x]);
+          }
+          return pts;
+        }
+        function pfodePath(x0, K) {
+          const pts = [[0, x0]];
+          let x = x0;
+          const ds = 1 / K;
+          for (let k = 0; k < K; k++) {
+            const s = 1 - k * ds;
+            const b = beta(s);
+            x = x + ds * (0.5 * b * x + 0.5 * b * score(x, s));
+            pts.push([(k + 1) * ds, x]);
+          }
+          return pts;
+        }
+        function fmPath(x0, N) {
+          const pts = [[0, x0]];
+          let x = x0;
+          for (let k = 0; k < N; k++) {
+            x = fmStep(x, k / N, 1 / N);
+            pts.push([(k + 1) / N, x]);
+          }
+          return pts;
+        }
+
+        let starts = [], rfEnd = [];
+        function makeStarts() {
+          const rng = mulberry32(seed);
+          starts = [];
+          for (let i = 0; i < NPATH; i++) starts.push(gaussOf(rng));
+          rfEnd = starts.map((x0) => fmPath(x0, 256)[256][1]);
+        }
+
+        const padL = 64, padR = 78, padT = 26, padB = 26;
+        function toPx(u, x) {
+          return [padL + u * (W - padL - padR), padT + (1 - (x + XMAX) / (2 * XMAX)) * (H - padT - padB)];
+        }
+
+        function densityBase(x) { return Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI); }
+        function densityTarget(x) {
+          let d = 0;
+          for (let k = 0; k < 2; k++) d += PI_K[k] * Math.exp(-(x - MU[k]) * (x - MU[k]) / (2 * SIG2)) / (SIG * Math.sqrt(2 * Math.PI));
+          return d;
+        }
+
+        function drawEdgeDensity(fn, side, color, maxLen) {
+          ctx.beginPath();
+          for (let i = 0; i <= 60; i++) {
+            const x = -XMAX + (2 * XMAX * i) / 60;
+            const d = fn(x) * maxLen;
+            const [, py] = toPx(0, x);
+            const px = side === 'left' ? padL - 6 - d : W - padR + 6 + d;
+            i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+          }
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 1.6;
+          ctx.stroke();
+        }
+
+        function endpointsHist(N) {
+          const rng = mulberry32(seed * 131 + N);
+          const bins = new Array(26).fill(0);
+          for (let i = 0; i < NHIST; i++) {
+            const x0 = gaussOf(rng);
+            let xe;
+            if (mode === 'sde') xe = sdePath(x0, N, rng)[N][1];
+            else if (mode === 'fm') xe = fmPath(x0, N)[N][1];
+            else xe = x0 + (rfEnd_for(x0) - x0);
+            const b = Math.floor(((xe + XMAX) / (2 * XMAX)) * bins.length);
+            if (b >= 0 && b < bins.length) bins[b]++;
+          }
+          return bins;
+        }
+        // for histogram we need Phi(x0) for arbitrary x0 in RF mode
+        function rfEnd_for(x0) { return fmPath(x0, 64)[64][1]; }
+
+        function draw() {
+          const N = STEP_OPTS[parseInt(slider.value, 10)];
+          ctx.clearRect(0, 0, W, H);
+          ctx.lineCap = 'round';
+
+          drawEdgeDensity(densityBase, 'left', 'rgba(100, 116, 139, 0.7)', 40);
+          drawEdgeDensity(densityTarget, 'right', 'rgba(220, 38, 38, 0.55)', 34);
+
+          // arrival histogram
+          const bins = endpointsHist(N);
+          const bmax = Math.max.apply(null, bins) || 1;
+          for (let b = 0; b < bins.length; b++) {
+            const x = -XMAX + (2 * XMAX * (b + 0.5)) / bins.length;
+            const [, py] = toPx(0, x);
+            const len = (bins[b] / bmax) * 30;
+            ctx.beginPath();
+            ctx.moveTo(W - padR + 6, py);
+            ctx.lineTo(W - padR + 6 + len, py);
+            ctx.strokeStyle = 'rgba(37, 99, 235, 0.55)';
+            ctx.lineWidth = (H - padT - padB) / bins.length - 2;
+            ctx.stroke();
+          }
+
+          const rng = mulberry32(seed * 977 + N);
+          for (let i = 0; i < NPATH; i++) {
+            const x0 = starts[i];
+            let disc, ghost = null, endX;
+
+            if (mode === 'sde') {
+              disc = sdePath(x0, N, rng);
+              if (exactBox.checked) ghost = pfodePath(x0, 200);
+              endX = disc[disc.length - 1][1];
+            } else if (mode === 'fm') {
+              disc = fmPath(x0, N);
+              if (exactBox.checked) ghost = fmPath(x0, 200);
+              endX = disc[disc.length - 1][1];
+            } else {
+              const e = rfEnd[i];
+              disc = [];
+              for (let k = 0; k <= N; k++) disc.push([k / N, x0 + (e - x0) * (k / N)]);
+              endX = e;
+            }
+
+            if (ghost) {
+              ctx.beginPath();
+              ghost.forEach((p, j) => {
+                const q = toPx(p[0], p[1]);
+                j === 0 ? ctx.moveTo(q[0], q[1]) : ctx.lineTo(q[0], q[1]);
+              });
+              ctx.strokeStyle = 'rgba(100, 116, 139, 0.35)';
+              ctx.lineWidth = 1.2;
+              ctx.setLineDash([4, 4]);
+              ctx.stroke();
+              ctx.setLineDash([]);
+            }
+
+            const col = endX > 0 ? ['rgba(124, 58, 237, ', '#7c3aed'] : ['rgba(37, 99, 235, ', '#2563eb'];
+            ctx.beginPath();
+            disc.forEach((p, j) => {
+              const q = toPx(p[0], Math.max(-XMAX, Math.min(XMAX, p[1])));
+              j === 0 ? ctx.moveTo(q[0], q[1]) : ctx.lineTo(q[0], q[1]);
+            });
+            ctx.strokeStyle = col[0] + (mode === 'sde' ? '0.5)' : '0.65)');
+            ctx.lineWidth = mode === 'sde' ? 1.3 : 1.7;
+            ctx.stroke();
+
+            if (N <= 32 && mode !== 'sde') {
+              disc.forEach((p) => {
+                const q = toPx(p[0], Math.max(-XMAX, Math.min(XMAX, p[1])));
+                ctx.beginPath(); ctx.arc(q[0], q[1], 2.4, 0, Math.PI * 2);
+                ctx.fillStyle = col[1]; ctx.fill();
+              });
+            }
+          }
+
+          ctx.font = '600 12px Inter, sans-serif';
+          ctx.fillStyle = '#64748b';
+          ctx.fillText('p0 = N(0, 1)', padL - 56 > 8 ? 10 : 10, 18);
+          ctx.fillText('two-mode p1 + arrivals', W - padR - 60, 18);
+
+          if (noteEl) {
+            let msg;
+            if (mode === 'sde') {
+              msg = N < 16
+                ? 'Each path is a random walk with drift, and at this budget the walk is too coarse: injected noise dominates, so arrivals smear far wider than the red target lobes.'
+                : 'More steps refine the walk and the arrival histogram tightens onto the modes, but jitter never disappears. The dashed ghost behind each path is the probability-flow ODE hiding inside the SDE.';
+            } else if (mode === 'fm') {
+              msg = N <= 4
+                ? 'Deterministic but curved: paths bend where couplings cross, and a short Euler polyline cuts the corner of the bend, smearing arrivals between the modes.'
+                : 'With enough steps the polylines hug the exact curved paths and arrivals match the target. The curvature is the price of the independent coupling.';
+            } else {
+              msg = 'After reflow the trajectories are (near) straight lines, so the Euler polyline lies on the exact path at every budget. One step already lands on the target: this is the whole point of rectification.';
+            }
+            noteEl.textContent = msg;
+          }
+        }
+
+        function resize() {
+          const f = fitCanvas(canvas, 0.52, 250);
+          ctx = f.ctx; W = f.W; H = f.H;
+          draw();
+        }
+
+        segBtns.forEach((btn) => btn.addEventListener('click', () => {
+          segBtns.forEach((b) => b.classList.toggle('active', b === btn));
+          mode = btn.dataset.mode;
+          draw();
+        }));
+        slider.addEventListener('input', () => {
+          valEl.textContent = 'N = ' + STEP_OPTS[parseInt(slider.value, 10)];
+          draw();
+        });
+        exactBox.addEventListener('change', draw);
+        resampleBtn.addEventListener('click', () => { seed = (seed * 48271) % 2147483647; makeStarts(); draw(); });
+        window.addEventListener('resize', resize);
+
+        makeStarts();
+        valEl.textContent = 'N = ' + STEP_OPTS[parseInt(slider.value, 10)];
+        resize();
+      })();
+    })();
+  </script>
 
   <script>
     (function () {
