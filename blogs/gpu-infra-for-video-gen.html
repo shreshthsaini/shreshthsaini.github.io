@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>GPU Infrastructure for Video Generation: Notes from Three Projects</title>
+  <title>Fleetcraft: GPU Infrastructure Notes from Three Video-Generation Projects</title>
   <meta name="author" content="Shreshth Saini">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Practical GPU infrastructure lessons from large-scale video inference, multi-node distillation, and asynchronous RL projects.">
@@ -783,7 +783,7 @@
 
     <div class="main-column">
     <header class="hero">
-      <h1>GPU Infrastructure for Video Generation: Notes from Three Projects</h1>
+      <h1>Fleetcraft: GPU Infrastructure Notes from Three Video-Generation Projects</h1>
       <p class="subtitle">
         What large-scale inference search, multi-node distillation, and asynchronous RL taught us about memory, orchestration, and honest measurement.
       </p>
@@ -812,7 +812,7 @@
         </div>
         <canvas id="fleet-canvas" aria-label="Interactive deterministic simulation of forty-eight GPU workers grouped into heterogeneous nodes, claiming tasks from a queue with optional failures that atomically requeue work and a rolling utilization trace"></canvas>
         <figcaption data-fig="Fig. 1">
-          <strong>Task flow and rolling utilization for a deterministic 48-GPU fleet simulation.</strong> The GPUs are grouped into 18 nodes with heterogeneous GPU counts: eight three-GPU nodes, four four-GPU nodes, two two-GPU nodes, and four one-GPU nodes. Task claiming remains per GPU, node outlines dim when every device is idle, and failure outlines turn amber. The simulation advances in fixed 50 ms steps from a constant seed; interrupted tasks return atomically to the queue and recovered cells claim them again.
+          <strong>Task flow and rolling utilization in a deterministic 48-GPU simulation with heterogeneous nodes and atomic recovery.</strong>
         </figcaption>
       </figure>
 
@@ -992,7 +992,7 @@
           </defs>
         </svg>
         <figcaption data-fig="Fig. 2">
-          <strong>GPU memory capacity and movement tiers across the project architectures.</strong> The schematic shows the hierarchy used to reason about our A100, H100, GH200, and GB200-class runs. Values come from the cited architecture fact sheet; this is a sourced schematic rather than a sampled estimate, so no uncertainty interval applies.<span class="cite"><a href="#src-ampere">[1]</a></span><span class="cite"><a href="#src-hopper">[2]</a></span><span class="cite"><a href="#src-gh200">[3]</a></span><span class="cite"><a href="#src-gb200">[4]</a></span>
+          <strong>GPU memory capacity and movement tiers across A100, H100, GH200, and GB200-class architectures.</strong><span class="cite"><a href="#src-ampere">[1]</a></span><span class="cite"><a href="#src-hopper">[2]</a></span><span class="cite"><a href="#src-gh200">[3]</a></span><span class="cite"><a href="#src-gb200">[4]</a></span>
         </figcaption>
       </figure>
 
@@ -1039,7 +1039,7 @@
       </p>
 
       <p>
-        CachedSearch and Forcing Laws therefore used PyTorch SDPA, with FlexAttention where the causal mask required it, and installed no external attention package. That choice was slower than a tuned Hopper-specific stack could be, but it was scientifically clean. Cached and full-compute arms shared the same backend, so a paired latency ratio canceled backend-level overhead to first order. Forcing Laws fixed SDPA and FlexAttention across every allocation arm for the same reason. Absolute latency remained specific to GH200 and the pinned stack, while within-stack comparisons remained interpretable. <span class="provenance">(CachedSearch environment control; Forcing Laws D8, project record)</span>
+        CachedSearch and Forcing Laws therefore used PyTorch SDPA, with FlexAttention where the causal mask required it, and installed no external attention package. That choice was slower than a tuned Hopper-specific stack could be, but it was scientifically clean. Cached and full-compute arms shared the same backend, so a paired latency ratio canceled backend-level overhead to first order. Forcing Laws fixed SDPA and FlexAttention across every allocation arm for the same reason. Absolute latency remained specific to GH200 and the pinned stack, while within-stack comparisons remained interpretable. <span class="provenance">(CachedSearch environment control; Forcing Laws project record)</span>
       </p>
 
       <p>
@@ -1194,7 +1194,7 @@
             </marker>
           </defs>
         </svg>
-        <figcaption data-fig="Fig. 3"><strong>Decision tree for CUDA allocation, host cgroup, and login process failures.</strong> The branches separate the three failure domains by observable symptom and first move. It is a diagnostic schematic rather than a sampled comparison, so no uncertainty interval applies.</figcaption>
+        <figcaption data-fig="Fig. 3"><strong>Decision tree for CUDA allocation, host cgroup, and login process failures.</strong></figcaption>
       </figure>
 
       <h3>The first optimizer step can lie</h3>
@@ -1586,7 +1586,7 @@
  </defs>
 </svg>
         <figcaption data-fig="Fig. 4">
-          <strong>Fleet mean GPU utilization and reporting hosts over the ten-day Forcing Laws project, in 10-minute bins.</strong> Batching changed the operating regime, while training and closeout remained visibly phase-structured. The raw trace is gray and the centered two-hour rolling mean is blue. Per-host 30-second samples from 87 archived CSVs were aggregated into 10-minute host means and then averaged across reporting hosts; both layers are descriptive telemetry with no uncertainty interval. <span class="provenance">(Forcing Laws telemetry archive; playbook compendium)</span>
+          <strong>Mean GPU utilization and reporting hosts over the ten-day Forcing Laws project.</strong>
         </figcaption>
       </figure>
 
@@ -2247,7 +2247,7 @@
  </defs>
 </svg>
         <figcaption data-fig="Fig. 5">
-          <strong>Working GPU percentage and allocated GPU count over the VSAO tracker span.</strong> The raw controller trace is gray, its centered three-hour rolling mean is blue, and the five-minute utilization summaries remain amber dots. The audit trough and recovery reflect changes in visible work, not changes to the GPU kernel. The 23.6 and 81.5 percent annotations are the documented five-minute active-sample audits; controller points are irregular operational samples, all times are relative to tracker start, and no uncertainty interval applies. <span class="provenance">(VSAO controller and immutable telemetry archive; playbook compendium)</span>
+          <strong>Working GPU percentage and allocated GPU count over the VSAO tracker span.</strong>
         </figcaption>
       </figure>
 
@@ -2391,7 +2391,7 @@ text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: #0f172a; 
 <text x="587.5" y="761.0" class="tick" text-anchor="middle">ESTIMATED MFU</text>
 </svg>
         <figcaption data-fig="Fig. 6">
-          <strong>Estimated model FLOPs utilization for archived CachedSearch and VSAO workloads.</strong> CachedSearch points use mean gate latency and per-record executed transformer calls; VSAO rollout points use frozen end-to-end calibration times, and the trainer point uses a 64-record, 10-transition update across three A100s. The right labels show the dense BF16 peak denominator used for each row. Text encoder, VAE, decode, and scoring FLOPs are excluded, although their time remains in the denominator. No interval is shown; each point deterministically evaluates the archived means, and approximation error is not quantified. Forcing Laws is omitted because the archived local records do not expose an unambiguous per-step timestamp series and WandB retrieval failed. <span class="provenance">(CachedSearch gate records; VSAO frozen calibration tables and trainer confirmation records; GPU architecture fact sheet)</span>
+          <strong>Estimated MFU for archived CachedSearch and VSAO workloads; dense BF16 peaks appear at right.</strong>
         </figcaption>
       </figure>
 
@@ -2406,7 +2406,7 @@ text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: #0f172a; 
       <h2 id="sec-fleets"><span class="sec-num">07</span>Fleet orchestration, where queues do the driving</h2>
 
       <aside class="sidenote">
-        <strong>SU.</strong> A service unit is the accounting unit charged for reserved compute; node count and requested walltime both matter.
+        <strong>Allocation accounting.</strong> Reserved compute charges depend on both node count and requested walltime.
       </aside>
 
       <p>
@@ -2496,7 +2496,7 @@ text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: #0f172a; 
           </defs>
         </svg>
         <figcaption data-fig="Fig. 7">
-          <strong>Whole-node and per-GPU queue ownership across the project fleet shapes.</strong> The schematic shows the outer spool and inner spool across one-GPU GH200 and small A100 nodes, two-GPU H100 nodes, three-GPU full A100 nodes, and four-GPU GB200 nodes. It summarizes measured fleet shapes rather than a sampled comparison, so no uncertainty interval applies; the per-GPU slot layer must never weaken exclusivity for a full-node trainer. <span class="provenance">(CachedSearch fleet record; VSAO packed-spool record)</span>
+          <strong>Whole-node and per-GPU queue ownership across the project fleet shapes.</strong>
         </figcaption>
       </figure>
 
@@ -2507,7 +2507,7 @@ text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: #0f172a; 
       </p>
 
       <p>
-        The project ends with a short bounded tail. Workers that find no eligible work idle only until their timeout, then exit on their own so unused allocation returns to the scheduler. Every submission checks live allocation balance, and no new GPU nodes are requested after 96 percent burn. The queueing layer exists to move useful work efficiently, not to transform a reservation into a utilization theater. <span class="provenance">(Forcing Laws budget record; account operations record)</span>
+        The project ends with a short bounded tail. Workers that find no eligible work idle only until their timeout, then exit on their own so unused allocation returns to the scheduler. Every submission checks the live allocation balance, and submissions stop before the allocation nears exhaustion, with a hard headroom threshold. The queueing layer exists to move useful work efficiently, not to transform a reservation into a utilization theater. <span class="provenance">(Forcing Laws budget record; account operations record)</span>
       </p>
 
       <h3>Why the second spool was necessary</h3>
@@ -2694,7 +2694,7 @@ text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: #0f172a; 
             <marker id="async-arrow-warn" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#f59e0b"/></marker>
           </defs>
         </svg>
-        <figcaption data-fig="Fig. 8"><strong>Trajectory production, queue controls, and policy refresh in VSAO.</strong> The schematic shows the left-to-right trajectory path, queue watermarks, version guard, liveness badges, backpressure, and reverse policy refresh. It is a system diagram rather than a sampled estimate, so no uncertainty interval applies. <span class="provenance">(VSAO design and runbook records)</span></figcaption>
+        <figcaption data-fig="Fig. 8"><strong>Trajectory production, queue controls, and policy refresh in VSAO.</strong></figcaption>
       </figure>
 
       <h3>The duplicate-stream incident</h3>
@@ -2851,11 +2851,11 @@ text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: #0f172a; 
       </p>
 
       <p>
-        The companion playbook is arranged as a runnable map of that operating model. <code class="inline">skills/</code> holds task-specific instructions; <code class="inline">bin/</code> holds spool, fleet, telemetry, and login-safety scripts; <code class="inline">python/</code> holds analysis and video utilities; <code class="inline">slurm/</code> holds reusable scheduler templates; and <code class="inline">docs/</code> holds the evidence compendium and source cases. The root <code class="inline">CLAUDE.md</code> and <code class="inline">AGENTS.md</code> give coding agents the same site and safety constraints. The telemetry figures regenerate from archived inputs with <code class="inline">python/plot_blog_telemetry.py</code>, and provenance notes beside empirical claims identify the record behind each number.
+        The companion repository, Fleetcraft, is arranged as a runnable map of that operating model. <code class="inline">README.md</code>, <code class="inline">AGENTS.md</code>, and <code class="inline">LICENSE</code> sit at the root; <code class="inline">bin/</code> holds fleet and spool shell tools; <code class="inline">skills/</code> holds task-routed operational guides; <code class="inline">docs/</code> holds the compendium, case studies, hardware notes, and sources including anonymized telemetry; and <code class="inline">infra/python/</code> and <code class="inline">infra/slurm/</code> hold analysis scripts and job templates. The telemetry figures regenerate from archived inputs with <code class="inline">infra/python/plot_blog_telemetry.py</code>, and provenance notes beside empirical claims identify the record behind each number.
       </p>
 
       <p>
-        <strong><a href="https://github.com/shreshthsaini/video-infra-playbook">Using the playbook.</a></strong> This open resource contains the skill files, agent guides, Python utilities, spool and fleet scripts, and Slurm templates. Adapt paths, partitions, and policies to your site, and <strong>ALWAYS get permission</strong> from your infrastructure provider, university, or cluster operators before running fleet automation, telemetry, or login-node tooling on shared systems.
+        <strong><a href="https://github.com/shreshthsaini/fleetcraft">Using the repository.</a></strong> This open resource contains the skill files, agent guides, Python utilities, spool and fleet scripts, and Slurm templates. Adapt paths, partitions, and policies to your site, and <strong>ALWAYS get permission</strong> from your infrastructure provider, university, or cluster operators before running fleet automation, telemetry, or login-node tooling on shared systems.
       </p>
 
       <p>
@@ -2907,7 +2907,7 @@ text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: #0f172a; 
         <li><a href="https://github.com/hao-ai-lab/FastVideo">FastVideo</a>, <a href="https://github.com/xdit-project/xDiT">xDiT</a>, <a href="https://github.com/NUS-HPC-AI-Lab/VideoSys">VideoSys</a>, and <a href="https://github.com/hpcaitech/Open-Sora">Open-Sora</a>.</li>
         <li><a href="https://github.com/XueZeyue/DanceGRPO">DanceGRPO</a>.</li>
         <li><a href="https://github.com/Wan-Video/Wan2.1">Wan2.1</a> and <a href="https://github.com/Tencent-Hunyuan/HunyuanVideo">HunyuanVideo</a>.</li>
-        <li>Shreshth Saini, <a href="https://github.com/shreshthsaini/video-infra-playbook"><em>video-infra-playbook: an operational playbook for GPU video generation on shared HPC</em></a>, 2026.</li>
+        <li>Shreshth Saini, <a href="https://github.com/shreshthsaini/fleetcraft"><em>Fleetcraft: an operational playbook for GPU video generation on shared HPC</em></a>, 2026.</li>
       </ol>
 
       <h4>TACC and IFML</h4>
@@ -2928,7 +2928,7 @@ text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: #0f172a; 
       <div class="cite-label">Blog post</div>
       <pre><code>@misc{saini2026gpuinfraprojects,
   author = {Shreshth Saini},
-  title = {GPU Infrastructure for Video Generation: Notes from Three Projects},
+  title = {Fleetcraft: GPU Infrastructure Notes from Three Video-Generation Projects},
   year = {2026},
   howpublished = {\url{https://shreshthsaini.github.io/blogs/gpu-infra-for-video-gen.html}},
   note = {Blog post}
