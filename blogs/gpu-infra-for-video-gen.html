@@ -1246,6 +1246,10 @@
       </p>
 
       <p>
+        For live watching during operations, per-GPU, per-node, and fleet-level utilization views came from <a href="https://github.com/lablup/all-smi">all-smi</a>, Lablup's open-source cross-platform accelerator monitor that extends the <code class="inline">nvidia-smi</code> view across many nodes at once.<span class="cite"><a href="#src-allsmi">[14]</a></span> The archived traces behind the figures in this post came from the plain <code class="inline">nvidia-smi</code> CSV logger, which is what the repository ships for durable records.
+      </p>
+
+      <p>
         Point probes remain useful for attribution. They tell us which GPU is computing now, which one holds project memory between bursts, and which one is truly free. Fleet health needs a rolling view. VSAO summarized five-minute windows using active-sample fraction, defined as the fraction of samples at or above 5 percent utilization, plus mean utilization and mean memory fraction. Each summary tied itself to the source telemetry by hash. <span class="provenance">(VSAO telemetry summary)</span>
       </p>
 
@@ -2890,6 +2894,7 @@ text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: #0f172a; 
         <li id="src-arm"><a href="https://pytorch.org/blog/vllm-and-pytorch-work-together-to-improve-the-developer-experience-on-aarch64/">PyTorch and vLLM aarch64 ecosystem note</a> and the <a href="https://github.com/Dao-AILab/flash-attention/issues/1866">FlashAttention aarch64 wheel record</a>.</li>
         <li id="src-cuda-memory"><a href="https://docs.pytorch.org/docs/2.13/notes/cuda.html">PyTorch CUDA memory management semantics</a>.</li>
         <li id="src-nvsmi"><a href="https://docs.nvidia.com/deploy/nvidia-smi/index.html">NVIDIA System Management Interface documentation</a> and <a href="https://docs.nvidia.com/datacenter/dcgm/latest/user-guide/feature-overview.html">DCGM feature overview</a>.</li>
+        <li id="src-allsmi">Lablup, <a href="https://github.com/lablup/all-smi">all-smi</a>: a cross-platform command-line monitor for GPU and NPU utilization, memory, temperature, and power across many nodes. Apache License 2.0.</li>
         <li><a href="https://horace.io/brrr_intro.html">Horace He, Making Deep Learning Go Brrrr From First Principles</a>.</li>
         <li><a href="https://www.aleksagordic.com/blog/matmul">Aleksa Gordi&#263;, Inside NVIDIA GPUs: Anatomy of High Performance Matmul Kernels</a>.</li>
         <li><a href="https://siboehm.com/articles/22/CUDA-MMM">Simon Boehm, How to Optimize a CUDA Matmul Kernel for cuBLAS-like Performance</a>.</li>
