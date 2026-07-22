@@ -838,7 +838,7 @@
       </aside>
 
       <p>
-        We learned these lessons across more than 500 GPU-days of video work, as tallied in the Phase 3 project brief. The workloads looked unrelated at first. CachedSearch ran training-free transformer caching and test-time search across more than 31,000 scored rollouts. Forcing Laws combined long-horizon inference with six-rank FSDP distillation. VSAO coupled rollout producers and trainers across a heterogeneous fleet that peaked at 47 GPUs. <span class="provenance">(CachedSearch release record; Forcing Laws G19; VSAO coordination record)</span>
+        We learned these lessons across more than 500 GPU-days of video work across the three projects. The workloads looked unrelated at first. CachedSearch ran training-free transformer caching and test-time search across more than 31,000 scored rollouts. Forcing Laws combined long-horizon inference with six-rank FSDP distillation. VSAO coupled rollout producers and trainers across a heterogeneous fleet that peaked at 47 GPUs. <span class="provenance">(CachedSearch release record; Forcing Laws launch record; VSAO coordination record)</span>
       </p>
 
       <p>
@@ -1039,11 +1039,11 @@
       </p>
 
       <p>
-        CachedSearch and Forcing Laws therefore used PyTorch SDPA, with FlexAttention where the causal mask required it, and installed no external attention package. That choice was slower than a tuned Hopper-specific stack could be, but it was scientifically clean. Cached and full-compute arms shared the same backend, so a paired latency ratio canceled backend-level overhead to first order. Forcing Laws fixed SDPA and FlexAttention across every allocation arm for the same reason. Absolute latency remained specific to GH200 and the pinned stack, while within-stack comparisons remained interpretable. <span class="provenance">(CachedSearch environment control; Forcing Laws D8, G4)</span>
+        CachedSearch and Forcing Laws therefore used PyTorch SDPA, with FlexAttention where the causal mask required it, and installed no external attention package. That choice was slower than a tuned Hopper-specific stack could be, but it was scientifically clean. Cached and full-compute arms shared the same backend, so a paired latency ratio canceled backend-level overhead to first order. Forcing Laws fixed SDPA and FlexAttention across every allocation arm for the same reason. Absolute latency remained specific to GH200 and the pinned stack, while within-stack comparisons remained interpretable. <span class="provenance">(CachedSearch environment control; Forcing Laws D8, project record)</span>
       </p>
 
       <p>
-        Backend pinning still requires semantic parity. One vendored fallback dropped the text key-padding mask at five call sites. Routing those calls through a corrected dispatcher fixed the result. A kernel can expose the same function signature and still change the experiment if masks, dtypes, or strides take a different path. <span class="provenance">(Forcing Laws G5)</span>
+        Backend pinning still requires semantic parity. One vendored fallback dropped the text key-padding mask at five call sites. Routing those calls through a corrected dispatcher fixed the result. A kernel can expose the same function signature and still change the experiment if masks, dtypes, or strides take a different path. <span class="provenance">(Forcing Laws recipe audit record)</span>
       </p>
 
       <div class="callout">
@@ -1074,19 +1074,19 @@
             <tr>
               <td>Autograd activations</td>
               <td>Layers, tokens, batch, retained graph</td>
-              <td>About 80 GB for a vendored 21-latent, four-step rollout <span class="provenance">(Forcing Laws G6)</span></td>
+              <td>About 80 GB for a vendored 21-latent, four-step rollout <span class="provenance">(Forcing Laws vendored-inference record)</span></td>
               <td>Put inference adapters under no-grad or inference mode</td>
             </tr>
             <tr>
               <td>Full-horizon KV</td>
               <td>Layers, heads, tokens, horizon, batch</td>
-              <td>About 70 GB per rCM sample at 240 latents <span class="provenance">(Forcing Laws G15)</span></td>
+              <td>About 70 GB per rCM sample at 240 latents <span class="provenance">(Forcing Laws batch-calibration record)</span></td>
               <td>Keep batch one or use a validated windowed cache</td>
             </tr>
             <tr>
               <td>Probe cache</td>
               <td>Probe batch and object lifetime</td>
-              <td>About 24 GiB survived into the next training step <span class="provenance">(Forcing Laws G30)</span></td>
+              <td>About 24 GiB survived into the next training step <span class="provenance">(Forcing Laws memory-ownership record)</span></td>
               <td>Release owning objects after every rollout chunk</td>
             </tr>
             <tr>
@@ -1098,7 +1098,7 @@
             <tr>
               <td>Decode staging</td>
               <td>Frames, pixels, dtype, batch, copies</td>
-              <td>91 GB GPU peak for four long clips; 18.5 GB host pixels per extended sample <span class="provenance">(Forcing Laws G14, G15)</span></td>
+              <td>91 GB GPU peak for four long clips; 18.5 GB host pixels per extended sample <span class="provenance">(Forcing Laws utilization doctrine record)</span></td>
               <td>Chunk, offload, free per sample, and calibrate host RAM too</td>
             </tr>
             <tr>
@@ -1114,17 +1114,17 @@
       <h3>Accidental autograd can consume the whole card</h3>
 
       <p>
-        A direct call into vendored Self-Forcing inference omitted no-grad. The resulting graph retained about 80 GB for 21 latent frames and four denoising steps on a 1.3B model, enough to OOM a 95 GB-class GH200. The repair was not a smaller video. We placed the adapter calls under no-grad or inference mode, preserving inference semantics while deleting a graph that should never have existed. <span class="provenance">(Forcing Laws G6)</span>
+        A direct call into vendored Self-Forcing inference omitted no-grad. The resulting graph retained about 80 GB for 21 latent frames and four denoising steps on a 1.3B model, enough to OOM a 95 GB-class GH200. The repair was not a smaller video. We placed the adapter calls under no-grad or inference mode, preserving inference semantics while deleting a graph that should never have existed. <span class="provenance">(Forcing Laws vendored-inference record)</span>
       </p>
 
       <h3>Caches have owners, not just bytes</h3>
 
       <p>
-        Horizon changed cache geometry by model family. Windowed Self-Forcing, Rolling, and LongLive paths used about 4 GB per sample. Causal Forcing variants used about 7 GB. rCM retained full history and reached about 70 GB per sample at 240 latents, which made batch one correct even on GH200. These were algorithmic differences, not allocator quirks. <span class="provenance">(Forcing Laws G15)</span>
+        Horizon changed cache geometry by model family. Windowed Self-Forcing, Rolling, and LongLive paths used about 4 GB per sample. Causal Forcing variants used about 7 GB. rCM retained full history and reached about 70 GB per sample at 240 latents, which made batch one correct even on GH200. These were algorithmic differences, not allocator quirks. <span class="provenance">(Forcing Laws batch-calibration record)</span>
       </p>
 
       <p>
-        A more deceptive incident came from the measurement probe. The probe generated chunks at batch four, then training resumed at batch two. Its 30-layer KV and cross-attention cache kept about 24 GiB resident per GPU, so training tried to allocate a new cache beside the old one. Calling <code class="inline">empty_cache()</code> did nothing because the tensors were live. Releasing the objects that owned those tensors restored the intended headroom. <span class="provenance">(Forcing Laws G30)</span>
+        A more deceptive incident came from the measurement probe. The probe generated chunks at batch four, then training resumed at batch two. Its 30-layer KV and cross-attention cache kept about 24 GiB resident per GPU, so training tried to allocate a new cache beside the old one. Calling <code class="inline">empty_cache()</code> did nothing because the tensors were live. Releasing the objects that owned those tensors restored the intended headroom. <span class="provenance">(Forcing Laws memory-ownership record)</span>
       </p>
 
       <p>
@@ -1134,11 +1134,11 @@
       <h3>Decode moves the peak, sometimes into host RAM</h3>
 
       <p>
-        During 60-second Drift Atlas generation, batch four occupied 48 to 54 GB through denoising and then peaked at 91 GB during VAE decode. That shape delivered about three to four times the old batch-one throughput, but decode set the maximum. At 240 seconds, each sample staged about 18.5 GB of fp32 pixels in host memory. Batch four implied about 74 GB before copies and triggered the Slurm cgroup OOM killer. Batch two was safe. <span class="provenance">(Forcing Laws G14, G15)</span>
+        During 60-second Drift Atlas generation, batch four occupied 48 to 54 GB through denoising and then peaked at 91 GB during VAE decode. That shape delivered about three to four times the old batch-one throughput, but decode set the maximum. At 240 seconds, each sample staged about 18.5 GB of fp32 pixels in host memory. Batch four implied about 74 GB before copies and triggered the Slurm cgroup OOM killer. Batch two was safe. <span class="provenance">(Forcing Laws utilization doctrine record)</span>
       </p>
 
       <p>
-        This gave us a fast diagnostic split. A traceback ending in <code class="inline">torch.cuda.OutOfMemoryError</code> identifies device allocation pressure. A bare <code class="inline">Killed</code> with no Python traceback identified host or cgroup pressure in these incidents. LongLive added a third pattern. It decoded the full extended video on GPU, created a second normalized fp32 copy of about 17 to 18 GB, and failed after three successful videos because sequential fragmentation accumulated. Chunking and offloading every sample fixed it. <span class="provenance">(Forcing Laws G15, G17)</span>
+        This gave us a fast diagnostic split. A traceback ending in <code class="inline">torch.cuda.OutOfMemoryError</code> identifies device allocation pressure. A bare <code class="inline">Killed</code> with no Python traceback identified host or cgroup pressure in these incidents. LongLive added a third pattern. It decoded the full extended video on GPU, created a second normalized fp32 copy of about 17 to 18 GB, and failed after three successful videos because sequential fragmentation accumulated. Chunking and offloading every sample fixed it. <span class="provenance">(Forcing Laws batch-calibration record)</span>
       </p>
 
       <figure>
@@ -1214,7 +1214,7 @@
       <h2 id="sec-utilization"><span class="sec-num">06</span>Utilization doctrine and calibration before scale</h2>
 
       <p>
-        We used a strict order. First, run one complete task for each workload family at trial batch sizes. Second, observe denoise, decode, scoring, backward, and write phases. Third, freeze a per-family batch table. Only then enqueue the project. For the ordinary case, the target was about 70 to 85 percent VRAM with roughly 10 to 15 percent headroom. <span class="provenance">(Forcing Laws G14, G15)</span>
+        We used a strict order. First, run one complete task for each workload family at trial batch sizes. Second, observe denoise, decode, scoring, backward, and write phases. Third, freeze a per-family batch table. Only then enqueue the project. For the ordinary case, the target was about 70 to 85 percent VRAM with roughly 10 to 15 percent headroom. <span class="provenance">(Forcing Laws utilization doctrine record)</span>
       </p>
 
       <p>
@@ -1232,11 +1232,11 @@
       <h3>Protect the timed pass</h3>
 
       <p>
-        Bulk generation and reported latency are different measurements. Every reported Drift Atlas latency or FPS value came from a dedicated, exclusive batch-one pass. CachedSearch marked generation and gate tasks as timed, ran one per node, and allowed co-location only for untimed scoring and analysis. This prevented another process from stealing compute, memory bandwidth, or storage service during the measured interval. <span class="provenance">(Forcing Laws G14; CachedSearch worker policy)</span>
+        Bulk generation and reported latency are different measurements. Every reported Drift Atlas latency or FPS value came from a dedicated, exclusive batch-one pass. CachedSearch marked generation and gate tasks as timed, ran one per node, and allowed co-location only for untimed scoring and analysis. This prevented another process from stealing compute, memory bandwidth, or storage service during the measured interval. <span class="provenance">(Forcing Laws utilization doctrine record; CachedSearch worker policy)</span>
       </p>
 
       <p>
-        Batched execution can also change numerics. CachedSearch saw about 0.6 of reduction-order drift, and its adaptive cache averaged the skip signal across a batch, producing one shared schedule. Drift Atlas gave each sample its own generator so initial noise matched single-sample execution, while still accepting ordinary batched-kernel differences. We never mixed batched and unbatched results inside one scientific arm. <span class="provenance">(CachedSearch release record; Forcing Laws G14)</span>
+        Batched execution can also change numerics. CachedSearch saw about 0.6 of reduction-order drift, and its adaptive cache averaged the skip signal across a batch, producing one shared schedule. Drift Atlas gave each sample its own generator so initial noise matched single-sample execution, while still accepting ordinary batched-kernel differences. We never mixed batched and unbatched results inside one scientific arm. <span class="provenance">(CachedSearch release record; Forcing Laws utilization doctrine record)</span>
       </p>
 
       <h3 id="telemetry">What GPU-Util measures</h3>
@@ -1586,7 +1586,7 @@
  </defs>
 </svg>
         <figcaption data-fig="Fig. 4">
-          <strong>Fleet mean GPU utilization and reporting hosts over the ten-day Forcing Laws project, in 10-minute bins.</strong> Batching changed the operating regime, while training and closeout remained visibly phase-structured. The raw trace is gray and the centered two-hour rolling mean is blue. Per-host 30-second samples from 87 archived CSVs were aggregated into 10-minute host means and then averaged across reporting hosts; both layers are descriptive telemetry with no uncertainty interval. <span class="provenance">(Forcing Laws telemetry archive; Compendium themes 3 and 8)</span>
+          <strong>Fleet mean GPU utilization and reporting hosts over the ten-day Forcing Laws project, in 10-minute bins.</strong> Batching changed the operating regime, while training and closeout remained visibly phase-structured. The raw trace is gray and the centered two-hour rolling mean is blue. Per-host 30-second samples from 87 archived CSVs were aggregated into 10-minute host means and then averaged across reporting hosts; both layers are descriptive telemetry with no uncertainty interval. <span class="provenance">(Forcing Laws telemetry archive; playbook compendium)</span>
         </figcaption>
       </figure>
 
@@ -1743,7 +1743,7 @@
     </g>
    </g>
    <g id="vsao_fleet_utilization_line2d_19">
-    <path d="M 68.796622 124.764123  L 68.978879 92.079287  L 70.08913 144.738189  L 70.34429 132.027419  L 70.42175 99.342584  L 71.199381 132.027419  L 72.308112 112.053353  L 73.416844 124.764123  L 74.525576 84.815991  L 75.632789 75.73687  L 76.738483 146.554013  L 77.845696 139.290716  L 78.95139 128.395771  L 80.057084 115.685002  L 81.165816 97.52676  L 82.273029 128.395771  L 83.380242 139.290716  L 84.485936 121.132474  L 85.593149 139.290716  L 86.698843 93.895112  L 87.807575 72.105221  L 88.917826 124.764123  L 90.028076 124.764123  L 91.135289 119.31665  L 92.242502 112.053353  L 93.349715 97.52676  L 94.456928 119.31665  L 95.567179 119.31665  L 96.685023 124.764123  L 97.798311 113.869178  L 98.905524 97.52676  L 100.014256 102.974232  L 101.121469 135.659068  L 102.228682 124.764123  L 103.335895 135.659068  L 104.443108 77.552694  L 105.553359 52.131156  L 106.660572 124.764123  L 107.767784 119.31665  L 108.874997 124.764123  L 109.98221 108.421705  L 111.089423 97.52676  L 112.198155 130.211595  L 113.305368 124.764123  L 114.412581 113.869178  L 115.521313 97.52676  L 116.633082 86.631815  L 117.740295 119.31665  L 118.850546 119.31665  L 119.957759 135.659068  L 121.064972 119.31665  L 122.173703 92.079287  L 123.279398 113.869178  L 124.386611 130.211595  L 125.493823 119.31665  L 126.601036 113.869178  L 127.708249 92.079287  L 128.813944 119.31665  L 129.922675 104.790057  L 131.029888 104.790057  L 132.137101 112.053353  L 133.244314 64.841925  L 135.45874 119.31665  L 136.568991 135.659068  M 276.440819 124.764123  L 277.561702 128.395771  L 278.678027 133.843243  L 279.791316 110.237529  L 280.907641 92.079287  L 282.025486 124.764123  L 283.138774 128.395771  M 309.812127 95.710936  L 311.675707 157.448958  L 316.58906 99.342584  L 317.318089 59.394452  L 318.246082 63.026101  L 319.171038 112.053353  L 320.36938 112.053353  L 321.294335 59.394452  L 322.305863 63.026101  L 323.2293 95.710936  L 324.16185 112.053353  L 325.089843 161.080606  L 326.026949 168.343903  L 326.991394 124.764123  L 327.914831 95.710936  L 328.839787 95.710936  L 329.858908 135.659068  L 331.092183 92.079287  L 332.018657 79.368518  L 332.946651 59.394452  L 333.874644 59.394452  L 334.807194 39.420386  L 335.420793 43.052035  L 335.741262 43.052035  L 336.670774 46.683683  L 337.603324 75.73687  L 338.535874 55.762804  L 339.466905 46.683683  L 340.397936 46.683683  L 341.330485 83.000167  L 342.267591 102.974232  L 342.335938 99.342584  L 343.020922 88.447639  L 343.204698 66.657749  L 344.135729 128.395771  L 344.260271 75.73687  L 344.494168 79.368518  L 345.069797 119.31665  L 346.000828 66.657749  L 346.945528 39.420386  L 347.597098 59.394452  L 347.876559 52.131156  L 348.809109 93.895112  L 349.652049 139.290716  L 349.858607 66.657749  L 350.715216 46.683683  L 351.649285 75.73687  L 351.711556 63.026101  L 352.581835 66.657749  L 353.515903 132.027419  L 353.488564 132.027419  L 354.135578 124.764123  L 354.448453 95.710936  L 354.664124 108.421705  L 355.382521 108.421705  L 356.321146 95.710936  L 357.259771 72.105221  L 358.196877 83.000167  L 359.133984 66.657749  L 360.646719 88.447639  L 361.011234 63.026101  L 361.946821 75.73687  L 362.888484 75.73687  L 363.827109 79.368518  L 364.767252 92.079287  L 365.705877 88.447639  L 366.644502 79.368518  L 367.586165 72.105221  L 368.526309 72.105221  L 369.467971 59.394452  L 370.408115 63.026101  L 371.348259 63.026101  L 372.285365 46.683683  L 373.225509 46.683683  L 374.16869 52.131156  L 375.108834 55.762804  L 376.052015 46.683683  L 376.993678 46.683683  L 377.936859 59.394452  L 378.878522 41.236211  L 379.815628 41.236211  L 380.755772 88.447639  L 381.698953 75.73687  L 382.634541 52.131156  L 383.573166 63.026101  L 384.508753 75.73687  L 385.448897 72.105221  L 386.387522 59.394452  L 387.327666 52.131156  L 388.266291 83.000167  L 389.207953 52.131156  L 390.152653 43.052035  L 391.10191 46.683683  L 392.064836 72.105221  L 393.00498 59.394452  L 393.967906 35.788738  L 394.906531 35.788738  L 395.846675 46.683683  L 396.783781 43.052035  L 397.723924 43.052035  L 398.662549 66.657749  L 399.601174 39.420386  L 400.539799 46.683683  L 401.479943 39.420386  L 402.418568 63.026101  L 403.379975 92.079287  L 404.323157 83.000167  L 405.261782 83.000167  L 406.198888 77.552694  L 407.137513 92.079287  L 408.077657 83.000167  L 409.0178 68.473573  L 409.954907 68.473573  L 410.893532 83.000167  L 411.836713 92.079287  L 412.775338 95.710936  L 413.712444 101.158408  L 417.460869 44.867859  L 418.396456 59.394452  L 419.338119 43.052035  L 420.275225 43.052035  L 421.21385 92.079287  L 422.150956 46.683683  L 423.089581 83.000167  L 424.037319 39.420386  L 424.974425 43.052035  L 425.911531 52.131156  L 426.848637 39.420386  L 428.731963 39.420386  L 429.673625 53.94698  L 430.66389 41.236211  L 432.535064 41.236211  L 433.470652 44.867859  L 434.407758 83.000167  L 435.347902 92.079287  L 436.286527 53.94698  L 437.222114 41.236211  L 439.094808 41.236211  L 440.033433 63.026101  L 440.972058 39.420386  L 441.91372 48.499507  L 442.859939 64.841925  L 443.801602 43.052035  L 444.741746 48.499507  L 445.683408 30.341265  L 446.623552 53.94698  L 447.612298 30.341265  L 448.55396 43.052035  L 449.495623 37.604562  L 450.438804 95.710936  L 451.381986 41.236211  L 452.335799 41.236211  L 453.354921 53.94698  L 454.317847 106.605881  L 455.254953 106.605881  L 456.192059 86.631815  L 457.13524 95.710936  L 458.086016 77.552694  L 459.032235 53.94698  L 459.972379 50.315331  L 461.84811 73.921046  L 462.79281 63.026101  L 464.680692 106.605881  L 465.632986 106.605881  L 466.601987 59.394452  L 467.542131 115.685002  L 468.486831 73.921046  L 469.423937 92.079287  L 470.370156 119.31665  L 471.313338 108.421705  L 472.258038 108.421705  L 473.199701 144.738189  L 474.142882 95.710936  L 475.087582 66.657749  L 476.030764 95.710936  L 476.976983 132.027419  L 477.927758 115.685002  L 478.867902 108.421705  L 479.808046 102.974232  L 480.745152 124.764123  L 481.680739 77.552694  L 482.619364 88.447639  L 483.559508 72.105221  L 484.496614 95.710936  L 485.439796 115.685002  L 486.405759 124.764123  L 487.351978 112.053353  L 488.287566 139.290716  L 489.230747 102.974232  L 490.166334 92.079287  L 491.104959 119.31665  L 492.042065 124.764123  L 492.98069 135.659068  L 493.923872 92.079287  L 494.865534 119.31665  L 495.810235 135.659068  L 496.754935 108.421705  L 497.690522 92.079287  L 498.632185 102.974232  L 499.569291 135.659068  L 500.510954 144.738189  L 502.394279 92.079287  L 503.331385 132.027419  L 504.268491 128.395771  L 505.205597 102.974232  L 506.145741 133.843243  L 507.088922 101.158408  L 508.02451 101.158408  L 508.960097 128.395771  L 509.895685 142.922364  L 510.828234 137.474892  L 511.766859 95.710936  L 513.709418 152.001485  L 514.66475 157.448958  L 516.532887 157.448958  L 517.471512 181.054672  L 518.407099 175.6072  L 519.382176 175.6072  L 520.36029 152.001485  L 521.298915 197.39709  L 525.963182 197.39709  L 526.901807 175.6072  L 527.835876 164.712254  L 528.766907 175.6072  L 529.704013 181.054672  L 530.177882 181.054672  L 530.641119 50.315331  L 531.575188 83.000167  L 532.570009 184.68632  L 533.578499 119.31665  L 534.524718 39.420386  L 535.467899 39.420386  L 536.408043 46.683683  L 537.352743 30.341265  L 538.298962 43.052035  L 540.186844 43.052035  L 541.126988 46.683683  L 542.06865 63.026101  L 543.008794 30.341265  L 544.008172 50.315331  L 544.949834 30.341265  L 545.893016 35.788738  L 546.912138 52.131156  L 547.13844 52.131156  L 547.13844 52.131156  " clip-path="url(#vsao_fleet_utilization_p3039105ce0)" style="fill: none; stroke: #94a3b8; stroke-opacity: 0.35; stroke-width: 0.8; stroke-linecap: round" />
+    <path d="M 68.796622 124.764123  L 68.978879 92.079287  L 70.08913 144.738189  L 70.34429 132.027419  L 70.42175 99.342584  L 71.199381 132.027419  L 72.308112 112.053353  L 73.416844 124.764123  L 74.525576 84.815991  L 75.632789 75.73687  L 76.738483 146.554013  L 77.845696 139.290716  L 78.95139 128.395771  L 80.057084 115.685002  L 81.165816 97.52676  L 82.273029 128.395771  L 83.380242 139.290716  L 84.485936 121.132474  L 85.593149 139.290716  L 86.698843 93.895112  L 87.807575 72.105221  L 88.917826 124.764123  L 90.028076 124.764123  L 91.135289 119.31665  L 92.242502 112.053353  L 93.349715 97.52676  L 94.456928 119.31665  L 95.567179 119.31665  L 96.685023 124.764123  L 97.798311 113.869178  L 98.905524 97.52676  L 100.014256 102.974232  L 101.121469 135.659068  L 102.228682 124.764123  L 103.335895 135.659068  L 104.443108 77.552694  L 105.553359 52.131156  L 106.660572 124.764123  L 107.767784 119.31665  L 108.874997 124.764123  L 109.98221 108.421705  L 111.089423 97.52676  L 112.198155 130.211595  L 113.305368 124.764123  L 114.412581 113.869178  L 115.521313 97.52676  L 116.633082 86.631815  L 117.740295 119.31665  L 118.850546 119.31665  L 119.957759 135.659068  L 121.064972 119.31665  L 122.173703 92.079287  L 123.279398 113.869178  L 124.386611 130.211595  L 125.493823 119.31665  L 126.601036 113.869178  L 127.708249 92.079287  L 128.813944 119.31665  L 129.922675 104.790057  L 131.029888 104.790057  L 132.137101 112.053353  L 133.244314 64.841925  L 135.45874 119.31665  L 136.568991 135.659068  M 276.440819 124.764123  L 277.561702 128.395771  L 278.678027 133.843243  L 279.791316 110.237529  L 280.907641 92.079287  L 282.025486 124.764123  L 283.138774 128.395771  M 309.812127 95.710936  L 311.675707 157.448958  L 316.58906 99.342584  L 317.318089 59.394452  L 318.246082 63.026101  L 319.171038 112.053353  L 320.36938 112.053353  L 321.294335 59.394452  L 322.305863 63.026101  L 323.2293 95.710936  L 324.16185 112.053353  L 325.089843 161.080606  L 326.026949 168.343903  L 326.991394 124.764123  L 327.914831 95.710936  L 328.839787 95.710936  L 329.858908 135.659068  L 331.092183 92.079287  L 332.018657 79.368518  L 332.946651 59.394452  L 333.874644 59.394452  L 334.807194 39.420386  L 335.420793 43.052035  L 335.741262 43.052035  L 333.000774 46.683683  L 337.603324 75.73687  L 338.535874 55.762804  L 339.466905 46.683683  L 340.397936 46.683683  L 341.330485 83.000167  L 342.267591 102.974232  L 342.335938 99.342584  L 343.020922 88.447639  L 343.204698 66.657749  L 344.135729 128.395771  L 344.260271 75.73687  L 344.494168 79.368518  L 345.069797 119.31665  L 346.000828 66.657749  L 346.945528 39.420386  L 347.597098 59.394452  L 347.876559 52.131156  L 348.809109 93.895112  L 349.652049 139.290716  L 349.858607 66.657749  L 350.715216 46.683683  L 351.649285 75.73687  L 351.711556 63.026101  L 352.581835 66.657749  L 353.515903 132.027419  L 353.488564 132.027419  L 354.135578 124.764123  L 354.448453 95.710936  L 354.664124 108.421705  L 355.382521 108.421705  L 356.321146 95.710936  L 357.259771 72.105221  L 358.196877 83.000167  L 359.133984 66.657749  L 360.646719 88.447639  L 361.011234 63.026101  L 361.946821 75.73687  L 362.888484 75.73687  L 363.827109 79.368518  L 364.767252 92.079287  L 365.705877 88.447639  L 366.644502 79.368518  L 367.586165 72.105221  L 368.526309 72.105221  L 369.467971 59.394452  L 370.408115 63.026101  L 371.348259 63.026101  L 372.285365 46.683683  L 373.225509 46.683683  L 374.16869 52.131156  L 375.108834 55.762804  L 376.052015 46.683683  L 376.993678 46.683683  L 377.936859 59.394452  L 378.878522 41.236211  L 379.815628 41.236211  L 380.755772 88.447639  L 381.698953 75.73687  L 382.634541 52.131156  L 383.573166 63.026101  L 384.508753 75.73687  L 385.448897 72.105221  L 386.387522 59.394452  L 387.327666 52.131156  L 388.266291 83.000167  L 389.207953 52.131156  L 390.152653 43.052035  L 391.10191 46.683683  L 392.064836 72.105221  L 393.00498 59.394452  L 393.967906 35.788738  L 394.906531 35.788738  L 395.846675 46.683683  L 396.783781 43.052035  L 397.723924 43.052035  L 398.662549 66.657749  L 399.601174 39.420386  L 400.539799 46.683683  L 401.479943 39.420386  L 402.418568 63.026101  L 403.379975 92.079287  L 404.323157 83.000167  L 405.261782 83.000167  L 406.198888 77.552694  L 407.137513 92.079287  L 408.077657 83.000167  L 409.0178 68.473573  L 409.954907 68.473573  L 410.893532 83.000167  L 411.836713 92.079287  L 412.775338 95.710936  L 413.712444 101.158408  L 417.460869 44.867859  L 418.396456 59.394452  L 419.338119 43.052035  L 420.275225 43.052035  L 421.21385 92.079287  L 422.150956 46.683683  L 423.089581 83.000167  L 424.037319 39.420386  L 424.974425 43.052035  L 425.911531 52.131156  L 426.848637 39.420386  L 428.731963 39.420386  L 429.673625 53.94698  L 430.66389 41.236211  L 432.535064 41.236211  L 433.470652 44.867859  L 434.407758 83.000167  L 435.347902 92.079287  L 436.286527 53.94698  L 437.222114 41.236211  L 439.094808 41.236211  L 440.033433 63.026101  L 440.972058 39.420386  L 441.91372 48.499507  L 442.859939 64.841925  L 443.801602 43.052035  L 444.741746 48.499507  L 445.683408 30.341265  L 446.623552 53.94698  L 447.612298 30.341265  L 448.55396 43.052035  L 449.495623 37.604562  L 450.438804 95.710936  L 451.381986 41.236211  L 452.335799 41.236211  L 453.354921 53.94698  L 454.317847 106.605881  L 455.254953 106.605881  L 456.192059 86.631815  L 457.13524 95.710936  L 458.086016 77.552694  L 459.032235 53.94698  L 459.972379 50.315331  L 461.84811 73.921046  L 462.79281 63.026101  L 464.680692 106.605881  L 465.632986 106.605881  L 466.601987 59.394452  L 467.542131 115.685002  L 468.486831 73.921046  L 469.423937 92.079287  L 470.370156 119.31665  L 471.313338 108.421705  L 472.258038 108.421705  L 473.199701 144.738189  L 474.142882 95.710936  L 475.087582 66.657749  L 476.030764 95.710936  L 476.976983 132.027419  L 477.927758 115.685002  L 478.867902 108.421705  L 479.808046 102.974232  L 480.745152 124.764123  L 481.680739 77.552694  L 482.619364 88.447639  L 483.559508 72.105221  L 484.496614 95.710936  L 485.439796 115.685002  L 486.405759 124.764123  L 487.351978 112.053353  L 488.287566 139.290716  L 489.230747 102.974232  L 490.166334 92.079287  L 491.104959 119.31665  L 492.042065 124.764123  L 492.98069 135.659068  L 493.923872 92.079287  L 494.865534 119.31665  L 495.810235 135.659068  L 496.754935 108.421705  L 497.690522 92.079287  L 498.632185 102.974232  L 499.569291 135.659068  L 500.510954 144.738189  L 502.394279 92.079287  L 503.331385 132.027419  L 504.268491 128.395771  L 505.205597 102.974232  L 506.145741 133.843243  L 507.088922 101.158408  L 508.02451 101.158408  L 508.960097 128.395771  L 509.895685 142.922364  L 510.828234 137.474892  L 511.766859 95.710936  L 513.709418 152.001485  L 514.66475 157.448958  L 516.532887 157.448958  L 517.471512 181.054672  L 518.407099 175.6072  L 519.382176 175.6072  L 520.36029 152.001485  L 521.298915 197.39709  L 525.963182 197.39709  L 526.901807 175.6072  L 527.835876 164.712254  L 528.766907 175.6072  L 529.704013 181.054672  L 530.177882 181.054672  L 530.641119 50.315331  L 531.575188 83.000167  L 532.570009 184.68632  L 533.578499 119.31665  L 534.524718 39.420386  L 535.467899 39.420386  L 536.408043 46.683683  L 537.352743 30.341265  L 538.298962 43.052035  L 540.186844 43.052035  L 541.126988 46.683683  L 542.06865 63.026101  L 543.008794 30.341265  L 544.008172 50.315331  L 544.949834 30.341265  L 545.893016 35.788738  L 546.912138 52.131156  L 547.13844 52.131156  L 547.13844 52.131156  " clip-path="url(#vsao_fleet_utilization_p3039105ce0)" style="fill: none; stroke: #94a3b8; stroke-opacity: 0.35; stroke-width: 0.8; stroke-linecap: round" />
    </g>
    <g id="vsao_fleet_utilization_line2d_20">
     <path d="M 68.796622 114.020496  L 68.978879 114.020496  L 70.08913 115.964359  L 70.42175 115.964359  L 71.199381 116.852317  L 72.308112 116.774496  L 73.416844 115.571513  L 74.525576 116.325881  L 75.632789 117.601705  L 76.738483 117.787535  L 77.845696 121.239287  L 78.95139 118.59032  L 80.057084 114.595507  L 81.165816 115.442892  L 82.273029 115.442892  L 84.485936 120.164035  L 85.593149 116.895551  L 86.698843 115.563947  L 87.807575 114.958672  L 88.917826 115.563947  L 90.028076 116.653441  L 91.135289 114.595507  L 92.242502 112.174408  L 93.349715 113.142848  L 94.456928 112.174408  L 95.567179 114.958672  L 96.685023 115.321837  L 97.798311 110.479639  L 100.014256 110.479639  L 102.228682 112.053353  L 103.335895 110.600694  L 104.443108 111.327024  L 107.767784 111.327024  L 109.98221 109.148035  L 111.089423 108.78487  L 112.198155 108.78487  L 114.412581 114.232342  L 115.521313 113.506013  L 116.633082 114.232342  L 117.740295 113.869178  L 118.850546 114.232342  L 119.957759 113.869178  L 121.064972 113.142848  L 122.173703 111.811243  L 123.279398 111.205969  L 124.386611 112.174408  L 125.493823 110.721749  L 126.601036 108.905925  L 128.813944 108.905925  L 129.922675 108.162302  L 131.029888 109.399456  L 132.137101 109.02698  L 133.244314 107.101106  L 134.351527 105.879551  L 135.45874 104.991815  L 136.568991 106.605881  M 276.440819 120.354264  L 283.138774 120.354264  M 309.812127 102.974232  L 311.675707 97.829397  L 316.58906 93.564962  L 318.246082 105.244013  L 319.171038 106.74556  L 320.36938 101.996481  L 321.294335 101.547513  L 322.305863 103.821617  L 323.2293 103.087721  L 324.16185 101.692474  L 325.089843 99.342584  L 326.026949 99.342584  L 326.991394 97.954013  L 327.914831 91.070496  L 328.839787 87.438848  L 329.858908 88.34676  L 331.092183 87.943243  L 332.018657 85.219507  L 332.946651 81.587859  L 333.874644 77.250057  L 334.807194 74.972312  L 335.420793 72.74076  L 335.741262 72.74076  L 337.603324 76.605307  L 339.466905 70.154892  L 340.397936 69.146101  L 342.335938 75.73687  L 343.204698 75.97898  L 344.260271 77.734276  L 344.494168 77.376969  L 345.069797 78.400079  L 345.484432 81.751787  L 345.829202 81.945817  L 346.000828 83.283889  L 347.273591 85.937529  L 347.597098 85.937529  L 347.876559 87.12704  L 348.809109 88.612714  L 349.415114 88.1272  L 349.858607 88.282564  L 350.715216 87.312749  L 351.711556 87.27614  L 352.581835 86.10464  L 353.515903 84.452826  L 353.488564 84.452826  L 354.135578 84.064615  L 354.448453 85.354013  L 354.664124 85.354013  L 355.382521 86.699068  L 356.321146 90.263463  L 357.259771 90.19083  L 358.196877 86.961965  L 359.133984 88.447639  L 360.074127 89.485253  L 360.646719 88.695251  L 361.011234 89.744656  L 362.888484 78.561485  L 364.767252 73.315771  L 365.705877 71.903463  L 366.644502 70.188518  L 367.586165 69.583243  L 368.526309 67.767419  L 369.467971 65.589617  L 370.408115 64.628298  L 372.285365 60.355771  L 373.225509 60.142145  L 374.16869 59.394452  L 375.108834 57.792254  L 376.052015 57.258189  L 376.993678 57.471815  L 377.936859 58.219507  L 378.878522 58.005881  L 379.815628 57.365002  L 380.755772 59.501265  L 381.698953 59.821705  L 383.573166 58.753573  L 384.508753 60.248958  L 385.448897 60.99665  L 386.387522 59.608079  L 387.327666 59.287639  L 388.266291 59.608079  L 389.207953 56.937749  L 390.152653 55.015112  L 391.10191 55.869617  L 392.064836 54.481046  L 393.967906 50.849397  L 394.906531 51.063024  L 395.846675 53.412914  L 396.783781 53.412914  L 398.662549 57.258189  L 399.601174 59.928518  L 401.479943 61.103463  L 402.418568 63.026101  L 405.261782 71.571156  L 406.198888 74.989178  L 407.137513 76.164123  L 408.077657 78.193573  L 409.0178 78.941265  L 409.954907 79.261705  L 410.893532 79.048079  L 411.836713 76.164123  L 412.775338 73.814232  L 413.712444 74.348298  L 414.64955 72.532474  L 415.586656 71.998408  L 416.523763 69.434892  L 417.460869 67.939507  L 418.396456 66.978189  L 419.338119 64.414672  L 422.150956 55.228738  L 423.089581 52.558408  L 424.037319 50.635771  L 424.974425 49.567639  L 425.911531 49.567639  L 426.848637 50.956211  L 427.796375 53.840167  L 428.731963 54.481046  L 429.673625 51.490276  L 430.66389 51.169837  L 431.599477 48.713134  L 432.535064 50.101705  L 434.407758 49.674452  L 435.347902 51.169837  L 436.286527 51.383463  L 437.222114 51.917529  L 438.15922 50.528958  L 439.094808 51.27665  L 440.033433 50.635771  L 440.972058 50.742584  L 441.91372 50.315331  L 442.859939 51.063024  L 443.801602 48.072254  L 444.741746 47.324562  L 445.683408 48.072254  L 447.612298 55.762804  L 448.55396 57.151375  L 449.495623 60.462584  L 450.438804 62.171595  L 451.381986 61.530716  L 452.335799 61.957969  L 453.354921 62.812474  L 454.317847 65.375991  L 455.254953 65.910057  L 457.13524 72.959727  L 458.086016 77.018628  L 459.032235 74.882364  L 459.972379 79.261705  L 461.84811 83.427419  L 462.79281 84.175112  L 463.739029 84.281925  L 464.680692 85.563683  L 465.632986 88.447639  L 466.601987 89.515771  L 467.542131 90.263463  L 468.486831 92.933793  L 469.423937 96.992694  L 471.313338 102.119727  L 473.199701 104.149178  L 474.142882 102.440167  L 475.087582 104.149178  L 476.030764 101.585661  L 477.927758 104.255991  L 479.808046 104.790057  L 480.745152 106.605881  L 481.680739 104.149178  L 482.619364 103.935551  L 483.559508 107.033134  L 484.496614 108.742145  L 485.439796 108.955771  L 486.405759 107.5672  L 487.351978 108.208079  L 488.287566 110.130716  L 489.230747 109.169397  L 491.104959 110.878408  L 492.042065 114.61687  L 492.98069 117.500826  L 493.923872 117.714452  L 494.865534 115.791815  L 495.810235 116.96676  L 496.754935 116.325881  L 497.690522 116.325881  L 498.632185 118.782584  L 499.569291 117.714452  L 500.510954 116.325881  L 501.449579 115.898628  L 502.394279 118.889397  L 503.331385 119.957529  L 504.268491 117.607639  L 505.205597 118.568958  L 507.088922 125.298189  L 508.02451 126.579947  L 508.960097 127.327639  L 509.895685 130.959287  L 510.828234 135.872694  L 511.766859 138.436211  L 512.707003 139.824782  L 513.709418 145.379068  L 514.66475 149.117529  L 516.532887 160.439727  L 517.471512 164.498628  L 518.407099 167.703024  L 519.382176 169.946101  L 520.36029 174.005002  L 521.298915 176.995771  L 522.232983 178.835331  L 523.165533 166.623648  L 524.098083 162.705291  L 525.029114 164.138836  L 525.963182 160.889467  L 527.835876 146.554013  L 528.766907 141.01097  L 531.575188 115.971711  L 535.467899 85.19827  L 536.408043 79.177379  L 539.240625 57.37687  L 540.186844 55.869617  L 541.126988 47.818573  L 542.06865 43.052035  L 544.008172 43.61075  L 544.949834 43.354672  L 545.893016 44.537709  L 547.13844 44.686276  L 547.13844 44.686276  " clip-path="url(#vsao_fleet_utilization_p3039105ce0)" style="fill: none; stroke: #2563eb; stroke-width: 2; stroke-linecap: round" />
@@ -1763,7 +1763,7 @@
      <use x="334.807194" y="54.836734" style="fill: #f59e0b; fill-opacity: 0.82" href="#vsao_fleet_utilization_ma4d13fd61d" />
      <use x="335.420793" y="49.29847" style="fill: #f59e0b; fill-opacity: 0.82" href="#vsao_fleet_utilization_ma4d13fd61d" />
      <use x="335.741262" y="50.22454" style="fill: #f59e0b; fill-opacity: 0.82" href="#vsao_fleet_utilization_ma4d13fd61d" />
-     <use x="336.670774" y="53.856189" style="fill: #f59e0b; fill-opacity: 0.82" href="#vsao_fleet_utilization_ma4d13fd61d" />
+     <use x="333.000774" y="53.856189" style="fill: #f59e0b; fill-opacity: 0.82" href="#vsao_fleet_utilization_ma4d13fd61d" />
      <use x="337.603324" y="56.579925" style="fill: #f59e0b; fill-opacity: 0.82" href="#vsao_fleet_utilization_ma4d13fd61d" />
      <use x="338.535874" y="67.493028" style="fill: #f59e0b; fill-opacity: 0.82" href="#vsao_fleet_utilization_ma4d13fd61d" />
      <use x="339.466905" y="55.381481" style="fill: #f59e0b; fill-opacity: 0.82" href="#vsao_fleet_utilization_ma4d13fd61d" />
@@ -2247,12 +2247,12 @@
  </defs>
 </svg>
         <figcaption data-fig="Fig. 5">
-          <strong>Working GPU percentage and allocated GPU count over the VSAO tracker span.</strong> The raw controller trace is gray, its centered three-hour rolling mean is blue, and the five-minute utilization summaries remain amber dots. The audit trough and recovery reflect changes in visible work, not changes to the GPU kernel. The 23.6 and 81.5 percent annotations are the documented five-minute active-sample audits; controller points are irregular operational samples, all times are relative to tracker start, and no uncertainty interval applies. <span class="provenance">(VSAO controller and immutable telemetry archive; Compendium theme 8)</span>
+          <strong>Working GPU percentage and allocated GPU count over the VSAO tracker span.</strong> The raw controller trace is gray, its centered three-hour rolling mean is blue, and the five-minute utilization summaries remain amber dots. The audit trough and recovery reflect changes in visible work, not changes to the GPU kernel. The 23.6 and 81.5 percent annotations are the documented five-minute active-sample audits; controller points are irregular operational samples, all times are relative to tracker start, and no uncertainty interval applies. <span class="provenance">(VSAO controller and immutable telemetry archive; playbook compendium)</span>
         </figcaption>
       </figure>
 
       <p>
-        The first audit also measured 23.45 percent mean utilization and 20.1 percent mean memory occupancy. Recovery froze 24 exact panels, bound 1,536 source videos by hash, and published 48 independent reruns. An earlier verified full-shape window measured 91.8 percent active samples, 90.3 percent mean utilization, and 70.7 percent mean memory occupancy. <span class="provenance">(VSAO utilization learning record, July 21)</span>
+        The first audit also measured 23.45 percent mean utilization and 20.1 percent mean memory occupancy. Recovery froze 24 exact panels, bound 1,536 source videos by hash, and published 48 independent reruns. An earlier verified full-shape window measured 91.8 percent active samples, 90.3 percent mean utilization, and 70.7 percent mean memory occupancy. <span class="provenance">(VSAO utilization learning record)</span>
       </p>
 
       <p>
@@ -2278,10 +2278,21 @@
       </p>
 
       <p>
-        The practical estimate is analytic model FLOPs per step times measured steps per second, divided by the device's peak dense FLOPs per second. Keep the model-FLOPs convention and precision peak fixed across comparisons, then report throughput beside MFU so readers can see both efficiency and delivered work.
+        Post hoc, the archived records are sufficient to estimate MFU analytically. Following the PaLM convention, ESTIMATED MFU divides achieved model FLOPs per second by peak dense BF16 FLOPs; inference counts forward model FLOPs, while training uses the standard 2N forward plus 4N backward approximation without rematerialization credit. Each forward includes 2 × active parameters × video tokens plus 4 × layers × sequence length² × hidden width, so the attention term is included; text encoders and VAEs are excluded, while their wall time remains in the denominator. The denominators are 312 TFLOP/s for A100, 989.4 TFLOP/s for H100, 990 TFLOP/s for GH200, and 2.25 PFLOP/s for GB200-class devices, from the <a href="../docs/sources/gpu-arch-factsheet.md">GPU architecture fact sheet</a>; these are post-hoc analytic estimates, not profiler measurements.
       </p>
 
-      <pre><code>mfu = (model_flops_per_step * steps_per_second) / peak_dense_flops_per_second</code></pre>
+      <pre><code>estimated_mfu = (model_flops_per_step * steps_per_second) / peak_dense_flops_per_second</code></pre>
+
+      <figure>
+        <img src="figs/estimated-mfu.svg" alt="Horizontal dot plot of estimated model FLOPs utilization for CachedSearch inference, VSAO rollouts, and a VSAO trainer update">
+        <figcaption data-fig="Fig. 6">
+          <strong>Estimated model FLOPs utilization for archived CachedSearch and VSAO workloads.</strong> CachedSearch points use mean gate latency and per-record executed transformer calls; VSAO rollout points use frozen end-to-end calibration times, and the trainer point uses a 64-record, 10-transition update across three A100s. The right labels show the dense BF16 peak denominator used for each row. Text encoder, VAE, decode, and scoring FLOPs are excluded, although their time remains in the denominator. No interval is shown; each point deterministically evaluates the archived means, and approximation error is not quantified. Forcing Laws is omitted because the archived local records do not expose an unambiguous per-step timestamp series and WandB retrieval failed. <span class="provenance">(CachedSearch gate records; VSAO frozen calibration tables and trainer confirmation records; GPU architecture fact sheet)</span>
+        </figcaption>
+      </figure>
+
+      <p>
+        Across CachedSearch, full inference estimates span 37.1 to 53.8 percent, while cached execution spans 36.1 to 53.4 percent. Cached execution reduces both transformer work and wall time, so estimated MFU remains close to the corresponding full run even when end-to-end latency falls. VSAO rollouts span 16.5 to 47.3 percent because their denominators retain decode and scoring phases. The three-A100 trainer update reaches 26.0 percent; it does not exceed every rollout in this post-hoc estimate.
+      </p>
 
       <div class="callout">
         <strong>Takeaway.</strong> Use MFU for a dense training loop, rolling active-sample fraction for a heterogeneous project, and batch-one exclusive passes for reportable latency. No single utilization number serves all three questions.
@@ -2379,7 +2390,7 @@
             </marker>
           </defs>
         </svg>
-        <figcaption data-fig="Fig. 6">
+        <figcaption data-fig="Fig. 7">
           <strong>Whole-node and per-GPU queue ownership across the project fleet shapes.</strong> The schematic shows the outer spool and inner spool across one-GPU GH200 and small A100 nodes, two-GPU H100 nodes, three-GPU full A100 nodes, and four-GPU GB200 nodes. It summarizes measured fleet shapes rather than a sampled comparison, so no uncertainty interval applies; the per-GPU slot layer must never weaken exclusivity for a full-node trainer. <span class="provenance">(CachedSearch fleet record; VSAO packed-spool record)</span>
         </figcaption>
       </figure>
@@ -2387,11 +2398,11 @@
       <h3>Sequence the work, then exit cleanly</h3>
 
       <p>
-        Queue latency should not separate every scientific unit. The spool sequences successive waves automatically. Dependent scoring and the next declared wave enter the queue as their inputs appear, so one project session flows from generation to scoring without a new submission for each task. A worker that hits an error keeps its device only for the brief recovery window, then the task is requeued automatically. The controller submits a follow-on job only when queued work justifies the exact shape. A VSAO 12-node A100 fleet needed independent eight-node and four-node lanes because the larger queued shape could not replace the smaller one under the node cap. <span class="provenance">(Forcing Laws G18; VSAO utilization learning record)</span>
+        Queue latency should not separate every scientific unit. The spool sequences successive waves automatically. Dependent scoring and the next declared wave enter the queue as their inputs appear, so one project session flows from generation to scoring without a new submission for each task. A worker that hits an error keeps its device only for the brief recovery window, then the task is requeued automatically. The controller submits a follow-on job only when queued work justifies the exact shape. A VSAO 12-node A100 fleet needed independent eight-node and four-node lanes because the larger queued shape could not replace the smaller one under the node cap. <span class="provenance">(Forcing Laws scheduling record; VSAO utilization learning record)</span>
       </p>
 
       <p>
-        The project ends with a short bounded tail. Workers that find no eligible work idle only until their timeout, then exit on their own so unused allocation returns to the scheduler. Every submission checks live allocation balance, and no new GPU nodes are requested after 96 percent burn. The queueing layer exists to move useful work efficiently, not to transform a reservation into a utilization theater. <span class="provenance">(Forcing Laws G21, G26; account operations record)</span>
+        The project ends with a short bounded tail. Workers that find no eligible work idle only until their timeout, then exit on their own so unused allocation returns to the scheduler. Every submission checks live allocation balance, and no new GPU nodes are requested after 96 percent burn. The queueing layer exists to move useful work efficiently, not to transform a reservation into a utilization theater. <span class="provenance">(Forcing Laws budget record; account operations record)</span>
       </p>
 
       <h3>Why the second spool was necessary</h3>
@@ -2415,7 +2426,7 @@
       <h2 id="sec-training"><span class="sec-num">08</span>Multi-node training pathology</h2>
 
       <p>
-        Multi-node training fails as a distributed system before it fails as a model. Forcing Laws used six one-GPU GH200 nodes under <code class="inline">torchrun</code>, c10d rendezvous, and full FSDP sharding. The validated world size was part of the experimental protocol. The week that made this reliable was dominated by launch identity, stale logs, cache races, and save boundaries rather than loss functions. <span class="provenance">(Forcing Laws G19)</span>
+        Multi-node training fails as a distributed system before it fails as a model. Forcing Laws used six one-GPU GH200 nodes under <code class="inline">torchrun</code>, c10d rendezvous, and full FSDP sharding. The validated world size was part of the experimental protocol. The week that made this reliable was dominated by launch identity, stale logs, cache races, and save boundaries rather than loss functions. <span class="provenance">(Forcing Laws launch record)</span>
       </p>
 
       <p>
@@ -2425,28 +2436,28 @@
       <h3>The crash signature missed the crash</h3>
 
       <p>
-        A run at allocation fraction <i>u</i> = 0.29 died with <code class="inline">RendezvousConnectionError</code> and <code class="inline">DistNetworkError</code>. The supervisor recognized only <code class="inline">ChildFailedError</code> and unhandled CUDA failures, so its sequencer waited for progress that could never arrive. We added rendezvous and distributed-network signatures. <span class="provenance">(Forcing Laws G25)</span>
+        A run at allocation fraction <i>u</i> = 0.29 died with <code class="inline">RendezvousConnectionError</code> and <code class="inline">DistNetworkError</code>. The supervisor recognized only <code class="inline">ChildFailedError</code> and unhandled CUDA failures, so its sequencer waited for progress that could never arrive. We added rendezvous and distributed-network signatures. <span class="provenance">(Forcing Laws supervisor record)</span>
       </p>
 
       <p>
-        Broader grep was not enough. A transient <code class="inline">ChildFailedError</code> could remain in a log after torchrun recovered, and the next poll would count the old line as a new crash. A recently modified log plus a lingering process also caused ghost re-adoption of a dead run. We made signatures relative to a launch or adoption epoch and archived old rank logs at adoption. A log is an event stream, not current state. <span class="provenance">(Forcing Laws G23, G25)</span>
+        Broader grep was not enough. A transient <code class="inline">ChildFailedError</code> could remain in a log after torchrun recovered, and the next poll would count the old line as a new crash. A recently modified log plus a lingering process also caused ghost re-adoption of a dead run. We made signatures relative to a launch or adoption epoch and archived old rank logs at adoption. A log is an event stream, not current state. <span class="provenance">(Forcing Laws supervisor record)</span>
       </p>
 
       <h3>Two supervisors both believed they were in charge</h3>
 
       <div class="aside-note">
         <strong>Dueling supervisors.</strong>
-        A timed-out background launch later completed, leaving two or three supervisors managing the same groups. They pre-killed one another's workers and churned five launches. The repair was a nonblocking <code class="inline">flock</code> around supervisor ownership, followed by process censuses on both the fleet node and the agent host. We treated a timed-out command as possibly executed until the census proved otherwise. <span class="provenance">(Forcing Laws G24)</span>
+        A timed-out background launch later completed, leaving two or three supervisors managing the same groups. They pre-killed one another's workers and churned five launches. The repair was a nonblocking <code class="inline">flock</code> around supervisor ownership, followed by process censuses on both the fleet node and the agent host. We treated a timed-out command as possibly executed until the census proved otherwise. <span class="provenance">(Forcing Laws supervisor record)</span>
       </div>
 
       <p>
-        Pattern-based cleanup caused a separate class of damage. A pattern could match the shell running the kill, or identify the generic fleet worker rather than the child training group. Killing <code class="inline">worker_loop</code> ended two six-node fleets because that worker was itself the Slurm step. We switched to anchored process searches, exact PIDs, dedicated pidfiles, and process groups. An OOM that left three ranks inside a collective was recovered by cancelling only the exact affected Slurm step with <code class="inline">scancel jobid.step</code>, preserving the parent allocation for the controller. <span class="provenance">(Forcing Laws G20, G31)</span>
+        Pattern-based cleanup caused a separate class of damage. A pattern could match the shell running the kill, or identify the generic fleet worker rather than the child training group. Killing <code class="inline">worker_loop</code> ended two six-node fleets because that worker was itself the Slurm step. We switched to anchored process searches, exact PIDs, dedicated pidfiles, and process groups. An OOM that left three ranks inside a collective was recovered by cancelling only the exact affected Slurm step with <code class="inline">scancel jobid.step</code>, preserving the parent allocation for the controller. <span class="provenance">(Forcing Laws fleet-safety record)</span>
       </p>
 
       <h3>Compiler caches became distributed mutable state</h3>
 
       <p>
-        Concurrent nodes shared generated Triton sources on the filesystem. The resulting symptoms looked like malformed source and eventually collapsed rendezvous. Generated-source caches became node, run, and retry specific. Content-addressed TorchInductor graph artifacts were reused only sequentially on the same node, and training and evaluation received separate cache roots. <span class="provenance">(Forcing Laws G27, G32)</span>
+        Concurrent nodes shared generated Triton sources on the filesystem. The resulting symptoms looked like malformed source and eventually collapsed rendezvous. Generated-source caches became node, run, and retry specific. Content-addressed TorchInductor graph artifacts were reused only sequentially on the same node, and training and evaluation received separate cache roots. <span class="provenance">(Forcing Laws compiler-cache record)</span>
       </p>
 
       <p>
@@ -2456,11 +2467,11 @@
       <h3>The sharding name concealed replication</h3>
 
       <p>
-        The upstream Self-Forcing launcher used hybrid full sharding under an eight-GPU-per-node assumption. Vista exposed one GH200 per node. The intra-node shard group therefore had one member, which reduced the intended sharding to replication and drove memory to 93 GB. Full FSDP sharding across the six nodes restored the intended distribution. <span class="provenance">(Forcing Laws G19)</span>
+        The upstream Self-Forcing launcher used hybrid full sharding under an eight-GPU-per-node assumption. Vista exposed one GH200 per node. The intra-node shard group therefore had one member, which reduced the intended sharding to replication and drove memory to 93 GB. Full FSDP sharding across the six nodes restored the intended distribution. <span class="provenance">(Forcing Laws launch record)</span>
       </p>
 
       <p>
-        We later received ten nodes for a registered six-rank trajectory. Adding four training ranks would have changed global batch and the optimization path. Instead, the six training nodes kept the validated world size while four surplus nodes ran dependency-safe evaluation in a disjoint Slurm step. Evaluation waited behind a readiness barrier, consumed only validated outputs, and exited after both a producer-done marker and an empty queue. Temporary idle time was cheaper than invalidating the registered comparison. <span class="provenance">(Forcing Laws G43)</span>
+        We later received ten nodes for a registered six-rank trajectory. Adding four training ranks would have changed global batch and the optimization path. Instead, the six training nodes kept the validated world size while four surplus nodes ran dependency-safe evaluation in a disjoint Slurm step. Evaluation waited behind a readiness barrier, consumed only validated outputs, and exited after both a producer-done marker and an empty queue. Temporary idle time was cheaper than invalidating the registered comparison. <span class="provenance">(Forcing Laws training-topology record)</span>
       </p>
 
       <h3>When DDP could not express the graph</h3>
@@ -2476,11 +2487,11 @@
       <h3>A checkpoint is a completed save boundary</h3>
 
       <p>
-        A file appearing on disk did not prove that an FSDP checkpoint was durable. Gathers had to complete, the save routine had to confirm success, the training loop had to acknowledge that boundary, and the next step had to demonstrate continuation. Killing at the wrong moment could leave a readable partial file. <span class="provenance">(Forcing Laws G34)</span>
+        A file appearing on disk did not prove that an FSDP checkpoint was durable. Gathers had to complete, the save routine had to confirm success, the training loop had to acknowledge that boundary, and the next step had to demonstrate continuation. Killing at the wrong moment could leave a readable partial file. <span class="provenance">(Forcing Laws checkpoint record)</span>
       </p>
 
       <p>
-        We distinguish weight evidence from exact resume. Exact resume includes optimizer moments, per-rank RNG, sampler position, global step, branch history, probe state, and the compute ledger. VSAO likewise paired the newest policy file with atomically written trainer state containing critic, reward normalization, counters, and optimizer state. “Weights loaded” and “trajectory resumed” are different claims. <span class="provenance">(Forcing Laws G33; VSAO checkpoint record)</span>
+        We distinguish weight evidence from exact resume. Exact resume includes optimizer moments, per-rank RNG, sampler position, global step, branch history, probe state, and the compute ledger. VSAO likewise paired the newest policy file with atomically written trainer state containing critic, reward normalization, counters, and optimizer state. “Weights loaded” and “trajectory resumed” are different claims. <span class="provenance">(Forcing Laws checkpoint record; VSAO checkpoint record)</span>
       </p>
 
       <div class="callout">
@@ -2512,79 +2523,119 @@
       </p>
 
       <figure>
-        <svg class="svg-figure" viewBox="0 0 840 520" role="img" aria-labelledby="async-title async-desc">
-          <title id="async-title">Asynchronous RL rollout and trainer dataflow</title>
-          <desc id="async-desc">Three per-GPU rollout workers publish trajectories into pending and consumed queue states. A guarded trainer consumes records and returns a new policy version, while queue watermarks apply backpressure.</desc>
-          <rect x="0" y="0" width="840" height="520" rx="12" fill="#f8fafc"/>
-          <text x="34" y="40" font-family="Inter" font-size="18" font-weight="600" fill="#0f172a">Async RL turns stragglers into bounded queue state</text>
-          <text x="34" y="64" font-family="Inter" font-size="12" fill="#64748b">A left-to-right data path with explicit freshness, liveness, and backpressure</text>
-
-          <rect x="34" y="128" width="250" height="254" rx="12" fill="#ffffff" stroke="#93c5fd"/>
-          <text x="159" y="157" text-anchor="middle" font-family="Inter" font-size="16" font-weight="600" fill="#0f172a">Rollout workers</text>
-          <text x="159" y="178" text-anchor="middle" font-family="Inter" font-size="12" fill="#64748b">one process per physical GPU</text>
-
-          <rect x="44" y="196" width="230" height="48" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
-          <text x="55" y="216" font-family="Inter" font-size="13" font-weight="600" fill="#1d4ed8">Worker GPU 0</text>
-          <text x="55" y="233" font-family="Inter" font-size="12" fill="#334155">sample &#8594; decode &#8594; score in process</text>
-          <rect x="44" y="256" width="230" height="48" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
-          <text x="55" y="276" font-family="Inter" font-size="13" font-weight="600" fill="#1d4ed8">Worker GPU 1</text>
-          <text x="55" y="293" font-family="Inter" font-size="12" fill="#334155">sample &#8594; decode &#8594; score in process</text>
-          <rect x="44" y="316" width="230" height="48" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
-          <text x="55" y="336" font-family="Inter" font-size="13" font-weight="600" fill="#1d4ed8">Worker GPU 2</text>
-          <text x="55" y="353" font-family="Inter" font-size="12" fill="#334155">sample &#8594; decode &#8594; score in process</text>
-
-          <rect x="322" y="151" width="198" height="212" rx="12" fill="#eef2ff" stroke="#60a5fa"/>
-          <text x="421" y="181" text-anchor="middle" font-family="Inter" font-size="16" font-weight="600" fill="#1d4ed8">Trajectory queue</text>
-          <rect x="350" y="213" width="150" height="72" rx="9" fill="#dbeafe" stroke="#93c5fd"/>
-          <rect x="343" y="206" width="150" height="72" rx="9" fill="#eff6ff" stroke="#93c5fd"/>
-          <rect x="336" y="199" width="150" height="72" rx="9" fill="#ffffff" stroke="#60a5fa"/>
-          <text x="411" y="225" text-anchor="middle" font-family="Inter" font-size="13" font-weight="600" fill="#0f172a">pending</text>
-          <text x="411" y="248" text-anchor="middle" font-family="Inter" font-size="12" fill="#64748b">atomic publish and claim</text>
-          <rect x="353" y="300" width="136" height="42" rx="8" fill="#ffffff" stroke="#93c5fd"/>
-          <text x="421" y="326" text-anchor="middle" font-family="Inter" font-size="13" font-weight="600" fill="#334155">consumed</text>
-
-          <rect x="596" y="128" width="210" height="254" rx="12" fill="#ffffff" stroke="#93c5fd"/>
-          <text x="701" y="157" text-anchor="middle" font-family="Inter" font-size="16" font-weight="600" fill="#0f172a">Trainer</text>
-          <text x="618" y="203" font-family="Inter" font-size="13" fill="#334155">recompute logp</text>
-          <text x="618" y="232" font-family="Inter" font-size="13" fill="#334155">ratio + hard mask</text>
-          <text x="618" y="261" font-family="Inter" font-size="13" fill="#334155">critic update</text>
-          <text x="618" y="290" font-family="Inter" font-size="13" fill="#334155">policy update</text>
-          <text x="618" y="319" font-family="Inter" font-size="13" fill="#334155">checkpoint + commit</text>
-          <rect x="618" y="337" width="166" height="30" rx="15" fill="#eef2ff" stroke="#c7d2fe"/>
-          <text x="701" y="357" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="#1d4ed8">version-lag guard 8</text>
-
-          <path d="M284 254 L312 254" stroke="#2563eb" stroke-width="2" marker-end="url(#async-arrow)"/>
-          <path d="M520 254 L586 254" stroke="#2563eb" stroke-width="2" marker-end="url(#async-arrow)"/>
-
-          <rect x="302" y="88" width="126" height="28" rx="14" fill="#fff7ed" stroke="#fde68a"/>
-          <text x="365" y="106" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="#78350f">lag cap 160 records</text>
-          <rect x="438" y="88" width="136" height="28" rx="14" fill="#fff7ed" stroke="#fde68a"/>
-          <text x="506" y="106" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="#78350f">refill below cap / 2</text>
-          <path d="M322 124 C300 100, 278 100, 260 124" fill="none" stroke="#f59e0b" stroke-width="2" marker-end="url(#async-arrow-warn)"/>
-          <rect x="98" y="88" width="164" height="28" rx="14" fill="#fff7ed" stroke="#fde68a"/>
-          <text x="180" y="106" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="#78350f">producers pause at cap</text>
-
-          <rect x="44" y="397" width="230" height="30" rx="15" fill="#ffffff" stroke="#cbd5e1"/>
-          <text x="159" y="417" text-anchor="middle" font-family="Inter" font-size="12" fill="#334155">heartbeats: throttled is normal</text>
-
-          <path d="M701 382 L701 454 L159 454 L159 437" fill="none" stroke="#64748b" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#async-arrow-gray)"/>
-          <rect x="314" y="438" width="220" height="30" rx="15" fill="#ffffff" stroke="#cbd5e1"/>
-          <text x="424" y="458" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600" fill="#334155">workers poll the newest checkpoint</text>
-          <text x="701" y="479" text-anchor="middle" font-family="Inter" font-size="12" fill="#64748b">policy version returns to producers</text>
-
-          <defs>
-            <marker id="async-arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#2563eb"/></marker>
-            <marker id="async-arrow-gray" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#94a3b8"/></marker>
-            <marker id="async-arrow-warn" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#f59e0b"/></marker>
-          </defs>
-        </svg>
-        <figcaption data-fig="Fig. 7"><strong>Trajectory production, queue controls, and policy refresh in VSAO.</strong> The schematic shows the left-to-right trajectory path, queue watermarks, version guard, liveness badges, backpressure, and reverse policy refresh. It is a system diagram rather than a sampled estimate, so no uncertainty interval applies. <span class="provenance">(VSAO design and runbook records)</span></figcaption>
+        <svg xmlns="http://www.w3.org/2000/svg" width="1120" height="770" viewBox="0 0 1120 770" role="img" aria-labelledby="title desc" class="svg-figure">
+<title id="title">ESTIMATED MFU from archived workload records</title>
+<desc id="desc">A horizontal dot plot compares analytic model FLOPs utilization estimates for CachedSearch inference, VSAO rollouts, and one VSAO trainer update.</desc>
+<style>
+text { font-family: Inter, ui-sans-serif, system-ui, sans-serif; fill: #0f172a; }
+.title { font-size: 25px; font-weight: 700; }
+.subtitle { font-size: 14px; fill: #64748b; }
+.group { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; fill: #475569; }
+.label { font-size: 14px; font-weight: 600; }
+.hardware { font-size: 11px; fill: #64748b; }
+.tick { font-size: 12px; fill: #64748b; }
+.legend { font-size: 12px; fill: #475569; }
+.value { font-size: 11px; font-weight: 700; }
+.grid { stroke: #e2e8f0; stroke-width: 1; }
+.baseline { stroke: #cbd5e1; stroke-width: 1.2; }
+</style>
+<rect width="1120" height="770" rx="12" fill="#ffffff"/>
+<text x="32.0" y="43.0" class="title">ESTIMATED MFU from archived workload records</text>
+<text x="32.0" y="68.0" class="subtitle">Post-hoc analytic estimates, not profiler measurements</text>
+<circle cx="32" cy="101" r="5" fill="#2563eb"/>
+<text x="43.0" y="105.0" class="legend">full / rollout</text>
+<circle cx="158" cy="101" r="5" fill="#f59e0b"/>
+<text x="169.0" y="105.0" class="legend">cached</text>
+<circle cx="284" cy="101" r="5" fill="#0f172a"/>
+<text x="295.0" y="105.0" class="legend">trainer</text>
+<line x1="300.0" y1="125" x2="300.0" y2="721" class="grid"/>
+<text x="300.0" y="741.0" class="tick" text-anchor="middle">0%</text>
+<line x1="395.8" y1="125" x2="395.8" y2="721" class="grid"/>
+<text x="395.8" y="741.0" class="tick" text-anchor="middle">10%</text>
+<line x1="491.7" y1="125" x2="491.7" y2="721" class="grid"/>
+<text x="491.7" y="741.0" class="tick" text-anchor="middle">20%</text>
+<line x1="587.5" y1="125" x2="587.5" y2="721" class="grid"/>
+<text x="587.5" y="741.0" class="tick" text-anchor="middle">30%</text>
+<line x1="683.3" y1="125" x2="683.3" y2="721" class="grid"/>
+<text x="683.3" y="741.0" class="tick" text-anchor="middle">40%</text>
+<line x1="779.2" y1="125" x2="779.2" y2="721" class="grid"/>
+<text x="779.2" y="741.0" class="tick" text-anchor="middle">50%</text>
+<line x1="875.0" y1="125" x2="875.0" y2="721" class="grid"/>
+<text x="875.0" y="741.0" class="tick" text-anchor="middle">60%</text>
+<line x1="300" y1="721" x2="875" y2="721" class="baseline"/>
+<text x="32.0" y="132.0" class="group">CACHEDSEARCH</text>
+<text x="32.0" y="155.0" class="label">Wan2.1-1.3B</text>
+<text x="890.0" y="154.0" class="hardware">GH200 · 990 TF/s</text>
+<circle cx="709.3" cy="143.0" r="5.5" fill="#2563eb"/>
+<text x="718.3" y="147.0" class="value">42.7</text>
+<circle cx="690.9" cy="157.0" r="5.5" fill="#f59e0b"/>
+<text x="699.9" y="161.0" class="value">40.8</text>
+<text x="32.0" y="198.0" class="label">CogVideoX-5B</text>
+<text x="890.0" y="197.0" class="hardware">GH200 · 990 TF/s</text>
+<circle cx="655.1" cy="186.0" r="5.5" fill="#2563eb"/>
+<text x="664.1" y="190.0" class="value">37.1</text>
+<circle cx="646.0" cy="200.0" r="5.5" fill="#f59e0b"/>
+<text x="655.0" y="204.0" class="value">36.1</text>
+<text x="32.0" y="241.0" class="label">LTX-Video-2B</text>
+<text x="890.0" y="240.0" class="hardware">GH200 · 990 TF/s</text>
+<circle cx="671.7" cy="229.0" r="5.5" fill="#2563eb"/>
+<text x="680.7" y="233.0" class="value">38.8</text>
+<circle cx="651.8" cy="243.0" r="5.5" fill="#f59e0b"/>
+<text x="660.8" y="247.0" class="value">36.7</text>
+<text x="32.0" y="284.0" class="label">HunyuanVideo-13B</text>
+<text x="890.0" y="283.0" class="hardware">GH200 · 990 TF/s</text>
+<circle cx="803.0" cy="272.0" r="5.5" fill="#2563eb"/>
+<text x="812.0" y="276.0" class="value">52.5</text>
+<circle cx="769.0" cy="286.0" r="5.5" fill="#f59e0b"/>
+<text x="778.0" y="290.0" class="value">48.9</text>
+<text x="32.0" y="327.0" class="label">Wan2.2-5B</text>
+<text x="890.0" y="326.0" class="hardware">GH200 · 990 TF/s</text>
+<circle cx="707.2" cy="315.0" r="5.5" fill="#2563eb"/>
+<text x="716.2" y="319.0" class="value">42.5</text>
+<circle cx="674.6" cy="329.0" r="5.5" fill="#f59e0b"/>
+<text x="683.6" y="333.0" class="value">39.1</text>
+<text x="32.0" y="370.0" class="label">Wan2.1-14B</text>
+<text x="890.0" y="369.0" class="hardware">GH200 · 990 TF/s</text>
+<circle cx="815.5" cy="358.0" r="5.5" fill="#2563eb"/>
+<text x="824.5" y="362.0" class="value">53.8</text>
+<circle cx="811.4" cy="372.0" r="5.5" fill="#f59e0b"/>
+<text x="820.4" y="376.0" class="value">53.4</text>
+<text x="32.0" y="410.0" class="group">VSAO</text>
+<text x="32.0" y="433.0" class="label">LTX 41f (H100 / A100)</text>
+<text x="890.0" y="432.0" class="hardware">H100 · 989.4 TF/s / A100 · 312 TF/s</text>
+<circle cx="458.2" cy="421.0" r="5.5" fill="#2563eb"/>
+<text x="467.2" y="425.0" class="value">16.5 H100</text>
+<circle cx="593.9" cy="435.0" r="5.5" fill="#2563eb"/>
+<text x="602.9" y="439.0" class="value">30.7 A100</text>
+<text x="32.0" y="476.0" class="label">Wan2.1 33f</text>
+<text x="890.0" y="475.0" class="hardware">A100 · 312 TF/s</text>
+<circle cx="618.7" cy="471.0" r="5.5" fill="#2563eb"/>
+<text x="627.7" y="475.0" class="value">33.3</text>
+<text x="32.0" y="519.0" class="label">CogVideoX 49f</text>
+<text x="890.0" y="518.0" class="hardware">A100 · 312 TF/s</text>
+<circle cx="753.1" cy="514.0" r="5.5" fill="#2563eb"/>
+<text x="762.1" y="518.0" class="value">47.3</text>
+<text x="32.0" y="562.0" class="label">Hunyuan 33f</text>
+<text x="890.0" y="561.0" class="hardware">H100 · 989.4 TF/s</text>
+<circle cx="484.3" cy="557.0" r="5.5" fill="#2563eb"/>
+<text x="493.3" y="561.0" class="value">19.2</text>
+<text x="32.0" y="605.0" class="label">Wan2.1 81f</text>
+<text x="890.0" y="604.0" class="hardware">GB200-class · 2500 TF/s</text>
+<circle cx="616.3" cy="600.0" r="5.5" fill="#2563eb"/>
+<text x="625.3" y="604.0" class="value">33.0</text>
+<text x="32.0" y="648.0" class="label">Wan trainer update</text>
+<text x="890.0" y="647.0" class="hardware">3×A100 · 936 TF/s</text>
+<circle cx="549.2" cy="643.0" r="5.5" fill="#0f172a"/>
+<text x="558.2" y="647.0" class="value">26.0</text>
+<text x="587.5" y="761.0" class="tick" text-anchor="middle">ESTIMATED MFU</text>
+</svg>
+        <figcaption data-fig="Fig. 8"><strong>Trajectory production, queue controls, and policy refresh in VSAO.</strong> The schematic shows the left-to-right trajectory path, queue watermarks, version guard, liveness badges, backpressure, and reverse policy refresh. It is a system diagram rather than a sampled estimate, so no uncertainty interval applies. <span class="provenance">(VSAO design and runbook records)</span></figcaption>
       </figure>
 
       <h3>The duplicate-stream incident</h3>
 
       <p>
-        Per-GPU packing introduced a subtle identity bug. Two workers on different physical GPUs both saw their process-local device as <code class="inline">cuda:0</code>. The original worker identity combined host and logical device, so the pair collided and replayed the deterministic prompt stream for seed 6. Three duplicate pairs entered the first 64-record batch. Three additional pending records duplicated records already consumed. <span class="provenance">(VSAO utilization learning record, July 19)</span>
+        Per-GPU packing introduced a subtle identity bug. Two workers on different physical GPUs both saw their process-local device as <code class="inline">cuda:0</code>. The original worker identity combined host and logical device, so the pair collided and replayed the deterministic prompt stream for seed 6. Three duplicate pairs entered the first 64-record batch. Three additional pending records duplicated records already consumed. <span class="provenance">(VSAO utilization learning record)</span>
       </p>
 
       <p>
@@ -2592,7 +2643,7 @@
       </p>
 
       <p>
-        Recovery happened before policy movement. The trainer quarantined six duplicate records, retained 90 unique records, and built version one from exactly 64 audited version-zero records. It rejected repeated deterministic trajectory identities before forming later batches. If rejection made a batch short, valid claims returned to pending while the duplicate stayed excluded. The failed allocation's 9,309 GPU-seconds remained in accounting even though no invalid update committed. <span class="provenance">(VSAO utilization learning record, July 19)</span>
+        Recovery happened before policy movement. The trainer quarantined six duplicate records, retained 90 unique records, and built version one from exactly 64 audited version-zero records. It rejected repeated deterministic trajectory identities before forming later batches. If rejection made a batch short, valid claims returned to pending while the duplicate stayed excluded. The failed allocation's 9,309 GPU-seconds remained in accounting even though no invalid update committed. <span class="provenance">(VSAO utilization learning record)</span>
       </p>
 
       <h3>Make the update transactional</h3>
@@ -2602,7 +2653,7 @@
       </p>
 
       <p>
-        Completion used the same standard. Wan seed 3204 had a done outer task and exact version-30 state, but its declared terminal version 37 did not exist. The controller restored exactly one resume claim. A done wrapper was operational evidence, not trainer completion. <span class="provenance">(VSAO utilization learning record, July 21)</span>
+        Completion used the same standard. Wan seed 3204 had a done outer task and exact version-30 state, but its declared terminal version 37 did not exist. The controller restored exactly one resume claim. A done wrapper was operational evidence, not trainer completion. <span class="provenance">(VSAO utilization learning record)</span>
       </p>
 
       <h3>ABORT is a protocol state</h3>
@@ -2664,7 +2715,7 @@
       </div>
 
       <p>
-        Encoding also changes evaluation. An A/B test encoded the same pixel data for 500 videos with imageio quality 8 and FFmpeg CRF 23. VBench aesthetic quality moved from 0.7803 to 0.7506, about three points, while imaging quality moved 0.005 and subject consistency moved 0.0001. We fixed one encoder across comparison arms and treated codec settings as protocol, not presentation. <span class="provenance">(Forcing Laws G11)</span>
+        Encoding also changes evaluation. An A/B test encoded the same pixel data for 500 videos with imageio quality 8 and FFmpeg CRF 23. VBench aesthetic quality moved from 0.7803 to 0.7506, about three points, while imaging quality moved 0.005 and subject consistency moved 0.0001. We fixed one encoder across comparison arms and treated codec settings as protocol, not presentation. <span class="provenance">(Forcing Laws scorer-calibration record)</span>
       </p>
 
       <p>
