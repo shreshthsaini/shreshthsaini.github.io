@@ -154,6 +154,7 @@
       margin-top: 15px; border-top: 1px solid var(--border-soft); padding-top: 13px; line-height: 1.5;
     }
 
+    .post-cover.midfig { margin: 2.2rem 0 2.4rem; }
     .post-cover { text-align: center; margin: 1.9rem 0 2.2rem; }
     .post-cover img { max-width: 100%; height: auto; }
     .post-cover .post-cover-caption {
@@ -394,15 +395,6 @@
         is deterministic in its seed.</p>
       </div>
 
-      <div class="post-cover">
-        <div class="figure-box">
-          <img src="figs/cachedsearch/fig1_overview.png" alt="CachedSearch overview: ranking preservation, gain versus cost, and cross-model generality">
-        </div>
-        <p class="post-cover-caption">The result in one figure. Cached and
-      full-compute twins preserve candidate rankings; CachedSearch keeps
-      94.7% of best-of-8's gain at 63% of its cost; calibrated operating
-      points transfer across six models and four architecture families.</p>
-    </div>
     </div>
 
 
@@ -510,6 +502,16 @@
       and 1,013 VBench-2.0 prompts.<sup class="cite-ref"><a href="#ref17">[17]</a></sup>
       This is the only place where prompt counts matter: the large suites test
       whether the gate result survives scale and harder content.</p>
+
+      <div class="post-cover midfig">
+        <div class="figure-box">
+          <img src="figs/cachedsearch/fig1_overview.png" alt="CachedSearch overview: ranking preservation, gain versus cost, and cross-model generality">
+        </div>
+        <p class="post-cover-caption">The result in one figure. Cached and
+      full-compute twins preserve candidate rankings; CachedSearch keeps
+      94.7% of best-of-8's gain at 63% of its cost; calibrated operating
+      points transfer across six models and four architecture families.</p>
+    </div>
 
       <h2 id="sec-rankings">Finding 1: rankings survive</h2>
 
