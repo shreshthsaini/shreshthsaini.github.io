@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>CachedSearch: Test-Time Search in Video Generation at Half Price</title>
+  <title>CachedSearch: Training-Free Cached Exploration for Test-Time Search in Video Diffusion</title>
   <meta name="author" content="Shreshth Saini">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A technical post on CachedSearch: why candidate rankings survive training-free caching, and how that halves the cost of test-time search in video diffusion.">
@@ -352,7 +352,7 @@
   <div id="main" class="post">
 
     <div class="post-heading">
-      <h1 class="post-title">CachedSearch: Test-Time Search in Video Generation at Half Price</h1>
+      <h1 class="post-title">CachedSearch: Training-Free Cached Exploration for Test-Time Search in Video Diffusion</h1>
       <p class="post-subtitle">CachedSearch composes training-free caching
       with test-time search. It explores every candidate cheaply, then spends
       full compute only on the winner, keeping 94.7% of best-of-8's gain at
@@ -848,7 +848,8 @@ result.video   # a genuine full-compute sample, at about 63% of best-of-8 cost</
       <p>Cite this blog as:</p>
 
       <pre>@misc{saini2026cachedsearchblog,
-  title        = {CachedSearch: Test-Time Search in Video Generation at Half Price},
+  title        = {CachedSearch: Training-Free Cached Exploration for Test-Time
+                  Search in Video Diffusion},
   author       = {Saini, Shreshth},
   year         = {2026},
   howpublished = {\url{https://shreshthsaini.github.io/blogs/cachedsearch.html}},
