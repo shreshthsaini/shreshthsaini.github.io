@@ -371,6 +371,17 @@
     <article class="content">
       <div id="sec-top"></div>
 
+      <figure>
+        <div class="figure-box">
+          <img src="figs/cachedsearch/gif_pipeline.gif" alt="Eight cached drafts, the verifier's pick, and the full-compute commit">
+        </div>
+        <figcaption>The method on real rollouts. All eight candidates are
+        generated under caching (left, the pick ringed), the verifier scores
+        those cheap drafts, and only the winning seed is re-generated at full
+        compute (right). What ships is a genuine full-compute sample, because
+        the sampler is deterministic in its seed.</figcaption>
+      </figure>
+
       <div class="summary">
         <p><strong>Thesis.</strong> CachedSearch is the first composition of
         training-free caching with test-time search for video diffusion. It
