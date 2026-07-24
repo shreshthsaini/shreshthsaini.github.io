@@ -118,6 +118,42 @@
       margin: 1.6rem 0 0;
     }
 
+
+    /* Method schematic: permanent element, keep it on every revision. */
+    .pipe {
+      max-width: 660px; margin: 0 auto 2rem; background: #fdfdfc;
+      border: 1px solid var(--border-soft); border-radius: 0.4rem;
+      padding: 24px 22px 18px;
+    }
+    .pipe .row { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; }
+    .pipe .drafts { display: flex; gap: 6px; }
+    .pipe .d {
+      width: 24px; height: 32px; border-radius: 4px; background: #e2e6ee;
+      animation: draft 4.2s infinite;
+    }
+    .pipe .d:nth-child(2){animation-delay:.12s}.pipe .d:nth-child(3){animation-delay:.24s}
+    .pipe .d:nth-child(4){animation-delay:.36s}.pipe .d:nth-child(5){animation-delay:.48s}
+    .pipe .d:nth-child(6){animation-delay:.6s}.pipe .d:nth-child(7){animation-delay:.72s}
+    .pipe .d:nth-child(8){animation-delay:.84s}
+    .pipe .d.win { animation: win 4.2s infinite; }
+    @keyframes draft { 0%,12%{opacity:.25} 22%,70%{opacity:.75} 100%{opacity:.25} }
+    @keyframes win {
+      0%,12%{opacity:.25;background:#e2e6ee} 22%,58%{opacity:.85;background:#e2e6ee}
+      66%,92%{opacity:1;background:#1d4ed8;box-shadow:0 0 0 3px rgba(29,78,216,.20)}
+      100%{opacity:.25;background:#e2e6ee}
+    }
+    .pipe .arrow { color: var(--fg4); font-size: 18px; }
+    .pipe .stage {
+      font-family: var(--font-sans); font-size: 11px; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--fg4); text-align: center; margin-top: 8px;
+    }
+    .pipe .final { width: 48px; height: 32px; border-radius: 4px; background: #282828; animation: final 4.2s infinite; }
+    @keyframes final { 0%,66%{opacity:.12} 76%,94%{opacity:1} 100%{opacity:.12} }
+    .pipe .legend {
+      text-align: center; font-family: var(--font-sans); font-size: 13px; color: var(--fg3);
+      margin-top: 15px; border-top: 1px solid var(--border-soft); padding-top: 13px; line-height: 1.5;
+    }
+
     .post-cover { text-align: center; margin: 1.9rem 0 2.2rem; }
     .post-cover img { max-width: 100%; height: auto; }
     .post-cover .post-cover-caption {
@@ -333,6 +369,31 @@
       </div>
       <hr class="meta-rule">
 
+      <div class="pipe">
+        <div class="row">
+          <div>
+            <div class="drafts">
+              <div class="d"></div><div class="d"></div><div class="d"></div><div class="d win"></div>
+              <div class="d"></div><div class="d"></div><div class="d"></div><div class="d"></div>
+            </div>
+            <div class="stage">explore cached</div>
+          </div>
+          <div class="arrow">&rarr;</div>
+          <div>
+            <div class="drafts"><div class="d win" style="width:32px"></div></div>
+            <div class="stage">verifier picks</div>
+          </div>
+          <div class="arrow">&rarr;</div>
+          <div>
+            <div class="final"></div>
+            <div class="stage">commit full</div>
+          </div>
+        </div>
+        <p class="legend">Eight drafts at half price, one full-compute delivery.
+        The shipped video is a genuine full-compute sample, because the sampler
+        is deterministic in its seed.</p>
+      </div>
+
       <div class="post-cover">
         <div class="figure-box">
           <img src="figs/cachedsearch/fig1_overview.png" alt="CachedSearch overview: ranking preservation, gain versus cost, and cross-model generality">
@@ -370,17 +431,6 @@
 
     <article class="content">
       <div id="sec-top"></div>
-
-      <figure>
-        <div class="figure-box">
-          <img src="figs/cachedsearch/gif_pipeline.gif" alt="Eight cached drafts, the verifier's pick, and the full-compute commit">
-        </div>
-        <figcaption>The method on real rollouts. All eight candidates are
-        generated under caching (left, the pick ringed), the verifier scores
-        those cheap drafts, and only the winning seed is re-generated at full
-        compute (right). What ships is a genuine full-compute sample, because
-        the sampler is deterministic in its seed.</figcaption>
-      </figure>
 
       <div class="summary">
         <p><strong>Thesis.</strong> CachedSearch is the first composition of
