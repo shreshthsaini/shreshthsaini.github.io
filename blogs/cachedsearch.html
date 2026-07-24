@@ -1,0 +1,847 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>CachedSearch: Test-Time Search in Video Generation at Half Price</title>
+  <meta name="author" content="Shreshth Saini">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A technical post on CachedSearch: why candidate rankings survive training-free caching, and how that halves the cost of test-time search in video diffusion.">
+  <!-- Draft post for shreshthsaini.github.io/blogs/ (Scratch Pad). Design
+       replicates Thinking Machines' blog (thinkingmachines.ai, user request
+       2026-07-14): Iowan Old Style/Georgia serif body 17px on white, centered
+       serif title block with sans author/date metadata, cover figure, 660px
+       article column, sticky left TOC (sans 13px, active dot), figures with
+       auto "Figure N:" sans captions and hairline boxes, half-width plot
+       variant, small-sans references, closing Citation block. GT America is
+       proprietary; the sans stack uses TM's own system-font fallback. No
+       external fonts or scripts needed.
+       Figure paths are relative (figs/...); copy these alongside when
+       publishing: fig1_overview.png, f5_corruption.png, f16_hero.png,
+       fig2_method.png, fig_qual_methods.png, f13_scaling_master.png.
+       DO NOT PUBLISH until the arXiv hold is lifted. -->
+  <link rel="icon" type="image/jpg" href="../images/UT_profile.png">
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-code: #f3f3f2;
+      --fg: #282828;
+      --fg1: #3c3836;
+      --fg2: #504945;
+      --fg3: #6b6866;
+      --fg4: #676767;
+      --fg5: #969696;
+      --border-soft: rgba(103, 103, 103, 0.2);
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --font-serif: 'Iowan Old Style', 'Iowan Old Style BT', Georgia, serif;
+      --site-header-height: 54px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--site-header-height) + 1rem); }
+
+    body {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      line-height: 1.6;
+      background-color: var(--bg);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      height: var(--site-header-height);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 24px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(103, 103, 103, 0.15);
+      font-family: var(--font-sans);
+    }
+    .navbar-logo a {
+      color: var(--fg); text-decoration: none; font-size: 14px;
+      font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .top-nav a {
+      color: var(--fg2); text-decoration: none; font-size: 13.5px;
+      margin-left: 22px; transition: color 0.2s ease-in-out;
+    }
+    .top-nav a:hover { color: var(--fg); }
+    .top-nav a.active { color: var(--fg); }
+
+    #main {
+      margin: 0 auto; max-width: 990px; position: relative;
+      padding: 0 24px 4rem;
+    }
+
+    .post-heading {
+      max-width: 660px; margin: 0 auto; text-align: left;
+      padding-top: 2.8rem;
+    }
+    .post-title {
+      font-family: var(--font-serif);
+      font-weight: 600; font-size: 36px; line-height: 1.25;
+      margin: 0; text-wrap: balance; color: var(--fg);
+    }
+    .post-meta-row {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 9px;
+      margin-top: 1.3rem; font-family: var(--font-sans);
+      font-size: 14px; color: var(--fg4);
+    }
+    .post-heading hr.meta-rule {
+      border: 0; border-top: 1px solid rgba(103, 103, 103, 0.18);
+      margin: 1.35rem 0 0;
+    }
+    .hero-links {
+      display: flex; flex-direction: column; align-items: flex-start; gap: 7px;
+      margin: 0.9rem 0 0; font-family: var(--font-sans); font-size: 13.5px;
+    }
+    .hero-links a { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: #1d4ed8; text-decoration: none; }
+    .hero-links a:hover .hero-url { text-decoration: underline; text-underline-offset: 2px; }
+    .hero-links .hero-label { color: var(--fg4); font-weight: 600; }
+    .hero-links svg { flex: none; fill: var(--fg4); }
+    .hero-repo {
+      display: flex; align-items: center; gap: 7px;
+      font-family: var(--font-sans); font-size: 13px; font-weight: 500;
+    }
+    .hero-repo svg { flex: none; fill: var(--fg4); }
+    .hero-repo a { color: #1d4ed8; font-weight: 600; text-decoration: none; }
+    .hero-repo a:hover { text-decoration: underline; text-underline-offset: 2px; }
+    .hero-repo .repo-label { color: var(--fg4); font-weight: 500; }
+    .post-meta-row .author a { color: var(--fg4); text-decoration: none; }
+    .post-meta-row .author a:hover { text-decoration: underline; text-underline-offset: 2px; }
+    .post-heading hr {
+      border: 0; border-top: 1px solid rgba(103, 103, 103, 0.18);
+      margin: 1.6rem 0 0;
+    }
+
+    .post-cover { text-align: center; margin: 1.9rem 0 2.2rem; }
+    .post-cover img { max-width: 100%; height: auto; }
+    .post-cover .post-cover-caption {
+      font-family: var(--font-sans); font-size: 13px; line-height: 1.4;
+      color: var(--fg3); margin-top: 13px; text-align: left;
+      max-width: 820px; margin-left: auto; margin-right: auto;
+    }
+
+    .post-shell { margin-top: 2.2rem; }
+
+    /* Index: the site's dot toc-rail (blogs/rectified-flow.html), hover
+       labels + scroll-spy active dot. Hidden on narrow viewports. */
+    .toc-rail {
+      position: fixed; top: calc(var(--site-header-height) + 70px);
+      left: 10px; width: 210px; z-index: 20;
+      font-family: var(--font-sans); user-select: none;
+    }
+    .toc-head { margin-bottom: 12px; padding-left: 12px; }
+    .toc-title {
+      font-size: 13px; letter-spacing: 0.5px; text-transform: uppercase;
+      color: var(--fg1); font-weight: 600; line-height: 1.4; margin-bottom: 2px;
+    }
+    .toc-items { position: relative; }
+    .toc-items::before {
+      content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px;
+      width: 1px; background: #cbd5e1;
+    }
+    .toc-item {
+      position: relative; display: block; min-height: 34px; padding-left: 24px;
+      margin: 2px 0; text-decoration: none; color: var(--fg4);
+    }
+    .toc-dot {
+      position: absolute; left: 3px; top: 11px; width: 7px; height: 7px;
+      border-radius: 999px; background: #94a3b8; border: 2px solid #ffffff;
+      box-shadow: 0 0 0 1px #94a3b8; transition: all 0.15s ease;
+    }
+    .toc-label {
+      display: inline-block; font-size: 13px; line-height: 1.35; opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity 0.16s ease, transform 0.16s ease;
+      pointer-events: none; padding-right: 2px;
+    }
+    .toc-rail:hover .toc-label { opacity: 1; transform: translateX(0); }
+    .toc-item.active .toc-dot, .toc-item:hover .toc-dot {
+      background: #1d4ed8; box-shadow: 0 0 0 1px #1d4ed8;
+    }
+    @media (max-width: 1200px) { .toc-rail { display: none; } }
+
+    .post-subtitle {
+      font-family: var(--font-serif); font-size: 19px; line-height: 1.5;
+      color: var(--fg2); margin: 1rem 0 0; font-style: italic;
+    }
+    .pill {
+      border: 1px solid #e2e8f0; background: #f8fafc;
+      border-radius: 999px; padding: 4px 10px; color: #1d4ed8;
+      font-family: var(--font-sans); font-size: 11px;
+      letter-spacing: 0.4px; text-transform: uppercase; font-weight: 600;
+    }
+
+    article.content {
+      max-width: 660px; margin: 0 auto; position: relative; overflow: visible;
+    }
+    .summary {
+      border-left: 3px solid #1d4ed8; padding-left: 17px;
+      margin: 0 0 2.2rem;
+    }
+    .summary p { margin-bottom: 0.85rem; font-style: italic; }
+    .summary p:last-child { margin-bottom: 0; }
+    .summary strong { font-style: normal; }
+    article.content p { margin-bottom: 1.45rem; }
+
+    article.content a {
+      color: inherit; text-decoration: underline;
+      text-decoration-color: rgba(103, 103, 103, 0.3);
+      text-underline-offset: 2px;
+      transition: color 0.3s ease-in-out, text-decoration-color 0.3s ease-in-out;
+    }
+    article.content a:hover {
+      color: var(--fg2);
+      text-decoration-color: rgba(80, 73, 69, 0.5);
+    }
+
+    article.content h2 {
+      font-family: var(--font-serif);
+      font-size: 1.45rem; font-weight: 600; line-height: 1.4;
+      margin: 2.4em 0 0.6em; color: var(--fg);
+    }
+
+    ul, ol { margin: 0 0 1.45rem 1.6rem; }
+    li { margin-bottom: 0.55rem; }
+
+    .cite-ref { font-family: var(--font-sans); font-size: 0.72em; vertical-align: super; line-height: 0; }
+    .cite-ref a { color: var(--fg3); text-decoration: none; }
+    .cite-ref a:hover { color: var(--fg); text-decoration: underline; }
+
+    code, pre {
+      font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+    }
+    code.inline {
+      background: var(--bg-code); border-radius: 4px;
+      padding: 1px 5px; font-size: 0.82em;
+    }
+    pre {
+      background-color: var(--bg-code); border-radius: 0.45rem;
+      padding: 1rem; overflow-x: auto; margin: 1.2rem 0;
+      font-size: 13px; line-height: 1.6; color: var(--fg1);
+    }
+
+    figure {
+      position: relative; counter-increment: figure-counter;
+      display: block; margin: 1.8rem 0; padding-block: 0.75rem;
+      overflow: visible;
+    }
+    figure .figure-box {
+      border: 1px solid var(--border-soft); border-radius: 0.2rem;
+      padding: 0.75rem; background: var(--bg);
+    }
+    figure img { display: block; width: 100%; height: auto; }
+    figure.half-width img { width: 70%; margin-left: auto; margin-right: auto; }
+    figcaption {
+      display: block; width: 100%; margin: 13px 0 0;
+      font-family: var(--font-sans); font-size: 13px; font-weight: 400;
+      line-height: 1.4; text-align: left; color: var(--fg3);
+    }
+    figcaption::before {
+      content: "Figure " counter(figure-counter) ": ";
+      font-weight: 500;
+    }
+
+    article.content { counter-reset: figure-counter; }
+
+    .stat-row {
+      display: flex; gap: 12px; flex-wrap: wrap; margin: 0 0 1.45rem;
+      font-family: var(--font-sans);
+    }
+    .stat {
+      flex: 1 1 140px; border: 1px solid var(--border-soft);
+      border-radius: 0.2rem; padding: 12px 14px; text-align: center;
+    }
+    .stat .num { font-size: 1.35rem; font-weight: 600; color: var(--fg); }
+    .stat .lbl { font-size: 12px; color: var(--fg3); line-height: 1.4; margin-top: 2px; }
+
+    .tablewrap { overflow-x: auto; margin: 0 0 1.45rem; }
+    table {
+      border-collapse: collapse; width: 100%;
+      font-family: var(--font-sans); font-size: 14px; line-height: 1.5;
+    }
+    th, td { border-bottom: 1px solid rgba(103, 103, 103, 0.18); padding: 7px 10px; text-align: left; }
+    th { color: var(--fg3); font-weight: 600; font-size: 13px; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+    .footnote {
+      font-family: var(--font-sans); color: var(--fg3);
+      font-size: 14px; font-style: italic;
+    }
+
+    .references {
+      font-family: var(--font-sans); font-size: 13.5px; line-height: 1.6;
+      color: var(--fg2); margin-left: 1.3rem;
+    }
+    .references li { margin-bottom: 0.45rem; }
+    .references a { color: var(--fg2); }
+
+    footer {
+      max-width: 660px; margin: 3.5rem auto 0; padding-top: 1.4rem;
+      border-top: 1px solid rgba(103, 103, 103, 0.15);
+      font-family: var(--font-sans); font-size: 13px; color: var(--fg4);
+      text-align: center;
+    }
+    footer a { color: var(--fg4); }
+
+    @media (max-width: 768px) {
+      .post-title { font-size: 25px; }
+      article.content h2 { font-size: 1.3rem; }
+      body { font-size: 16px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <div class="navbar-logo">
+      <a href="../index.html">Shreshth Saini</a>
+    </div>
+    <nav class="top-nav">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#experience">Experience</a>
+      <a href="../index.html#research">Research</a>
+      <a href="../blogs.html" class="active">Blogs</a>
+      <a href="../data/CV_Shreshth_Saini_2026.pdf">CV</a>
+    </nav>
+  </header>
+
+  <div id="main" class="post">
+
+    <div class="post-heading">
+      <h1 class="post-title">CachedSearch: Test-Time Search in Video Generation at Half Price</h1>
+      <p class="post-subtitle">CachedSearch composes training-free caching
+      with test-time search. It explores every candidate cheaply, then spends
+      full compute only on the winner, keeping 94.7% of best-of-8's gain at
+      63% of its cost.</p>
+      <div class="post-meta-row">
+        <span class="date">Jul 2026</span>
+        <span class="author"><a href="../index.html">Shreshth Saini</a></span>
+        <span class="pill">Video Diffusion</span>
+        <span class="pill">Test-Time Search</span>
+        <span class="pill">Caching</span>
+      </div>
+      <div class="hero-links">
+        <a href="https://github.com/shreshthsaini/CachedSearch"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg><span class="hero-label">Code:</span><span class="hero-url">github.com/shreshthsaini/CachedSearch</span></a>
+        <a href="https://shreshthsaini.github.io/CachedSearch/"><svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0Zm5.62 4.9h-2.3a12.5 12.5 0 0 0-1.1-3.05A6.53 6.53 0 0 1 13.62 4.9ZM8 1.54c.6.86 1.08 1.99 1.4 3.36H6.6c.32-1.37.8-2.5 1.4-3.36ZM1.66 9.9a6.5 6.5 0 0 1 0-3.8h2.63a15.6 15.6 0 0 0 0 3.8H1.66Zm.72 1.2h2.3c.27 1.13.64 2.16 1.1 3.05a6.53 6.53 0 0 1-3.4-3.05Zm2.3-6.2h-2.3a6.53 6.53 0 0 1 3.4-3.05c-.46.89-.83 1.92-1.1 3.05ZM8 14.46c-.6-.86-1.08-1.99-1.4-3.36h2.8c-.32 1.37-.8 2.5-1.4 3.36ZM9.66 9.9H6.34a14 14 0 0 1 0-3.8h3.32a14 14 0 0 1 0 3.8Zm.56 4.25c.46-.89.83-1.92 1.1-3.05h2.3a6.53 6.53 0 0 1-3.4 3.05Zm1.49-4.25a15.6 15.6 0 0 0 0-3.8h2.63a6.5 6.5 0 0 1 0 3.8h-2.63Z"/></svg><span class="hero-label">Webpage:</span><span class="hero-url">shreshthsaini.github.io/CachedSearch</span></a>
+      </div>
+      <hr class="meta-rule">
+
+      <div class="post-cover">
+        <div class="figure-box">
+          <img src="figs/cachedsearch/fig1_overview.png" alt="CachedSearch overview: ranking preservation, gain versus cost, and cross-model generality">
+        </div>
+        <p class="post-cover-caption">The result in one figure. Cached and
+      full-compute twins preserve candidate rankings; CachedSearch keeps
+      94.7% of best-of-8's gain at 63% of its cost; calibrated operating
+      points transfer across six models and four architecture families.</p>
+    </div>
+    </div>
+
+
+    <div class="post-shell">
+
+    <aside class="toc-rail" aria-label="On this page">
+      <div class="toc-head">
+        <p class="toc-title">CachedSearch</p>
+      </div>
+      <nav class="toc-items">
+        <a class="toc-item" href="#sec-top"><span class="toc-dot"></span><span class="toc-label">Summary</span></a>
+        <a class="toc-item" href="#sec-problem"><span class="toc-dot"></span><span class="toc-label">The Problem</span></a>
+        <a class="toc-item" href="#sec-setup"><span class="toc-dot"></span><span class="toc-label">The Experiment</span></a>
+        <a class="toc-item" href="#sec-rankings"><span class="toc-dot"></span><span class="toc-label">Rankings Survive</span></a>
+        <a class="toc-item" href="#sec-selflimiting"><span class="toc-dot"></span><span class="toc-label">Self-Limiting Failures</span></a>
+        <a class="toc-item" href="#sec-trajectory"><span class="toc-dot"></span><span class="toc-label">Budget vs. Trajectory</span></a>
+        <a class="toc-item" href="#sec-method"><span class="toc-dot"></span><span class="toc-label">Method and Results</span></a>
+        <a class="toc-item" href="#sec-edges"><span class="toc-dot"></span><span class="toc-label">Honest Edges</span></a>
+        <a class="toc-item" href="#sec-models"><span class="toc-dot"></span><span class="toc-label">Tested Models</span></a>
+        <a class="toc-item" href="#sec-use"><span class="toc-dot"></span><span class="toc-label">Use It On Your Model</span></a>
+        <a class="toc-item" href="#sec-practitioner"><span class="toc-dot"></span><span class="toc-label">Practitioner Guide</span></a>
+        <a class="toc-item" href="#sec-references"><span class="toc-dot"></span><span class="toc-label">References</span></a>
+        <a class="toc-item" href="#sec-citation"><span class="toc-dot"></span><span class="toc-label">Citation</span></a>
+      </nav>
+    </aside>
+
+    <article class="content">
+      <div id="sec-top"></div>
+
+      <div class="summary">
+        <p><strong>Thesis.</strong> CachedSearch is the first composition of
+        training-free caching with test-time search for video diffusion. It
+        cuts exploration cost without training a model or changing the search
+        algorithm. The key is to preserve candidate rankings, then spend full
+        compute only on the winner.</p>
+        <p><strong>Main technical point.</strong> Cheap exploration must
+        follow the same trajectory as the sample that will be delivered.
+        Cached rollouts preserve full-compute rankings at roughly
+        2&times; speedup. Step truncation at the same speed does not.</p>
+        <p><strong>Practical implication.</strong> Explore every candidate
+        under caching, score them, and re-generate only the winning seed at
+        full compute. At best-of-8, this keeps 94.7% of the search gain at
+        63% of the cost. It is a change to your search loop, not to your
+        model: one function call, one calibrated threshold, any verifier
+        (<a href="#sec-use">how to use it</a>).</p>
+      </div>
+
+      <h2 id="sec-problem">The problem</h2>
+
+      <p>Test-time search improves generation by sampling several candidates,
+      scoring them with a verifier, and keeping the best.<sup class="cite-ref"><a href="#ref6">[6]</a></sup><sup class="cite-ref"><a href="#ref7">[7]</a></sup>
+      For video, that quality gain is expensive. A single 81-frame
+      Wan2.1-1.3B rollout<sup class="cite-ref"><a href="#ref1">[1]</a></sup>
+      takes about 68 seconds on our hardware. Best-of-8 takes about 547
+      seconds because all eight candidates are fully generated, even though
+      seven are discarded.</p>
+
+      <p>Training-free caching attacks the other side of the problem. Methods
+      such as TeaCache<sup class="cite-ref"><a href="#ref2">[2]</a></sup>,
+      PAB<sup class="cite-ref"><a href="#ref3">[3]</a></sup>,
+      FasterCache<sup class="cite-ref"><a href="#ref4">[4]</a></sup>, and
+      EasyCache<sup class="cite-ref"><a href="#ref5">[5]</a></sup> reuse
+      activations across nearby denoising steps, often making a rollout two
+      to three times faster. Search pays for many rollouts; caching makes each
+      rollout cheaper. Yet the two had not been composed or evaluated
+      together.</p>
+
+      <p>The missing question is not whether a cached video exactly matches
+      its full-compute twin. Search only needs the cached candidates to
+      predict the <em>ordering</em> of the full-compute candidates. If caching
+      reshuffles that ordering, cheap exploration selects the wrong seed. If
+      the ordering survives, most exploration can run at half price.</p>
+
+      <p>This shifts the evaluation target from visual reconstruction to
+      decision fidelity: did the cheap pass identify the seed worth
+      finishing?</p>
+
+      <figure>
+        <div class="figure-box">
+          <img src="figs/cachedsearch/gif_search.gif" alt="An unlucky sample beside the CachedSearch pick, same prompt">
+        </div>
+        <figcaption>What search buys, animated. "Robot dancing in Times
+        Square": an unlucky seed on the left, the seed CachedSearch selected on
+        the right. The unlucky sample misses the scene entirely. Both are
+        delivered at full compute, so search only chooses between them. This is
+        a selected example; the aggregate effect is the regret and capture
+        analysis below.</figcaption>
+      </figure>
+
+      <h2 id="sec-setup">The experiment</h2>
+
+      <p>We test that question with seed-matched twins. For each prompt, we
+      draw eight seeds and generate each seed twice: once at full compute and
+      once with an EasyCache-style adaptive wrapper at threshold
+      &tau; = 0.10. The cached rollout is 1.97&times; faster. Both versions
+      begin from identical noise, so their difference comes from caching
+      rather than the sampled trajectory.</p>
+
+      <p>ImageReward<sup class="cite-ref"><a href="#ref12">[12]</a></sup>
+      scores each video. We compare the eight cached scores with the eight
+      full-compute scores using rank correlation, top-1 agreement, and regret,
+      the full-compute reward lost when cached ranking chooses a different
+      winner. A 50-prompt gate established the signal. We then repeated the
+      protocol on 946 VBench prompts<sup class="cite-ref"><a href="#ref15">[15]</a></sup>
+      and 1,013 VBench-2.0 prompts.<sup class="cite-ref"><a href="#ref17">[17]</a></sup>
+      This is the only place where prompt counts matter: the large suites test
+      whether the gate result survives scale and harder content.</p>
+
+      <h2 id="sec-rankings">Finding 1: rankings survive</h2>
+
+      <p>They do. Median per-prompt Spearman &rho; is
+      <strong>0.905</strong> on the gate and <strong>0.905</strong> again on
+      VBench. Top-1 agreement on VBench is <strong>72%</strong>, so nearly
+      three quarters of prompts choose the same seed with cached and full
+      scoring.</p>
+
+      <div class="stat-row">
+        <div class="stat"><div class="num">0.905</div><div class="lbl">median rank correlation on VBench</div></div>
+        <div class="stat"><div class="num">72%</div><div class="lbl">top-1 agreement on VBench</div></div>
+        <div class="stat"><div class="num">94.7%</div><div class="lbl">of best-of-8's gain at 63% cost</div></div>
+        <div class="stat"><div class="num">2&times;</div><div class="lbl">wider search at the same budget</div></div>
+      </div>
+
+      <p>Exact agreement understates the useful result. When the cached winner
+      differs, it is often almost as good as the full winner. Median regret is
+      zero, and cached selection retains about 90% of the attainable search
+      gain on VBench. VBench-2.0 reproduces the same pattern on a harder
+      suite.</p>
+
+      <p>The repeated 0.905 median is not a claim that the two suites are
+      identical. With eight candidates, Spearman &rho; can take only a
+      discrete set of values, and both medians land on the same rung. The
+      important result is the stable ranking distribution and the low
+      delivered regret.</p>
+
+      <figure>
+        <div class="figure-box">
+          <img src="figs/cachedsearch/gif_twins.gif" alt="The same seed at full compute and under caching">
+        </div>
+        <figcaption>The same seed, full compute on the left and the cached
+        draft on the right. The draft costs about half as much and is what the
+        verifier ranks; what it ranks on survives the perturbation.</figcaption>
+      </figure>
+
+      <h2 id="sec-selflimiting">Finding 2: failures are self-limiting</h2>
+
+      <figure class="half-width">
+        <div class="figure-box">
+          <img src="figs/cachedsearch/f5_corruption.png" alt="Per-prompt rank correlation versus candidate score spread">
+        </div>
+        <figcaption>Each point is a prompt. Ranking is most fragile when the
+        full-compute candidates are already close in score. Bubble size shows
+        regret.</figcaption>
+      </figure>
+
+      <p>Ranking quality rises with candidate score spread:
+      corr(spread, &rho;) = <strong>+0.31</strong> on VBench. Caching adds a
+      modest perturbation to each candidate score, so it can reorder near-ties
+      more easily than clearly separated candidates.</p>
+
+      <p>That same geometry limits the damage. Near-tied candidates offer
+      little selection value, which means a ranking error there is cheap.
+      Across spread quartiles, gain capture rises from 81% to 96% as the
+      available gain grows. Even the corrupted tail retains 68% of its
+      attainable gain. The failures land where choosing the wrong candidate
+      matters least.</p>
+
+      <p>We also tested whether candidate spread could choose a different
+      caching threshold for each prompt. A two-rollout probe did not improve
+      on one fixed global setting. The spread signal explains where errors
+      occur, but estimating it cheaply enough to steer the remaining rollouts
+      gives back the advantage.</p>
+
+      <h2 id="sec-trajectory">Finding 3: the budget is not enough, the trajectory is</h2>
+
+      <p>The obvious alternative is to shorten every exploration rollout from
+      50 denoising steps to 25. This produces almost the same 2&times; speedup
+      as caching, but the ranking signal collapses. At matched cost, caching
+      reaches <strong>0.905 &rho;</strong> versus <strong>0.512</strong> for
+      step truncation, captures <strong>90.1%</strong> versus
+      <strong>72.6%</strong> of search gain, and incurs about
+      <strong>6&times; less regret</strong>.</p>
+
+      <figure>
+        <div class="figure-box">
+          <img src="figs/cachedsearch/f16_hero.png" alt="CachedSearch, full search, and step truncation at matched budgets">
+        </div>
+        <figcaption>At the same exploration budget, CachedSearch stays close
+        to the full best-of-N curve while step truncation falls behind. At the
+        budget of full best-of-4, CachedSearch explores eight candidates and
+        delivers 38% more gain.</figcaption>
+      </figure>
+
+      <p>The reason is structural. A 25-step rollout is a valid sample from a
+      shorter schedule, but its score ranks that shorter-schedule output. The
+      commit stage delivers the corresponding 50-step sample, which may evolve
+      differently. Caching instead perturbs the same 50-step trajectory. Cheap
+      exploration succeeds only when it predicts the sample that commit will
+      actually deliver.</p>
+
+      <h2 id="sec-method">The method and what it delivers</h2>
+
+      <figure>
+        <div class="figure-box">
+          <img src="figs/cachedsearch/fig2_method.png" alt="CachedSearch pipeline: explore cheaply, score, then commit the winning seed at full compute">
+        </div>
+        <figcaption>CachedSearch records each seed, explores all candidates
+        under caching, selects with any verifier, and re-generates only the
+        winner at full compute.</figcaption>
+      </figure>
+
+      <p>CachedSearch follows directly:</p>
+
+      <ol>
+        <li>Explore all N seeds with a training-free caching engine.</li>
+        <li>Score the cached candidates and select the winner.</li>
+        <li>Re-generate that seed at full compute.</li>
+      </ol>
+
+      <p>The delivered video is a genuine full-compute sample. Whenever cached
+      and full rankings agree, it is the same sample full best-of-N would have
+      selected. No training or auxiliary predictor is required, and the
+      search method and verifier remain unchanged.</p>
+
+      <figure>
+        <div class="figure-box">
+          <img src="figs/cachedsearch/fig_qual_methods.png" alt="Delivered videos from a single sample, full best-of-8, CachedSearch-commit, and CachedSearch-keep">
+        </div>
+        <figcaption>Measured examples from the evaluation grid. Commit
+        delivers a full-compute winner at 64% of full best-of-8 wall-clock.
+        Keep costs 51% but retains the cached video's fidelity limits.</figcaption>
+      </figure>
+
+      <p>At N = 8, commit delivers <strong>94.7% of full best-of-8's reward
+      gain at 63% of its cost</strong>. The budget view is even simpler: for
+      roughly the cost of full best-of-4, CachedSearch can explore eight
+      candidates and deliver 38% more gain. It searches twice as wide for the
+      same money.</p>
+
+      <p>Wider search does not erase the benefit. Gain capture rises to 95.7%
+      at N = 16 and remains stable at N = 32, even though exact top-1
+      agreement falls. Larger pools create more near-equal winners, so
+      selecting a different seed need not reduce delivered value.</p>
+
+      <p>The advantage is not confined to the verifier used for selection.
+      Under the standard video metric suite, commit tracks full best-of-8
+      while using 64% of its wall-clock and 61% of its analytic FLOPs. This
+      matters because it tests delivered videos, not only the scores that
+      chose them.</p>
+
+      <p>The exploration engine is modular. We inserted four caching choices
+      into the same protocol:</p>
+
+      <div class="tablewrap">
+      <table>
+        <tr><th>Exploration engine</th><th class="num">Delivered gain (% of best-of-8's)</th><th class="num">End-to-end cost (% of best-of-8)</th></tr>
+        <tr><td>No caching (control)</td><td class="num">100.0</td><td class="num">114</td></tr>
+        <tr><td>PAB<sup class="cite-ref"><a href="#ref3">[3]</a></sup></td><td class="num">99.5</td><td class="num">90</td></tr>
+        <tr><td>CFG-Cache<sup class="cite-ref"><a href="#ref4">[4]</a></sup></td><td class="num">99.5</td><td class="num">85</td></tr>
+        <tr><td>TeaCache<sup class="cite-ref"><a href="#ref2">[2]</a></sup></td><td class="num">96.1</td><td class="num">67</td></tr>
+        <tr><td>EasyCache-style, &tau; = 0.10</td><td class="num">94.7</td><td class="num">63</td></tr>
+      </table>
+      </div>
+
+      <p>Within one backbone, every engine, threshold, schedule, and resolution
+      lies on one capture-versus-speedup frontier. The fitted frontier
+      predicts held-out schedules and 720p within about two points. TeaCache
+      is the balanced choice when fidelity matters more; the default
+      EasyCache-style engine favors savings. Any tested engine drops in
+      without changing CachedSearch.</p>
+
+      <figure>
+        <div class="figure-box">
+          <img src="figs/cachedsearch/f13_scaling_master.png" alt="Scaling behavior within a backbone and across architecture families">
+        </div>
+        <figcaption>Within Wan2.1-1.3B, reuse amount predicts selection
+        fidelity across engines and settings. Across families, each
+        architecture needs its own calibrated operating point.</figcaption>
+      </figure>
+
+      <p>The mechanism holds across six models and four families from 1.3B to
+      14B, but a threshold does not transfer unchanged. Fidelity tracks
+      architecture more than parameter count. Within the Wan family, median
+      &rho; remains 0.905 from 1.3B to 14B, while the absolute saving per
+      cached candidate grows from about 34 to 175 seconds. A new family needs
+      a short calibration pilot. CachedSearch also composes with other search
+      accelerators. Stacking it with mid-trajectory pruning produces a
+      <strong>3.11&times; exploration speedup</strong> at 88.6% gain capture.</p>
+
+      <h2 id="sec-edges">Honest edges</h2>
+
+      <p>Commit mode removes cached-video artifacts from the delivered sample,
+      but keep mode does not. Its main measured failure is
+      <strong>motion dampening</strong>: mean optical flow falls about 3% at
+      the default threshold and 8% at the aggressive setting. Learned
+      reference-free verifiers can miss or even reward that reduction because
+      calmer frames may score better. Motion-sensitive uses should commit and
+      audit direct temporal metrics.</p>
+
+      <p>Few-step distilled models form the other boundary. Caching exploits
+      repeated computation across a denoising trajectory, and shorter
+      schedules offer less redundancy. Our 25, 50, and 100-step study shows
+      reuse growing with schedule length. CachedSearch is therefore strongest
+      on standard or long schedules, not the most compressed few-step
+      regime.</p>
+
+      <figure>
+        <div class="figure-box">
+          <img src="figs/cachedsearch/gif_motion.gif" alt="Commit compared with keep at an aggressive threshold">
+        </div>
+        <figcaption>The artifact learned judges miss. At an aggressive
+        threshold, keeping the cached draft instead of recommitting dampens
+        motion. Commit is the default for exactly this reason.</figcaption>
+      </figure>
+
+      <h2 id="sec-models">Tested models</h2>
+
+      <p>These are the backbones we measured. The threshold shown is the most
+      aggressive setting that still keeps at least 85% of search's gain, with
+      capture and speedup reported at that setting.</p>
+
+      <div class="tablewrap">
+      <table>
+        <tr><th>Model</th><th class="num">Params</th><th>Family</th><th class="num">Recommended &tau;</th><th class="num">Gain capture</th><th class="num">Exploration speedup</th></tr>
+        <tr><td>Wan2.1-T2V-1.3B</td><td class="num">1.3B</td><td>Wan</td><td class="num">0.20</td><td class="num">88.3%</td><td class="num">2.41&times;</td></tr>
+        <tr><td>Wan2.1-T2V-14B</td><td class="num">14B</td><td>Wan</td><td class="num">0.10</td><td class="num">87.5%</td><td class="num">2.05&times;</td></tr>
+        <tr><td>Wan2.2-TI2V-5B</td><td class="num">5B</td><td>Wan</td><td class="num">0.10</td><td class="num">86.0%</td><td class="num">2.05&times;</td></tr>
+        <tr><td>CogVideoX-5B</td><td class="num">5B</td><td>CogVideoX</td><td class="num">0.05</td><td class="num">85.9%</td><td class="num">1.78&times;</td></tr>
+        <tr><td>HunyuanVideo</td><td class="num">13B</td><td>HunyuanVideo</td><td class="num">0.05</td><td class="num">85.1%</td><td class="num">1.77&times;</td></tr>
+        <tr><td>LTX-Video</td><td class="num">2B</td><td>LTX</td><td class="num">0.02</td><td class="num">79.6%</td><td class="num">1.71&times;</td></tr>
+      </table>
+      </div>
+
+      <p>The method is not limited to this list. It is a training-free wrapper
+      around generation, so it applies to any diffusion or flow-matching video
+      model whose sampler is deterministic in the seed, which covers
+      essentially every current open text-to-video pipeline. These six are
+      simply the ones where we measured the numbers ourselves, across four
+      architecture families and a 1.3B to 14B size range. For anything else,
+      run the calibration once and use the threshold it reports. Fidelity
+      tracks architecture family rather than parameter count, so a threshold
+      calibrated on one member of a family transfers to its other sizes.
+      LTX-Video is the honest boundary case in our set: no threshold we
+      measured reached 85% capture, which is exactly what the calibration is
+      meant to surface before deployment rather than after.</p>
+
+      <h2 id="sec-use">How to use this on your model</h2>
+
+      <p>The method is a wrapper around generation, not a new model, so
+      adopting it is a change to your search loop rather than to your
+      checkpoint. If you already generate a handful of candidates and keep the
+      best one, the drop-in version is three lines:</p>
+
+      <pre>from cachedsearch import cached_search
+
+result = cached_search(pipe, prompt, n=8, tau=0.10)
+result.video   # a genuine full-compute sample, at about 63% of best-of-8 cost</pre>
+
+      <p><code class="inline">pipe</code> is any diffusers video pipeline
+      (Wan, CogVideoX, HunyuanVideo, and LTX-Video all work). The verifier
+      defaults to ImageReward averaged over eight frames, the scorer behind
+      every number in this post; pass <code class="inline">verifier=</code>
+      to use whatever your workflow already trusts, any callable taking frames
+      and a prompt and returning a number. Under the hood
+      the call generates all N candidates with caching enabled, scores the
+      cheap drafts, and then regenerates only the winning seed with caching
+      off. Since the sampler is seed-deterministic, the video you ship is the
+      same one full-compute search would have produced whenever both pick the
+      same seed. Caching changes which candidate you choose, never the quality
+      of what reaches the user.</p>
+
+      <p>One number is model-specific: the caching threshold. Fidelity tracks
+      architecture family rather than parameter count, so calibrate once per
+      family and reuse it across sizes. The repository ships the calibration
+      as a script that runs this post's protocol in miniature, roughly two
+      GPU-hours on a small model, and prints the most aggressive threshold
+      that still retains 90% of search's gain:</p>
+
+      <pre>python examples/calibrate_new_model.py --model &lt;hf-id&gt; --prompts your_prompts.txt</pre>
+
+      <p>Measured starting points: 0.10 for the Wan family, 0.05 for
+      CogVideoX and HunyuanVideo, 0.02 for LTX-Video. Copying a threshold
+      across families is the one mistake that silently costs you selection
+      quality, which is exactly what the calibration protects against.</p>
+
+      <p>Everything else composes with what you already run. Any published
+      training-free cache can serve as the exploration engine, so a stack
+      already using TeaCache or PAB keeps it and simply gains the
+      explore-cheap, commit-full structure. Any verifier works. Pruning-based
+      search composes multiplicatively, which we measured at a 3.11&times;
+      exploration speedup when stacked with mid-trajectory pruning.</p>
+
+      <h2 id="sec-practitioner">Practitioner guide</h2>
+
+      <ul>
+        <li>Need a full-compute deliverable? Use <strong>commit</strong> at the
+        calibrated default: about 95% of search gain at 63% of cost.</li>
+        <li>Motion is unimportant and savings dominate? <strong>Keep</strong>
+        the cached winner at about 51% of full best-of-N cost.</li>
+        <li>Have a fixed budget? Spend the saving on width. The default
+        setting buys about 2&times; as many candidates.</li>
+        <li>Porting to a new architecture? Run a short rank-fidelity
+        calibration; do not copy &tau; across families.</li>
+        <li>Prefer a conservative balance? Pass TeaCache as the exploration
+        engine; the call signature does not change.</li>
+        <li>Do not replace caching with step truncation. Equal cost does not
+        imply equal ranking value.</li>
+      </ul>
+
+      <p>Every number above comes from per-candidate records containing seeds,
+      scores, timings, and cache counters. The release will include those
+      records and the scripts that regenerate the figures and tables.</p>
+
+      <p class="footnote">Paper links, arXiv ID, and code URL will be added at
+      release.</p>
+
+      <h2 id="sec-references">References</h2>
+
+      <ol class="references">
+        <li id="ref1"><a href="https://arxiv.org/abs/2503.20314">Wan Team. Wan: Open and Advanced Large-Scale Video Generative Models, 2025.</a></li>
+        <li id="ref2"><a href="https://arxiv.org/abs/2411.19108">Liu et al. Timestep Embedding Tells: It's Time to Cache for Video Diffusion Model (TeaCache), 2024.</a></li>
+        <li id="ref3"><a href="https://arxiv.org/abs/2408.12588">Zhao et al. Real-Time Video Generation with Pyramid Attention Broadcast (PAB), 2024.</a></li>
+        <li id="ref4"><a href="https://arxiv.org/abs/2410.19355">Lv et al. FasterCache: Training-Free Video Diffusion Model Acceleration with High Quality, 2024.</a></li>
+        <li id="ref5"><a href="https://arxiv.org/abs/2507.02860">Zhou et al. Less is Enough: Training-Free Video Diffusion Acceleration via Runtime-Adaptive Caching (EasyCache), 2025.</a></li>
+        <li id="ref6"><a href="https://arxiv.org/abs/2501.09732">Ma et al. Inference-Time Scaling for Diffusion Models beyond Scaling Denoising Steps, 2025.</a></li>
+        <li id="ref7"><a href="https://arxiv.org/abs/2503.18942">Liu et al. Video-T1: Test-Time Scaling for Video Generation, 2025.</a></li>
+        <li id="ref8"><a href="https://arxiv.org/abs/2505.17618">He et al. Scaling Image and Video Generation via Test-Time Evolutionary Search, 2025.</a></li>
+        <li id="ref9"><a href="https://arxiv.org/abs/2408.06072">Yang et al. CogVideoX: Text-to-Video Diffusion Models with an Expert Transformer, 2024.</a></li>
+        <li id="ref10"><a href="https://arxiv.org/abs/2412.03603">Kong et al. HunyuanVideo: A Systematic Framework For Large Video Generative Models, 2024.</a></li>
+        <li id="ref11"><a href="https://arxiv.org/abs/2501.00103">HaCohen et al. LTX-Video: Realtime Video Latent Diffusion, 2024.</a></li>
+        <li id="ref12">Xu et al. ImageReward: Learning and Evaluating Human Preferences for Text-to-Image Generation. NeurIPS 2023.</li>
+        <li id="ref13"><a href="https://arxiv.org/abs/2412.21059">Xu et al. VisionReward: Fine-Grained Multi-Dimensional Human Preference Learning for Image and Video Generation, 2024.</a></li>
+        <li id="ref14"><a href="https://arxiv.org/abs/2406.15252">He et al. VideoScore: Building Automatic Metrics to Simulate Fine-grained Human Feedback for Video Generation, 2024.</a></li>
+        <li id="ref15">Huang et al. VBench: Comprehensive Benchmark Suite for Video Generative Models. CVPR 2024.</li>
+        <li id="ref16"><a href="https://arxiv.org/abs/2411.13503">Huang et al. VBench++: Comprehensive and Versatile Benchmark Suite for Video Generative Models, 2024.</a></li>
+        <li id="ref17"><a href="https://arxiv.org/abs/2503.21755">Zheng et al. VBench-2.0: Advancing Video Generation Benchmark Suite for Intrinsic Faithfulness, 2025.</a></li>
+      </ol>
+
+      <h2 id="sec-citation">Citation</h2>
+
+      <p>Cite this blog as:</p>
+
+      <pre>@misc{saini2026cachedsearchblog,
+  title        = {CachedSearch: Test-Time Search in Video Generation at Half Price},
+  author       = {Saini, Shreshth},
+  year         = {2026},
+  howpublished = {\url{https://shreshthsaini.github.io/blogs/cachedsearch.html}},
+  note         = {Blog post}
+}</pre>
+
+      <p>Cite the arXiv paper as:</p>
+
+      <pre>@article{saini2026cachedsearch,
+  title  = {CachedSearch: Training-Free Cached Exploration for Test-Time
+            Search in Video Diffusion},
+  author = {Saini, Shreshth and Birkbeck, Neil and Wang, Yilin and
+            Adsumilli, Balu and Bovik, Alan C.},
+  year   = {2026},
+  note   = {arXiv ID to be added at release}
+}</pre>
+
+    </article>
+
+    </div>
+
+    <footer>
+      <p>&copy; 2026 Shreshth Saini &middot; <a href="../blogs.html">Back to Scratch Pad</a></p>
+    </footer>
+
+  </div>
+
+  <script>
+    (function () {
+      const tocLinks = Array.from(document.querySelectorAll('.toc-item'));
+      if (!tocLinks.length) return;
+
+      const sections = tocLinks
+        .map((link) => document.querySelector(link.getAttribute('href')))
+        .filter(Boolean);
+      if (!sections.length) return;
+
+      function setActive(id) {
+        tocLinks.forEach((link) => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        },
+        { rootMargin: '-25% 0px -65% 0px', threshold: 0 }
+      );
+
+      sections.forEach((section) => observer.observe(section));
+    })();
+  </script>
+</body>
+</html>
