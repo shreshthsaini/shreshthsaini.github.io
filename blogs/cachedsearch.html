@@ -606,6 +606,17 @@
       exploration succeeds only when it predicts the sample that commit will
       actually deliver.</p>
 
+      <p>A third strategy makes the point harder to argue with. Drafting at
+      352&times;608, roughly half the pixels, is the cheapest option of the
+      three at <strong>2.33&times;</strong>, and it recovers nothing:
+      <strong>0.060 &rho;</strong>, 18% top-1 agreement, and
+      <strong>&minus;0.8%</strong> capture, statistically indistinguishable
+      from picking a candidate at random. Resolution changes the shape of the
+      latent, so a seed stops indexing a perturbed version of the same sample
+      and starts indexing a different one. Note the asymmetry: running the
+      whole search at 720p is fine, and the operating point barely moves. What
+      breaks is changing resolution <em>between</em> exploration and commit.</p>
+
       <h2 id="sec-method">The method and what it delivers</h2>
 
       <figure>
@@ -798,6 +809,17 @@ result.video   # a genuine full-compute sample, at about 63% of best-of-8 cost</
       search composes multiplicatively, which we measured at a 3.11&times;
       exploration speedup when stacked with mid-trajectory pruning.</p>
 
+      <p>The claim that any verifier works deserves a number, since the whole
+      result could otherwise be an artifact of scoring with ImageReward.
+      Rescoring the same rollouts with VQAScore<sup class="cite-ref"><a href="#ref18">[18]</a></sup>, an image-text alignment
+      score, gives 0.810 &rho; and 80.7% capture, below ImageReward's 0.905
+      and 90.2% but far from broken. The revealing comparison is elsewhere:
+      on full-compute rollouts, where no caching is involved at all, the two
+      verifiers rank the same eight candidates at only <strong>0.548</strong>.
+      Each verifier agrees with its own cached ranking considerably better
+      than the two agree with each other. The perturbation caching introduces
+      is smaller than the gap between two reasonable definitions of quality.</p>
+
       <h2 id="sec-practitioner">Practitioner guide</h2>
 
       <ul>
@@ -839,6 +861,7 @@ result.video   # a genuine full-compute sample, at about 63% of best-of-8 cost</
         <li id="ref15">Huang et al. VBench: Comprehensive Benchmark Suite for Video Generative Models. CVPR 2024.</li>
         <li id="ref16"><a href="https://arxiv.org/abs/2411.13503">Huang et al. VBench++: Comprehensive and Versatile Benchmark Suite for Video Generative Models, 2024.</a></li>
         <li id="ref17"><a href="https://arxiv.org/abs/2503.21755">Zheng et al. VBench-2.0: Advancing Video Generation Benchmark Suite for Intrinsic Faithfulness, 2025.</a></li>
+        <li id="ref18"><a href="https://arxiv.org/abs/2404.01291">Lin et al. Evaluating Text-to-Visual Generation with Image-to-Text Generation (VQAScore). ECCV 2024.</a></li>
       </ol>
 
       <h2 id="sec-citation">Citation</h2>
