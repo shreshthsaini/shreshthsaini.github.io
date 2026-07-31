@@ -308,8 +308,9 @@ nav, nav * {
 }
 
 .thumb-square {
-  width: 150px;
-  height: 150px;
+  width: 100%;
+  max-width: 260px;
+  height: auto;
   object-fit: contain;
   background-color: #ffffff;
   border-radius: 8px;
