@@ -260,12 +260,13 @@ nav, nav * {
 
 .announcement {
   position: relative;
-  padding: 16px 20px;
-  border: none;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.35);
-  color: #ffffff;
+  padding: 12px 16px;
+  border: 1px solid #e5e5e5;
+  border-left: 3px solid #8B0000;
+  border-radius: 4px;
+  background: #fafafa;
+  box-shadow: none;
+  color: #333333;
   opacity: 1;
 }
 
@@ -274,16 +275,15 @@ nav, nav * {
 }
 
 .announcement-text {
-  color: #ffffff;
+  color: #333333;
   font-size: 15px;
   line-height: 1.6;
-  font-weight: 100;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  letter-spacing: 0.2px;
+  font-weight: 400;
+  text-shadow: none;
 }
 
 .announcement-text strong {
-  color: #ffffff;
+  color: #1a1a1a;
   font-weight: 700;
 }
 
@@ -292,13 +292,12 @@ nav, nav * {
 }
 
 .announcement-link {
-  color: #fff9c4;
-  font-weight: 700;
-  transition: color 0.2s ease;
+  color: #1772d0;
+  font-weight: 600;
 }
 
 .announcement-link:hover {
-  color: #ffffff;
+  text-decoration: underline;
 }
 
 .announcement-blog {
