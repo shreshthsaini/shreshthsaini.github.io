@@ -262,7 +262,7 @@ nav, nav * {
   position: relative;
   padding: 12px 16px;
   border: 1px solid #e5e5e5;
-  border-left: 3px solid #8B0000;
+  border-left: 6px solid #8B0000;
   border-radius: 4px;
   background: #fafafa;
   box-shadow: none;
