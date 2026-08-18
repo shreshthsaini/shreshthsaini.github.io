@@ -1,0 +1,1818 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>RL for Video: The State of the Space</title>
+  <meta name="author" content="Shreshth Saini">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A field note on reinforcement learning for video generation in 2026: the scaling recipe that converged, the failures it is not fixing, the RL stack industry already runs, why video RL is hard, and why it is still the right direction.">
+
+  <link rel="icon" type="image/jpg" href="../images/UT_profile.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.08);
+      --bg: #ffffff;
+      --bg-subtle: #f8fafc;
+      --border: #e2e8f0;
+      --border-light: #f1f5f9;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text-secondary);
+      background: var(--bg);
+      line-height: 1.75;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0 20px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .nav-container {
+      max-width: 1120px;
+      margin: 0 auto;
+      height: 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-weight: 600;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: -0.2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--bg-subtle);
+    }
+
+    .nav-links a.active {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px 64px;
+    }
+
+    .toc-rail {
+      position: fixed;
+      top: 92px;
+      left: 10px;
+      width: 200px;
+      z-index: 20;
+      font-family: 'Inter', sans-serif;
+      user-select: none;
+    }
+
+    .toc-head {
+      margin-bottom: 12px;
+      padding-left: 12px;
+    }
+
+    .toc-title {
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: #334155;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 2px;
+    }
+
+    .toc-items {
+      position: relative;
+    }
+
+    .toc-items::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: #cbd5e1;
+    }
+
+    .toc-item {
+      position: relative;
+      display: block;
+      min-height: 34px;
+      padding-left: 24px;
+      margin: 2px 0;
+      text-decoration: none;
+      color: #64748b;
+    }
+
+    .toc-dot {
+      position: absolute;
+      left: 3px;
+      top: 11px;
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #94a3b8;
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 0 1px #94a3b8;
+      transition: all 0.15s ease;
+    }
+
+    .toc-label {
+      display: inline-block;
+      font-size: 13px;
+      line-height: 1.35;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity 0.16s ease, transform 0.16s ease;
+      pointer-events: none;
+      padding-right: 2px;
+    }
+
+    .toc-rail:hover .toc-label {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .toc-item.active .toc-dot,
+    .toc-item:hover .toc-dot {
+      background: #1d4ed8;
+      box-shadow: 0 0 0 1px #1d4ed8;
+    }
+
+    .main-column {
+      max-width: 760px;
+      margin: 0 auto;
+      min-width: 0;
+    }
+
+    .hero {
+      max-width: 100%;
+      padding: 72px 0 36px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 34px;
+    }
+
+    h1 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-weight: 500;
+      font-size: 48px;
+      line-height: 1.12;
+      color: var(--text-primary);
+      letter-spacing: -0.8px;
+      margin-bottom: 16px;
+    }
+
+    .subtitle {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 20px;
+      line-height: 1.35;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .pill {
+      border: 1px solid var(--border);
+      background: var(--bg-subtle);
+      border-radius: 999px;
+      padding: 4px 10px;
+      color: #1d4ed8;
+      font-size: 11px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    article {
+      position: relative;
+      max-width: 100%;
+      font-family: 'Crimson Pro', Georgia, serif;
+      color: #1f2937;
+      font-size: 19px;
+      line-height: 1.68;
+      letter-spacing: 0.1px;
+    }
+
+    article p {
+      margin: 0 0 18px;
+    }
+
+    h2 {
+      font-family: 'Crimson Pro', Georgia, serif;
+      color: var(--text-primary);
+      font-size: 36px;
+      font-weight: 500;
+      line-height: 1.2;
+      margin: 54px 0 18px;
+      letter-spacing: -0.35px;
+    }
+
+    ul, ol {
+      margin: 0 0 20px 26px;
+    }
+
+    li {
+      margin-bottom: 10px;
+      padding-left: 4px;
+    }
+
+    .summary {
+      border-left: 3px solid #2563eb;
+      padding-left: 16px;
+      margin: 24px 0 12px;
+      color: #374151;
+    }
+
+    .summary p {
+      margin-bottom: 10px;
+      font-size: 18px;
+      line-height: 1.52;
+    }
+
+    .cite {
+      font-size: 0.62em;
+      vertical-align: super;
+      line-height: 0;
+      margin-left: 2px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .cite a {
+      color: #334155;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .cite a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    code, pre {
+      font-family: 'JetBrains Mono', 'SF Mono', Menlo, Monaco, monospace;
+      font-size: 13px;
+    }
+
+    pre {
+      background: #0b1324;
+      color: #dbeafe;
+      border-radius: 10px;
+      padding: 14px 16px;
+      overflow-x: auto;
+      margin: 16px 0 22px;
+      line-height: 1.65;
+      border: 1px solid #1e293b;
+      font-size: 12px;
+    }
+
+    figure {
+      margin: 24px 0 26px;
+    }
+
+    .svg-figure, figure img {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    }
+
+    figcaption {
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      font-style: italic;
+      color: var(--text-muted);
+      margin: 12px 6px 0;
+      line-height: 1.55;
+    }
+
+    figcaption[data-fig]::before {
+      content: attr(data-fig);
+      font-style: normal;
+      font-weight: 700;
+      font-size: 10.5px;
+      letter-spacing: 1.1px;
+      text-transform: uppercase;
+      color: #94a3b8;
+      margin-right: 8px;
+    }
+
+    .plain-notes {
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+
+    .plain-notes li {
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .references {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #475569;
+      margin-left: 20px;
+    }
+    .references li { margin-bottom: 5px; }
+
+    .sec-num {
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 0.82em;
+      font-weight: 400;
+      color: #94a3b8;
+      margin-right: 14px;
+    }
+
+    .fig-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin: 0 0 10px;
+    }
+
+    .fig-controls input[type="range"] {
+      flex: 0 1 220px;
+      accent-color: var(--accent);
+    }
+
+    .ctl-label { font-weight: 600; color: var(--text-primary); }
+    .ctl-value { font-weight: 700; color: var(--accent); min-width: 96px; }
+    .ctl-hint { color: var(--text-muted); font-size: 12px; }
+
+    .interactive-fig canvas {
+      width: 100%;
+      display: block;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    }
+
+    .cmp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Inter', sans-serif;
+      font-size: 13.5px;
+      line-height: 1.5;
+      margin: 20px 0 24px;
+    }
+
+    .cmp-table th {
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-primary);
+      background: var(--bg-subtle);
+      border-bottom: 2px solid var(--border);
+      padding: 9px 12px;
+      white-space: nowrap;
+    }
+
+    .cmp-table td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border-light);
+      color: #334155;
+      vertical-align: top;
+    }
+
+    .cmp-table td:first-child {
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+
+    .table-scroll { overflow-x: auto; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    footer {
+      margin-top: 52px;
+      padding-top: 26px;
+      border-top: 1px solid var(--border-light);
+      font-size: 13px;
+      color: var(--text-muted);
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+    }
+
+    @media (max-width: 1200px) {
+      .container {
+        max-width: 860px;
+        display: block;
+      }
+      article { max-width: 100%; }
+      .toc-rail { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 38px; }
+      figure { overflow-x: auto; }
+      .svg-figure { min-width: 640px; }
+      h2 { font-size: 33px; margin-top: 42px; }
+      .hero {
+        padding-top: 48px;
+        margin-bottom: 28px;
+      }
+      .subtitle { font-size: 18px; }
+      article {
+        font-size: 17px;
+        line-height: 1.62;
+      }
+      .summary p { font-size: 17px; }
+      .nav-links a {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="nav-container">
+      <a href="../index.html" class="nav-logo">Shreshth Saini</a>
+      <div class="nav-links">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#experience">Experience</a>
+        <a href="../index.html#research">Research</a>
+        <a href="../blogs.html" class="active">Blogs</a>
+        <a href="../data/CV_Shreshth_Saini_2026.pdf">CV</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <aside class="toc-rail" aria-label="On this page">
+      <div class="toc-head">
+        <p class="toc-title">RL for Video</p>
+      </div>
+      <nav class="toc-items">
+        <a class="toc-item" href="#sec-summary"><span class="toc-dot"></span><span class="toc-label">Summary</span></a>
+        <a class="toc-item" href="#sec-state"><span class="toc-dot"></span><span class="toc-label">Where Video Models Are</span></a>
+        <a class="toc-item" href="#sec-wall"><span class="toc-dot"></span><span class="toc-label">What Scale Is Not Fixing</span></a>
+        <a class="toc-item" href="#sec-stack"><span class="toc-dot"></span><span class="toc-label">The RL Stack Today</span></a>
+        <a class="toc-item" href="#sec-hard"><span class="toc-dot"></span><span class="toc-label">Why It Is Hard</span></a>
+        <a class="toc-item" href="#sec-bet"><span class="toc-dot"></span><span class="toc-label">Why It Is the Right Bet</span></a>
+        <a class="toc-item" href="#sec-next"><span class="toc-dot"></span><span class="toc-label">What Comes Next</span></a>
+        <a class="toc-item" href="#sec-references"><span class="toc-dot"></span><span class="toc-label">References</span></a>
+        <a class="toc-item" href="#sec-cite"><span class="toc-dot"></span><span class="toc-label">Citation</span></a>
+      </nav>
+    </aside>
+
+    <div class="main-column">
+    <header class="hero">
+      <h1>RL for Video: The State of the Space</h1>
+      <p class="subtitle">
+        A short field note on post-training for video generation in mid-2026: the scaling recipe that converged,
+        the physics and persistence failures it is not fixing, the RL stack industry already runs, the three
+        constraints that make RL on video genuinely hard, and why it is still the right direction.
+      </p>
+      <div class="meta">
+        <span>Aug 2026</span>
+        <span class="pill">Video Models</span>
+        <span class="pill">RL</span>
+        <span class="pill">Field Note</span>
+      </div>
+    </header>
+
+    <figure class="interactive-fig">
+      <div class="fig-controls">
+        <label class="ctl-label" for="rl-pressure">Optimization pressure</label>
+        <input type="range" id="rl-pressure" min="0" max="100" step="1" value="0">
+        <span class="ctl-value" id="rl-pressure-val">pretrained</span>
+        <span class="ctl-hint">drag to optimize the rollouts against the reward; move your cursor over the figure to relocate the reward</span>
+      </div>
+      <canvas id="rl-hero-canvas" aria-label="Abstract animated bundle of rollout trajectories. A population of paths is repeatedly scored against a movable reward and resampled by softmax selection. At zero pressure the bundle stays diffuse; moderate pressure gathers it around the reward while keeping diversity; maximum pressure collapses it to near-identical paths, the over-optimization regime."></canvas>
+    </figure>
+
+    <article>
+      <div id="sec-summary"></div>
+      <div class="summary">
+        <p><strong>Thesis.</strong> Scale keeps buying photorealism; physics comes far more slowly. The strongest models of mid-2026 have multiplied their physics benchmark scores and still fail object permanence, long-horizon consistency, and state persistence, and that last failure does not move with scale at all.</p>
+        <p><strong>State.</strong> Post-training for video sits roughly where language post-training sat in 2023: reward models agree with human raters about four times in five at best, GRPO variants work but an experiment costs hundreds of GPU-days, and verifiable rewards are only now arriving.</p>
+        <p><strong>Implication.</strong> The binding constraints are concrete: rollout cost, reward reliability, and credit assignment. Cheap rollouts plus verifiable video rewards is the most direct path to the next capability jump.</p>
+      </div>
+
+      <p>
+        This note comes out of my recent exploration in video post-training and RL for video: a short map of where
+        the space stands in mid-2026. Everything below is from public papers, tech reports, and press coverage, all
+        linked at the bottom; the opinions are mine.
+      </p>
+
+      <h2 id="sec-state"><span class="sec-num">1.</span>Where Video Models Are</h2>
+
+      <p>
+        The pretraining recipe has converged. Every serious model of the past two years is a latent diffusion
+        transformer trained with flow matching on top of a 3D causal VAE, with joint image and video training,
+        multi-stage progressive schedules, and dense captions written by a VLM. Movie Gen spelled the recipe out in
+        public at 30B parameters on 6,144 H100s<sup class="cite"><a href="#ref1">[1]</a></sup>, Wan reported scaling
+        laws for it<sup class="cite"><a href="#ref2">[2]</a></sup>, and Seedance 1.0 documented the pipeline shape
+        everyone now runs: pretraining, continued training, SFT, then RLHF<sup class="cite"><a href="#ref3">[3]</a></sup>.
+        Seaweed-7B made the counterpoint that a well-designed 7B model trained for 665,000 H100 hours competes with
+        much larger peers, which says data curation and design still buy more than raw scale at current
+        budgets<sup class="cite"><a href="#ref4">[4]</a></sup>.
+      </p>
+
+      <p>
+        The products moved fast this year. Native audio became standard, durations jumped from eight seconds to
+        fifteen and beyond (Seedance 2.0 generates 4 to 15 seconds natively<sup class="cite"><a href="#ref5">[5]</a></sup>, and its 2.5 successor advertises single-pass 30-second clips),
+        multi-shot direction and reference-based character consistency shipped (Kling 3.0's Omni line takes per-shot
+        instructions<sup class="cite"><a href="#ref6">[6]</a></sup>), and Google folded video into an any-to-any
+        Gemini Omni family instead of shipping a Veo 4<sup class="cite"><a href="#ref7">[7]</a></sup>. The market
+        also delivered a verdict nobody predicted in 2024. OpenAI introduced Sora 2 in September 2025 as possibly
+        "the GPT-3.5 moment for video"<sup class="cite"><a href="#ref8">[8]</a></sup>, then discontinued the app and
+        API within six months; reporting put inference cost near a million dollars a day against a shrinking user
+        base<sup class="cite"><a href="#ref9">[9]</a></sup>. Kling meanwhile passed a reported 500 million dollars in
+        annualized revenue, and the top of the public text-to-video arena in mid-August
+        2026 is a Google, Black Forest Labs, ByteDance, and Meta race, with MiniMax's open-weights H3 sitting
+        sixth<sup class="cite"><a href="#ref68">[68]</a></sup>. Frontier video is a real business, and it consolidated hard.
+      </p>
+
+      <p>
+        Consistency progress came from the causal turn. Bidirectional diffusion over a fixed clip produces beautiful
+        eight-second videos and nothing longer. The methods that matter distill the bidirectional teacher into an
+        autoregressive student (CausVid<sup class="cite"><a href="#ref10">[10]</a></sup>), train that student on its
+        own rollouts so exposure bias stops compounding (Self Forcing<sup class="cite"><a href="#ref11">[11]</a></sup>),
+        then stretch the horizon with rolling windows, anchor frames, and KV-cache management
+        (Self-Forcing++<sup class="cite"><a href="#ref12">[12]</a></sup>, Rolling
+        Forcing<sup class="cite"><a href="#ref13">[13]</a></sup>). This works well enough for real-time streaming on
+        a single GPU, and not well enough to trust: the measured effective context of state-of-the-art long-video
+        models is 3.0 to 9.2 seconds, beyond which errors accumulate and the video
+        drifts<sup class="cite"><a href="#ref14">[14]</a></sup>. Interactive world models
+        (Genie 3<sup class="cite"><a href="#ref15">[15]</a></sup>, Cosmos<sup class="cite"><a href="#ref16">[16]</a></sup>)
+        are the same problem restated: they hold a scene for minutes only by making generation causal and memory explicit.
+      </p>
+
+      <h2 id="sec-wall"><span class="sec-num">2.</span>What Scale Is Not Fixing</h2>
+
+      <p>
+        Put the benchmark numbers next to the demo reels. Physics-IQ tested whether models continue real videos with
+        physically correct outcomes and found visual realism uncorrelated with physical
+        understanding<sup class="cite"><a href="#ref17">[17]</a></sup>. On VideoPhy-2's hard split, the best evaluated
+        model of early 2025 reached roughly 22 percent joint semantic-plus-physics score<sup class="cite"><a href="#ref18">[18]</a></sup>.
+        MMGR scores Wan 2.2 near 84 percent on visual realism but 51 percent on physical commonsense, falling to 24 percent once every requirement must hold at once; Sora 2 leads the overall success rate at 70 percent and still spawns objects and passes solids through glass<sup class="cite"><a href="#ref19">[19]</a></sup>. The direction is not hopeless; Sora 2 reaches 42 percent of the Physics-IQ
+        ceiling where the original Sora managed 10<sup class="cite"><a href="#ref17">[17]</a></sup>. The gap that refuses to close is between that curve
+        and the polish curve. And the newest closed models, Gemini Omni Flash, Seedance 2.5, and MiniMax H3, ship
+        with arena Elo attached and no public physics scores I could find; polish gets measured weekly, physics
+        does not.
+      </p>
+
+      <figure>
+        <svg class="svg-figure" viewBox="0 0 860 322" aria-label="Horizontal bar chart from MMGR. Wan 2.2: visual realism 84 percent average (72 to 96 by scenario), physical commonsense 51 percent, overall success under strict grading 24 percent. Below, overall success rates for other frontier models: Sora 2 at 70 percent, Veo 3 at 51 percent. A footnote states that Gemini Omni Flash, Seedance 2.5, and MiniMax H3 have no public physics-benchmark scores as of August 2026.">
+          <line x1="200" y1="44" x2="200" y2="288" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <line x1="350" y1="44" x2="350" y2="288" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <line x1="500" y1="44" x2="500" y2="288" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <line x1="650" y1="44" x2="650" y2="288" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <line x1="800" y1="44" x2="800" y2="288" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <text x="200" y="306" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">0%</text>
+          <text x="350" y="306" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">25%</text>
+          <text x="500" y="306" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">50%</text>
+          <text x="650" y="306" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">75%</text>
+          <text x="800" y="306" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">100%</text>
+
+          <text x="30" y="52" fill="#475569" font-size="11" font-family="Inter" font-weight="700" letter-spacing="1">WAN 2.2, SAME MODEL, SAME BENCHMARK</text>
+          <text x="188" y="80" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">visual realism</text>
+          <rect x="200" y="64" width="504" height="22" rx="5" fill="#2563eb" opacity="0.85"></rect>
+          <text x="712" y="80" fill="#1d4ed8" font-size="12" font-family="Inter" font-weight="700">84% avg (72 to 96)</text>
+          <text x="188" y="116" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">physical commonsense</text>
+          <rect x="200" y="100" width="304" height="22" rx="5" fill="#d97706" opacity="0.9"></rect>
+          <text x="512" y="116" fill="#b45309" font-size="12" font-family="Inter" font-weight="700">51%</text>
+          <text x="560" y="116" fill="#94a3b8" font-size="11" font-family="Inter" font-style="italic">33 points below realism</text>
+          <text x="188" y="152" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">overall success, strict</text>
+          <rect x="200" y="136" width="144" height="22" rx="5" fill="#b45309" opacity="0.85"></rect>
+          <text x="352" y="152" fill="#b45309" font-size="12" font-family="Inter" font-weight="700">24%</text>
+          <text x="400" y="152" fill="#94a3b8" font-size="10" font-family="Inter" font-style="italic">every requirement at once</text>
+
+          <line x1="30" y1="178" x2="820" y2="178" stroke="#f1f5f9" stroke-width="1.5"></line>
+
+          <text x="30" y="204" fill="#475569" font-size="11" font-family="Inter" font-weight="700" letter-spacing="1">OVERALL SUCCESS RATE, OTHER FRONTIER MODELS</text>
+          <text x="188" y="232" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">Sora 2</text>
+          <rect x="200" y="216" width="420" height="22" rx="5" fill="#64748b" opacity="0.7"></rect>
+          <text x="628" y="232" fill="#475569" font-size="12" font-family="Inter" font-weight="700">70%</text>
+          <text x="188" y="268" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">Veo 3</text>
+          <rect x="200" y="252" width="306" height="22" rx="5" fill="#64748b" opacity="0.7"></rect>
+          <text x="514" y="268" fill="#475569" font-size="12" font-family="Inter" font-weight="700">51%</text>
+        </svg>
+        <figcaption data-fig="Fig. 1">
+          Looking right versus being right, from MMGR<sup class="cite"><a href="#ref19">[19]</a></sup>. On the same
+          benchmark, Wan 2.2 averages 84 percent visual realism across scenarios (72 to 96), 51 percent
+          physical-commonsense accuracy, and 24 percent overall success once every requirement must hold at once;
+          Sora 2 and Veo 3 reach 70 and 51 percent overall. Realism runs 33 points ahead of physics on the same
+          model, and strict grading halves it again. The newest closed models are absent because their physics
+          numbers are: Gemini Omni Flash, Seedance 2.5, and MiniMax H3 publish arena
+          standings, not physics-benchmark scores (Fig 2).
+        </figcaption>
+      </figure>
+
+      <figure>
+        <svg class="svg-figure" viewBox="0 0 860 462" aria-label="Horizontal bar chart of arena Elo for text-to-video models, August 14 2026 snapshot. Closed models: Gemini Omni Flash 1512, FLUX-3 Video 1494, Seedance 2.5 1477, Muse Video 1457, HappyHorse 1428, Veo 3.1 1364, Wan 2.7 1344, Sora 2 1340. Open weights: MiniMax H3 1453, Kandinsky 5.0 Pro 1172, HunyuanVideo 1.5 1169, LTX-2 1151, Wan 2.2 1131. A filled amber dot next to a bar means no public physics-benchmark score exists for that model; a hollow dot means at least one does. Only Veo, Sora 2, and Wan 2.2 carry hollow dots.">
+          <text x="60" y="40" fill="#475569" font-size="11" font-family="Inter" font-weight="700" letter-spacing="1">THE ONE NUMBER EVERYONE PUBLISHES</text>
+          <text x="60" y="56" fill="#94a3b8" font-size="10.5" font-family="Inter">arena Elo, text-to-video, Aug 14 2026 snapshot: 616,845 votes, 45 models</text>
+          <circle cx="612" cy="36" r="4.5" fill="#d97706"></circle>
+          <text x="621" y="40" fill="#64748b" font-size="10" font-family="Inter">no public physics score</text>
+          <circle cx="612" cy="52" r="4.5" fill="none" stroke="#64748b" stroke-width="1.6"></circle>
+          <text x="621" y="56" fill="#64748b" font-size="10" font-family="Inter">physics-benchmarked</text>
+          <line x1="230" y1="68" x2="230" y2="420" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <text x="230" y="440" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">1000</text>
+          <line x1="323" y1="68" x2="323" y2="420" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <text x="323" y="440" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">1100</text>
+          <line x1="415" y1="68" x2="415" y2="420" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <text x="415" y="440" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">1200</text>
+          <line x1="508" y1="68" x2="508" y2="420" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <text x="508" y="440" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">1300</text>
+          <line x1="601" y1="68" x2="601" y2="420" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <text x="601" y="440" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">1400</text>
+          <line x1="694" y1="68" x2="694" y2="420" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <text x="694" y="440" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">1500</text>
+          <line x1="60" y1="420" x2="820" y2="420" stroke="#cbd5e1" stroke-width="1.5"></line>
+          <text x="30" y="82" fill="#475569" font-size="11" font-family="Inter" font-weight="700" letter-spacing="1">CLOSED</text>
+          <text x="222" y="105" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600" text-anchor="end">Gemini Omni Flash, Google</text>
+          <rect x="230" y="94" width="475" height="14" rx="4" fill="#64748b" opacity="0.75"></rect>
+          <text x="713" y="105" fill="#475569" font-size="11" font-family="Inter" font-weight="700">1512</text>
+          <circle cx="800" cy="101" r="4.5" fill="#d97706"></circle>
+          <text x="222" y="129" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600" text-anchor="end">FLUX-3 Video, BFL (prelim.)</text>
+          <rect x="230" y="118" width="458" height="14" rx="4" fill="#64748b" opacity="0.75"></rect>
+          <text x="696" y="129" fill="#475569" font-size="11" font-family="Inter" font-weight="700">1494</text>
+          <circle cx="800" cy="125" r="4.5" fill="#d97706"></circle>
+          <text x="222" y="153" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600" text-anchor="end">Seedance 2.5, ByteDance</text>
+          <rect x="230" y="142" width="442" height="14" rx="4" fill="#64748b" opacity="0.75"></rect>
+          <text x="680" y="153" fill="#475569" font-size="11" font-family="Inter" font-weight="700">1477</text>
+          <circle cx="800" cy="149" r="4.5" fill="#d97706"></circle>
+          <text x="222" y="177" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600" text-anchor="end">Muse Video, Meta</text>
+          <rect x="230" y="166" width="424" height="14" rx="4" fill="#64748b" opacity="0.75"></rect>
+          <text x="662" y="177" fill="#475569" font-size="11" font-family="Inter" font-weight="700">1457</text>
+          <circle cx="800" cy="173" r="4.5" fill="#d97706"></circle>
+          <text x="222" y="201" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600" text-anchor="end">HappyHorse 1.0, Alibaba</text>
+          <rect x="230" y="190" width="397" height="14" rx="4" fill="#64748b" opacity="0.75"></rect>
+          <text x="635" y="201" fill="#475569" font-size="11" font-family="Inter" font-weight="700">1428</text>
+          <circle cx="800" cy="197" r="4.5" fill="#d97706"></circle>
+          <text x="222" y="225" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600" text-anchor="end">Veo 3.1, Google</text>
+          <rect x="230" y="214" width="338" height="14" rx="4" fill="#64748b" opacity="0.75"></rect>
+          <text x="576" y="225" fill="#475569" font-size="11" font-family="Inter" font-weight="700">1364</text>
+          <circle cx="800" cy="221" r="4.5" fill="none" stroke="#64748b" stroke-width="1.6"></circle>
+          <text x="222" y="249" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600" text-anchor="end">Wan 2.7, Alibaba (API-only)</text>
+          <rect x="230" y="238" width="319" height="14" rx="4" fill="#64748b" opacity="0.75"></rect>
+          <text x="557" y="249" fill="#475569" font-size="11" font-family="Inter" font-weight="700">1344</text>
+          <circle cx="800" cy="245" r="4.5" fill="#d97706"></circle>
+          <text x="222" y="273" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600" text-anchor="end">Sora 2, OpenAI</text>
+          <rect x="230" y="262" width="315" height="14" rx="4" fill="#64748b" opacity="0.75"></rect>
+          <text x="553" y="273" fill="#475569" font-size="11" font-family="Inter" font-weight="700">1340</text>
+          <circle cx="800" cy="269" r="4.5" fill="none" stroke="#64748b" stroke-width="1.6"></circle>
+          <text x="30" y="292" fill="#475569" font-size="11" font-family="Inter" font-weight="700" letter-spacing="1">OPEN WEIGHTS</text>
+          <text x="222" y="315" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600" text-anchor="end">MiniMax H3 (comm. license)</text>
+          <rect x="230" y="304" width="420" height="14" rx="4" fill="#2563eb" opacity="0.85"></rect>
+          <text x="658" y="315" fill="#1d4ed8" font-size="11" font-family="Inter" font-weight="700">1453</text>
+          <circle cx="800" cy="311" r="4.5" fill="#d97706"></circle>
+          <text x="222" y="339" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600" text-anchor="end">Kandinsky 5.0 Pro, MIT</text>
+          <rect x="230" y="328" width="159" height="14" rx="4" fill="#2563eb" opacity="0.85"></rect>
+          <text x="397" y="339" fill="#1d4ed8" font-size="11" font-family="Inter" font-weight="700">1172</text>
+          <circle cx="800" cy="335" r="4.5" fill="#d97706"></circle>
+          <text x="222" y="363" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600" text-anchor="end">HunyuanVideo 1.5, Tencent</text>
+          <rect x="230" y="352" width="157" height="14" rx="4" fill="#2563eb" opacity="0.85"></rect>
+          <text x="395" y="363" fill="#1d4ed8" font-size="11" font-family="Inter" font-weight="700">1169</text>
+          <circle cx="800" cy="359" r="4.5" fill="#d97706"></circle>
+          <text x="222" y="387" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600" text-anchor="end">LTX-2 19B (comm. license)</text>
+          <rect x="230" y="376" width="140" height="14" rx="4" fill="#2563eb" opacity="0.85"></rect>
+          <text x="378" y="387" fill="#1d4ed8" font-size="11" font-family="Inter" font-weight="700">1151</text>
+          <circle cx="800" cy="383" r="4.5" fill="#d97706"></circle>
+          <text x="222" y="411" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600" text-anchor="end">Wan 2.2 A14B, Apache 2.0</text>
+          <rect x="230" y="400" width="121" height="14" rx="4" fill="#2563eb" opacity="0.85"></rect>
+          <text x="359" y="411" fill="#1d4ed8" font-size="11" font-family="Inter" font-weight="700">1131</text>
+          <circle cx="800" cy="407" r="4.5" fill="none" stroke="#64748b" stroke-width="1.6"></circle>
+          </svg>
+        <figcaption data-fig="Fig. 2">
+          The scoreboard the field actually maintains: arena Elo for text-to-video, from the public leaderboard's
+          August 14, 2026 snapshot, 616,845 votes across 45 models<sup class="cite"><a href="#ref68">[68]</a></sup>.
+          Gray bars are closed models, blue are open weights. A filled amber dot means no public physics-benchmark
+          score exists for that model; a hollow one means at least one does. Two readings: everything above Veo and
+          Sora 2 on the polish ladder is physics-unmeasured, and the open-closed gap is real even inside one lab,
+          with Alibaba's open Wan 2.2 sitting 213 Elo below its API-only Wan 2.7.
+        </figcaption>
+      </figure>
+
+      <p>
+        The sharper result is about state. A June 2026 study of 23 models across 9,600 videos found all of them treat
+        the world as a tracking shot: an object that leaves the frame resumes in its abandoned state instead of
+        evolving while unseen, and the failure holds across model families and increments of
+        scale<sup class="cite"><a href="#ref20">[20]</a></sup>. VBench-2.0 reads the same way on its faithfulness
+        dimensions<sup class="cite"><a href="#ref21">[21]</a></sup>. These are not rendering defects that a bigger
+        VAE fixes. They are world-model defects.
+      </p>
+
+      <p>
+        More data does not obviously save you either. Passive internet video teaches how scenes look, and only thinly
+        how they respond. V-JEPA 2 pretrained on over a million hours of video and still needed a stage on 62 hours
+        of robot interaction data before it could plan actions<sup class="cite"><a href="#ref22">[22]</a></sup>, and
+        Silver and Sutton's "Era of Experience" essay makes the general argument that the next capability increments
+        come from feedback and interaction rather than from more recorded
+        data<sup class="cite"><a href="#ref23">[23]</a></sup>. Video pretraining will keep improving texture, layout,
+        and style. The failures above need a training signal that says <em>that bounce was wrong</em>, and that
+        signal is what post-training exists to deliver.
+      </p>
+
+      <h2 id="sec-stack"><span class="sec-num">3.</span>The RL Stack for Video, Today</h2>
+
+      <p>
+        The stack so far mirrors language with a lag (Fig 3). Reward fine-tuning came first: InstructVideo borrowed
+        image reward models and backpropagated them through short denoising chains in
+        2023<sup class="cite"><a href="#ref24">[24]</a></sup>, and VADER did it properly for video with
+        differentiable rewards, including object detectors and action
+        classifiers<sup class="cite"><a href="#ref25">[25]</a></sup>. DPO ports
+        followed<sup class="cite"><a href="#ref26">[26]</a></sup>, and DenseDPO found the first video-specific
+        landmine: whole-clip preference pairs teach the model that static videos are safe, so it optimizes motion
+        away unless preferences are collected per segment<sup class="cite"><a href="#ref27">[27]</a></sup>.
+        Purpose-built video reward models arrived in 2025. VideoAlign trained on 182,000 human-labeled triplets and
+        split the reward into visual quality, motion quality, and text alignment because one scalar could not carry
+        all three<sup class="cite"><a href="#ref28">[28]</a></sup>, and VisionReward decomposed the judgment further
+        into interpretable checklists<sup class="cite"><a href="#ref29">[29]</a></sup>.
+      </p>
+
+      <figure>
+        <svg class="svg-figure" viewBox="0 0 860 330" aria-label="Ladder chart of eight post-training techniques. Each row shows the month the language-domain paper appeared as a gray dot and the month the first video counterpart appeared as a blue dot, connected by a line labeled with the lag in months. Lags: RLHF 21 months, DPO 19, reward-gradient fine-tuning 10, GRPO 15, reward-model benchmarks 18, test-time scaling 6, RLVR 6, reasoning RL 14.">
+          <text x="30" y="40" fill="#475569" font-size="11" font-family="Inter" font-weight="700" letter-spacing="1">WHEN VIDEO PICKED UP EACH LANGUAGE POST-TRAINING IDEA</text>
+          <circle cx="618" cy="36" r="5" fill="#94a3b8"></circle>
+          <text x="627" y="40" fill="#64748b" font-size="10.5" font-family="Inter">language paper</text>
+          <circle cx="726" cy="36" r="5" fill="#2563eb"></circle>
+          <text x="735" y="40" fill="#64748b" font-size="10.5" font-family="Inter">video counterpart</text>
+
+          <line x1="301.6" y1="58" x2="301.6" y2="278" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <line x1="447.5" y1="58" x2="447.5" y2="278" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <line x1="593.3" y1="58" x2="593.3" y2="278" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <line x1="739.2" y1="58" x2="739.2" y2="278" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <text x="301.6" y="296" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">2023</text>
+          <text x="447.5" y="296" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">2024</text>
+          <text x="593.3" y="296" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">2025</text>
+          <text x="739.2" y="296" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">2026</text>
+
+          <line x1="180.0" y1="78" x2="435.3" y2="78" stroke="#cbd5e1" stroke-width="2"></line>
+          <circle cx="180.0" cy="78" r="5.5" fill="#94a3b8"></circle>
+          <circle cx="435.3" cy="78" r="5.5" fill="#2563eb"></circle>
+          <text x="168" y="78" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">human feedback</text>
+          <text x="168" y="90" fill="#94a3b8" font-size="9.5" font-family="Inter" text-anchor="end">InstructGPT &#8594; InstructVideo</text>
+          <text x="447" y="82" fill="#475569" font-size="11" font-family="Inter" font-weight="700">21 mo</text>
+
+          <line x1="350.2" y1="104" x2="581.2" y2="104" stroke="#cbd5e1" stroke-width="2"></line>
+          <circle cx="350.2" cy="104" r="5.5" fill="#94a3b8"></circle>
+          <circle cx="581.2" cy="104" r="5.5" fill="#2563eb"></circle>
+          <text x="168" y="104" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">DPO</text>
+          <text x="168" y="116" fill="#94a3b8" font-size="9.5" font-family="Inter" text-anchor="end">DPO &#8594; VideoDPO</text>
+          <text x="593" y="108" fill="#475569" font-size="11" font-family="Inter" font-weight="700">19 mo</text>
+
+          <line x1="398.8" y1="130" x2="520.4" y2="130" stroke="#cbd5e1" stroke-width="2"></line>
+          <circle cx="398.8" cy="130" r="5.5" fill="#94a3b8"></circle>
+          <circle cx="520.4" cy="130" r="5.5" fill="#2563eb"></circle>
+          <text x="168" y="130" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">reward-gradient FT</text>
+          <text x="168" y="142" fill="#94a3b8" font-size="9.5" font-family="Inter" text-anchor="end">DRaFT &#8594; VADER</text>
+          <text x="532" y="134" fill="#475569" font-size="11" font-family="Inter" font-weight="700">10 mo</text>
+
+          <line x1="459.6" y1="156" x2="642.0" y2="156" stroke="#cbd5e1" stroke-width="2"></line>
+          <circle cx="459.6" cy="156" r="5.5" fill="#94a3b8"></circle>
+          <circle cx="642.0" cy="156" r="5.5" fill="#2563eb"></circle>
+          <text x="168" y="156" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">GRPO</text>
+          <text x="168" y="168" fill="#94a3b8" font-size="9.5" font-family="Inter" text-anchor="end">DeepSeekMath &#8594; DanceGRPO</text>
+          <text x="654" y="160" fill="#475569" font-size="11" font-family="Inter" font-weight="700">15 mo</text>
+
+          <line x1="471.8" y1="182" x2="690.6" y2="182" stroke="#cbd5e1" stroke-width="2"></line>
+          <circle cx="471.8" cy="182" r="5.5" fill="#94a3b8"></circle>
+          <circle cx="690.6" cy="182" r="5.5" fill="#2563eb"></circle>
+          <text x="168" y="182" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">RM benchmarks</text>
+          <text x="168" y="194" fill="#94a3b8" font-size="9.5" font-family="Inter" text-anchor="end">RewardBench &#8594; VideoRewardBench</text>
+          <text x="702" y="186" fill="#475569" font-size="11" font-family="Inter" font-weight="700">18 mo</text>
+
+          <line x1="544.7" y1="208" x2="617.6" y2="208" stroke="#93c5fd" stroke-width="2.4"></line>
+          <circle cx="544.7" cy="208" r="5.5" fill="#94a3b8"></circle>
+          <circle cx="617.6" cy="208" r="5.5" fill="#2563eb"></circle>
+          <text x="168" y="208" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">test-time scaling</text>
+          <text x="168" y="220" fill="#94a3b8" font-size="9.5" font-family="Inter" text-anchor="end">o1 &#8594; Video-T1</text>
+          <text x="629" y="212" fill="#1d4ed8" font-size="11" font-family="Inter" font-weight="700">6 mo</text>
+
+          <line x1="569.0" y1="234" x2="642.0" y2="234" stroke="#93c5fd" stroke-width="2.4"></line>
+          <circle cx="569.0" cy="234" r="5.5" fill="#94a3b8"></circle>
+          <circle cx="642.0" cy="234" r="5.5" fill="#2563eb"></circle>
+          <text x="168" y="234" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">RLVR</text>
+          <text x="168" y="246" fill="#94a3b8" font-size="9.5" font-family="Inter" text-anchor="end">Tulu 3 &#8594; RLVR-World</text>
+          <text x="654" y="238" fill="#1d4ed8" font-size="11" font-family="Inter" font-weight="700">6 mo</text>
+
+          <line x1="593.3" y1="260" x2="763.5" y2="260" stroke="#cbd5e1" stroke-width="2"></line>
+          <circle cx="593.3" cy="260" r="5.5" fill="#94a3b8"></circle>
+          <circle cx="763.5" cy="260" r="5.5" fill="#2563eb"></circle>
+          <text x="168" y="260" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">reasoning RL</text>
+          <text x="168" y="272" fill="#94a3b8" font-size="9.5" font-family="Inter" text-anchor="end">R1 &#8594; Wan-R1</text>
+          <text x="775" y="264" fill="#475569" font-size="11" font-family="Inter" font-weight="700">14 mo</text>
+        </svg>
+        <figcaption data-fig="Fig. 3">
+          Measured lag, not vibes. Eight post-training ideas, the month the language paper landed (gray) and the
+          month the first video counterpart followed (blue), dated by arXiv announcement month, o1 by its release
+          post<sup class="cite"><a href="#ref24">[24]</a></sup><sup class="cite"><a href="#ref25">[25]</a></sup><sup class="cite"><a href="#ref26">[26]</a></sup><sup class="cite"><a href="#ref31">[31]</a></sup><sup class="cite"><a href="#ref33">[33]</a></sup><sup class="cite"><a href="#ref36">[36]</a></sup><sup class="cite"><a href="#ref38">[38]</a></sup><sup class="cite"><a href="#ref43">[43]</a></sup><sup class="cite"><a href="#ref50">[50]</a></sup><sup class="cite"><a href="#ref51">[51]</a></sup><sup class="cite"><a href="#ref52">[52]</a></sup><sup class="cite"><a href="#ref53">[53]</a></sup><sup class="cite"><a href="#ref57">[57]</a></sup><sup class="cite"><a href="#ref58">[58]</a></sup><sup class="cite"><a href="#ref59">[59]</a></sup><sup class="cite"><a href="#ref60">[60]</a></sup>. Pairs are matched by goal rather than by algorithm.
+          The median crossing time fell from 19 months for the 2022-23 ideas to 14 for the 2024-25 ones, and the
+          fastest two, test-time scaling and RLVR, crossed in six.
+        </figcaption>
+      </figure>
+
+      <p>
+        On-policy RL became practical in 2025. Flow-GRPO converted the deterministic ODE sampler into an SDE so
+        there is something to explore, and cut denoising steps during rollouts to keep cost
+        sane<sup class="cite"><a href="#ref30">[30]</a></sup>; DanceGRPO unified the recipe across text-to-video and
+        image-to-video<sup class="cite"><a href="#ref31">[31]</a></sup>. This is production technology now, and
+        quietly so. Seedance 1.0 ships video-tailored RLHF with separate reward models for motion, aesthetics, and
+        alignment<sup class="cite"><a href="#ref3">[3]</a></sup>; Meituan's LongCat-Video published its full
+        multi-reward GRPO configuration<sup class="cite"><a href="#ref32">[32]</a></sup>; NVIDIA states
+        Cosmos-Predict2.5 is refined with RL post-training<sup class="cite"><a href="#ref16">[16]</a></sup>; Kling's
+        Omni report describes an SFT-then-RL phase<sup class="cite"><a href="#ref6">[6]</a></sup>. OpenAI's Sora 2
+        system card and Google's Veo materials say nothing about RL post-training in either direction.
+      </p>
+
+      <figure>
+        <svg class="svg-figure" viewBox="0 0 860 320" aria-label="Combination chart of papers on RL for video from a curated field list, November 2023 through March 2026. Gray monthly bars peak near 50 papers in September 2025; a blue cumulative line reaches about 230 papers. Roughly 15 papers in 2024, about 160 in 2025; over 60 percent of the papers arrived after August 2025.">
+          <text x="60" y="40" fill="#475569" font-size="11" font-family="Inter" font-weight="700" letter-spacing="1">PAPERS ON RL FOR VIDEO GENERATION</text>
+          <text x="60" y="56" fill="#94a3b8" font-size="10.5" font-family="Inter">monthly count and cumulative, curated field list, dated by arXiv ID</text>
+          <text x="60" y="82" fill="#334155" font-size="12" font-family="Inter" font-weight="600">2024: ~15 papers. 2025: ~160. Over 60% arrived after Aug 2025.</text>
+
+          <line x1="60" y1="170" x2="820" y2="170" stroke="#f1f5f9" stroke-width="1.5" stroke-dasharray="4 5"></line>
+          <line x1="60" y1="90" x2="820" y2="90" stroke="#f1f5f9" stroke-width="1.5" stroke-dasharray="4 5"></line>
+          <text x="828" y="174" fill="#94a3b8" font-size="10.5" font-family="Inter">100</text>
+          <text x="828" y="94" fill="#94a3b8" font-size="10.5" font-family="Inter">200</text>
+          <line x1="60" y1="250" x2="826" y2="250" stroke="#cbd5e1" stroke-width="1.5"></line>
+          <text x="122.9" y="272" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">2024</text>
+          <text x="440" y="272" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">2025</text>
+          <text x="757.1" y="272" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">2026</text>
+
+          <rect x="62.0" y="247.2" width="16" height="2.9" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="88.4" y="247.2" width="16" height="2.9" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="273.4" y="247.2" width="16" height="2.9" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="352.7" y="230.1" width="16" height="19.9" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="379.1" y="244.3" width="16" height="5.7" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="405.6" y="232.9" width="16" height="17.1" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="432.0" y="247.2" width="16" height="2.9" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="458.4" y="232.9" width="16" height="17.1" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="484.9" y="235.8" width="16" height="14.2" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="511.3" y="227.2" width="16" height="22.8" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="537.7" y="224.3" width="16" height="25.7" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="564.1" y="227.2" width="16" height="22.8" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="590.6" y="238.6" width="16" height="11.4" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="617.0" y="178.8" width="16" height="71.2" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="643.4" y="104.7" width="16" height="145.3" rx="2.5" fill="#d97706" opacity="0.75"></rect>
+          <rect x="669.9" y="178.8" width="16" height="71.2" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="696.3" y="227.2" width="16" height="22.8" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="722.7" y="227.2" width="16" height="22.8" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="749.1" y="212.9" width="16" height="37.1" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="775.6" y="207.2" width="16" height="42.8" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+          <rect x="802.0" y="193.0" width="16" height="57.0" rx="2.5" fill="#94a3b8" opacity="0.55"></rect>
+
+          <polyline points="70.0,249.2 96.4,248.4 122.9,248.4 149.3,248.4 175.7,248.4 202.1,248.4 228.6,248.4 255.0,248.4 281.4,247.6 307.9,247.6 334.3,247.6 360.7,242.0 387.1,240.4 413.6,235.6 440.0,234.8 466.4,230.0 492.9,226.0 519.3,219.6 545.7,212.4 572.1,206.0 598.6,202.8 625.0,182.8 651.4,142.0 677.9,122.0 704.3,115.6 730.7,109.2 757.1,98.8 783.6,86.8 810.0,70.8" fill="none" stroke="#2563eb" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"></polyline>
+          <text x="806" y="62" fill="#1d4ed8" font-size="12" font-family="Inter" font-weight="700" text-anchor="end">~230 papers</text>
+          <text x="712" y="106" fill="#2563eb" font-size="10.5" font-family="Inter">cumulative</text>
+
+          <text x="636" y="88" fill="#b45309" font-size="12" font-family="Inter" font-weight="700" text-anchor="end">~50 papers in Sep 2025</text>
+          <text x="636" y="102" fill="#b45309" font-size="10.5" font-family="Inter" font-style="italic" text-anchor="end">the ICLR deadline month</text>
+        </svg>
+        <figcaption data-fig="Fig. 4">
+          A small survey run for this post: every unique arXiv paper in the community-curated RL-for-video
+          list<sup class="cite"><a href="#ref61">[61]</a></sup>, dated by its arXiv ID and binned by month, drawn
+          through March 2026 because curation trails the field and the right edge undercounts. Treat the counts as
+          approximate; the list's scope is fuzzy at the edges (some video-understanding and reward-model work sits
+          alongside generation). The shape is the point: a couple of papers in 2023, about 15 in 2024, about 160 in
+          2025, and the busiest month on record is September 2025, when the ICLR deadline landed.
+        </figcaption>
+      </figure>
+
+      <p>
+        The newest thread is the one I find most promising: verifiable rewards. RLVR-World scores world models with
+        task metrics computed directly on their outputs<sup class="cite"><a href="#ref33">[33]</a></sup>.
+        NewtonRewards extracts velocity and mass proxies from optical flow and penalizes violations of Newtonian
+        motion<sup class="cite"><a href="#ref34">[34]</a></sup>. PhyMotion lifts generated humans to 3D meshes, runs
+        them through a physics simulator, and scores kinematic plausibility, reporting a 68-point Elo gain in motion
+        realism after RL<sup class="cite"><a href="#ref35">[35]</a></sup>. Wan-R1 and VideoRLVR use procedurally
+        generated tasks, mazes, Sokoban, and trap avoidance, where correctness is checkable by rule, and both report
+        verifiable rewards beating learned reward models on their
+        tasks<sup class="cite"><a href="#ref36">[36]</a></sup><sup class="cite"><a href="#ref37">[37]</a></sup>.
+        This is the video version of the move that took language models from RLHF to reasoning RL.
+      </p>
+
+      <p>
+        There is also a test-time branch: spend more inference compute, search over candidates with a verifier, keep
+        the best (Video-T1<sup class="cite"><a href="#ref38">[38]</a></sup>). It reliably buys quality, on the same
+        curve language models rode, and its cost problem is the same one RL training has.
+        <a href="cachedsearch.html">CachedSearch</a> sits here: cached exploration makes best-of-N affordable by
+        re-generating only the winning candidate at full compute<sup class="cite"><a href="#ref39">[39]</a></sup>.
+      </p>
+
+      <h2 id="sec-hard"><span class="sec-num">4.</span>Why RL for Video Is Hard</h2>
+
+      <p>
+        Start with the arithmetic. A language model rollout is a few thousand forward passes through a KV cache and
+        costs a fraction of a cent. A video rollout is 30 to 50 denoising passes over a latent volume of a hundred
+        thousand or more tokens, then a VAE decode, then a reward model forward, per candidate, and GRPO wants a
+        group of those per prompt. That is how a weekend of H100 time disappears. Flash-GRPO puts aligning a 14B video model at hundreds of GPU-days per
+        experiment<sup class="cite"><a href="#ref40">[40]</a></sup>, and DanceGRPO ran on 64
+        H800s<sup class="cite"><a href="#ref31">[31]</a></sup>. At API list prices, frontier video costs 10 to 40
+        cents per generated second, so one 8-second rollout burns what thousands of LLM samples cost. An efficiency
+        literature is moving fast in response: branched rollouts that share denoising prefixes across the
+        group<sup class="cite"><a href="#ref41">[41]</a></sup>, optimization at a single timestep per
+        rollout<sup class="cite"><a href="#ref40">[40]</a></sup>, and rewards computed in latent space so nothing
+        gets decoded at all<sup class="cite"><a href="#ref49">[49]</a></sup>. The infrastructure half of the problem,
+        keeping a fleet busy while rollout, scoring, and update stages have wildly different shapes, is its own
+        topic, covered separately in these <a href="gpu-infra-for-video-gen.html">GPU infrastructure notes</a>.
+      </p>
+
+      <figure>
+        <svg class="svg-figure" viewBox="0 0 860 300" aria-label="Two-panel chart. Left panel: cost per rollout on a log scale, one LLM rollout at roughly a tenth of a cent to a cent versus one 8-second video rollout at 80 cents to 3 dollars 20, about 500 times more per sample. Right panel: video reward model agreement with human preference, a band at 61 to 74 percent, above the 50 percent coin-flip line.">
+          <defs>
+            <marker id="costArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3 z" fill="#b45309"></path>
+            </marker>
+          </defs>
+
+          <text x="60" y="42" fill="#475569" font-size="11" font-family="Inter" font-weight="700" letter-spacing="1">COST PER ROLLOUT</text>
+          <text x="60" y="58" fill="#94a3b8" font-size="10.5" font-family="Inter">log scale, mid-2026 list prices</text>
+          <line x1="60" y1="80" x2="60" y2="210" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <line x1="155" y1="80" x2="155" y2="210" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <line x1="250" y1="80" x2="250" y2="210" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <line x1="345" y1="80" x2="345" y2="210" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <line x1="440" y1="80" x2="440" y2="210" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <line x1="60" y1="210" x2="440" y2="210" stroke="#cbd5e1" stroke-width="1.5"></line>
+          <text x="60" y="230" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">$0.001</text>
+          <text x="155" y="230" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">$0.01</text>
+          <text x="250" y="230" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">$0.10</text>
+          <text x="345" y="230" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">$1</text>
+          <text x="440" y="230" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">$10</text>
+
+          <text x="60" y="102" fill="#334155" font-size="12" font-family="Inter" font-weight="600">one LLM rollout</text>
+          <rect x="60" y="110" width="95" height="24" rx="6" fill="#64748b" opacity="0.7"></rect>
+          <text x="163" y="127" fill="#64748b" font-size="11" font-family="Inter">under a cent</text>
+          <text x="336" y="152" fill="#334155" font-size="12" font-family="Inter" font-weight="600">one 8-second video rollout</text>
+          <rect x="336" y="160" width="57" height="24" rx="6" fill="#2563eb" opacity="0.85"></rect>
+          <text x="401" y="177" fill="#1d4ed8" font-size="11" font-family="Inter" font-weight="700">$0.80 to 3.20</text>
+          <line x1="162" y1="126" x2="328" y2="168" stroke="#b45309" stroke-width="1.3" stroke-dasharray="4 4" marker-end="url(#costArrow)"></line>
+          <text x="212" y="160" fill="#b45309" font-size="11.5" font-family="Inter" font-style="italic">roughly 500&#215;</text>
+
+          <line x1="485" y1="60" x2="485" y2="240" stroke="#f1f5f9" stroke-width="1.5"></line>
+
+          <text x="530" y="42" fill="#475569" font-size="11" font-family="Inter" font-weight="700" letter-spacing="1">REWARD RELIABILITY</text>
+          <text x="530" y="58" fill="#94a3b8" font-size="10.5" font-family="Inter">agreement with human preference</text>
+          <line x1="530" y1="210" x2="820" y2="210" stroke="#cbd5e1" stroke-width="1.5"></line>
+          <text x="578" y="230" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">50%</text>
+          <text x="675" y="230" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">70%</text>
+          <text x="820" y="230" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">100%</text>
+          <line x1="578" y1="96" x2="578" y2="210" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4"></line>
+          <text x="578" y="250" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">coin flip</text>
+          <text x="820" y="250" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">perfect</text>
+          <text x="663" y="112" fill="#334155" font-size="11" font-family="Inter" font-weight="600" text-anchor="middle">VideoReward, ties in or out</text>
+          <text x="663" y="138" fill="#1d4ed8" font-size="20" font-family="Inter" font-weight="700" text-anchor="middle">61 to 74%</text>
+          <rect x="633" y="150" width="59.4" height="60" rx="6" fill="#2563eb" opacity="0.8"></rect>
+        </svg>
+        <figcaption data-fig="Fig. 5">
+          The two walls, in one place. Left: sample cost on a log scale; the per-sample gap between a language rollout
+          and an 8-second video rollout is roughly 500&#215; at list prices, and Flash-GRPO's "hundreds of GPU-days
+          per experiment" is the training-side version of the same number<sup class="cite"><a href="#ref40">[40]</a></sup>.
+          Right: the reward you optimize against agrees with humans 61 to 74 percent of the time, depending on how
+          ties are counted<sup class="cite"><a href="#ref28">[28]</a></sup>.
+        </figcaption>
+      </figure>
+
+      <p>
+        The reward is the deeper problem. The best public video reward model reports 73.6 percent pairwise accuracy with ties excluded on its own
+        benchmark, and 61.3 percent when ties count<sup class="cite"><a href="#ref28">[28]</a></sup>,
+        and VLM judges show position bias and scoring instability on physics
+        judgments<sup class="cite"><a href="#ref44">[44]</a></sup>. Newer reasoning judges push the no-ties number into the
+        mid-80s on the same benchmark, and ties still drag them back toward 72<sup class="cite"><a href="#ref67">[67]</a></sup>. Anyone who has watched a reward curve climb while
+        the samples quietly got worse knows where this goes. Optimize hard against a reward that weak and you get
+        Goodhart's law, and video RL now has a documented catalogue of it: models that satisfy a physics reward
+        by collapsing motion until nothing moves<sup class="cite"><a href="#ref34">[34]</a></sup>, DPO pairs that
+        quietly prefer static clips<sup class="cite"><a href="#ref27">[27]</a></sup>, composite rewards gamed
+        through their easiest component<sup class="cite"><a href="#ref45">[45]</a></sup>, ratio drift that
+        over-optimizes flow GRPO from inside the clipping range<sup class="cite"><a href="#ref46">[46]</a></sup>,
+        and policies that climb VideoAlign for a while and then visibly
+        degrade<sup class="cite"><a href="#ref47">[47]</a></sup>. SAGE-GRPO adds that the ODE-to-SDE conversion
+        itself injects off-manifold noise that makes video GRPO less reliable than its LLM
+        counterpart<sup class="cite"><a href="#ref48">[48]</a></sup>. Fig 6 shows the quieter version of the
+        same problem, straight from the papers: the optimized axis jumps, and everything else barely moves.
+      </p>
+
+      <figure>
+        <svg class="svg-figure" viewBox="0 0 860 348" aria-label="Diverging bar chart of relative change after the RL stage in six papers. The optimized axis jumps: DanceGRPO motion quality up 181 percent, Wan-R1 trap avoidance up 132 percent, Flow-DPO visual-quality win rate up 82 percent. An off-axis metric from the same paper barely moves or regresses: DanceGRPO text alignment down 9 percent, Wan-R1 held-out mazes down 16 percent, VBench totals up at most 2 percent.">
+          <text x="60" y="40" fill="#475569" font-size="11" font-family="Inter" font-weight="700" letter-spacing="1">RL MOVES WHAT YOU POINT IT AT</text>
+          <text x="60" y="56" fill="#94a3b8" font-size="10.5" font-family="Inter">relative change after the RL stage: the optimized axis vs an off-axis metric from the same paper</text>
+          <line x1="230" y1="66" x2="230" y2="304" stroke="#cbd5e1" stroke-width="1.5"></line>
+          <text x="230" y="322" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">0</text>
+          <line x1="370" y1="66" x2="370" y2="304" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <text x="370" y="322" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">+50%</text>
+          <line x1="510" y1="66" x2="510" y2="304" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <text x="510" y="322" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">+100%</text>
+          <line x1="650" y1="66" x2="650" y2="304" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <text x="650" y="322" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">+150%</text>
+          <line x1="790" y1="66" x2="790" y2="304" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <text x="790" y="322" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">+200%</text>
+          <text x="175" y="96" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">DanceGRPO</text>
+          <rect x="230" y="84" width="506.8" height="15" rx="4" fill="#2563eb" opacity="0.85"></rect>
+          <text x="729" y="96" fill="#ffffff" font-size="10.5" font-family="Inter" font-weight="600" text-anchor="end">+181% motion quality (VideoAlign MQ)</text>
+          <rect x="204.5" y="103" width="25.5" height="8" rx="3" fill="#d97706" opacity="0.9"></rect>
+          <text x="197" y="111" fill="#b45309" font-size="10" font-family="Inter" text-anchor="end">-9% text alignment, same run</text>
+          <text x="175" y="136" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">Wan-R1</text>
+          <rect x="230" y="124" width="369.9" height="15" rx="4" fill="#2563eb" opacity="0.85"></rect>
+          <text x="592" y="136" fill="#ffffff" font-size="10.5" font-family="Inter" font-weight="600" text-anchor="end">+132% trap-avoidance, exact match</text>
+          <rect x="185.8" y="143" width="44.2" height="8" rx="3" fill="#d97706" opacity="0.9"></rect>
+          <text x="178" y="151" fill="#b45309" font-size="10" font-family="Inter" text-anchor="end">-16% held-out irregular mazes</text>
+          <text x="175" y="176" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">Flow-DPO</text>
+          <rect x="230" y="164" width="229.3" height="15" rx="4" fill="#2563eb" opacity="0.85"></rect>
+          <text x="467" y="176" fill="#1d4ed8" font-size="10.5" font-family="Inter" font-weight="600">+82% visual-quality reward win rate</text>
+          <rect x="230" y="183" width="2.5" height="8" rx="3" fill="#94a3b8" opacity="0.7"></rect>
+          <text x="240" y="191" fill="#64748b" font-size="10" font-family="Inter">+0.3% VBench total</text>
+          <text x="175" y="216" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">Flash-GRPO</text>
+          <rect x="230" y="204" width="45.1" height="15" rx="4" fill="#2563eb" opacity="0.85"></rect>
+          <text x="283" y="216" fill="#1d4ed8" font-size="10.5" font-family="Inter" font-weight="600">+16% HPSv3 reward</text>
+          <rect x="230" y="223" width="4.2" height="8" rx="3" fill="#94a3b8" opacity="0.7"></rect>
+          <text x="242" y="231" fill="#64748b" font-size="10" font-family="Inter">+1.5% VBench aesthetic</text>
+          <text x="175" y="256" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">PhyMotion</text>
+          <rect x="230" y="244" width="16.0" height="15" rx="4" fill="#2563eb" opacity="0.85"></rect>
+          <text x="254" y="256" fill="#1d4ed8" font-size="10.5" font-family="Inter" font-weight="600">+5.7% VideoPhy physical commonsense</text>
+          <rect x="227.5" y="263" width="2.5" height="8" rx="3" fill="#d97706" opacity="0.9"></rect>
+          <text x="220" y="271" fill="#b45309" font-size="10" font-family="Inter" text-anchor="end">-0.5% VBench, general prompts</text>
+          <text x="175" y="296" fill="#334155" font-size="12" font-family="Inter" font-weight="600" text-anchor="end">VideoDPO</text>
+          <rect x="230" y="284" width="15.1" height="15" rx="4" fill="#2563eb" opacity="0.85"></rect>
+          <text x="253" y="296" fill="#1d4ed8" font-size="10.5" font-family="Inter" font-weight="600">+5.4% VBench semantics</text>
+          <rect x="230" y="303" width="5.3" height="8" rx="3" fill="#94a3b8" opacity="0.7"></rect>
+          <text x="243" y="311" fill="#64748b" font-size="10" font-family="Inter">+1.9% VBench total</text>
+        </svg>
+        <figcaption data-fig="Fig. 6">
+          Goodhart's law, in published numbers. For six systems, the relative change the paper reports on the axis
+          its RL stage optimized (blue) next to an off-axis or generic metric from the same run (gray, amber when
+          negative): DanceGRPO Table 5<sup class="cite"><a href="#ref31">[31]</a></sup>, Wan-R1
+          Table 1<sup class="cite"><a href="#ref36">[36]</a></sup>, Flow-DPO Table 3 of the VideoAlign
+          paper<sup class="cite"><a href="#ref28">[28]</a></sup>, Flash-GRPO Tables 1 and
+          2<sup class="cite"><a href="#ref40">[40]</a></sup>, PhyMotion Tables 2 and
+          5<sup class="cite"><a href="#ref35">[35]</a></sup>, VideoDPO Table 1<sup class="cite"><a href="#ref26">[26]</a></sup>.
+          The optimized metric jumps by double or triple digits; everything else moves a point or two, and
+          sometimes backward. Narrow rewards buy narrow gains, which is the whole argument for broad verifiable
+          reward suites.
+        </figcaption>
+      </figure>
+
+      <p>
+        Then there is credit assignment. A language model gets its reward attached to a specific token sequence with
+        per-token log-probabilities. A video policy gets one scalar for an artifact that emerged from 50 denoising
+        steps times a hundred-plus frames, and has to work out which step and which region earned it. The current
+        answers are partial: reweighting by timestep<sup class="cite"><a href="#ref42">[42]</a></sup>,
+        tree-structured advantages over branching rollouts<sup class="cite"><a href="#ref41">[41]</a></sup>, or
+        giving up on trajectory-level credit and optimizing a single step<sup class="cite"><a href="#ref40">[40]</a></sup>.
+      </p>
+
+      <figure>
+        <svg class="svg-figure" viewBox="0 0 860 300" aria-label="Diagram of the GRPO-style loop for video: a policy generates a group of rollouts, a reward model or verifier scores them, and group-relative advantages update the policy, which feeds back to generation. Three amber notes mark the bottlenecks: rollout cost under the rollout box, reward reliability under the reward box, and credit assignment under the update box.">
+          <defs>
+            <marker id="flowArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3 z" fill="#94a3b8"></path>
+            </marker>
+            <marker id="loopArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3 z" fill="#2563eb"></path>
+            </marker>
+          </defs>
+
+          <path d="M770 108 C770 62, 740 48, 700 48 L190 48 C150 48, 122 62, 122 104" stroke="#2563eb" stroke-width="1.8" stroke-dasharray="6 5" fill="none" marker-end="url(#loopArrow)"></path>
+          <text x="445" y="38" fill="#2563eb" font-size="11.5" font-family="Inter" text-anchor="middle">policy improves, the next group re-samples</text>
+
+          <rect x="30" y="110" width="180" height="64" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"></rect>
+          <text x="120" y="138" fill="#0f172a" font-size="13.5" font-family="Inter" font-weight="600" text-anchor="middle">Policy</text>
+          <text x="120" y="156" fill="#64748b" font-size="11.5" font-family="Inter" text-anchor="middle">video generator</text>
+
+          <rect x="250" y="110" width="190" height="64" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"></rect>
+          <text x="345" y="138" fill="#0f172a" font-size="13.5" font-family="Inter" font-weight="600" text-anchor="middle">Rollouts</text>
+          <text x="345" y="156" fill="#64748b" font-size="11.5" font-family="Inter" text-anchor="middle">a group of N clips</text>
+
+          <rect x="480" y="110" width="190" height="64" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"></rect>
+          <text x="575" y="138" fill="#0f172a" font-size="13.5" font-family="Inter" font-weight="600" text-anchor="middle">Reward</text>
+          <text x="575" y="156" fill="#64748b" font-size="11.5" font-family="Inter" text-anchor="middle">RM / verifier / judge</text>
+
+          <rect x="710" y="110" width="120" height="64" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"></rect>
+          <text x="770" y="138" fill="#0f172a" font-size="13.5" font-family="Inter" font-weight="600" text-anchor="middle">Update</text>
+          <text x="770" y="156" fill="#64748b" font-size="11.5" font-family="Inter" text-anchor="middle">advantages</text>
+
+          <line x1="210" y1="142" x2="244" y2="142" stroke="#94a3b8" stroke-width="2" marker-end="url(#flowArrow)"></line>
+          <line x1="440" y1="142" x2="474" y2="142" stroke="#94a3b8" stroke-width="2" marker-end="url(#flowArrow)"></line>
+          <line x1="670" y1="142" x2="704" y2="142" stroke="#94a3b8" stroke-width="2" marker-end="url(#flowArrow)"></line>
+
+          <line x1="345" y1="174" x2="345" y2="200" stroke="#f59e0b" stroke-width="1.4" stroke-dasharray="2 4"></line>
+          <line x1="575" y1="174" x2="575" y2="200" stroke="#f59e0b" stroke-width="1.4" stroke-dasharray="2 4"></line>
+          <line x1="770" y1="174" x2="770" y2="200" stroke="#f59e0b" stroke-width="1.4" stroke-dasharray="2 4"></line>
+
+          <rect x="250" y="202" width="190" height="58" rx="9" fill="#fffbeb" stroke="#fde68a" stroke-width="1.5"></rect>
+          <text x="345" y="224" fill="#b45309" font-size="11" font-family="Inter" font-weight="700" text-anchor="middle">BOTTLENECK 1</text>
+          <text x="345" y="242" fill="#64748b" font-size="11" font-family="Inter" text-anchor="middle">minutes of GPU time per clip</text>
+
+          <rect x="480" y="202" width="190" height="58" rx="9" fill="#fffbeb" stroke="#fde68a" stroke-width="1.5"></rect>
+          <text x="575" y="224" fill="#b45309" font-size="11" font-family="Inter" font-weight="700" text-anchor="middle">BOTTLENECK 2</text>
+          <text x="575" y="242" fill="#64748b" font-size="11" font-family="Inter" text-anchor="middle">~72% tie-aware agreement</text>
+
+          <rect x="676" y="202" width="154" height="58" rx="9" fill="#fffbeb" stroke="#fde68a" stroke-width="1.5"></rect>
+          <text x="753" y="221" fill="#b45309" font-size="11" font-family="Inter" font-weight="700" text-anchor="middle">BOTTLENECK 3</text>
+          <text x="753" y="238" fill="#64748b" font-size="11" font-family="Inter" text-anchor="middle">one scalar over</text>
+          <text x="753" y="253" fill="#64748b" font-size="11" font-family="Inter" text-anchor="middle">steps &#215; frames</text>
+        </svg>
+        <figcaption data-fig="Fig. 7">
+          The GRPO-style loop that video RL runs today<sup class="cite"><a href="#ref30">[30]</a></sup><sup class="cite"><a href="#ref31">[31]</a></sup>,
+          annotated with its three binding constraints: rollout cost measured in minutes of GPU time per
+          candidate<sup class="cite"><a href="#ref40">[40]</a></sup>, reward models around 72 percent tie-aware human
+          agreement<sup class="cite"><a href="#ref28">[28]</a></sup><sup class="cite"><a href="#ref67">[67]</a></sup>,
+          and a single scalar spread across every denoising step and frame<sup class="cite"><a href="#ref41">[41]</a></sup>.
+        </figcaption>
+      </figure>
+
+      <div class="table-scroll">
+      <table class="cmp-table">
+        <tr>
+          <th>Axis</th><th>LLM RL, 2026</th><th>Video RL, 2026</th>
+        </tr>
+        <tr>
+          <td>Rollout</td>
+          <td>seconds, fractions of a cent</td>
+          <td>minutes of GPU time; hundreds of GPU-days per experiment<sup class="cite"><a href="#ref40">[40]</a></sup></td>
+        </tr>
+        <tr>
+          <td>Reward</td>
+          <td>unit tests, checkable answers, mature RMs</td>
+          <td>learned RMs near 72% tie-aware agreement<sup class="cite"><a href="#ref28">[28]</a></sup><sup class="cite"><a href="#ref67">[67]</a></sup></td>
+        </tr>
+        <tr>
+          <td>Exploration</td>
+          <td>sampling is native</td>
+          <td>deterministic ODE needs SDE conversion<sup class="cite"><a href="#ref30">[30]</a></sup></td>
+        </tr>
+        <tr>
+          <td>Credit assignment</td>
+          <td>per-token log-probabilities</td>
+          <td>one scalar over steps &#215; frames<sup class="cite"><a href="#ref41">[41]</a></sup><sup class="cite"><a href="#ref42">[42]</a></sup></td>
+        </tr>
+        <tr>
+          <td>Reward hacking</td>
+          <td>well-known, policed by dense evals</td>
+          <td>actively being catalogued<sup class="cite"><a href="#ref34">[34]</a></sup><sup class="cite"><a href="#ref45">[45]</a></sup><sup class="cite"><a href="#ref46">[46]</a></sup></td>
+        </tr>
+        <tr>
+          <td>Evals</td>
+          <td>dense, saturating</td>
+          <td>young; best hard-split physics score near 22%<sup class="cite"><a href="#ref18">[18]</a></sup></td>
+        </tr>
+      </table>
+      </div>
+
+      <p>
+        None of these gaps is conceptual. Each one is an engineering-and-data problem that several groups are
+        actively chipping at, which is roughly how language post-training looked in 2023.
+      </p>
+
+      <h2 id="sec-bet"><span class="sec-num">5.</span>Why RL Is Still the Right Bet</h2>
+
+      <p>
+        The reason to push anyway is that this movie has run once before. A 1.3B InstructGPT model beat a raw 175B
+        GPT-3 on human preference<sup class="cite"><a href="#ref50">[50]</a></sup>. DPO made preference tuning a
+        commodity<sup class="cite"><a href="#ref51">[51]</a></sup>. Verifiable
+        rewards<sup class="cite"><a href="#ref52">[52]</a></sup> and large-scale reasoning
+        RL<sup class="cite"><a href="#ref53">[53]</a></sup> then produced the last two years of language capability,
+        and post-training became the main source of new capability in every frontier release. Video is tracing
+        the same arc a year or so behind and closing (Fig 3), and it has now reached the part where the gains
+        got large.
+      </p>
+
+      <p>
+        Video has one structural advantage language never had. Language rewards top out at human judgment unless the domain
+        happens to have an executable check. Video is filmed physics, so optical flow, geometry, reconstruction
+        error, simulators, and inverse dynamics<sup class="cite"><a href="#ref55">[55]</a></sup> all yield reward
+        signals grounded in the world rather than in a preference model. NewtonRewards and PhyMotion are early and
+        narrow, and they are the right shape: they are the unit tests of
+        video<sup class="cite"><a href="#ref34">[34]</a></sup><sup class="cite"><a href="#ref35">[35]</a></sup>. On
+        the capability side, chain-of-frames results show base video models already do zero-shot maze solving and
+        visual reasoning, jumping from 14 to 78 percent on 5&#215;5 mazes at pass@10 between one Veo generation and the
+        next<sup class="cite"><a href="#ref54">[54]</a></sup>, which is the raw material reasoning RL is built
+        to amplify.
+      </p>
+
+      <p>
+        There is a strategic argument on top. If video models become world models, RL shows up twice: RL post-training is how an interactive world model learns to respond correctly to actions
+        (WorldCompass<sup class="cite"><a href="#ref56">[56]</a></sup>, inverse-dynamics
+        rewards<sup class="cite"><a href="#ref55">[55]</a></sup>, Cosmos<sup class="cite"><a href="#ref16">[16]</a></sup>),
+        and policy learning inside those world models is the payoff that justifies building them (DeepMind already runs its SIMA agent inside Genie 3's generated worlds<sup class="cite"><a href="#ref15">[15]</a></sup>). Most of the US field
+        pivoted to world models this year, and that pivot signs everyone up for video RL whether they framed it that
+        way or not.
+      </p>
+
+      <h2 id="sec-next"><span class="sec-num">6.</span>What Comes Next</h2>
+
+      <p>Here is how I map the current stacks, and where the empty quadrant is:</p>
+
+      <figure>
+        <svg class="svg-figure" viewBox="0 0 860 360" aria-label="Two-axis map of the video RL space. Horizontal axis runs from learned preference rewards to verifiable grounded rewards; vertical axis runs from single clips to minutes-long interactive video. Existing method clusters sit in the lower half and left side; the top-right region, verifiable rewards over long-horizon interactive video, is marked wide open.">
+          <defs>
+            <marker id="axArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3 z" fill="#94a3b8"></path>
+            </marker>
+          </defs>
+
+          <line x1="90" y1="308" x2="805" y2="308" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#axArrow)"></line>
+          <line x1="90" y1="308" x2="90" y2="52" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#axArrow)"></line>
+          <text x="90" y="334" fill="#64748b" font-size="11.5" font-family="Inter">learned preference</text>
+          <text x="800" y="334" fill="#64748b" font-size="11.5" font-family="Inter" text-anchor="end">verifiable, grounded</text>
+          <text x="102" y="62" fill="#64748b" font-size="11.5" font-family="Inter">minutes + interactive</text>
+          <text x="102" y="298" fill="#64748b" font-size="11.5" font-family="Inter">single clip</text>
+
+          <rect x="470" y="62" width="320" height="128" rx="12" fill="#fffbeb" stroke="#fde68a" stroke-width="1.5" stroke-dasharray="6 5"></rect>
+          <text x="630" y="102" fill="#b45309" font-size="13" font-family="Inter" font-weight="700" text-anchor="middle">wide open</text>
+          <text x="630" y="122" fill="#b45309" font-size="11.5" font-family="Inter" text-anchor="middle">verifiable rewards over minutes-long,</text>
+          <text x="630" y="138" fill="#b45309" font-size="11.5" font-family="Inter" text-anchor="middle">interactive video</text>
+          <text x="630" y="160" fill="#d97706" font-size="10.5" font-family="Inter" font-style="italic" text-anchor="middle">nobody is here yet</text>
+
+          <circle cx="185" cy="262" r="7" fill="#64748b" opacity="0.85"></circle>
+          <text x="199" y="258" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600">video RMs + DPO</text>
+          <text x="199" y="272" fill="#94a3b8" font-size="10" font-family="Inter">VideoAlign, VideoDPO</text>
+
+          <circle cx="268" cy="220" r="7" fill="#64748b" opacity="0.85"></circle>
+          <text x="282" y="216" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600">GRPO alignment</text>
+          <text x="282" y="230" fill="#94a3b8" font-size="10" font-family="Inter">Flow-GRPO, DanceGRPO</text>
+
+          <circle cx="600" cy="256" r="7" fill="#2563eb" opacity="0.9"></circle>
+          <text x="614" y="252" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600">physics rewards</text>
+          <text x="614" y="266" fill="#94a3b8" font-size="10" font-family="Inter">NewtonRewards, PhyMotion</text>
+
+          <circle cx="648" cy="212" r="7" fill="#2563eb" opacity="0.9"></circle>
+          <text x="662" y="208" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600">reasoning RLVR</text>
+          <text x="662" y="222" fill="#94a3b8" font-size="10" font-family="Inter">Wan-R1, VideoRLVR</text>
+
+          <circle cx="300" cy="116" r="7" fill="#64748b" opacity="0.85"></circle>
+          <text x="314" y="112" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600">world-model RL</text>
+          <text x="314" y="126" fill="#94a3b8" font-size="10" font-family="Inter">WorldCompass, RLIR</text>
+        </svg>
+        <figcaption data-fig="Fig. 8">
+          My sketch, not a measurement: positions are editorial. Preference-based stacks own the lower
+          left<sup class="cite"><a href="#ref28">[28]</a></sup><sup class="cite"><a href="#ref31">[31]</a></sup>,
+          verifiable rewards are climbing the right edge one clip at a
+          time<sup class="cite"><a href="#ref34">[34]</a></sup><sup class="cite"><a href="#ref35">[35]</a></sup><sup class="cite"><a href="#ref36">[36]</a></sup><sup class="cite"><a href="#ref37">[37]</a></sup>,
+          world-model RL is stretching the horizon with learned
+          rewards<sup class="cite"><a href="#ref55">[55]</a></sup><sup class="cite"><a href="#ref56">[56]</a></sup>,
+          and the corner that combines them is empty.
+        </figcaption>
+      </figure>
+
+      <p>Ranked roughly by how much I think each one matters:</p>
+
+      <ul class="plain-notes">
+        <li><strong>Cheap rollouts.</strong> One-step and few-step policy optimization, branched rollouts, and latent-space rewards<sup class="cite"><a href="#ref40">[40]</a></sup><sup class="cite"><a href="#ref41">[41]</a></sup><sup class="cite"><a href="#ref49">[49]</a></sup>. If rollout cost falls two orders of magnitude, every experiment in this note becomes a weekend run, and iteration speed is the binding constraint on everything else here.</li>
+        <li><strong>Reward models worth optimizing against.</strong> The frontier moved from 50 to a claimed 87 percent in two years on one benchmark (Fig 10), but
+        tie-aware agreement still sits near 72<sup class="cite"><a href="#ref28">[28]</a></sup><sup class="cite"><a href="#ref67">[67]</a></sup>, and closing the rest is worth more than any single
+        algorithmic idea in the GRPO literature. Reasoning-style judges are the visible path.</li>
+        <li><strong>Physics as a verifier, at scale.</strong> Newton rewards, simulator scoring, and geometric consistency<sup class="cite"><a href="#ref34">[34]</a></sup><sup class="cite"><a href="#ref35">[35]</a></sup> each cover a narrow slice. The open problem is composing them into broad-coverage verifiable reward suites, the video equivalent of the math-and-code RL corpus.</li>
+        <li><strong>A reward for minute three.</strong> Long-horizon methods can hold a scene for minutes<sup class="cite"><a href="#ref12">[12]</a></sup><sup class="cite"><a href="#ref13">[13]</a></sup>, but nothing scores whether minute three is still coherent with minute one, so nothing optimizes for it<sup class="cite"><a href="#ref14">[14]</a></sup><sup class="cite"><a href="#ref20">[20]</a></sup>. Persistence-aware rewards are wide open.</li>
+        <li><strong>Reasoning RL on video.</strong> Procedurally generated visual tasks with rule-checkable answers<sup class="cite"><a href="#ref36">[36]</a></sup><sup class="cite"><a href="#ref37">[37]</a></sup> plus chain-of-frames capability<sup class="cite"><a href="#ref54">[54]</a></sup> look like GSM8K circa 2023: small, synthetic, and about to matter.</li>
+        <li><strong>The world-model loop.</strong> RL to make world models action-faithful, then policy learning inside them<sup class="cite"><a href="#ref15">[15]</a></sup><sup class="cite"><a href="#ref16">[16]</a></sup><sup class="cite"><a href="#ref55">[55]</a></sup><sup class="cite"><a href="#ref56">[56]</a></sup>. This is where video generation stops being a content tool and becomes infrastructure for robotics.</li>
+      </ul>
+
+      <figure>
+        <svg class="svg-figure" viewBox="0 0 860 310" aria-label="Log-scale chart of reported video RL training cost relative to full-trajectory GRPO, May 2025 to June 2026. Four labeled points with stems to the time axis: DanceGRPO at 100 percent in May 2025, BranchGRPO at 45 percent in September 2025, OP-GRPO at 34 percent in April 2026, Flash-GRPO at 17 percent in May 2026. Each value is that paper&#39;s own efficiency claim against its own baseline.">
+          <defs>
+            <marker id="trendArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L7,3 z" fill="#f59e0b"></path>
+            </marker>
+          </defs>
+          <text x="60" y="40" fill="#475569" font-size="11" font-family="Inter" font-weight="700" letter-spacing="1">THE COST WALL IS FALLING</text>
+          <text x="60" y="56" fill="#94a3b8" font-size="10.5" font-family="Inter">efficiency claims of successive methods vs their own baselines, log scale</text>
+
+          <line x1="60" y1="80" x2="820" y2="80" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4 5"></line>
+          <line x1="60" y1="128.2" x2="820" y2="128.2" stroke="#f1f5f9" stroke-width="1.5" stroke-dasharray="4 5"></line>
+          <line x1="60" y1="176.3" x2="820" y2="176.3" stroke="#f1f5f9" stroke-width="1.5" stroke-dasharray="4 5"></line>
+          <line x1="60" y1="240" x2="820" y2="240" stroke="#f1f5f9" stroke-width="1.5" stroke-dasharray="4 5"></line>
+          <text x="52" y="84" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="end">100%</text>
+          <text x="52" y="132" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="end">50%</text>
+          <text x="52" y="180" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="end">25%</text>
+          <text x="52" y="244" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="end">10%</text>
+          <text x="820" y="74" fill="#94a3b8" font-size="10" font-family="Inter" text-anchor="end">full-trajectory baseline</text>
+
+          <line x1="60" y1="258" x2="820" y2="258" stroke="#cbd5e1" stroke-width="1.5"></line>
+          <text x="90" y="280" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">May 2025</text>
+          <text x="302" y="280" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">Sep 2025</text>
+          <text x="515" y="280" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">Jan 2026</text>
+          <text x="674" y="280" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">Apr 2026</text>
+
+          <line x1="90" y1="80" x2="90" y2="258" stroke="#e2e8f0" stroke-width="1.3" stroke-dasharray="2 4"></line>
+          <line x1="302.3" y1="135.5" x2="302.3" y2="258" stroke="#e2e8f0" stroke-width="1.3" stroke-dasharray="2 4"></line>
+          <line x1="673.8" y1="154.5" x2="673.8" y2="258" stroke="#e2e8f0" stroke-width="1.3" stroke-dasharray="2 4"></line>
+          <line x1="726.9" y1="203.1" x2="726.9" y2="258" stroke="#e2e8f0" stroke-width="1.3" stroke-dasharray="2 4"></line>
+          <text x="400" y="110" fill="#b45309" font-size="12" font-family="Inter" font-style="italic" text-anchor="middle">each point is that paper's own claim, in its own setting</text>
+
+          <circle cx="90" cy="80" r="7" fill="#2563eb"></circle>
+          <circle cx="302.3" cy="135.5" r="7" fill="#2563eb"></circle>
+          <circle cx="673.8" cy="154.5" r="7" fill="#2563eb"></circle>
+          <circle cx="726.9" cy="203.1" r="7" fill="#2563eb"></circle>
+
+          <text x="104" y="74" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600">DanceGRPO, the baseline</text>
+          <text x="104" y="88" fill="#94a3b8" font-size="10" font-family="Inter">full-trajectory GRPO, 64 H800s</text>
+          <text x="316" y="152" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600">BranchGRPO, 45%</text>
+          <text x="316" y="166" fill="#94a3b8" font-size="10" font-family="Inter">shared prefixes; image-alignment runs</text>
+          <text x="661" y="132" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600" text-anchor="end">OP-GRPO, 34%</text>
+          <text x="661" y="146" fill="#94a3b8" font-size="10" font-family="Inter" text-anchor="end">off-policy replay; image and video</text>
+          <text x="714" y="216" fill="#334155" font-size="11.5" font-family="Inter" font-weight="600" text-anchor="end">Flash-GRPO, 17%</text>
+          <text x="714" y="230" fill="#94a3b8" font-size="10" font-family="Inter" text-anchor="end">one timestep per rollout; video</text>
+        </svg>
+        <figcaption data-fig="Fig. 9">
+          One wall is moving, though these points are not one comparable series. Each method reports efficiency
+          against its own baseline in its own setting: BranchGRPO cuts per-iteration time by 55 percent in
+          image-alignment runs<sup class="cite"><a href="#ref41">[41]</a></sup>, OP-GRPO matches its baseline with
+          34 percent of the training steps across image and video tasks<sup class="cite"><a href="#ref62">[62]</a></sup>,
+          and Flash-GRPO claims a 6&#215; training-cost cut for one-step video RL<sup class="cite"><a href="#ref40">[40]</a></sup><sup class="cite"><a href="#ref31">[31]</a></sup>.
+          Read the direction, not the ratios: every few months another chunk of the rollout bill goes away. The
+          reward side is moving too (Fig 10), but from much further behind.
+        </figcaption>
+      </figure>
+
+      <figure>
+        <svg class="svg-figure" viewBox="0 0 860 340" aria-label="Scatter chart of video reward model accuracy on VideoGen-RewardBench, pairwise without ties, by release month from June 2024 to July 2026. VideoScore at 50 percent in mid-2024, VideoReward at 74 in January 2025, UnifiedReward at 79, VR-Thinker at 81, Reward Lightning at a claimed 87 in July 2026 with a tie-aware value of 72. A dashed reference line marks language reward models near 95.">
+          <text x="60" y="40" fill="#475569" font-size="11" font-family="Inter" font-weight="700" letter-spacing="1">THE OTHER WALL IS CRACKING</text>
+          <text x="60" y="56" fill="#94a3b8" font-size="10.5" font-family="Inter">video reward models on VideoGen-RewardBench, pairwise accuracy without ties, by release month</text>
+
+          <line x1="272" y1="66" x2="272" y2="300" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <line x1="584" y1="66" x2="584" y2="300" stroke="#f1f5f9" stroke-width="1.5"></line>
+          <text x="272" y="322" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">2025</text>
+          <text x="584" y="322" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="middle">2026</text>
+
+          <line x1="60" y1="268.2" x2="820" y2="268.2" stroke="#f1f5f9" stroke-width="1.5" stroke-dasharray="4 5"></line>
+          <line x1="60" y1="228.6" x2="820" y2="228.6" stroke="#f1f5f9" stroke-width="1.5" stroke-dasharray="4 5"></line>
+          <line x1="60" y1="189.0" x2="820" y2="189.0" stroke="#f1f5f9" stroke-width="1.5" stroke-dasharray="4 5"></line>
+          <line x1="60" y1="149.3" x2="820" y2="149.3" stroke="#f1f5f9" stroke-width="1.5" stroke-dasharray="4 5"></line>
+          <text x="52" y="272" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="end">50%</text>
+          <text x="52" y="284" fill="#94a3b8" font-size="9" font-family="Inter" text-anchor="end">coin flip</text>
+          <text x="52" y="232" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="end">60%</text>
+          <text x="52" y="193" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="end">70%</text>
+          <text x="52" y="153" fill="#94a3b8" font-size="10.5" font-family="Inter" text-anchor="end">80%</text>
+          <line x1="60" y1="300" x2="820" y2="300" stroke="#cbd5e1" stroke-width="1.5"></line>
+
+          <line x1="60" y1="89.4" x2="820" y2="89.4" stroke="#94a3b8" stroke-width="1.3" stroke-dasharray="6 5"></line>
+          <text x="818" y="84" fill="#64748b" font-size="10" font-family="Inter" text-anchor="end">language RMs, RewardBench top: ~95</text>
+
+          <circle cx="90" cy="267.3" r="6" fill="#64748b" opacity="0.85"></circle>
+          <text x="98" y="271" fill="#475569" font-size="10" font-family="Inter">VideoScore 50</text>
+          <circle cx="246" cy="239.4" r="6" fill="#64748b" opacity="0.85"></circle>
+          <text x="254" y="247" fill="#475569" font-size="10" font-family="Inter">LiFT-Critic 57</text>
+          <circle cx="246" cy="198.5" r="6" fill="#64748b" opacity="0.85"></circle>
+          <text x="238" y="194" fill="#475569" font-size="10" font-family="Inter" text-anchor="end">VisionReward 68</text>
+          <circle cx="272" cy="174.7" r="6" fill="#2563eb"></circle>
+          <text x="280" y="171" fill="#1d4ed8" font-size="10" font-family="Inter" font-weight="600">VideoReward 74</text>
+          <circle cx="324" cy="152.0" r="6" fill="#2563eb"></circle>
+          <text x="324" y="140" fill="#1d4ed8" font-size="10" font-family="Inter" font-weight="600" text-anchor="middle">UnifiedReward 79</text>
+          <circle cx="506" cy="147.3" r="6" fill="#2563eb"></circle>
+          <text x="506" y="135" fill="#1d4ed8" font-size="10" font-family="Inter" font-weight="600" text-anchor="middle">VR-Thinker 81</text>
+          <circle cx="532" cy="192.1" r="6" fill="#64748b" opacity="0.85"></circle>
+          <text x="532" y="208" fill="#475569" font-size="10" font-family="Inter" text-anchor="middle">PRFL 69</text>
+          <line x1="740" y1="130" x2="740" y2="173" stroke="#d97706" stroke-width="1.2" stroke-dasharray="2 3"></line>
+          <circle cx="740" cy="123.0" r="6" fill="#2563eb"></circle>
+          <text x="732" y="117" fill="#1d4ed8" font-size="10" font-family="Inter" font-weight="600" text-anchor="end">Reward Lightning 87</text>
+          <text x="732" y="129" fill="#94a3b8" font-size="9" font-family="Inter" text-anchor="end">self-reported</text>
+          <circle cx="740" cy="180.0" r="5.5" fill="none" stroke="#d97706" stroke-width="2"></circle>
+          <text x="732" y="190" fill="#b45309" font-size="10" font-family="Inter" text-anchor="end">72 with ties</text>
+        </svg>
+        <figcaption data-fig="Fig. 10">
+          The reward side, on one consistent yardstick: pairwise accuracy without ties on VideoGen-RewardBench, by
+          reward-model release month. Early models were re-measured under a common protocol in the Reward Lightning
+          paper<sup class="cite"><a href="#ref67">[67]</a></sup>; VideoReward, UnifiedReward, VR-Thinker, and the
+          PRFL latent reward model report on the same
+          benchmark<sup class="cite"><a href="#ref28">[28]</a></sup><sup class="cite"><a href="#ref65">[65]</a></sup><sup class="cite"><a href="#ref66">[66]</a></sup><sup class="cite"><a href="#ref49">[49]</a></sup>;
+          VideoScore, LiFT-Critic, and VisionReward are the re-evaluated
+          baselines<sup class="cite"><a href="#ref63">[63]</a></sup><sup class="cite"><a href="#ref64">[64]</a></sup><sup class="cite"><a href="#ref29">[29]</a></sup>.
+          Fifty to a claimed 87 in two years; counting ties drops the leader to 72, and language reward models sit
+          near 95 on their own leaderboard<sup class="cite"><a href="#ref59">[59]</a></sup>. Cracking, not fallen.
+        </figcaption>
+      </figure>
+
+      <p>
+        The pattern from language suggests the distance between "post-training exists" and "post-training drives the
+        release notes" is about two years. For video, that clock started around DanceGRPO in mid-2025.
+      </p>
+
+      <h2 id="sec-references">References</h2>
+      <ol class="references">
+        <li id="ref1"><a href="https://arxiv.org/abs/2410.13720">Polyak et al., Movie Gen: A Cast of Media Foundation Models, 2024.</a></li>
+        <li id="ref2"><a href="https://arxiv.org/abs/2503.20314">Wan Team, Wan: Open and Advanced Large-Scale Video Generative Models, 2025.</a></li>
+        <li id="ref3"><a href="https://arxiv.org/abs/2506.09113">ByteDance Seed, Seedance 1.0: Exploring the Boundaries of Video Generation Models, 2025.</a></li>
+        <li id="ref4"><a href="https://arxiv.org/abs/2504.08685">Seaweed Team, Seaweed-7B: Cost-Effective Training of Video Generation Foundation Model, 2025.</a></li>
+        <li id="ref5"><a href="https://arxiv.org/abs/2604.14148">ByteDance Seed, Seedance 2.0: Advancing Video Generation for World Complexity, 2026.</a></li>
+        <li id="ref6"><a href="https://arxiv.org/abs/2512.16776">Kling Team, Kling-Omni Technical Report, 2025.</a></li>
+        <li id="ref7"><a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni/">Google, Introducing Gemini Omni, 2026.</a></li>
+        <li id="ref8"><a href="https://openai.com/index/sora-2/">OpenAI, Sora 2 Is Here, 2025.</a></li>
+        <li id="ref9"><a href="https://techcrunch.com/2026/03/29/why-openai-really-shut-down-sora/">TechCrunch, Why OpenAI Really Shut Down Sora, 2026.</a></li>
+        <li id="ref10"><a href="https://arxiv.org/abs/2412.07772">Yin et al., From Slow Bidirectional to Fast Autoregressive Video Diffusion Models (CausVid), 2024.</a></li>
+        <li id="ref11"><a href="https://arxiv.org/abs/2506.08009">Huang et al., Self Forcing: Bridging the Train-Test Gap in Autoregressive Video Diffusion, 2025.</a></li>
+        <li id="ref12"><a href="https://arxiv.org/abs/2510.02283">Cui et al., Self-Forcing++: Towards Minute-Scale High-Quality Video Generation, 2025.</a></li>
+        <li id="ref13"><a href="https://arxiv.org/abs/2509.25161">Rolling Forcing: Autoregressive Long Video Diffusion in Real Time, 2025.</a></li>
+        <li id="ref14"><a href="https://arxiv.org/abs/2602.06028">Context Forcing: Consistent Autoregressive Video Generation with Long Context, 2026.</a></li>
+        <li id="ref15"><a href="https://deepmind.google/blog/genie-3-a-new-frontier-for-world-models/">Google DeepMind, Genie 3: A New Frontier for World Models, 2025.</a></li>
+        <li id="ref16"><a href="https://arxiv.org/abs/2511.00062">NVIDIA, Cosmos-Predict2.5: World Simulation with Video Foundation Models for Physical AI, 2025.</a></li>
+        <li id="ref17"><a href="https://arxiv.org/abs/2501.09038">Motamed et al., Do Generative Video Models Understand Physical Principles? (Physics-IQ), 2025.</a></li>
+        <li id="ref18"><a href="https://arxiv.org/abs/2503.06800">Bansal et al., VideoPhy-2: A Challenging Action-Centric Physical Commonsense Evaluation in Video Generation, 2025.</a></li>
+        <li id="ref19"><a href="https://arxiv.org/abs/2512.14691">MMGR: Multi-Modal Generative Reasoning, 2025.</a></li>
+        <li id="ref20"><a href="https://arxiv.org/abs/2606.20545">Current World Models Lack a Persistent State Core, 2026.</a></li>
+        <li id="ref21"><a href="https://arxiv.org/abs/2503.21755">Zheng et al., VBench-2.0: Advancing Video Generation Benchmark Suite for Intrinsic Faithfulness, 2025.</a></li>
+        <li id="ref22"><a href="https://arxiv.org/abs/2506.09985">Assran et al., V-JEPA 2: Self-Supervised Video Models Enable Understanding, Prediction and Planning, 2025.</a></li>
+        <li id="ref23"><a href="https://storage.googleapis.com/deepmind-media/Era-of-Experience%20/The%20Era%20of%20Experience%20Paper.pdf">Silver and Sutton, Welcome to the Era of Experience, 2025.</a></li>
+        <li id="ref24"><a href="https://arxiv.org/abs/2312.12490">Yuan et al., InstructVideo: Instructing Video Diffusion Models with Human Feedback, 2023.</a></li>
+        <li id="ref25"><a href="https://arxiv.org/abs/2407.08737">Prabhudesai et al., Video Diffusion Alignment via Reward Gradients (VADER), 2024.</a></li>
+        <li id="ref26"><a href="https://arxiv.org/abs/2412.14167">Liu et al., VideoDPO: Omni-Preference Alignment for Video Diffusion Generation, 2024.</a></li>
+        <li id="ref27"><a href="https://arxiv.org/abs/2506.03517">Wu et al., DenseDPO: Fine-Grained Temporal Preference Optimization for Video Diffusion Models, 2025.</a></li>
+        <li id="ref28"><a href="https://arxiv.org/abs/2501.13918">Liu et al., Improving Video Generation with Human Feedback (VideoAlign / VideoReward), 2025.</a></li>
+        <li id="ref29"><a href="https://arxiv.org/abs/2412.21059">Xu et al., VisionReward: Fine-Grained Multi-Dimensional Human Preference Learning for Image and Video Generation, 2024.</a></li>
+        <li id="ref30"><a href="https://arxiv.org/abs/2505.05470">Liu et al., Flow-GRPO: Training Flow Matching Models via Online RL, 2025.</a></li>
+        <li id="ref31"><a href="https://arxiv.org/abs/2505.07818">Xue et al., DanceGRPO: Unleashing GRPO on Visual Generation, 2025.</a></li>
+        <li id="ref32"><a href="https://arxiv.org/abs/2510.22200">Meituan LongCat Team, LongCat-Video Technical Report, 2025.</a></li>
+        <li id="ref33"><a href="https://arxiv.org/abs/2505.13934">Wu et al., RLVR-World: Training World Models with Reinforcement Learning, 2025.</a></li>
+        <li id="ref34"><a href="https://arxiv.org/abs/2512.00425">Le, What About Gravity in Video Generation? Post-Training Newton's Laws with Verifiable Rewards, 2025.</a></li>
+        <li id="ref35"><a href="https://arxiv.org/abs/2605.14269">Huang et al., PhyMotion: Structured 3D Motion Reward for Physics-Grounded Human Video Generation, 2026.</a></li>
+        <li id="ref36"><a href="https://arxiv.org/abs/2603.27866">Liu et al., Wan-R1: Verifiable-Reinforcement Learning for Video Reasoning, 2026.</a></li>
+        <li id="ref37"><a href="https://arxiv.org/abs/2605.15458">Zhu et al., Video Models Can Reason with Verifiable Rewards, 2026.</a></li>
+        <li id="ref38"><a href="https://arxiv.org/abs/2503.18942">Liu et al., Video-T1: Test-Time Scaling for Video Generation, 2025.</a></li>
+        <li id="ref39"><a href="https://arxiv.org/abs/2607.23159">Saini et al., CachedSearch: Training-Free Cached Exploration for Test-Time Search in Video Diffusion, 2026.</a></li>
+        <li id="ref40"><a href="https://arxiv.org/abs/2605.15980">He et al., Flash-GRPO: Efficient Alignment for Video Diffusion via One-Step Policy Optimization, 2026.</a></li>
+        <li id="ref41"><a href="https://arxiv.org/abs/2509.06040">Li et al., BranchGRPO: Stable and Efficient GRPO with Structured Branching in Diffusion Models, 2025.</a></li>
+        <li id="ref42"><a href="https://arxiv.org/abs/2508.04324">TempFlow-GRPO: When Timing Matters for GRPO in Flow Models, 2025.</a></li>
+        <li id="ref43"><a href="https://arxiv.org/abs/2509.00484">VideoRewardBench: Comprehensive Evaluation of Multimodal Reward Models for Video Understanding, 2025.</a></li>
+        <li id="ref44"><a href="https://arxiv.org/abs/2606.22918">Cao et al., Each Judge Its Own Yardstick: Discovering Per-VLM Taxonomies for Physical Video Evaluation, 2026.</a></li>
+        <li id="ref45"><a href="https://arxiv.org/abs/2511.19356">Li et al., Rethinking Reward Signals in Video GRPO: When Scores Become Targets, 2025.</a></li>
+        <li id="ref46"><a href="https://arxiv.org/abs/2510.22319">GRPO-Guard: Mitigating Implicit Over-Optimization in Flow Matching via Regulated Clipping, 2025.</a></li>
+        <li id="ref47"><a href="https://arxiv.org/abs/2601.04153">Wang et al., Diffusion-DRF: Free, Rich, and Differentiable Reward for Video Diffusion Fine-Tuning, 2026.</a></li>
+        <li id="ref48"><a href="https://arxiv.org/abs/2603.21872">Zheng et al., Manifold-Aware Exploration for Reinforcement Learning in Video Generation (SAGE-GRPO), 2026.</a></li>
+        <li id="ref49"><a href="https://arxiv.org/abs/2511.21541">Mi et al., Video Generation Models Are Good Latent Reward Models, 2025.</a></li>
+        <li id="ref50"><a href="https://arxiv.org/abs/2203.02155">Ouyang et al., Training Language Models to Follow Instructions with Human Feedback (InstructGPT), 2022.</a></li>
+        <li id="ref51"><a href="https://arxiv.org/abs/2305.18290">Rafailov et al., Direct Preference Optimization: Your Language Model Is Secretly a Reward Model, 2023.</a></li>
+        <li id="ref52"><a href="https://arxiv.org/abs/2411.15124">Lambert et al., Tulu 3: Pushing Frontiers in Open Language Model Post-Training, 2024.</a></li>
+        <li id="ref53"><a href="https://arxiv.org/abs/2501.12948">DeepSeek-AI, DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning, 2025.</a></li>
+        <li id="ref54"><a href="https://arxiv.org/abs/2509.20328">Wiedemer et al., Video Models Are Zero-Shot Learners and Reasoners, 2025.</a></li>
+        <li id="ref55"><a href="https://arxiv.org/abs/2509.23958">Ye et al., Reinforcement Learning with Inverse Rewards for World Model Post-training, 2025.</a></li>
+        <li id="ref56"><a href="https://arxiv.org/abs/2602.09022">Wang et al., WorldCompass: Reinforcement Learning for Long-Horizon World Models, 2026.</a></li>
+        <li id="ref57"><a href="https://arxiv.org/abs/2402.03300">Shao et al., DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models (GRPO), 2024.</a></li>
+        <li id="ref58"><a href="https://arxiv.org/abs/2309.17400">Clark et al., Directly Fine-Tuning Diffusion Models on Differentiable Rewards (DRaFT), 2023.</a></li>
+        <li id="ref59"><a href="https://arxiv.org/abs/2403.13787">Lambert et al., RewardBench: Evaluating Reward Models for Language Modeling, 2024.</a></li>
+        <li id="ref60"><a href="https://openai.com/index/learning-to-reason-with-llms/">OpenAI, Learning to Reason with LLMs (o1), 2024.</a></li>
+        <li id="ref61"><a href="https://github.com/wendell0218/Awesome-RL-for-Video-Generation">Awesome-RL-for-Video-Generation, community-curated paper list, snapshot August 2026.</a></li>
+        <li id="ref62"><a href="https://arxiv.org/abs/2604.04142">Zhang et al., OP-GRPO: Efficient Off-Policy GRPO for Flow-Matching Models, 2026.</a></li>
+        <li id="ref63"><a href="https://arxiv.org/abs/2406.15252">He et al., VideoScore: Building Automatic Metrics to Simulate Fine-Grained Human Feedback for Video Generation, 2024.</a></li>
+        <li id="ref64"><a href="https://arxiv.org/abs/2412.04814">Wang et al., LiFT: Leveraging Human Feedback for Text-to-Video Model Alignment, 2024.</a></li>
+        <li id="ref65"><a href="https://arxiv.org/abs/2503.05236">Wang et al., Unified Reward Model for Multimodal Understanding and Generation, 2025.</a></li>
+        <li id="ref66"><a href="https://arxiv.org/abs/2510.10518">VR-Thinker: Boosting Video Reward Models through Thinking-with-Image Reasoning, 2025.</a></li>
+        <li id="ref67"><a href="https://arxiv.org/abs/2607.03960">Reward Lightning: Fast Video Generation via Homologous Preference Distillation, 2026.</a></li>
+        <li id="ref68"><a href="https://arena.ai/leaderboard/text-to-video">Arena, Text-to-Video Leaderboard, snapshot of August 14, 2026.</a></li>
+      </ol>
+
+      <h2 id="sec-cite">Citation</h2>
+
+      <pre><code>@misc{saini2026rlforvideo,
+  author       = {Saini, Shreshth},
+  title        = {RL for Video: The State of the Space},
+  year         = {2026},
+  month        = {August},
+  howpublished = {\url{https://shreshthsaini.github.io/blogs/rl-for-video.html}},
+  note         = {Blog post}
+}</code></pre>
+    </article>
+
+    <footer>
+      <p>&copy; 2026 Shreshth Saini &middot; <a href="../blogs.html">Back to Scratch Pad</a></p>
+    </footer>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function fitCanvas(canvas, aspect, minH) {
+        const rect = canvas.getBoundingClientRect();
+        const W = Math.max(280, rect.width);
+        const H = Math.max(minH, Math.round(W * aspect));
+        const dpr = window.devicePixelRatio || 1;
+        canvas.style.height = H + 'px';
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        const ctx = canvas.getContext('2d');
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        return { ctx, W, H };
+      }
+
+      function mulberry32(a) {
+        return function () {
+          a |= 0; a = (a + 0x6D2B79F5) | 0;
+          let t = Math.imul(a ^ (a >>> 15), 1 | a);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+      function gaussOf(rng) {
+        const u = Math.max(rng(), 1e-9), v = rng();
+        return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+      }
+
+      /* =========================================================
+         Hero: a population of rollouts under selection pressure.
+         Each path is scored against a movable reward, softmax
+         selection re-samples the population; the slider sets the
+         inverse temperature. Verified offline: spread falls
+         monotonically with pressure (std 0.59 -> 0.06) while the
+         population mean converges to the reward.
+         ========================================================= */
+      (function () {
+        const canvas = document.getElementById('rl-hero-canvas');
+        const slider = document.getElementById('rl-pressure');
+        const valEl = document.getElementById('rl-pressure-val');
+        if (!canvas || !slider || !canvas.getContext) return;
+
+        const N = 44, KH = 3, BETA_MAX = 10, S2 = 0.08, REPLACE = 3, YMAX = 1.7;
+        let ctx, W, H, lam = 0, tGlobal = 0, frame = 0;
+        const rng = mulberry32(20260817);
+        const pointer = { active: false, x: 0.5, y: 0.5 };
+
+        function newTheta() {
+          const a = [], ph = [];
+          for (let k = 0; k < KH; k++) {
+            a.push(gaussOf(rng) * 0.30 / (k + 1));
+            ph.push(rng() * Math.PI * 2);
+          }
+          return { off: gaussOf(rng) * 0.55, a, ph };
+        }
+        function evalY(th, x) {
+          let y = th.off;
+          for (let k = 0; k < KH; k++) y += th.a[k] * Math.sin(2 * Math.PI * (k + 1) * x + th.ph[k]);
+          return y;
+        }
+        function childOf(p, jit) {
+          return {
+            off: p.off + gaussOf(rng) * jit,
+            a: p.a.map((a) => a + gaussOf(rng) * jit * 0.6),
+            ph: p.ph.map((ph) => ph + gaussOf(rng) * jit * 0.9),
+          };
+        }
+
+        let pop = [];
+        function initPop() {
+          pop = [];
+          for (let i = 0; i < N; i++) pop.push({ th: newTheta(), age: rng() * N });
+        }
+
+        function rewardPoint() {
+          if (pointer.active) return [pointer.x, pointer.y];
+          return [
+            0.62 + 0.16 * Math.sin(tGlobal * 0.11),
+            0.45 * Math.sin(tGlobal * 0.07 + 1.3),
+          ];
+        }
+
+        function weightsAt(rx, ry) {
+          const beta = BETA_MAX * lam;
+          const R = pop.map((p) => {
+            const d = evalY(p.th, rx) - ry;
+            return -(d * d) / S2;
+          });
+          const mx = Math.max.apply(null, R);
+          const w = R.map((r) => Math.exp(beta * (r - mx)));
+          const Z = w.reduce((a, b) => a + b, 0);
+          return w.map((x) => x / Z);
+        }
+
+        function generation(rx, ry) {
+          const probs = weightsAt(rx, ry);
+          const jit = 0.22 * (1 - 0.85 * lam);
+          const explore = Math.pow(1 - lam, 1.5);
+          pop.forEach((p) => p.age++);
+          const order = pop.map((p, i) => [p.age, i]).sort((a, b) => b[0] - a[0]);
+          for (let m = 0; m < REPLACE; m++) {
+            const idx = order[m][1];
+            if (lam === 0 || rng() < explore) { pop[idx] = { th: newTheta(), age: 0 }; continue; }
+            let u = rng(), acc = 0, j = 0;
+            for (; j < N - 1; j++) { acc += probs[j]; if (u <= acc) break; }
+            pop[idx] = { th: childOf(pop[j].th, jit), age: 0 };
+          }
+        }
+
+        function burst(n) {
+          const [rx, ry] = rewardPoint();
+          for (let g = 0; g < n; g++) generation(rx, ry);
+        }
+
+        const padX = 22, padY = 24;
+        function toPx(x, y) {
+          return [
+            padX + x * (W - 2 * padX),
+            padY + (1 - (y + YMAX) / (2 * YMAX)) * (H - 2 * padY),
+          ];
+        }
+        function fromPx(px, py) {
+          return [
+            Math.min(1, Math.max(0, (px - padX) / (W - 2 * padX))),
+            Math.min(YMAX, Math.max(-YMAX, (1 - (py - padY) / (H - 2 * padY)) * 2 * YMAX - YMAX)),
+          ];
+        }
+
+        function mix(c1, c2, f) {
+          return [
+            Math.round(c1[0] + (c2[0] - c1[0]) * f),
+            Math.round(c1[1] + (c2[1] - c1[1]) * f),
+            Math.round(c1[2] + (c2[2] - c1[2]) * f),
+          ];
+        }
+        const SLATE = [100, 116, 139], BLUE = [37, 99, 235], AMBER = [217, 119, 6];
+
+        function draw() {
+          const [rx, ry] = rewardPoint();
+          ctx.clearRect(0, 0, W, H);
+          ctx.lineCap = 'round';
+
+          const probs = weightsAt(rx, ry);
+          const pmax = Math.max.apply(null, probs);
+          const overOpt = Math.max(0, (lam - 0.78) / 0.22);
+
+          const [gx, gy] = toPx(rx, ry);
+          const glowC = mix(BLUE, AMBER, overOpt);
+          const glow = ctx.createRadialGradient(gx, gy, 0, gx, gy, 36);
+          glow.addColorStop(0, 'rgba(' + glowC.join(',') + ',0.22)');
+          glow.addColorStop(1, 'rgba(' + glowC.join(',') + ',0)');
+          ctx.fillStyle = glow;
+          ctx.beginPath(); ctx.arc(gx, gy, 36, 0, Math.PI * 2); ctx.fill();
+
+          const SEG = 64;
+          const sel = Math.min(1, BETA_MAX * lam / 3);
+          for (let i = 0; i < N; i++) {
+            const w = Math.pow(probs[i] / pmax, 0.8) * sel;
+            const base = mix(SLATE, BLUE, w);
+            const col = mix(base, AMBER, overOpt * Math.pow(w, 1.4));
+            const alpha = 0.16 + 0.62 * w;
+            ctx.beginPath();
+            for (let s = 0; s <= SEG; s++) {
+              const x = s / SEG;
+              const wob = reduceMotion ? 0 : 0.015 * Math.sin(2 * Math.PI * (tGlobal * 0.05 + x * 1.7 + i * 0.13));
+              const q = toPx(x, Math.max(-YMAX, Math.min(YMAX, evalY(pop[i].th, x) + wob)));
+              s === 0 ? ctx.moveTo(q[0], q[1]) : ctx.lineTo(q[0], q[1]);
+            }
+            ctx.strokeStyle = 'rgba(' + col.join(',') + ',' + alpha.toFixed(3) + ')';
+            ctx.lineWidth = 1.0 + 1.7 * w;
+            ctx.stroke();
+          }
+
+          ctx.beginPath(); ctx.arc(gx, gy, 3.5, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgb(' + mix([29, 78, 216], AMBER, overOpt).join(',') + ')';
+          ctx.fill();
+          ctx.font = '600 11px Inter, sans-serif';
+          ctx.fillStyle = 'rgb(' + mix([29, 78, 216], AMBER, overOpt).join(',') + ')';
+          ctx.fillText('reward', Math.min(gx + 10, W - 52), Math.max(gy - 10, 14));
+
+          ctx.font = '600 12px Inter, sans-serif';
+          ctx.fillStyle = '#64748b';
+          ctx.fillText('each path: one sampled rollout', padX, H - 10);
+        }
+
+        function resize() {
+          const f = fitCanvas(canvas, 0.42, 240);
+          ctx = f.ctx; W = f.W; H = f.H;
+          draw();
+        }
+
+        function labelFor(v) {
+          if (v < 0.12) return 'pretrained';
+          if (v < 0.45) return 'light RLHF';
+          if (v < 0.8) return 'aligned';
+          return 'over-optimized';
+        }
+
+        slider.addEventListener('input', () => {
+          lam = parseInt(slider.value, 10) / 100;
+          valEl.textContent = labelFor(lam);
+          burst(reduceMotion ? 500 : 140);
+          if (reduceMotion) draw();
+        });
+
+        canvas.addEventListener('pointermove', (e) => {
+          const r = canvas.getBoundingClientRect();
+          const [x, y] = fromPx(e.clientX - r.left, e.clientY - r.top);
+          pointer.active = true; pointer.x = x; pointer.y = y;
+          burst(reduceMotion ? 200 : 20);
+          if (reduceMotion) draw();
+        });
+        canvas.addEventListener('pointerleave', () => {
+          pointer.active = false;
+          if (reduceMotion) { burst(200); draw(); }
+        });
+        window.addEventListener('resize', resize);
+
+        initPop();
+        burst(300);
+        resize();
+
+        if (!reduceMotion) {
+          (function loop() {
+            tGlobal += 1 / 60;
+            frame++;
+            if (frame % 3 === 0) { burst(2); }
+            draw();
+            requestAnimationFrame(loop);
+          })();
+        }
+      })();
+    })();
+  </script>
+
+  <script>
+    (function () {
+      const tocLinks = Array.from(document.querySelectorAll('.toc-item'));
+      if (!tocLinks.length) return;
+
+      const sections = tocLinks
+        .map((link) => document.querySelector(link.getAttribute('href')))
+        .filter(Boolean);
+      if (!sections.length) return;
+
+      function setActive(id) {
+        tocLinks.forEach((link) => {
+          const isActive = link.getAttribute('href') === '#' + id;
+          link.classList.toggle('active', isActive);
+        });
+      }
+
+      const initial = window.location.hash ? window.location.hash.slice(1) : sections[0].id;
+      setActive(initial);
+
+      tocLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          const id = link.getAttribute('href').replace('#', '');
+          setActive(id);
+        });
+      });
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActive(entry.target.id);
+            }
+          });
+        },
+        { rootMargin: '-30% 0px -60% 0px', threshold: 0 }
+      );
+
+      sections.forEach((section) => observer.observe(section));
+    })();
+  </script>
+</body>
+</html>
